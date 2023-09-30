@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_course_content_course_contents",
+  "info": {
+    "displayName": "courseContent",
+    "icon": "medium"
+  },
+  "options": {},
+  "attributes": {
+    "textEditor": {
+      "displayName": "textEditor",
+      "type": "component",
+      "repeatable": true,
+      "component": "text-editor.text-editor"
+    },
+    "quiz": {
+      "displayName": "quiz",
+      "type": "component",
+      "repeatable": true,
+      "component": "quiz.quiz"
+    }
+  }
+}

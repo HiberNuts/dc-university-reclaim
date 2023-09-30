@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "courses",
+  "info": {
+    "singularName": "course",
+    "pluralName": "courses",
+    "displayName": "Course",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "courseComponent": {
+      "displayName": "courseContent",
+      "type": "component",
+      "repeatable": true,
+      "component": "course-content.course-content"
+    }
+  }
+}
