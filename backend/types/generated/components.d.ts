@@ -5,10 +5,11 @@ export interface CourseContentCourseContent extends Schema.Component {
   info: {
     displayName: 'courseContent';
     icon: 'medium';
+    description: '';
   };
   attributes: {
-    textEditor: Attribute.Component<'text-editor.text-editor', true>;
-    quiz: Attribute.Component<'quiz.quiz', true>;
+    textEditor: Attribute.Component<'text-editor.text-editor'>;
+    quiz: Attribute.Component<'quiz.quiz'>;
   };
 }
 

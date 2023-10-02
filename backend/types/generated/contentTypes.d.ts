@@ -374,6 +374,7 @@ export interface ApiCourseCourse extends Schema.CollectionType {
   };
   attributes: {
     courseComponent: Attribute.Component<'course-content.course-content', true>;
+    courseBanner: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

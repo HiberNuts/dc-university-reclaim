@@ -17,6 +17,17 @@
       "type": "component",
       "repeatable": true,
       "component": "course-content.course-content"
+    },
+    "courseBanner": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     }
   }
 }
