@@ -13,16 +13,16 @@
   "pluginOptions": {},
   "attributes": {
     "progressId": {
-      "type": "uid"
+      "type": "uid",
+      "required": true
     },
-    "courseProgress": {
-      "displayName": "courseProgress",
-      "type": "component",
-      "repeatable": true,
-      "component": "course-progress.course-progress"
-    },
-    "completedCourses": {
+    "coursesEnrolled": {
       "type": "json"
+    },
+    "courseProgresses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::course-progress.course-progress"
     }
   }
 }

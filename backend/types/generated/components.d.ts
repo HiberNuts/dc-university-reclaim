@@ -1,5 +1,29 @@
 import type { Schema, Attribute } from '@strapi/strapi';
 
+export interface ChapterModuleModule extends Schema.Component {
+  collectionName: 'components_chapter_module_modules';
+  info: {
+    displayName: 'module';
+  };
+  attributes: {
+    articleTitle: Attribute.String;
+    articleContent: Attribute.RichText &
+      Attribute.CustomField<
+        'plugin::ckeditor.CKEditor',
+        {
+          output: 'HTML';
+          preset: 'rich';
+        }
+      >;
+    quizTitle: Attribute.String;
+    a: Attribute.String;
+    b: Attribute.String;
+    c: Attribute.String;
+    d: Attribute.String;
+    answer: Attribute.String;
+  };
+}
+
 export interface CourseContentCourseContent extends Schema.Component {
   collectionName: 'components_course_content_course_contents';
   info: {
@@ -8,8 +32,7 @@ export interface CourseContentCourseContent extends Schema.Component {
     description: '';
   };
   attributes: {
-    textEditor: Attribute.Component<'text-editor.text-editor'>;
-    quiz: Attribute.Component<'quiz.quiz'>;
+    module: Attribute.Component<'chapter-module.module'>;
   };
 }
 
@@ -65,6 +88,7 @@ export interface TextEditorTextEditor extends Schema.Component {
 declare module '@strapi/strapi' {
   export module Shared {
     export interface Components {
+      'chapter-module.module': ChapterModuleModule;
       'course-content.course-content': CourseContentCourseContent;
       'course-progress.course-progress': CourseProgressCourseProgress;
       'quiz.quiz': QuizQuiz;

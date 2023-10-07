@@ -7,17 +7,11 @@
   },
   "options": {},
   "attributes": {
-    "textEditor": {
-      "displayName": "textEditor",
+    "module": {
+      "displayName": "module",
       "type": "component",
       "repeatable": false,
-      "component": "text-editor.text-editor"
-    },
-    "quiz": {
-      "displayName": "quiz",
-      "type": "component",
-      "repeatable": false,
-      "component": "quiz.quiz"
+      "component": "chapter-module.module"
     }
   }
 }

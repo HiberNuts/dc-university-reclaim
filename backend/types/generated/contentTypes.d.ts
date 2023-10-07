@@ -373,8 +373,7 @@ export interface ApiCourseCourse extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    courseComponent: Attribute.Component<'course-content.course-content', true>;
-    courseBanner: Attribute.Media;
+    chapters: Attribute.Component<'course-content.course-content', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -386,6 +385,38 @@ export interface ApiCourseCourse extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::course.course',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCourseProgressCourseProgress extends Schema.CollectionType {
+  collectionName: 'course_progresses';
+  info: {
+    singularName: 'course-progress';
+    pluralName: 'course-progresses';
+    displayName: 'courseProgress';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    courseProgressId: Attribute.UID;
+    courseId: Attribute.String;
+    moduleProgress: Attribute.JSON;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::course-progress.course-progress',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::course-progress.course-progress',
       'oneToOne',
       'admin::user'
     > &
@@ -405,12 +436,13 @@ export interface ApiUserProgressUserProgress extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    progressId: Attribute.UID;
-    courseProgress: Attribute.Component<
-      'course-progress.course-progress',
-      true
+    progressId: Attribute.UID & Attribute.Required;
+    coursesEnrolled: Attribute.JSON;
+    courseProgresses: Attribute.Relation<
+      'api::user-progress.user-progress',
+      'oneToMany',
+      'api::course-progress.course-progress'
     >;
-    completedCourses: Attribute.JSON;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -798,6 +830,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'api::course.course': ApiCourseCourse;
+      'api::course-progress.course-progress': ApiCourseProgressCourseProgress;
       'api::user-progress.user-progress': ApiUserProgressUserProgress;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
