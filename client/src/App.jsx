@@ -23,7 +23,7 @@ import Mentorship from "./components/Mentor/Mentorship";
 import Courseplace from "./components/Courseplace/Courseplace";
 import Announcment from "./components/Announcment";
 import Success from "./components/Stripe/Success";
-import CreateCourse from "./components/admin/createCourse/CreateCourse";
+
 
 function App() {
   const chainID = 80001;
@@ -35,6 +35,8 @@ function App() {
     const account = ethers.utils.getAddress(accounts[0]);
     setAccount(account);
   };
+
+
 
   // useEffect(() => {
   //   connectHandler();
@@ -70,7 +72,7 @@ function App() {
 
   return (
     <>
-      <Announcment text="Phase 1 is now available🔥🎊!!! Check out our platform and the free courses we offer on it🎯 !" />
+      <Announcment text='Phase 1 is now available🔥🎊!!! Check out our platform and the free courses we offer on it🎯 !' />
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -88,7 +90,6 @@ function App() {
         <Route path="/Mentor" element={<Mentorship />} />
         <Route path="/workplace" element={<Courseplace />} />
         <Route path="/stripe/success" element={<Success />} />
-        <Route path="/create_course" element={<CreateCourse />} />
       </Routes>
       <Footer />
     </>
