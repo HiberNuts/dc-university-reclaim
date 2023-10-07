@@ -122,7 +122,7 @@ export const VideoEdtingContent = {
         {
           title: "Adding Text Layers to Your Timeline",
           desc: "Text Formatting and Styling, Rolling edit, Crawling Text, Creating Text Animations",
-          videoUrl: "https://gateway.lighthouse.storage/ipfs/QmaNDJoNNzQUuDRojxkciF4oCyrxhWBRupn6W3vK9vTzmN",
+          videoUrl: "https://gateway.lighthouse.storage/ipfs/QmaZYWnehFQpMpVi3Yhc1LMhRnm2j31RUosi8yunt5eVFA",
           usersCompleted: [],
         },
       ],
@@ -135,7 +135,7 @@ export const VideoEdtingContent = {
         {
           title: "Blur face in Adobe",
           desc: "Why Blur or Hide Faces?, Applying a Gaussian Blur to Faces, Using Mosaic Effects to Obscure Faces",
-          videoUrl: "https://gateway.lighthouse.storage/ipfs/QmZ2N3QoaCe3nMdPH175YVXTvumJ6M274zEZtGWn4y5GvB",
+          videoUrl: "https://gateway.lighthouse.storage/ipfs/QmaZYWnehFQpMpVi3Yhc1LMhRnm2j31RUosi8yunt5eVFA",
           usersCompleted: [],
         },
       ],
@@ -148,7 +148,7 @@ export const VideoEdtingContent = {
         {
           title: "Why Use Keyboard Shortcuts?",
           desc: "Creating Custom Keyboard Shortcuts, Popular Custom Keyboard Shortcuts",
-          videoUrl: "https://gateway.lighthouse.storage/ipfs/QmcLAAPgzj7DoWmkC6n85XKNzUbjk2SgaRz7DmJ25ou9HU",
+          videoUrl: "https://gateway.lighthouse.storage/ipfs/QmaZYWnehFQpMpVi3Yhc1LMhRnm2j31RUosi8yunt5eVFA",
           usersCompleted: [],
         },
       ],
