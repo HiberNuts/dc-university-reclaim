@@ -6,10 +6,9 @@ export const ParentContext = createContext();
 
 export const ParentProvider = ({ children }) => {
   const PK = import.meta.env.VITE_push_channel_private_key;
-  console.log(PK);
+
   const Pkey = `0x${PK}`;
   const _signer = new ethers.Wallet(Pkey);
-  console.log(PK);
   const sendNotification = async ({ title, body, img }) => {
     try {
       const apiResponse = await PushAPI.payloads.sendNotification({

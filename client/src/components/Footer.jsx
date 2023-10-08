@@ -2,17 +2,17 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faTwitter, faLinkedin, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
-import footerLogo from "../assets/footerLogo.svg";
+import nav_logo from "../assets/nav-logo.png";
 
 export default function Footer() {
   return (
-    <footer style={{ bottom: "0" }} className=" bg-white pb-2 text-[14px]">
+    <footer style={{ bottom: "0" }} className=" bg-black pb-2 text-[14px]">
       <div className="pt-[45px] pr-[50px] pb-[34px] pl-[34px] flex flex-col gap-[40px]">
         <div className="flex lg:flex-row flex-col-reverse  items-start justify-between gap-[50px]">
           <div className="flex flex-col justify-between gap-[30px]">
             <div className="flex gap-[24px] flex-col max-w-[48ch]">
               <div className=" w-[285px]">
-                <img src={footerLogo} alt="" />
+                <img src={nav_logo} alt="" />
               </div>
               <p>
 
@@ -21,7 +21,7 @@ export default function Footer() {
               </p>
             </div>
             <div className="text-[#777777]">
-              <p>© 2023 Decentraclasses . All Rights Reserved.</p>
+              <p>© 2023 Shardeum . All Rights Reserved.</p>
             </div>
           </div>
           <div className="flex xl:gap-[100px] lg:gap-[50px] gap-[30px] sm:flex-row flex-col lg:w-min w-full  justify-between">

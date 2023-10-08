@@ -13,14 +13,17 @@ const CourseCard = ({ img, title, desc, course, category }) => {
     return listItems;
   };
   return (
-    <div className="main-container md:w-full lg:w-[400px] p-4 rounded-lg  flex justify-between shadow-xl flex-col  ">
-      <span className="text-blue-700">{category}</span>
+    <div className="main-container bg-black md:w-full lg:w-[400px] rounded-lg  flex justify-between shadow-xl flex-col ">
       <div className="img-container">
-        <div className="course-image-container">
-          <img src={img} className="object-contain course-image  md:h-60 w-full h-60" />
+        <div className="course-image-container ">
+          <img
+            style={{ borderRadius: "5px" }}
+            src={img}
+            className="object-fill course-image  md:h-60 w-full h-60"
+          />
         </div>
       </div>
-      <div>
+      <div className="p-4">
         <h1
           className="md:mt-4"
           style={{ fontSize: "24px", textAlign: "center", whiteSpace: "pre-wrap", wordBreak: "break-word" }}
@@ -38,7 +41,7 @@ const CourseCard = ({ img, title, desc, course, category }) => {
 
       <div className="mt-5 pricing flex justify-center ">
         <Link to={`/course/${course?.id}`}>
-          <button className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+          <button className="text-black bg-gradient-to-r bg-white  hover:scale-110 ease-in-out  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
             Start Course
           </button>
         </Link>
