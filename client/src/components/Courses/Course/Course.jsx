@@ -79,6 +79,7 @@ const Course = ({}) => {
             anum={courseInfo?.nofarticles}
             newClass="side3 lg:w-[30%] w-full"
           />
+          
         </section>
       </main>
     </>

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap");
+
 img.vert-move {
   -webkit-animation: mover 1s infinite alternate;
   animation: mover 1s infinite alternate;
@@ -21,6 +23,29 @@ img.vert-move {
   100% {
     transform: translateY(-50px);
   }
+}
+
+.heroText {
+  color: #181818;
+  text-align: center;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 700;
+  line-height: 96.5px; /* 100.521% */
+}
+.stats {
+  color: #000;
+  text-align: center;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 700;
+  line-height: 76.5px;
+}
+
+.ellipse {
+  border-radius: 50% / 100% 100% 0 0;
 }
 
 .collab > img {
@@ -51,20 +76,6 @@ img.vert-move {
   left: 0px;
   width: 100%;
   height: 100px;
-  background-image: linear-gradient(
-    180deg,
-    hsl(0deg 0% 0%) 0%,
-    hsl(0deg 88% 2%) 11%,
-    hsl(0deg 59% 3%) 22%,
-    hsl(0deg 44% 3%) 33%,
-    hsl(0deg 34% 4%) 44%,
-    hsl(0deg 26% 5%) 56%,
-    hsl(0deg 21% 6%) 67%,
-    hsl(0deg 17% 6%) 78%,
-    hsl(0deg 15% 7%) 89%,
-    hsl(0deg 13% 8%) 100%
-  );
- 
 }
 
 .mobile-nav {

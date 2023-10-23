@@ -14,6 +14,7 @@ module.exports = {
         black: "#000",
         orange: "#f9a825",
         white: "#fff",
+        shardeumBlue: "#3A4CFF",
         dimgray: "#666",
         gray: "#fafafa",
         aliceblue: "#eff2f7",
@@ -35,6 +36,8 @@ module.exports = {
         "font-awesome-5-free": "'Font Awesome 5 Free'",
         "source-sans-pro": "'Source Sans Pro'",
         helvetica: "Helvetica",
+        SpaceGrotesk: "Space Grotesk",
+        satoshi: "Satoshi",
       },
       borderRadius: {
         xl: "20px",

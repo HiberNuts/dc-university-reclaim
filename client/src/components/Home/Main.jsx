@@ -1,20 +1,18 @@
 import React from "react";
-import About from "./About";
+import FeatureCourses from "./FeatureCourses";
 import Courses from "./Courses";
-import Explore from "./Explore";
+import Hero from "./Hero";
 import Start from "./Start";
-import Why from "./Why";
+import Stats from "./Stats";
 
 import Truster from "./Truster";
 
 export default function Main() {
   return (
-    <main className=" w-[99vw] md:w-[99%] overflow-x-hidden">
-      <Explore />
-      <Why />
-
-      <Truster></Truster>
-      <About />
+    <main className="w-full">
+      <Hero />
+      <Stats />
+      <FeatureCourses />
       <Start />
       <Courses />
     </main>

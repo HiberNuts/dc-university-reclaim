@@ -39,7 +39,7 @@ function App() {
       <Routes>
         {/* Auth Pages */}
 
-        <Route exact path={`/`} element={<Home />}></Route>
+        <Route exact path="/" element={<Home />} />
         {/*Error Pages*/}
         <Route path="/community" element={<Communtiy />} />
         <Route path="/careers" element={<Career />} />
