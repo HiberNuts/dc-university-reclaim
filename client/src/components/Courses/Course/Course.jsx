@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import Header from "../../Header";
-import Footer from "../../Footer";
 import Card from "./Card";
 import { useLocation, useParams } from "react-router-dom";
 import bigNumberToString from "bignumber-to-string";
@@ -13,7 +11,6 @@ import like from "../../../assets/like.svg";
 import dislike from "../../../assets/dislike.svg";
 import reviewDp from "../../../assets/review-dp.svg";
 import { ParentContext } from "../../../contexts/ParentContext";
-import Stripe from "../../Stripe/Stripe";
 
 const Course = ({}) => {
   const [courseInfo, setcourseInfo] = useState({});
@@ -28,20 +25,17 @@ const Course = ({}) => {
     const instructor = await getInstructorById(data?.data?.instructor?.id);
     console.log(instructor?.data);
     setinstructorInfo(instructor.data);
-    // console.log(instructorInfo);
   };
 
   useEffect(() => {
     getCourseData();
   }, [courseBought]);
-  // console.log(instructorInfo);
 
   return (
     <>
       <main>
         <section className="break-keep pb-20 lg:flex mt-10 flex lg:flex-row flex-col-reverse  mx-10 gap-8 justify-between overflow-x-hidden">
           <div className="md:flex md:flex-col lg:w-[70%]">
-            {/* Title Card  */}
             <div className="h-[35%] bg-cyan-900 p-5 rounded-lg text-white">
               <p className="text-blue-400 mb-5">{courseInfo?.category}</p>
               <h1 className="text-[1.25em] md:text-[2em] font-bold mb-5">{courseInfo?.courseName} 🚀</h1>
@@ -69,14 +63,6 @@ const Course = ({}) => {
             <div className="md:ml-20 mb-20 md:w-[70%]">
               <h1 className="text-[2em] font-bold mb-5">Description</h1>
               <p className="mb-5 break-keep">{courseInfo?.longdesc}</p>
-              {/* <p className="mb-5 font-semibold"> ------------------------------</p>
-              <p className="mb-5"> What Will You Build?</p>
-              <p className="mb-5">
-                All of my courses are 'learn-by-doing': no boring endless lectures with Powerpoints, only live,
-                interactive coding examples. In this course we'll build one massive web application that profiles the
-                advanced features of React, Redux, Express, and Mongo. By putting each concept into a real app, you'll
-                get a better idea of when to use each unique and powerful feature.
-              </p>  */}
             </div>
 
             <InstructorCard instructorInfo={instructorInfo} />
@@ -93,10 +79,9 @@ const Course = ({}) => {
             anum={courseInfo?.nofarticles}
             newClass="side3 lg:w-[30%] w-full"
           />
+          
         </section>
       </main>
-
-      <Stripe />
     </>
   );
 };

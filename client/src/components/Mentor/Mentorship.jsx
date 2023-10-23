@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Header from "../Header";
+
 import { Link } from "react-router-dom";
 import { ethers } from "ethers";
 import { contractABI, contractAddress } from "../../contractABI";

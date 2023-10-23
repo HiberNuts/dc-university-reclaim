@@ -361,6 +361,106 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiCourseCourse extends Schema.CollectionType {
+  collectionName: 'courses';
+  info: {
+    singularName: 'course';
+    pluralName: 'courses';
+    displayName: 'Course';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    chapters: Attribute.Component<'course-content.course-content', true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::course.course',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::course.course',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCourseProgressCourseProgress extends Schema.CollectionType {
+  collectionName: 'course_progresses';
+  info: {
+    singularName: 'course-progress';
+    pluralName: 'course-progresses';
+    displayName: 'courseProgress';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    courseProgressId: Attribute.UID;
+    courseId: Attribute.String;
+    moduleProgress: Attribute.JSON;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::course-progress.course-progress',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::course-progress.course-progress',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiUserProgressUserProgress extends Schema.CollectionType {
+  collectionName: 'user_progresses';
+  info: {
+    singularName: 'user-progress';
+    pluralName: 'user-progresses';
+    displayName: 'userProgress';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    progressId: Attribute.UID & Attribute.Required;
+    coursesEnrolled: Attribute.JSON;
+    courseProgresses: Attribute.Relation<
+      'api::user-progress.user-progress',
+      'oneToMany',
+      'api::course-progress.course-progress'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::user-progress.user-progress',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::user-progress.user-progress',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -719,106 +819,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiCourseCourse extends Schema.CollectionType {
-  collectionName: 'courses';
-  info: {
-    singularName: 'course';
-    pluralName: 'courses';
-    displayName: 'Course';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    chapters: Attribute.Component<'course-content.course-content', true>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::course.course',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::course.course',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiCourseProgressCourseProgress extends Schema.CollectionType {
-  collectionName: 'course_progresses';
-  info: {
-    singularName: 'course-progress';
-    pluralName: 'course-progresses';
-    displayName: 'courseProgress';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    courseProgressId: Attribute.UID;
-    courseId: Attribute.String;
-    moduleProgress: Attribute.JSON;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::course-progress.course-progress',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::course-progress.course-progress',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiUserProgressUserProgress extends Schema.CollectionType {
-  collectionName: 'user_progresses';
-  info: {
-    singularName: 'user-progress';
-    pluralName: 'user-progresses';
-    displayName: 'userProgress';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    progressId: Attribute.UID & Attribute.Required;
-    coursesEnrolled: Attribute.JSON;
-    courseProgresses: Attribute.Relation<
-      'api::user-progress.user-progress',
-      'oneToMany',
-      'api::course-progress.course-progress'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::user-progress.user-progress',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::user-progress.user-progress',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/strapi' {
   export module Shared {
     export interface ContentTypes {
@@ -829,6 +829,9 @@ declare module '@strapi/strapi' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::course.course': ApiCourseCourse;
+      'api::course-progress.course-progress': ApiCourseProgressCourseProgress;
+      'api::user-progress.user-progress': ApiUserProgressUserProgress;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::custom-api.custom-api': PluginCustomApiCustomApi;
@@ -836,9 +839,6 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::course.course': ApiCourseCourse;
-      'api::course-progress.course-progress': ApiCourseProgressCourseProgress;
-      'api::user-progress.user-progress': ApiUserProgressUserProgress;
     }
   }
 }

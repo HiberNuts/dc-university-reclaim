@@ -1,25 +1,41 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: "Poppins", sans-serif, "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(92deg,
-      rgba(190, 235, 255, 0.7) 45%,
-      rgba(255, 235, 204, 0.7) 67%);
-  word-break: keep-all;
+:root {
+  --blue: #1e90ff;
+  --white: #ffffff;
+  --shardeumBlue:#3A4CFF;
 }
 
-.home-here {
-  background: linear-gradient(92deg,
-      rgba(190, 235, 255, 0.7) 45%,
-      rgba(255, 235, 204, 0.7) 67%),
-    url("./assets/BACKGROUND.png") no-repeat top;
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif, "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif,"Space Grotesk","Satoshi";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #3A4CFF;
+  word-break: keep-all;
+  color: #ffffff;
+}
+
+.wrapper {
+  background: #3A4CFF;
   background-size: 100%;
+}
+
+.course-border {
+  background: linear-gradient(269.78deg, #ff4400 0%, #be1d92 36.28%, #8d00ff 63.24%, #0406a5 101.62%);
+  padding: 3px;
+  border-radius: 10px;
+
+  /* border-image-source: linear-gradient(269.78deg, #ff4400 0%, #be1d92 36.28%, #8d00ff 63.24%, #0406a5 101.62%); */
+}
+
+.course_search_input {
+  background: linear-gradient(269.78deg, #ff4400 0%, #be1d92 36.28%, #8d00ff 63.24%, #0406a5 101.62%);
+  padding: 3px;
+  border-radius: 10px;
 }
