@@ -5,7 +5,6 @@ import Hero from "./Hero";
 import Start from "./Start";
 import Stats from "./Stats";
 
-import Truster from "./Truster";
 
 export default function Main() {
   return (

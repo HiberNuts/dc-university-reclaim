@@ -1,15 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import Card from "./Card";
 import { useLocation, useParams } from "react-router-dom";
-import bigNumberToString from "bignumber-to-string";
+
 import { getCoursebyId, getInstructorById } from "../../../utils/PolybaseUtils";
-import courseThumb from "../course-thumb.png";
-import instructor from "../instructor.png";
+
 import InstructorCard from "./InstructorCard.jsx";
-import arrowDown from "../../Courseplace/down-arrow.svg";
-import like from "../../../assets/like.svg";
-import dislike from "../../../assets/dislike.svg";
-import reviewDp from "../../../assets/review-dp.svg";
+
 import { ParentContext } from "../../../contexts/ParentContext";
 
 const Course = ({}) => {
@@ -79,7 +75,6 @@ const Course = ({}) => {
             anum={courseInfo?.nofarticles}
             newClass="side3 lg:w-[30%] w-full"
           />
-          
         </section>
       </main>
     </>

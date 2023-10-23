@@ -15,9 +15,7 @@ import Course from "./Course/Course";
 import CourseCard from "../CourseCard/CourseCard";
 import { motion } from "framer-motion";
 import { slideAnimateVariants } from "../animate/animate";
-import calendar from "../../assets/calendar.png";
-import gift from "../../assets/gift.png";
-import bbt from "../../assets/bbt.jpg";
+
 
 export default function Courses() {
   const [noOfCourses, setnoOfCourses] = useState(0);
@@ -149,7 +147,7 @@ export default function Courses() {
 
               <div className="ml-10 md:task-container md:flex md:justify-center md:gap-10">
                 <div className="task p-5 rounded-lg shadow-lg flex flex-col bg-[#D9D9D9] w-[300px]  mb-10">
-                  <img src={calendar} alt="" />
+                 
                   <div className="flex flex-col justify-center items-center">
                     <p className="font-bold">Maintain Daily Streaks</p>
                     <p className="mt-3 mb-3 text-center whitespace-pre-wrap break-words">
@@ -158,7 +156,7 @@ export default function Courses() {
                   </div>
                 </div>
                 <div className="task p-5 rounded-lg shadow-lg flex flex-col bg-[#D9D9D9] w-[300px] mb-10">
-                  <img src={gift} alt="" />
+                 
                   <div className="flex flex-col justify-center items-center">
                     <p style={{ fontWeight: "700" }}>Get Rewards</p>
                     <p
@@ -184,12 +182,7 @@ export default function Courses() {
                   once: true,
                 }}
               >
-                {/* <button
-                  className="bg-[#f9a825] hover:bg-[#f5b44b]"
-                  style={{ width: "300px", borderRadius: "40px", marginTop: "30px" }}
-                >
-                  Enroll Now
-                </button> */}
+                
               </motion.div>
             </div>
           </section>

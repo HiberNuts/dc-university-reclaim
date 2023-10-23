@@ -1,8 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
 import "./Home.css";
-import DCls from "../../assets/Decentraclasses.webp";
-import { Link } from "react-router-dom";
 import heroLogo from "../../assets/heroLogo.png";
 export default function Hero() {
   return (
