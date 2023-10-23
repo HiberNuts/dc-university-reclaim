@@ -1,5 +1,5 @@
 import React from "react";
-import sample from "../../assets/coursesample.png";
+
 import { Link } from "react-router-dom";
 // import style from './style.css' ;
 

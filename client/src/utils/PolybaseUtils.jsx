@@ -40,8 +40,7 @@ export const getInstructorById = async (id) => {
   return record;
 };
 
-
-export const buyCourse = async (sig, courseId, address, setcourseBought, courseName, img, sendNotification) => {
+export const buyCourse = async (sig, courseId, address, setcourseBought, courseName, img) => {
   // const { courseBought, setcourseBought } = useContext(ParentContext);c
 
   try {
@@ -56,11 +55,6 @@ export const buyCourse = async (sig, courseId, address, setcourseBought, courseN
     console.log(res);
     toast.success("Course Successfully brought - Lets Learn");
     setcourseBought(true);
-    sendNotification({
-      title: "Hurray🎉 new accomplishment",
-      body: `You have successfully brought ${courseName},\n What are you waiting for lets learn!!!`,
-      img: img,
-    });
     return true;
   } catch (error) {
     console.log(error);

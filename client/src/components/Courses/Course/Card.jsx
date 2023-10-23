@@ -14,7 +14,7 @@ const Card = (props) => {
   // console.log(JSON.parse(props?.courseInfo?.content));
 
   // const [courseBought, setcourseBought] = useState(false);
-  const { courseBought, setcourseBought, sendNotification } = useContext(ParentContext);
+  const { courseBought, setcourseBought } = useContext(ParentContext);
 
   const [userAlreadyBought, setuserAlreadyBought] = useState(false);
   const { address, isConnected } = useAccount();
@@ -85,13 +85,12 @@ const Card = (props) => {
     onSuccess(data) {
       const res = buyCourse(
         data,
-
         props.courseInfo.id,
         address,
         setcourseBought,
         props?.courseInfo?.courseName,
         props?.courseInfo?.imageurl,
-        sendNotification
+
       );
 
       setloader(false);
