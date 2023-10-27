@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Home/Header";
 import PrivateRoute from "./routes/PrivateRoute";
 
-import Courses from "./components/Courses/Courses";
+// import Courses from "./components/Courses/Courses";
 import Course from "./components/Courses/Course/Course";
 import Courseplace from "./components/Courseplace/Courseplace";
 import AllCourses from "./components/Courses/AllCourses";

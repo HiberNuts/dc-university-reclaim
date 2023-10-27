@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SkeletonLoader from "./SkeletonLoader";
 import { Toaster, toast } from "react-hot-toast";
 import { getAllCourses } from "../../utils/PolybaseUtils";
-import CourseCard from "../CourseCard/CourseCard";
+
 import { motion } from "framer-motion";
 import { slideAnimateVariants } from "../animate/animate";
 import FeaturedCourseCard from "./featuredCourseCard/FeaturedCourseCard";
