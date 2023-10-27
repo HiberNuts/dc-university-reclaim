@@ -25,11 +25,32 @@ img.vert-move {
   }
 }
 
+@keyframes float {
+  0% {
+    /* box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6); */
+    transform: translatey(0px);
+  }
+  50% {
+    /* box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2); */
+    transform: translatey(-20px);
+  }
+  100% {
+    /* box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6); */
+    transform: translatey(0px);
+  }
+}
+.heroSection {
+  background-image: url("../../assets/Grid.png");
+  background-position: center;
+  background-size: cover;
+}
+
 .backText {
   font-size: 90px;
-  font-weight: 900;
   line-height: 100%; /* 144px */
-  
+  text-shadow: 10px 10px linear-gradient(180deg, #fff 18.14%, rgba(255, 255, 255, 0) 102.88%);
+  letter-spacing: -10px;
+  font-weight: bold;
   writing-mode: vertical-lr;
   text-orientation: upright;
   opacity: 0.2;
@@ -59,8 +80,61 @@ img.vert-move {
   line-height: 76.5px;
 }
 
+.BlueGradientFade {
+  background: var(--Gradient-1, linear-gradient(118deg, #3a4cff 32.82%, rgba(58, 76, 255, 0.69) 71.69%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-feature-settings: "clig" off, "liga" off;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 900 !important;
+  line-height: 125%;
+}
+
+.heroLogo {
+  overflow: hidden;
+  transform: translatey(0px);
+  animation: float 5s ease-in-out infinite;
+  background: transparent;
+}
+
 .ellipse {
   border-radius: 50% / 100% 100% 0 0;
+}
+
+.statsCard {
+  width: 250px;
+  border-radius: 20px;
+  border: 2px solid rgba(195, 200, 255, 1);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../../assets/Grid.png");
+  background-color: transparent;
+  background-position: center;
+  background-size: cover;
+}
+.statsCard > span {
+  color: var(--Accent, #ff8743);
+  text-shadow: 3px 0 #ff8743;
+  letter-spacing: 2px;
+  font-weight: bold;
+  font-family: "Satoshi";
+  font-size: 3rem;
+  font-style: normal;
+  /* font-weight: 900; */
+  line-height: 100%; /* 62px */
+}
+
+.statsCard > p {
+  color: var(--Text, #121212);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%; /* 24px */
 }
 
 .collab > img {

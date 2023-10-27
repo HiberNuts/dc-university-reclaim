@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./Home.css";
+import { motion, useScroll } from "framer-motion";
+
 export default function Stats() {
+  const scrollRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 1", "1.33 1"] });
   return (
-    <div className="w-full mt-[70px] flex flex-col justify-center align-middle ">
-      <button className="text-center hover:scale-110 transition-all">
-        <span className="border bg-white text-black border-white rounded-[40px] py-[5px] px-[38px]">
-          Connect Wallet
-        </span>
-      </button>
-      <div className="flex justify-center align-middle ">
-        <div className="border md:text-[48px] text-[24px]  stats mt-[70px] bg-white text-black border-white rounded-[40px] w-[98%] item flex justify-evenly align-middle">
-          <span>10+ Courses</span>
-          <span>3+ Mentors</span>
-          <span>10k Students</span>
-        </div>
+    <div className="w-full gap-5 mt-[50px] mb-4 flex flex-row flex-wrap justify-evenly align-middle">
+      <div className="statsCard">
+        <span>10+</span>
+        <p>Courses</p>
+      </div>
+      <div className="statsCard">
+        <span>3+</span>
+        <p>Mentors</p>
+      </div>
+      <div className="statsCard">
+        <span>10,000+</span>
+        <p>Students</p>
       </div>
     </div>
   );

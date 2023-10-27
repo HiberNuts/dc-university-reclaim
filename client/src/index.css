@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -8,12 +8,14 @@
 :root {
   --blue: #1e90ff;
   --white: #ffffff;
-  --shardeumBlue:#3A4CFF;
+  --shardeumBlue: #3a4cff;
+  --shardeumOrange: #ff8743;
 }
 
 body {
   margin: 0;
-  font-family: "Poppins", sans-serif, "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif,"Satoshi";
+  font-family: "Poppins", sans-serif, "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif,
+    "Satoshi";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: white;
@@ -33,4 +35,3 @@ body {
 
   /* border-image-source: linear-gradient(269.78deg, #ff4400 0%, #be1d92 36.28%, #8d00ff 63.24%, #0406a5 101.62%); */
 }
-
