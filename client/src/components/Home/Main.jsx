@@ -10,8 +10,8 @@ export default function Main() {
   return (
     <main className="w-full">
       <Hero />
-      <Stats />
-      <FeatureCourses />
+      {/* <Stats /> */}
+      {/* <FeatureCourses /> */}
       <Start />
       <Courses />
     </main>

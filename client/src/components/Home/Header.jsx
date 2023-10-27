@@ -43,10 +43,10 @@ export default function Header() {
   }, [location]);
 
   const styleNavEl = `before:bg-white before:left-0 ${
-    homeRoute ? "hover:text-black text-black hover:before:bg-black " : "hover:text-white text-white"
+    homeRoute ? "hover:text-white text-white" : "hover:text-black text-black hover:before:bg-black "
   }  before:transition-transform hover:before:scale-x-100 before:scale-x-0  before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full `;
   const activeNavEl = ` before:left-0 ${
-    homeRoute ? " before:bg-black text-black" : "text-white before:bg-white "
+    homeRoute ? "text-white before:bg-white " : " before:bg-black text-black"
   }   before:transition-transform  before:scale-x-100 before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full`;
   const styleMobileNavEl = "p-3 font-medium";
   const activeMobileNavEl = "bg-white-400 text-white font-medium relative h-full   w-full text-center p-3";
@@ -56,13 +56,13 @@ export default function Header() {
     "z-[60] relative lg:hidden mt-2 pb-4 flex flex-col items-center transition-all duration-500 flex flex-col gap-2 items-center  absolute top-0 bg-gray-100 pb-5 sm:shadow-none shadow-md shadow-gray-700";
 
   return (
-    <header className={`header ${homeRoute ? "bg-white" : ""}`}>
+    <header className={`header ${homeRoute ? "bg-shardeumBlue" : "bg-white"}`}>
       <nav className="p-4">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between">
             <div className="flex items-center lg:w-[260px] w-[200px]">
               <Link to="/">
-                <img src={`${homeRoute ? navLogoBlack : navLogoWhite} `} alt="Logo" className="w-full" />
+                <img src={`${homeRoute ? navLogoWhite : navLogoBlack} `} alt="Logo" className="w-full" />
               </Link>
             </div>
             <ul className="hidden lg:flex items-center xl:gap-9 lg:gap-6 ">

@@ -15,6 +15,7 @@ module.exports = {
         orange: "#f9a825",
         white: "#fff",
         shardeumBlue: "#3A4CFF",
+        shardeumOrange: "#FF8743",
         dimgray: "#666",
         gray: "#fafafa",
         aliceblue: "#eff2f7",
@@ -29,7 +30,7 @@ module.exports = {
         deepskyblue: "#03a9f4",
       },
       fontFamily: {
-        body: "'Futura Md BT'",
+        body: "'Satoshi'",
         heading: "Futura",
         "futura-hv-bt": "'Futura Hv BT'",
         roboto: "Roboto",
