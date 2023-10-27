@@ -13,16 +13,16 @@
 
 body {
   margin: 0;
-  font-family: "Poppins", sans-serif, "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif,"Space Grotesk","Satoshi";
+  font-family: "Poppins", sans-serif, "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif,"Satoshi";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #3A4CFF;
+  background: white;
   word-break: keep-all;
-  color: #ffffff;
+  color: black;
 }
 
 .wrapper {
-  background: #3A4CFF;
+  background: white;
   background-size: 100%;
 }
 

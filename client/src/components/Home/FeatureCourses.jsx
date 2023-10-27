@@ -8,7 +8,7 @@ export default function FeatureCourses() {
         <button className="w-[200px] hover:scale-110 transition-all">
           <span className="border text-black border-black rounded-[40px] py-[5px] px-[38px]">LET'S START</span>
         </button>
-        <p className="font-SpaceGrotesk text-[48px] font-bold ">Explore All Courses</p>
+        <p className="font-satoshi text-[48px] font-bold ">Explore All Courses</p>
         <div className="flex w-full justify-between flex-wrap gap-5">
           <FeaturedCourseCard />
           <FeaturedCourseCard />

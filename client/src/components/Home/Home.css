@@ -25,11 +25,26 @@ img.vert-move {
   }
 }
 
+.backText {
+  font-size: 90px;
+  font-weight: 900;
+  line-height: 100%; /* 144px */
+  
+  writing-mode: vertical-lr;
+  text-orientation: upright;
+  opacity: 0.2;
+  background: linear-gradient(180deg, #fff 18.14%, rgba(255, 255, 255, 0) 102.88%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-feature-settings: "clig" off, "liga" off;
+  -webkit-text-fill-color: transparent;
+}
+
 .heroText {
-  color: #181818;
+  color: white;
   text-align: center;
   font-feature-settings: "clig" off, "liga" off;
-  font-family: "Space Grotesk";
+  font-family: "Satoshi";
   font-style: normal;
   font-weight: 700;
   line-height: 96.5px; /* 100.521% */
@@ -38,7 +53,7 @@ img.vert-move {
   color: #000;
   text-align: center;
   font-feature-settings: "clig" off, "liga" off;
-  font-family: "Space Grotesk";
+  font-family: "Satoshi";
   font-style: normal;
   font-weight: 700;
   line-height: 76.5px;
