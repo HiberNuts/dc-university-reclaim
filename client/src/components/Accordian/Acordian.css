@@ -1,0 +1,22 @@
+.AccordionItem {
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: rgba(233, 235, 255, 1);
+}
+
+.AccordionHeader {
+  padding: 20px;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.AccordionHeader:hover {
+  background-color: rgb(213, 216, 247);
+}
+.AccordionHeader::active {
+  background-color: rgb(184, 189, 241);
+}
+
+.AccordionPanel {
+  padding: 20px;
+}

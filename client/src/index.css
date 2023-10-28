@@ -1,9 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+  font-family: satoshiVariable;
+  src: url("./assets/Satoshi-Variable.ttf");
+}
 
 :root {
   --blue: #1e90ff;
@@ -15,7 +20,7 @@
 body {
   margin: 0;
   font-family: "Poppins", sans-serif, "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif,
-    "Satoshi";
+    "Satoshi", "DM Sans";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: white;
