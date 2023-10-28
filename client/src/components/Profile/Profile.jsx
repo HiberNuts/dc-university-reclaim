@@ -28,29 +28,13 @@ export const Profile = () => {
             className="rounded-[50%] w-[160px] h-[160px] border-2 border-shardeumOrange object-cover"
             src={"https://api.dicebear.com/7.x/micah/svg?seed=Garfield"}
           />
-          {isEditing && (
+          {isEditing == false && (
             <p style={{ fontFamily: "satoshiVariable" }} className="text-center text-[22px] font-[700] mt-2 ">
               Divyansh Jain
             </p>
           )}
         </div>
         {isEditing ? (
-          <div className={`w-full flex flex-col h-[30%] justify-evenly align-middle items-center`}>
-            <div className="flex  flex-col h-full justify-evenly">
-              <ProfileLinks img={linkSVG} title={"raghavjindal0212@gmail.com"} />
-              <ProfileLinks img={mailSVG} title={"raghavjindal0212@gmail.com"} />
-              <ProfileLinks img={workSVG} title={"raghavjindal0212@gmail.com"} />
-            </div>
-            <div className="w-full justify-center align-middle flex">
-              <button
-                onClick={() => setisEditing(false)}
-                className={`bg-shardeumOrange flex justify-center align-middle hover:bg-[#fc7d34] rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[22px] w-[200px] h-[40px]`}
-              >
-                <img className="mr-2" src={pencil} /> Update
-              </button>
-            </div>
-          </div>
-        ) : (
           <div className="w-full mt-8">
             <form>
               <div class="mb-6 w-full">
@@ -91,13 +75,29 @@ export const Profile = () => {
               </div>
               <div className="w-full justify-center align-middle flex">
                 <button
-                  onClick={() => setisEditing(true)}
+                  onClick={() => setisEditing(false)}
                   className={`bg-shardeumOrange hover:bg-[#fc7d34] rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[22px] w-[200px] h-[40px]`}
                 >
                   <FontAwesomeIcon icon={faCheck} /> Submit
                 </button>
               </div>
             </form>
+          </div>
+        ) : (
+          <div className={`w-full flex flex-col h-[30%] justify-evenly align-middle items-center`}>
+            <div className="flex  flex-col h-full justify-evenly">
+              <ProfileLinks img={linkSVG} title={"raghavjindal0212@gmail.com"} />
+              <ProfileLinks img={mailSVG} title={"raghavjindal0212@gmail.com"} />
+              <ProfileLinks img={workSVG} title={"raghavjindal0212@gmail.com"} />
+            </div>
+            <div className="w-full justify-center align-middle flex">
+              <button
+                onClick={() => setisEditing(true)}
+                className={`bg-shardeumOrange flex justify-center align-middle hover:bg-[#fc7d34] rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[22px] w-[200px] h-[40px]`}
+              >
+                <img className="mr-2" src={pencil} /> Update
+              </button>
+            </div>
           </div>
         )}
       </div>
