@@ -40,6 +40,7 @@ module.exports = {
         helvetica: "Helvetica",
         SpaceGrotesk: "Space Grotesk",
         satoshi: "Satoshi",
+        mdsans: "DM Sans",
       },
       borderRadius: {
         xl: "20px",
