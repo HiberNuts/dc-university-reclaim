@@ -11,6 +11,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import Course from "./components/Courses/Course/Course";
 import Courseplace from "./components/Courseplace/Courseplace";
 import AllCourses from "./components/Courses/AllCourses";
+import { Profile } from "./components/Profile/Profile";
 
 function App() {
   const RedirectAs404 = ({ location }) => <Navigate to={Object.assign({}, location, { state: { is404: true } })} />;
@@ -19,16 +20,16 @@ function App() {
       <Header />
       <Routes>
         {/* Auth Pages */}
-
         <Route exact path="/" element={<Home />} />
         {/*Error Pages*/}
         <Route path="/courses" element={<AllCourses />} />
         <Route path="/course/:id" element={<Course />} />
+        <Route path="/profile" element={<Profile />} />
         {/*Main Routes*/}
+        {/*Private route section*/}
         <Route exact path="/" element={<PrivateRoute />}>
           <Route path="/workplace" element={<Courseplace />} />
         </Route>
-
         <Route component={RedirectAs404}></Route>
       </Routes>
 

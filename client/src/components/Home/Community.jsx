@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./Home.css";
-import heroLogoBlack from "../../assets/heroLogoBlack.png";
 import { OrangeButton } from "../button/OrangeButton";
-import cube from "../../assets/cube.png";
 import { faDiscord, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import orangeShardeum from "../../assets/orangeShardeum.png";
+import { useScroll } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function Community() {
+  const scrollRef = useRef(null);
+  const { scrollYProgress } = useScroll({ container: scrollRef });
   return (
     <div className=" heroSection md:flex  items-center flex flex-col w-full justify-center align-middle text-white bg-shardeumBlue">
-      <img className="absolute hidden md:visible md:flex left-44 mt-32" src={orangeShardeum} />
+      <motion.div
+        ref={scrollRef}
+        style={{ scaleX: scrollYProgress * 500 }}
+        className="absolute hidden md:visible md:flex left-44 mt-32"
+      >
+        <img src={orangeShardeum} />
+      </motion.div>
       <div className="items-center  sm:w-[80%] text-white heroText lg:text-[48px] md:mt-10 md:text-[48px] sm:text-[36px] text-[36px]">
         <p className="text-center items-center flex justify-center align-middle">Be a part of an Active Community 🌟</p>
       </div>

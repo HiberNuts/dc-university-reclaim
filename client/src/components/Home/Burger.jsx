@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-const Burger = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const Burger = ({ isOpen, setIsOpen }) => {
+  // const [isOpen, setIsOpen] = useState(false);
   const genericHamburgerLine = `h-1 w-6 my-1 rounded-full bg-black transition ease transform duration-300`;
 
   return (
