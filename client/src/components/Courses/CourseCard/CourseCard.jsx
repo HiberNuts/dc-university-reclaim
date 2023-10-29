@@ -5,6 +5,7 @@ import profileIcon from "../../../assets/profileIcon.svg";
 import levelIcon from "../../../assets/levelIcon.svg";
 import { OrangeButton } from "../../button/OrangeButton";
 import { motion, useScroll } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const CourseCard = () => {
   const scrollRef = useRef(null);
@@ -56,7 +57,9 @@ const CourseCard = () => {
             <span>Begineer</span>
           </div>
         </div>
-        <OrangeButton title={"Start Learning"} style={"w-full h-[40px]"} />
+        <Link to="/1">
+          <OrangeButton title={"Start Learning"} style={"w-full h-[40px]"} />
+        </Link>
       </div>
     </motion.div>
   );
