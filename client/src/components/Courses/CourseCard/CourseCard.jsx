@@ -13,7 +13,7 @@ const CourseCard = () => {
     <motion.div
       ref={scrollRef}
       style={{ scale: scrollYProgress, opacity: scrollYProgress }}
-      className="flex h-[600px] border-2 border-solid border-shardeumPurple flex-col justify-center align-middle w-[400px] rounded-[16px]"
+      className="flex h-[550px] bg-white dark:border-2 dark:border-shardeumPurple flex-col justify-center align-middle w-[400px] rounded-[16px]"
     >
       <div className="image-section h-full flex flex-col justify-evenly  px-[20px]">
         <div className="flex justify-center align-middle items-center">

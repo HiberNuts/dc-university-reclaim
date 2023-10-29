@@ -13,8 +13,8 @@ import {
   metaMaskWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { WagmiConfig, configureChains, createConfig, createStorage } from "wagmi";
-import { mainnet, optimism, zora, polygon, polygonMumbai, goerli } from "wagmi/chains";
-import { RainbowKitProvider, connectorsForWallets, getDefaultWallets } from "@rainbow-me/rainbowkit";
+import { mainnet, polygon, polygonMumbai, goerli } from "wagmi/chains";
+import { RainbowKitProvider, connectorsForWallets, darkTheme } from "@rainbow-me/rainbowkit";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { InjectedConnector } from "@wagmi/core";
 import "@rainbow-me/rainbowkit/styles.css";
@@ -57,10 +57,28 @@ const wagmiConfig = createConfig({
   // connectors: publicClient,
 });
 
+const Disclaimer = ({ Text, Link }) => (
+  <Text>
+    By connecting your wallet, you agree to the <Link href="https://shardeum.org">Terms of Service</Link> and
+    acknowledge you have read and understand the protocol <Link href="https://shardeum.org">Disclaimer</Link>
+  </Text>
+);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <WagmiConfig config={wagmiEntity}>
-    <RainbowKitProvider chains={chains}>
+    <RainbowKitProvider
+      theme={darkTheme({
+        accentColor: "#ff8743",
+        accentColorForeground: "white",
+        borderRadius: "medium",
+      })}
+      modalSize="compact"
+      appInfo={{
+        appName: "Shardeum",
+        disclaimer: Disclaimer,
+      }}
+      chains={chains}
+    >
       <ParentProvider>
         <BrowserRouter>
           <PolybaseProvider polybase={polybase}>
