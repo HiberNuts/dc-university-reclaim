@@ -235,16 +235,6 @@ const CourseDescription = () => {
             }}
           ></div>
           <div
-            // className="w-96 h-48 flex-col justify-center items-center gap-8 inline-flex"
-            style={
-              {
-                // display: "flex",
-                // flexDirection: "column",
-                // justifyContent: "center",
-                // alignItems: "center",
-                // gap: "32px",
-              }
-            }
           >
             <div
               className="w-96 h-48 flex-col justify-center items-center gap-8 inline-flex"
@@ -599,6 +589,35 @@ const CourseDescription = () => {
               </div>
             </div>
           </div>
+          <div
+              className="w-96 h-48 flex-col justify-center items-center gap-8 inline-flex"
+              style={{
+                display: "flex",
+                // flexDirection: "column",
+                // justifyContent: "center",
+                // alignItems: "center",
+                // gap: "32px",
+              }}
+            >
+          <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "32px",
+                }}
+              >
+          <div style={{ marginLeft: "1500px", marginTop: "500px" }}>
+                  <p className="font-satoshi text-[48px] font-extrabold items-center text-center  ">
+                    SkillsYou'll
+                    <span className="BlueGradientFade">Gain</span>
+                  </p>
+                </div>
+                </div>
+                </div>
+
+
 
           {/* <div className="w-96 h-48 flex-col justify-center items-center gap-8 inline-flex"> */}
         </div>
