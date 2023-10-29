@@ -14,9 +14,9 @@ export const ProfileDropDown = ({ account, openChainModal, chain, openAccountMod
               src="https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=Bubba"
               alt="avatar"
             />
-            <p className="text-[20px] font-bold">Account</p>
+            <p className=" font-bold">Raghav </p>
             <svg
-              className="w-9"
+              className="w-9 -m-2"
               xmlns="http://www.w3.org/2000/svg"
               id="arrow"
               x="0"

@@ -117,7 +117,8 @@ export default function Header() {
                             return (
                               <button
                                 onClick={openConnectModal}
-                                className={`bg-shardeumOrange flex justify-center align-middle hover:bg-[#fc7d34] rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[22px] w-[150px] h-[40px]`}
+                                style={{ fontFamily: "satoshiVariable" }}
+                                className={`bg-shardeumOrange flex justify-center align-middle hover:bg-[#fc7d34] rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[18px] w-[150px] h-[40px]`}
                               >
                                 Login
                               </button>
