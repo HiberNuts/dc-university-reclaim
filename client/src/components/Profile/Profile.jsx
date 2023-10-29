@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { OrangeButton } from "../button/OrangeButton";
 import { faCheck, faPencil, faPencilAlt, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,10 +8,11 @@ import workSVG from "./workSVG.svg";
 import pencil from "../../assets/pencil.png";
 import FeatureCourses from "../Home/FeatureCourses";
 import CourseCard from "../Courses/CourseCard/CourseCard";
+
 const ProfileLinks = ({ img, title }) => {
   return (
     <div className="text-white flex gap-3 text-[16px] font-[500]">
-      <img src={img} />
+      <img src={img} alt="icon" />
       <span>{title}</span>
     </div>
   );
@@ -19,28 +20,58 @@ const ProfileLinks = ({ img, title }) => {
 
 export const Profile = () => {
   const [isEditing, setisEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "Divyansh Jain",
+    email: "",
+    designation: "",
+    portfolioLink: "",
+  });
+
+  useEffect(() => {
+    // Load user data from local storage when the component mounts
+    const savedData = localStorage.getItem("userData");
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setisEditing(false);
+
+    // Save user data to local storage when the form is submitted
+    localStorage.setItem("userData", JSON.stringify(formData));
+  };
 
   return (
-    <div className="w-full mt-[100px] flex justify-between align-middle ">
+    <div className="w-full mt-[100px] flex justify-between align-middle">
       <div className="bg-shardeumBlue px-14 lg:w-[30%] h-[90vh] fixed rounded-r-xl  flex flex-col align-middle items-center">
         <div className="text-white mt-20">
           <img
             className="rounded-[50%] w-[160px] h-[160px] border-2 border-shardeumOrange object-cover"
             src={"https://api.dicebear.com/7.x/micah/svg?seed=Garfield"}
+            alt="user avatar"
           />
-          {isEditing == false && (
+          {isEditing === false && (
             <p style={{ fontFamily: "satoshiVariable" }} className="text-center text-[22px] font-[700] mt-2 ">
-              Divyansh Jain
+              {formData.name}
             </p>
           )}
         </div>
         {isEditing ? (
           <div className="w-full mt-8">
-            <form>
-              <div class="mb-6 w-full">
+            <form onSubmit={handleSubmit}>
+              <div className="mb-6 w-full">
                 <input
-                  type="Name"
-                  id="Name"
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="bg-gray-50  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-shardeumOrange focus:border-shardeumOrange block w-full p-2.5  dark:focus:ring-blue-500 dark:focus:border-blue-50"
                   placeholder="What should we call you"
                   required
@@ -48,8 +79,10 @@ export const Profile = () => {
               </div>
               <div class="mb-6">
                 <input
-                  type="Email"
-                  id="Email"
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="bg-gray-50  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-shardeumOrange focus:border-shardeumOrange block w-full p-2.5  dark:focus:ring-blue-500 dark:focus:border-blue-50"
                   placeholder="Email"
                   required
@@ -58,7 +91,9 @@ export const Profile = () => {
               <div class="mb-6">
                 <input
                   type="text"
-                  id="desig"
+                  name="designation"
+                  value={formData.designation}
+                  onChange={handleChange}
                   className="bg-gray-50  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-shardeumOrange focus:border-shardeumOrange block w-full p-2.5  dark:focus:ring-blue-500 dark:focus:border-blue-50"
                   placeholder="Designation"
                   required
@@ -67,7 +102,9 @@ export const Profile = () => {
               <div class="mb-6">
                 <input
                   type="url"
-                  id="url"
+                  name="portfolioLink"
+                  value={formData.portfolioLink}
+                  onChange={handleChange}
                   className="bg-gray-50  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-shardeumOrange focus:border-shardeumOrange block w-full p-2.5  dark:focus:ring-blue-500 dark:focus:border-blue-50"
                   placeholder="Portfolio Link"
                   required
@@ -75,8 +112,8 @@ export const Profile = () => {
               </div>
               <div className="w-full justify-center align-middle flex">
                 <button
-                  onClick={() => setisEditing(false)}
-                  className={`bg-shardeumOrange hover:bg-[#fc7d34] rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[22px] w-[200px] h-[40px]`}
+                  type="submit"
+                  className={`bg-shardeumOrange hover.bg-[#fc7d34] rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[22px] w-[200px] h-[40px]`}
                 >
                   <FontAwesomeIcon icon={faCheck} /> Submit
                 </button>
@@ -86,29 +123,30 @@ export const Profile = () => {
         ) : (
           <div className={`w-full flex flex-col h-[30%] justify-evenly align-middle items-center`}>
             <div className="flex  flex-col h-full justify-evenly">
-              <ProfileLinks img={linkSVG} title={"raghavjindal0212@gmail.com"} />
-              <ProfileLinks img={mailSVG} title={"raghavjindal0212@gmail.com"} />
-              <ProfileLinks img={workSVG} title={"raghavjindal0212@gmail.com"} />
+              <ProfileLinks img={linkSVG} title={formData.email} />
+              <ProfileLinks img={mailSVG} title={formData.email} />
+              <ProfileLinks img={workSVG} title={formData.designation} />
+              <ProfileLinks img={workSVG} title={formData.portfolioLink} />
             </div>
             <div className="w-full justify-center align-middle flex">
               <button
                 onClick={() => setisEditing(true)}
-                className={`bg-shardeumOrange flex justify-center align-middle hover:bg-[#fc7d34] rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[22px] w-[200px] h-[40px]`}
+                className={`bg-shardeumOrange flex justify-center align-middle hover.bg-[#fc7d34] rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[22px] w-[200px] h-[40px]`}
               >
-                <img className="mr-2" src={pencil} /> Update
+                <img className="mr-2" src={pencil} alt="pencil" /> Update
               </button>
             </div>
           </div>
         )}
       </div>
       <div
-        className="lg:w-[70%] ml-[30%] min-h-[90vh] flex justify-center
+        className="lg.w-[70%] ml-[30%] min-h-[90vh] flex justify-center
        align-middle"
       >
         <div className="content  w-full mx-20">
           <div className="mb-20">
             <p className="font-satoshi  text-[48px] font-extrabold items-start   ">
-              Welcome, <span className="BlueGradientFade">Divyansh</span>
+              Welcome, <span className="BlueGradientFade">{formData.name}</span>
             </p>
             <span className="text-[18px] font-[500]">
               Cras tincidunt lobortis feugiat vivamus at morbi leo urna molestie atole elementum eu facilisis faucibus
