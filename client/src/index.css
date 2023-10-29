@@ -5,6 +5,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @font-face {
   font-family: "satoshiVariable";
   src: url("./assets/Satoshi-Variable.ttf");
@@ -21,7 +22,7 @@
 body {
   margin: 0;
   font-family: "Poppins", sans-serif, "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif,
-    "Satoshi", "DM Sans";
+    "Satoshi", "DM Sans", "satoshiVariable";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: white;

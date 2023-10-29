@@ -41,7 +41,7 @@ function AccordionHeader({ text }) {
   const { isActive, index, onChangeIndex } = useAccordion();
 
   return (
-    <motion.div className={`AccordionHeader ${isActive ? "active" : ""}`} onClick={() => onChangeIndex(index)}>
+    <motion.div className={`AccordionHeader ${isActive ? "active" : ""} w-full`} onClick={() => onChangeIndex(index)}>
       <div style={{ fontFamily: "satoshiVariable" }} className="flex  w-full justify-between align-middle h-full">
         <span style={{ fontFamily: "satoshiVariable" }} className="font-[500] text-[20px]">
           {text}
