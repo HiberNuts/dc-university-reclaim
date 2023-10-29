@@ -9,11 +9,11 @@ import orangeShardeum from "../../assets/orangeShardeum.png";
 
 export default function Community() {
   return (
-    <div className=" heroSection md:flex  items-center flex flex-col w-full justify-center align-middle text-white bg-shardeumBlue">
-      <img className="absolute hidden md:visible md:flex left-44 mt-32" src={orangeShardeum} />
-      <div className="items-center  sm:w-[80%] text-white heroText lg:text-[48px] md:mt-10 md:text-[48px] sm:text-[36px] text-[36px]">
-        <p className="text-center items-center flex justify-center align-middle">Be a part of an Active Community 🌟</p>
-      </div>
+      <div className=" heroSection md:flex  items-center flex flex-col w-full justify-center align-middle text-white bg-shardeumBlue">
+        <img className="absolute hidden md:visible md:flex left-44 mt-32" src={orangeShardeum} />
+        <div className="items-center  sm:w-[80%] text-white heroText lg:text-[48px] md:mt-10 md:text-[48px] sm:text-[36px] text-[36px]">
+          <p className="text-center items-center flex justify-center align-middle">Be a part of an Active Community 🌟</p>
+        </div>
       <div className="subHeading sm:w-[80%] text-center  flex justify-center align-middle leading-[36px] items-center text-white md:text-[18px] sm:[18px] text-[18px]">
         <span className="text-white md:w-[50%] w-[70%] font-satoshi ">
           Connect with like-minded developers on our social platforms. Dive into discussions, share insights, and
