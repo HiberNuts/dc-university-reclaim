@@ -9,9 +9,9 @@ import { HashLink } from "react-router-hash-link";
 import Burger from "./Burger";
 
 import { ProfileDropDown } from "./ProfileDropdown";
-import { Profile } from "../Profile/Profile";
-import { MobileMenu } from "./MobileMenu";
-import { Menu } from "@headlessui/react";
+// import { Profile } from "../Profile/Profile";
+// import { MobileMenu } from "./MobileMenu";
+// import { Menu } from "@headlessui/react";
 
 export default function Header() {
   const location = useLocation();

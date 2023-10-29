@@ -1,110 +1,105 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebook, faTwitter, faLinkedin, faInstagram } from "@fortawesome/free-brands-svg-icons";
+import {
+  faFacebook,
+  faTwitter,
+  faLinkedin,
+  faInstagram,
+} from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 // import nav_logo from "../assets/nav-logo.png";
+import navLogoWhite from "../assets/navlogoWhite.png";
+import heartlogo from "../assets/heartlogo.svg";
+import shardeum from "../assets/shardeum.svg";
+import discord from "../assets/discord.svg";
+import heroLogo from "../assets/heroLogo.png";
+import twitter from "../assets/twitter.svg";
+import github from "../assets/github.svg";
+
+
+import { OrangeButton } from "./button/OrangeButton";
 
 export default function Footer() {
   return (
-    <footer style={{ bottom: "0" }} className=" bg-black pb-2 text-[14px]">
-      <div className="pt-[45px] pr-[50px] pb-[34px] pl-[34px] flex flex-col gap-[40px]">
-        <div className="flex lg:flex-row flex-col-reverse  items-start justify-between gap-[50px]">
-          <div className="flex flex-col justify-between gap-[30px]">
-            <div className="flex gap-[24px] flex-col max-w-[48ch]">
-              <div className=" w-[285px]">
-                <img src={""} alt="" />
+    <div className=" inline-flex flex-col items-center gap-[64px] px-[100px] py-[40px] relative bg-shardeumBlue w-full  text-white ">
+      <div className="flex w-[1240px] items-center justify-between relative flex-[0_0_auto]">
+        <div className="inline-flex flex-col items-start gap-[16px] relative flex-[0_0_auto]">
+          <div className="inline-flex flex-col items-start gap-[12px] relative flex-[0_0_auto]">
+            <div className="inline-flex items-center gap-[10.5px] relative flex-[0_0_auto]">
+              <div className="relative w-[263.03px] h-[30px] mr-[-2.00px]">
+                <img
+                  className="absolute w-[123px] h-[23px] top-[4px] left-0"
+                  alt="Shardeum"
+                  src={shardeum}
+                />
+                <div className="absolute top-0 left-[131px] [font-family:'Satoshi_Variable-MediumItalic',Helvetica] font-medium italic text-white text-[30px] tracking-[0] leading-[30px] whitespace-nowrap">
+                  University
+                </div>
               </div>
-              <p>
-                India's First Learn to Earn (L2E) Platform with Staking, innovative courses, and perks of lifelong
-                learning.
-              </p>
             </div>
-            <div className="text-[#777777]">
-              <p>© 2023 Shardeum . All Rights Reserved.</p>
+            <div className="relative w-fit [font-family:'Satoshi_Variable-Medium',Helvetica] font-medium text-collection-1-primary text-[16px]  text-white  tracking-[0] leading-[24px] whitespace-nowrap">
+              The web3 development platform
             </div>
           </div>
-          <div className="flex xl:gap-[100px] lg:gap-[50px] gap-[30px] sm:flex-row flex-col lg:w-min w-full  justify-between">
-            <div className="flex flex-col items-start gap-[18px]">
-              <p className="truncate text-[18px] font-semibold">NEED HELP ?</p>
-              <ul className="flex flex-col items-start gap-[8px]">
-                <li className="truncate tracking-wide ">
-                  <a href="/">Privacy Policy</a>
-                </li>
-                <li className="truncate tracking-wide ">
-                  <a href="/">Terms & Conditions</a>
-                </li>
-              </ul>
-            </div>
-            <div className="flex flex-col items-start gap-[18px]">
-              <p className="truncate text-[18px] font-semibold">ABOUT US</p>
-              <ul className="flex flex-col items-start gap-[8px]">
-                <li className="truncate tracking-wide ">
-                  <a href="/">About Us</a>
-                </li>
-                <li className="truncate tracking-wide ">
-                  <a href="/community">Community</a>
-                </li>
-                <li className="truncate tracking-wide ">
-                  <a href="/Mentor">Mentorship</a>
-                </li>
-                <li className="truncate tracking-wide ">
-                  <a href="/careers">Career</a>
-                </li>
-              </ul>
-            </div>
-            <div className="flex flex-col items-start gap-[18px]">
-              <p className="truncate text-[18px] font-semibold">CONTACT US</p>
-              <ul className="flex flex-col items-start gap-[8px]">
-                <li className="text-[#1d4ed8] hover:text-black cursor-pointer flex gap-1 items-baseline">
-                  <FontAwesomeIcon icon={faEnvelope} className="fa-xs" />
-                  <p>decentraclasses@gmail.com</p>
-                </li>
-                <li className="text-[#1d4ed8] hover:text-black cursor-pointer flex gap-1 items-baseline">
-                  <FontAwesomeIcon icon={faPhone} className="fa-xs" />
-                  <p>+91 93156 77209</p>
-                </li>
-                <li className="font-semibold text-[16px]">Stay in touch with us</li>
-                <li className="max-w-[34ch]">Leave us your email to get the latest news and updates</li>
-                <li className="flex w-full">
-                  <input
-                    placeholder="Your Email"
-                    className="flex-grow bg-transparent outline-none border-[1px] border-solid border-black border-r-0 text-[12px] px-[12px] tracking-wide"
-                  />
-                  <button className="border-[1px] border-solid border-l-transparent px-[12px] py-[9px] text-[13px] bg-transparent font-semibold text-[#1d4ed8] border-black hover:text-white hover:bg-black transition-all duration-300 truncate">
-                    Subscribe
-                  </button>
-                </li>
-              </ul>
-            </div>
+          <div className="inline-flex items-start gap-[20px] relative">
+            <img
+              className="relative w-[32px] h-[32px]"
+              alt="Discord icon svgrepo"
+              src={discord}
+            />
+            <img
+              className="relative w-[32px] h-[32px]"
+              alt="Twitter icon svgrepo"
+              src={twitter}
+            />
+            <img
+              className="relative w-[32px] h-[32px]"
+              alt="Github icon svgrepo"
+              src={github}
+            />
           </div>
         </div>
-
-        <div className="pt-[25px] py-[5px] border-t-[0.5px] flex items-center text-[16px] gap-[10px] flex-col">
-          <p className="truncate text-[18px] font-semibold">Connect with us</p>
-          <ul className="flex gap-[20px] text-[24px]">
-            <li className="text-[#1d4ed8] hover:text-black">
-              <a href="https://www.facebook.com/decentraclasses/" rel="noreferrer" target="_blank">
-                <FontAwesomeIcon icon={faFacebook} />
-              </a>
-            </li>
-            <li className="text-[#1d4ed8] hover:text-black">
-              <a href="https://twitter.com/decentraclasses" rel="noreferrer" target="_blank">
-                <FontAwesomeIcon icon={faTwitter} />
-              </a>
-            </li>
-            <li className="text-[#1d4ed8] hover:text-black">
-              <a href="https://www.linkedin.com/company/decentraclasses/" rel="noreferrer" target="_blank">
-                <FontAwesomeIcon icon={faLinkedin} />
-              </a>
-            </li>
-            <li className="text-[#1d4ed8] hover:text-black">
-              <a href="https://www.instagram.com/decentraclasses/" rel="noreferrer" target="_blank">
-                <FontAwesomeIcon icon={faInstagram} />
-              </a>
-            </li>
-          </ul>
+        <div className="flex flex-col w-[479px] items-start gap-[12px] relative">
+          <div className="self-stretch mt-[-1.00px] [font-family:'Satoshi_Variable-Bold',Helvetica] font-bold text-collection-1-primary text-[20px] leading-[25px] relative tracking-[0]">
+            Subscribe to Our Newsletter
+          </div>
+          <p className="relative self-stretch opacity-80 [font-family:'Satoshi_Variable-Medium',Helvetica] font-medium text-collection-1-primary text-[16px] tracking-[0] leading-[24px]">
+            The latest news, articles, and resources, sent to your inbox weekly.
+          </p>
+          <div className="inline-flex items-start gap-[16px] relative flex-[0_0_auto]">
+            <div className="flex flex-col w-[245px] h-[42px] items-start justify-center gap-[16px] px-[24px] py-[8px] relative bg-collection-1-primary rounded-[10px] overflow-hidden">
+              <div className="flex flex-col w-[245px] h-[42px] items-start justify-center gap-[16px] px-[24px] py-[8px] relative bg-collection-1-primary rounded-[10px] overflow-hidden">
+                <input
+                  type="text"
+                  className="relative w-fit  text-black  opacity-70 font-family:'Satoshi_Variable-Medium',Helvetica font-medium text-collection-1-text text-[16px] tracking-[0] leading-[24px] whitespace-nowrap border border-gray-200 rounded px-2 py-1.5"
+                  placeholder="Enter your email"
+                />
+              </div>
+            </div>
+            <button className="flex w-[125px] h-[42px] items-center justify-center px-[32px] py-[22px] relative bg-collection-1-accent rounded-[10px] overflow-hidden all-[unset] box-border">
+              <button className="relative w-fit mt-[-11.00px] mb-[-9.00px] ml-[-6.50px] mr-[-6.50px] [font-family:'Satoshi_Variable-Bold',Helvetica] font-bold text-collection-1-primary text-[16px] text-center tracking-[0] leading-[18px] whitespace-nowrap all-[unset] box-border">
+                <OrangeButton title={"Subscribe"} style={"w-40 h-[40px]"} />
+              </button>
+            </button>
+          </div>
         </div>
       </div>
-    </footer>
+      <div className="inline-flex flex-col items-center gap-[20px] relative flex-[0_0_auto]">
+        <div className="relative w-[1240px] h-px bg-[#e8eaff] opacity-70" />
+        <div className="flex w-[1240px] items-start justify-between relative flex-[0_0_auto]">
+          <p className="relative w-fit mt-[-1.00px] [font-family:'Satoshi_Variable-Medium',Helvetica] font-medium text-collection-1-primary text-[16px] tracking-[0] leading-[24px] whitespace-nowrap">
+            © 2023 Shardeum, Inc. All rights reserved.
+          </p>
+          <p className="relative w-fit mt-[-1.00px] [font-family:'Satoshi_Variable-Medium',Helvetica] font-medium text-collection-1-primary text-[16px] text-right tracking-[0] leading-[24px] whitespace-nowrap">
+            Made with ❤️ by Decentraclassroom.com
+          </p>
+          <img
+            className="absolute w-[17px] h-[15px] top-[4px] left-[1023px]"
+            alt="Heart logo"
+            src={heartlogo}
+          />
+        </div>
+      </div>
+    </div>
   );
 }
