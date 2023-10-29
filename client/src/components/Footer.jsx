@@ -1,11 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFacebook,
-  faTwitter,
-  faLinkedin,
-  faInstagram,
-} from "@fortawesome/free-brands-svg-icons";
+import { faFacebook, faTwitter, faLinkedin, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 // import nav_logo from "../assets/nav-logo.png";
 import navLogoWhite from "../assets/navlogoWhite.png";
@@ -16,22 +11,17 @@ import heroLogo from "../assets/heroLogo.png";
 import twitter from "../assets/twitter.svg";
 import github from "../assets/github.svg";
 
-
 import { OrangeButton } from "./button/OrangeButton";
 
 export default function Footer() {
   return (
     <div className=" inline-flex flex-col items-center gap-[64px] px-[100px] py-[40px] relative bg-shardeumBlue w-full  text-white ">
-      <div className="flex w-[1240px] items-center justify-between relative flex-[0_0_auto]">
+      <div className="flex w-full items-center justify-between relative flex-[0_0_auto]">
         <div className="inline-flex flex-col items-start gap-[16px] relative flex-[0_0_auto]">
           <div className="inline-flex flex-col items-start gap-[12px] relative flex-[0_0_auto]">
             <div className="inline-flex items-center gap-[10.5px] relative flex-[0_0_auto]">
               <div className="relative w-[263.03px] h-[30px] mr-[-2.00px]">
-                <img
-                  className="absolute w-[123px] h-[23px] top-[4px] left-0"
-                  alt="Shardeum"
-                  src={shardeum}
-                />
+                <img className="absolute w-[123px] h-[23px] top-[4px] left-0" alt="Shardeum" src={shardeum} />
                 <div className="absolute top-0 left-[131px] [font-family:'Satoshi_Variable-MediumItalic',Helvetica] font-medium italic text-white text-[30px] tracking-[0] leading-[30px] whitespace-nowrap">
                   University
                 </div>
@@ -42,21 +32,9 @@ export default function Footer() {
             </div>
           </div>
           <div className="inline-flex items-start gap-[20px] relative">
-            <img
-              className="relative w-[32px] h-[32px]"
-              alt="Discord icon svgrepo"
-              src={discord}
-            />
-            <img
-              className="relative w-[32px] h-[32px]"
-              alt="Twitter icon svgrepo"
-              src={twitter}
-            />
-            <img
-              className="relative w-[32px] h-[32px]"
-              alt="Github icon svgrepo"
-              src={github}
-            />
+            <img className="relative w-[32px] h-[32px]" alt="Discord icon svgrepo" src={discord} />
+            <img className="relative w-[32px] h-[32px]" alt="Twitter icon svgrepo" src={twitter} />
+            <img className="relative w-[32px] h-[32px]" alt="Github icon svgrepo" src={github} />
           </div>
         </div>
         <div className="flex flex-col w-[479px] items-start gap-[12px] relative">
@@ -85,19 +63,15 @@ export default function Footer() {
         </div>
       </div>
       <div className="inline-flex flex-col items-center gap-[20px] relative flex-[0_0_auto]">
-        <div className="relative w-[1240px] h-px bg-[#e8eaff] opacity-70" />
-        <div className="flex w-[1240px] items-start justify-between relative flex-[0_0_auto]">
-          <p className="relative w-fit mt-[-1.00px] [font-family:'Satoshi_Variable-Medium',Helvetica] font-medium text-collection-1-primary text-[16px] tracking-[0] leading-[24px] whitespace-nowrap">
+        <div className="relative w-full h-px bg-[#e8eaff] opacity-70" />
+        <div className="flex w-[100vh] items-start justify-between relative flex-[0_0_auto]">
+          <p className="relative w-fit  [font-family:'Satoshi_Variable-Medium',Helvetica] font-medium text-collection-1-primary text-[16px] tracking-[0] leading-[24px] whitespace-nowrap">
             © 2023 Shardeum, Inc. All rights reserved.
           </p>
           <p className="relative w-fit mt-[-1.00px] [font-family:'Satoshi_Variable-Medium',Helvetica] font-medium text-collection-1-primary text-[16px] text-right tracking-[0] leading-[24px] whitespace-nowrap">
             Made with ❤️ by Decentraclassroom.com
           </p>
-          <img
-            className="absolute w-[17px] h-[15px] top-[4px] left-[1023px]"
-            alt="Heart logo"
-            src={heartlogo}
-          />
+          {/* <img className="absolute w-[17px] h-[15px] top-[4px] left-[1023px]" alt="Heart logo" src={heartlogo} /> */}
         </div>
       </div>
     </div>
