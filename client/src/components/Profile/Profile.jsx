@@ -8,6 +8,7 @@ import workSVG from "./workSVG.svg";
 import pencil from "../../assets/pencil.png";
 import FeatureCourses from "../Home/FeatureCourses";
 import CourseCard from "../Courses/CourseCard/CourseCard";
+import { useLocation } from "react-router-dom";
 
 const ProfileLinks = ({ img, title }) => {
   return (
@@ -48,9 +49,11 @@ export const Profile = () => {
     localStorage.setItem("userData", JSON.stringify(formData));
   };
 
+  const Location = useLocation();
+
   return (
-    <div className="w-full mt-[100px] flex justify-between align-middle">
-      <div className="bg-shardeumBlue px-14 lg:w-[30%] h-[90vh] fixed rounded-r-xl  flex flex-col align-middle items-center">
+    <div className="w-full mt-[100px]   first-letter:flex justify-between align-middle">
+      <div className="bg-shardeumBlue px-14 lg:w-[30%] h-screen fixed overflow-hidden rounded-r-xl  flex flex-col align-middle items-center">
         <div className="text-white mt-20">
           <img
             className="rounded-[50%] w-[160px] h-[160px] border-2 border-shardeumOrange object-cover"
@@ -77,7 +80,7 @@ export const Profile = () => {
                   required
                 />
               </div>
-              <div class="mb-6">
+              <div className="mb-6">
                 <input
                   type="email"
                   name="email"
@@ -88,7 +91,7 @@ export const Profile = () => {
                   required
                 />
               </div>
-              <div class="mb-6">
+              <div className="mb-6">
                 <input
                   type="text"
                   name="designation"
@@ -99,7 +102,7 @@ export const Profile = () => {
                   required
                 />
               </div>
-              <div class="mb-6">
+              <div className="mb-6">
                 <input
                   type="url"
                   name="portfolioLink"
@@ -140,7 +143,7 @@ export const Profile = () => {
         )}
       </div>
       <div
-        className="lg.w-[70%] ml-[30%] min-h-[90vh] flex justify-center
+        className="lg.w-[70%] ml-[30%] overflow-auto min-h-[90vh] flex justify-center
        align-middle"
       >
         <div className="content  w-full mx-20">
