@@ -48,10 +48,10 @@ export default function Header() {
   }, [location]);
 
   const styleNavEl = `before:bg-white before:left-0 ${
-    homeRoute ? "hover:text-white text-white" : "hover:text-black text-black hover:before:bg-black "
+    homeRoute ? "hover:text-white text-white" : "hover:text-black text-black hover:before:bg-shardeumOrange "
   }  before:transition-transform hover:before:scale-x-100 before:scale-x-0  before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full `;
   const activeNavEl = ` before:left-0 ${
-    homeRoute ? "text-white before:bg-white " : " before:bg-black text-black"
+    homeRoute ? "text-white before:bg-white " : " before:bg-shardeumOrange text-shardeumOrange"
   }   before:transition-transform  before:scale-x-100 before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full`;
   const styleMobileNavEl = "p-3 font-medium";
   const activeMobileNavEl = "bg-white-400 text-white font-medium relative h-full   w-full text-center p-3";
