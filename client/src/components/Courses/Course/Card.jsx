@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 import React, { useContext, useEffect, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import { contractABI, contractAddress } from "../../../contractABI";
 import Confetti from "react-confetti";
 import { Link } from "react-router-dom";
 import { useAccount, useSignMessage } from "wagmi";
@@ -89,8 +88,7 @@ const Card = (props) => {
         address,
         setcourseBought,
         props?.courseInfo?.courseName,
-        props?.courseInfo?.imageurl,
-
+        props?.courseInfo?.imageurl
       );
 
       setloader(false);
