@@ -49,8 +49,10 @@ export const Profile = () => {
   };
 
   return (
-    <div className="w-full mt-[100px] flex justify-between align-middle">
-      <div className="bg-shardeumBlue px-14 lg:w-[30%] h-[90vh] fixed rounded-r-xl  flex flex-col align-middle items-center">
+    <div className="w-full overflow-hidden
+    
+    mt-[100px] h-[100vh] mb-[100vh] flex justify-between align-middle">
+      <div className="bg-shardeumBlue px-14 mb-[100vh] lg:w-[30%] h-full fixed overflow-hidden left-0 rounded-r-xl  flex flex-col align-middle items-center">
         <div className="text-white mt-20">
           <img
             className="rounded-[50%] w-[160px] h-[160px] border-2 border-shardeumOrange object-cover"
@@ -123,10 +125,9 @@ export const Profile = () => {
         ) : (
           <div className={`w-full flex flex-col h-[30%] justify-evenly align-middle items-center`}>
             <div className="flex  flex-col h-full justify-evenly">
-              <ProfileLinks img={linkSVG} title={formData.email} />
+              <ProfileLinks img={linkSVG} title={formData.portfolioLink} />
               <ProfileLinks img={mailSVG} title={formData.email} />
               <ProfileLinks img={workSVG} title={formData.designation} />
-              <ProfileLinks img={workSVG} title={formData.portfolioLink} />
             </div>
             <div className="w-full justify-center align-middle flex">
               <button
@@ -140,7 +141,7 @@ export const Profile = () => {
         )}
       </div>
       <div
-        className="lg.w-[70%] ml-[30%] min-h-[90vh] flex justify-center
+        className="lg.w-[70%] ml-[30%] overflow-auto min-h-[90vh] flex justify-center
        align-middle"
       >
         <div className="content  w-full mx-20">
@@ -156,6 +157,9 @@ export const Profile = () => {
           <div className="flex w-full gap-5 flex-col">
             <p className="text-[24px] font-[600]"> Get Started with Our Courses</p>
             <div className="flex flex-wrap gap-5 w-full items-center justify-center align-middle">
+              <CourseCard />
+              <CourseCard />
+              <CourseCard />
               <CourseCard />
               <CourseCard />
             </div>

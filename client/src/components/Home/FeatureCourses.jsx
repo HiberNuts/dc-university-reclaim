@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
 import "./Home.css";
-import FeaturedCourseCard from "../Courses/featuredCourseCard/FeaturedCourseCard";
 import CourseCard from "../Courses/CourseCard/CourseCard";
 import { motion, useScroll } from "framer-motion";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 export default function FeatureCourses() {
   const scrollRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "0.8 1"] });
@@ -21,7 +21,9 @@ export default function FeatureCourses() {
         </div>
       </div>
       <p className="text-shardeumBlue w-[90%] my-[20px]  cursor-pointer hover:scale-105 flex justify-center align-middle gap-2 text-[20px] font-bold items-center  text-center">
-        View all Courses <FontAwesomeIcon className="mt-1" icon={faAngleRight} />{" "}
+        <Link to="/courses">
+          View all Courses <FontAwesomeIcon className="mt-1" icon={faAngleRight} />{" "}
+        </Link>
       </p>
     </div>
   );
