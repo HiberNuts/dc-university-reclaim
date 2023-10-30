@@ -8,6 +8,7 @@ import workSVG from "./workSVG.svg";
 import pencil from "../../assets/pencil.png";
 import FeatureCourses from "../Home/FeatureCourses";
 import CourseCard from "../Courses/CourseCard/CourseCard";
+import { useLocation } from "react-router-dom";
 
 const ProfileLinks = ({ img, title }) => {
   return (
@@ -48,6 +49,8 @@ export const Profile = () => {
     localStorage.setItem("userData", JSON.stringify(formData));
   };
 
+  const Location = useLocation();
+
   return (
     <div className="w-full overflow-hidden
     
@@ -79,7 +82,7 @@ export const Profile = () => {
                   required
                 />
               </div>
-              <div class="mb-6">
+              <div className="mb-6">
                 <input
                   type="email"
                   name="email"
@@ -90,7 +93,7 @@ export const Profile = () => {
                   required
                 />
               </div>
-              <div class="mb-6">
+              <div className="mb-6">
                 <input
                   type="text"
                   name="designation"
@@ -101,7 +104,7 @@ export const Profile = () => {
                   required
                 />
               </div>
-              <div class="mb-6">
+              <div className="mb-6">
                 <input
                   type="url"
                   name="portfolioLink"

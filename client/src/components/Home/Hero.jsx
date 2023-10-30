@@ -6,7 +6,7 @@ import cube from "../../assets/cube.png";
 
 export default function Hero() {
   return (
-    <div className="relative heroSection md:flex h-[88vh] z-10 flex flex-col w-full justify-between align-middle text-white bg-shardeumBlue sm:rounded-b-[100px]">
+    <div className="relative heroSection md:flex md:h-[88vh] h-[100vh] z-10 flex flex-col w-full justify-between align-middle text-white bg-shardeumBlue sm:rounded-b-[100px]">
       <div className="absolute hidden md:visible lg:visible w-52 h-[88vh] inset-y-0 left-10  align-middle flex-col justify-center">
         <p className="backText h-full text-white items-center text-center z-50 ">SHARDEUM</p>
       </div>
