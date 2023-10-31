@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faFacebook,
-  faTwitter,
-  faLinkedin,
-  faInstagram,
-} from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 // import nav_logo from "../assets/nav-logo.png";
 import navLogoWhite from '../assets/navlogoWhite.png';
-import heartlogo from '../assets/heartlogo.svg';
-import shardeum from '../assets/shardeum.svg';
+
 import discord from '../assets/discord.svg';
-import heroLogo from '../assets/heroLogo.png';
+
 import twitter from '../assets/twitter.svg';
 import github from '../assets/github.svg';
 import { OrangeButton } from './button/OrangeButton';
