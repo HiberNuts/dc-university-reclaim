@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDiscord } from "@fortawesome/free-brands-svg-icons";
+
 export const OrangeButton = ({ title, style, icon, iconRight }) => {
   return (
     <button
