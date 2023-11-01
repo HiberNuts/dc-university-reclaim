@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_course_metadata_what_you_ll_learns",
+  "info": {
+    "displayName": "what you'll learn",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    }
+  }
+}
