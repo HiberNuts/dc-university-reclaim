@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_course_metadata_chapters",
+  "info": {
+    "displayName": "chapter",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "content": {
+      "type": "customField",
+      "options": {
+        "output": "HTML",
+        "preset": "rich"
+      },
+      "customField": "plugin::ckeditor.CKEditor"
+    }
+  }
+}
