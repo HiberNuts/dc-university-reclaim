@@ -37,9 +37,21 @@ export default function Footer() {
             <div className="flex flex-col gap-4">
               <span className="text-white">The web3 development platform</span>
               <div className="flex gap-4">
-                <img className="relative w-[32px] h-[32px]" alt="Discord icon svgrepo" src={discord} />
-                <img className="relative w-[32px] h-[32px]" alt="Discord icon svgrepo" src={twitter} />
-                <img className="relative w-[32px] h-[32px]" alt="Discord icon svgrepo" src={github} />
+                <img
+                  className="relative w-[32px] h-[32px] cursor-pointer transition-all hover:scale-110"
+                  alt="Discord icon svgrepo"
+                  src={discord}
+                />
+                <img
+                  className="relative w-[32px] h-[32px] cursor-pointer transition-all hover:scale-110"
+                  alt="Discord icon svgrepo"
+                  src={twitter}
+                />
+                <img
+                  className="relative w-[32px] h-[32px] cursor-pointer transition-all hover:scale-110"
+                  alt="Discord icon svgrepo"
+                  src={github}
+                />
               </div>
             </div>
           </div>
