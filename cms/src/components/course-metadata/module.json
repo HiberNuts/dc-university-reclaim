@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_course_metadata_modules",
+  "info": {
+    "displayName": "module",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "chapter": {
+      "displayName": "chapter",
+      "type": "component",
+      "repeatable": true,
+      "component": "course-metadata.chapter"
+    },
+    "quizes": {
+      "displayName": "quiz",
+      "type": "component",
+      "repeatable": true,
+      "component": "course-metadata.quiz"
+    }
+  }
+}
