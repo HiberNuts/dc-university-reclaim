@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { OrangeButton } from "../button/OrangeButton";
-import {
-  faCheck,
-  faPencil,
-  faPencilAlt,
-  faSave,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faPencil, faPencilAlt, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import linkSVG from "./linkSVG.svg";
 import mailSVG from "./mailSVG.svg";
@@ -70,10 +65,7 @@ export const Profile = () => {
             alt="user avatar"
           />
           {isEditing === false && (
-            <p
-              style={{ fontFamily: "satoshiVariable" }}
-              className="text-center text-[22px] font-[700] mt-2 "
-            >
+            <p style={{ fontFamily: "satoshiVariable" }} className="text-center text-[22px] font-[700] mt-2 ">
               {formData.name}
             </p>
           )}
@@ -140,9 +132,7 @@ export const Profile = () => {
             </form>
           </div>
         ) : (
-          <div
-            className={`w-full flex flex-col h-[30%] justify-evenly align-middle items-center`}
-          >
+          <div className={`w-full flex flex-col h-[30%] justify-evenly align-middle items-center`}>
             <div className="flex  flex-col h-full justify-evenly">
               <ProfileLinks img={linkSVG} title={formData.portfolioLink} />
               <ProfileLinks img={mailSVG} title={formData.email} />
@@ -169,16 +159,12 @@ export const Profile = () => {
               Welcome, <span className="BlueGradientFade">{formData.name}</span>
             </p>
             <span className="text-[18px] font-[500]">
-              Cras tincidunt lobortis feugiat vivamus at morbi leo urna molestie
-              atole elementum eu facilisis faucibus interdum posuere.elementum
-              eu facilisis faucibus interdum posuere.
+              Cras tincidunt lobortis feugiat vivamus at morbi leo urna molestie atole elementum eu facilisis faucibus
+              interdum posuere.elementum eu facilisis faucibus interdum posuere.
             </span>
           </div>
           <div className="flex w-full gap-5 flex-col">
-            <p className="text-[24px] font-[600]">
-              {" "}
-              Get Started with Our Courses
-            </p>
+            <p className="text-[24px] font-[600]"> Get Started with Our Courses</p>
             <div className="flex flex-wrap gap-5 w-full items-center justify-center align-middle">
               <CourseCard />
               <CourseCard />
