@@ -6,17 +6,11 @@ const Burger = ({ isOpen, setIsOpen }) => {
 
   return (
     <button className="flex flex-col h-10 w-10 justify-center items-center group" onClick={() => setIsOpen(!isOpen)}>
-      <div
-        className={`${genericHamburgerLine} ${
-          isOpen ? "rotate-45 translate-y-3 opacity-100" : "opacity-100"
-        }`}
-      />
+      <div className={`${genericHamburgerLine} ${isOpen ? "rotate-45 translate-y-3 opacity-100" : "opacity-100"}`} />
       <div className={`${genericHamburgerLine} ${isOpen ? "opacity-0" : "opacity-100"}`} />
       <div
-        className={`${genericHamburgerLine} ${
-          isOpen ? "-rotate-45 -translate-y-3 opacity-100" : "opacity-100"
-        }`}
-      />
+        className={`${genericHamburgerLine} ${isOpen ? "-rotate-45 -translate-y-3 opacity-100" : "opacity-100"}`}
+      ></div>
     </button>
   );
 };

@@ -385,14 +385,13 @@ export interface ApiCourseCourse extends Schema.CollectionType {
         'plugin::multi-select.multi-select',
         [
           'Solidity',
-          'Remix IDE',
           'Cryptography',
           'EVM',
           'React JS',
           'Javascript',
           'HTML',
           'CSS',
-          ''
+          'reactjs'
         ]
       >;
     nftImage: Attribute.String;
