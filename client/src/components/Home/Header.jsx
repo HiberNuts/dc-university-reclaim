@@ -48,18 +48,18 @@ export default function Header() {
       const res = await axios.post("http://localhost:8080/api/auth/signin", { email: "lovlyraghav2@gmail.com" });
       if (res?.data?.isVerified == false) {
         navigate("/profile");
+        console.log(res);
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    if (isConnected) {
-      signinUser();
-    }
-  }, [address]);
+  // useEffect(() => {
+  //   if (isConnected) {
+  //     signinUser();
+  //   }
+  // }, [address]);
 
   const styleNavEl = `before:bg-white before:left-0 ${
     homeRoute ? "hover:text-white text-white" : "hover:text-black text-black hover:before:bg-shardeumOrange "
