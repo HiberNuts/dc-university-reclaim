@@ -47,14 +47,13 @@
       "type": "customField",
       "options": [
         "Solidity",
-        "Remix IDE",
         "Cryptography",
         "EVM",
         "React JS",
         "Javascript",
         "HTML",
         "CSS",
-        ""
+        "reactjs"
       ],
       "customField": "plugin::multi-select.multi-select"
     },

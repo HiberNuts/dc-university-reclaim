@@ -12,7 +12,7 @@
     "content": {
       "type": "customField",
       "options": {
-        "output": "HTML",
+        "output": "Markdown",
         "preset": "rich"
       },
       "customField": "plugin::ckeditor.CKEditor"

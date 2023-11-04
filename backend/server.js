@@ -1,10 +1,10 @@
-const express = require('express');
-const cors = require("cors"); 
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:8081"
+  origin: "http://localhost:5173",
 };
 
 app.use(cors(corsOptions));
@@ -14,12 +14,11 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-
-require('./db');
+require("./db");
 // require('./middlewares')
 // routes
-require('./routes/authRoutes')(app);
-require('./routes/userRoutes')(app);
+require("./routes/authRoutes")(app);
+require("./routes/userRoutes")(app);
 
 // simple route
 app.get("/", (req, res) => {
