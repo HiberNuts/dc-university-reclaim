@@ -1,24 +1,38 @@
-import React, { useState, useEffect } from "react";
-import ReactPlayer from "react-player";
-import arrowDown from "./down-arrow.svg";
-import { redirect, useLocation } from "react-router-dom";
-import { getCoursebyId } from "../../utils/PolybaseUtils";
-import { useAccount, useSignMessage } from "wagmi";
-import { InjectedConnector } from "wagmi/connectors/injected";
-import renderHTML from "react-render-html";
-import Markdown from "react-markdown";
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import HTMLRenderer from 'react-html-renderer';
 
 const Courseplace = () => {
-  return (
-    <div className="flex w-full min-h-full justify-between align-middle items-center">
-      <div className="w-[60%] border-3 border-shardeumBlue rounded-md">
-        {/* {renderHTML(
-          '<p style="margin-left:0px;">&nbsp;</p><figure class="image image_resized" style="width:41.72%;"><img style="aspect-ratio:57/57;" src="https://res.cloudinary.com/dn3s8nalf/image/upload/v1698852899/cube_10019_1_3325879e1f.png" alt="cube-10019 1.png" width="57" height="57"></figure><p style="margin-left:0px;">&nbsp;</p><h1 style="margin-left:0px;">Firstly what is an ERC20 token?</h1><p style="margin-left:0px;">The ERC-20 introduces a standard for Fungible Tokens, in other words, they have a property that makes each Token be exactly the same (in type and value) as another Token. For example, an ERC-20 Token acts just like the ETH, meaning that 1 Token is and will always be equal to all the other Tokens.</p><p style="margin-left:0px;">Don’t confuse coin with token, Coin is a digital asset native to its blockchain where as token is not a blockchain but a platform build on the existing blockchain and uses all the features of blockchain. It is also called as utility token used to pay for gas and services. Using ERC20 developers can create own tokens on Ethereum network and perform various operations such as transferring token to a specified account using the address.</p><h2 style="margin-left:0px;">Tokens can signify virtually anything in Ethereum:</h2><ul><li style="margin-left:0px;">adsd</li><li style="margin-left:0px;">fasf</li><li style="margin-left:0px;">asfas</li><li style="margin-left:0px;">fdsfds</li><li style="margin-left:0px;">fsdf</li><li style="margin-left:0px;">dd</li></ul><p style="margin-left:0px;">Hence a token is most versatile element in Ethereum network.</p><p style="margin-left:0px;">Not just ERC20 but Ethereum provides many such token standards to work with each with special use case, for now lets focus on ERC20.</p><p style="margin-left:0px;">For more info on ERC20 click <a href="https://medium.com/crypto-wisdom/erc-20-token-basics-for-crypto-beginners-231f988db36"><strong><u>here</u></strong></a></p><p style="margin-left:0px;"><i>Heads up, openzeppelin has an standard contract to implement ERC20 token which is extensively used by developers and it provides all the basic functionality and you could focus on your application rather than creating a token from scratch. Here i teach you to implement own ERC20 token without help of a external library, so you understand what goes under the hood.</i><a href="https://medium.com/coinmonks/learn-solidity-lesson-29-openzeppelins-implementation-of-the-erc20-token-9739f7ff015a"><i><u> check this out to know how to use the library</u></i></a></p><p style="margin-left:0px;">In this article let me show you how to create your own ERC20 token and perform all the operations on it such as transfer, transferFrom, balanceOf, approve. Today I will be more practical than theoretical.</p><p style="margin-left:0px;"><i>Lessss goooooooo</i></p><p style="margin-left:0px;">&nbsp;</p><pre><code class="language-python">&gt;&gt;&gt; type(true)\nTraceback (most recent call last):\n  File "&lt;pyshell#92&gt;", line 1, in &lt;module&gt;\n    type(true)\nNameError: name \'true\' is not defined\n\n&gt;&gt;&gt; type(false)\nTraceback (most recent call last):\n  File "&lt;pyshell#93&gt;", line 1, in &lt;module&gt;\n    type(false)\nNameError: name \'false\' is not defined</code></pre><p style="margin-left:0px;">Open <a href="https://remix.ethereum.org/"><u>remix</u></a> an IDE specially created to write smart contracts</p><p style="margin-left:0px;">under the contracts tab add a new file called ERC20.sol</p>'
-        )} */}
+  const [moduleContent, setModuleContent] = useState("");
 
-        <Markdown remarkPlugins={[remarkGfm]}>
-              {'![cube-10019 1.png](https://res.cloudinary.com/dn3s8nalf/image/upload/v1698852899/cube_10019_1_3325879e1f.png)\n\n# Firstly what is an ERC20 token?\n\nThe ERC-20 introduces a standard for Fungible Tokens, in other words, they have a property that makes each Token be exactly the same (in type and value) as another Token. For example, an ERC-20 Token acts just like the ETH, meaning that 1 Token is and will always be equal to all the other Tokens.\n\nDon’t confuse coin with token, Coin is a digital asset native to its blockchain where as token is not a blockchain but a platform build on the existing blockchain and uses all the features of blockchain. It is also called as utility token used to pay for gas and services. Using ERC20 developers can create own tokens on Ethereum network and perform various operations such as transferring token to a specified account using the address.\n\n## Tokens can signify virtually anything in Ethereum:\n\n*   adsd\n*   fasf\n*   asfas\n*   fdsfds\n*   fsdf\n*   dd\n\nHence a token is most versatile element in Ethereum network.\n\nNot just ERC20 but Ethereum provides many such token standards to work with each with special use case, for now lets focus on ERC20.\n\nFor more info on ERC20 click [**here**](https://medium.com/crypto-wisdom/erc-20-token-basics-for-crypto-beginners-231f988db36)\n\n_Heads up, openzeppelin has an standard contract to implement ERC20 token which is extensively used by developers and it provides all the basic functionality and you could focus on your application rather than creating a token from scratch. Here i teach you to implement own ERC20 token without help of a external library, so you understand what goes under the hood._ [_check this out to know how to use the library_](https://medium.com/coinmonks/learn-solidity-lesson-29-openzeppelins-implementation-of-the-erc20-token-9739f7ff015a)\n\nIn this article let me show you how to create your own ERC20 token and perform all the operations on it such as transfer, transferFrom, balanceOf, approve. Today I will be more practical than theoretical.\n\n_Lessss goooooooo_\n\n```python\n>>> type(true)\nTraceback (most recent call last):\n  File \"<pyshell#92>\", line 1, in <module>\n    type(true)\nNameError: name 'true' is not defined\n\n```\n\n`>>> type(false)`  \n`Traceback (most recent call last):`  \n `File \"<pyshell#93>\", line 1, in <module>`  \n `type(false)`  \n`NameError: name 'false' is not defined`\n\nOpen [remix](https://remix.ethereum.org/) an IDE specially created to write smart contracts\n\nunder the contracts tab add a new file called ERC20.sol'}
-        </Markdown>
+  useEffect(() => {
+    axios
+      .get('http://localhost:1337/api/courses/1?populate=deep')
+      .then((response) => {
+        const content =
+          response.data?.data?.attributes?.module?.[0]?.chapter?.[0]?.content;
+        console.log(content);
+        if (content) {
+          setModuleContent(content);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
+  return (
+    <div className="flex justify-center align-middle">
+      {/* <div className="flex justify-center align-middle w-[80%] flex-col" dangerouslySetInnerHTML={{ __html: moduleContent }} /> */}
+      <div className="flex justify-center align-middle w-[80%] flex-col">
+        <HTMLRenderer
+          html={moduleContent}
+          components={{
+            h1: props => <h1 className='prose-h1' color="red" {...props} />,
+            // h2: Subheading,
+            // a: Link,
+          }}
+        />
       </div>
     </div>
   );
