@@ -1,34 +1,30 @@
 import React, { useEffect, useState, useRef } from "react";
 import { ethers } from "ethers";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import navLogoBlack from "../../assets/navlogoBlack.png";
 import navLogoWhite from "../../assets/navlogoWhite.png";
 import "./Home.css";
 import { HashLink } from "react-router-hash-link";
 import Burger from "./Burger";
-
+import axios from "axios";
 import { ProfileDropDown } from "./ProfileDropdown";
+import { useAccount } from "wagmi";
 // import { Profile } from "../Profile/Profile";
 // import { MobileMenu } from "./MobileMenu";
 // import { Menu } from "@headlessui/react";
 
 export default function Header() {
+  const navigate = useNavigate();
   const location = useLocation();
   const [homeRoute, sethomeRoute] = useState(true);
-  const [account, setAccount] = useState(null);
+  const { address, isConnected } = useAccount();
+  console.log(address);
+
   const coursesRef = useRef(null);
 
   const scrollToCourses = () => {
     coursesRef.current.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const connectHandler = async () => {
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    const account = ethers.utils.getAddress(accounts[0]);
-    setAccount(account);
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -46,6 +42,24 @@ export default function Header() {
       sethomeRoute(false);
     }
   }, [location]);
+
+  const signinUser = async () => {
+    try {
+      const res = await axios.post("http://localhost:8080/api/auth/signin", { email: "lovlyraghav2@gmail.com" });
+      if (res?.data?.isVerified == false) {
+        navigate("/profile");
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (isConnected) {
+      signinUser();
+    }
+  }, [address]);
 
   const styleNavEl = `before:bg-white before:left-0 ${
     homeRoute ? "hover:text-white text-white" : "hover:text-black text-black hover:before:bg-shardeumOrange "

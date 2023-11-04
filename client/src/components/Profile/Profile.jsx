@@ -52,12 +52,8 @@ export const Profile = () => {
   const Location = useLocation();
 
   return (
-    <div
-      className="w-full overflow-hidden
-    
-    mt-[100px] h-[100vh] mb-[100vh] flex justify-between align-middle"
-    >
-      <div className="bg-shardeumBlue px-14 mb-[100vh] lg:w-[30%] h-full fixed overflow-hidden left-0 rounded-r-xl  flex flex-col align-middle items-center">
+    <div className="w-full  mt-[100px] h-full flex justify-between align-middle">
+      <div className="bg-shardeumBlue px-14 lg:w-[30%] h-[100vh]   left-0 rounded-r-xl  flex flex-col align-middle items-center">
         <div className="text-white mt-20">
           <img
             className="rounded-[50%] w-[160px] h-[160px] border-2 border-shardeumOrange object-cover"
@@ -150,7 +146,7 @@ export const Profile = () => {
         )}
       </div>
       <div
-        className="lg.w-[70%] ml-[30%] overflow-auto min-h-[90vh] flex justify-center
+        className="lg:w-[70%] h-auto flex justify-center
        align-middle"
       >
         <div className="content  w-full mx-20">
@@ -163,9 +159,9 @@ export const Profile = () => {
               interdum posuere.elementum eu facilisis faucibus interdum posuere.
             </span>
           </div>
-          <div className="flex w-full gap-5 flex-col">
+          <div className="flex w-full h-auto gap-5 flex-col">
             <p className="text-[24px] font-[600]"> Get Started with Our Courses</p>
-            <div className="flex flex-wrap gap-5 w-full items-center justify-center align-middle">
+            <div className="flex flex-wrap gap-5 w-full items-center justify-start align-middle">
               <CourseCard />
               <CourseCard />
               <CourseCard />
