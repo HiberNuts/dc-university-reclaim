@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { OrangeButton } from "../button/OrangeButton";
-import { faCheck, faPencil, faPencilAlt, faSave } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import linkSVG from "./linkSVG.svg";
-import mailSVG from "./mailSVG.svg";
-import workSVG from "./workSVG.svg";
-import pencil from "../../assets/pencil.png";
-import FeatureCourses from "../Home/FeatureCourses";
-import CourseCard from "../Courses/CourseCard/CourseCard";
-import { useLocation } from "react-router-dom";
-import { Fragment } from "react";
-import { Listbox, Transition } from "@headlessui/react";
-import { ChevronDownIcon, CheckIcon } from "@heroicons/react/24/outline";
+import React, { useState, useEffect } from 'react';
+
+import {
+  faCheck,
+  faCaretSquareDown,
+  faHandPointRight,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import linkSVG from './linkSVG.svg';
+import mailSVG from './mailSVG.svg';
+import workSVG from './workSVG.svg';
+import pencil from '../../assets/pencil.png';
+
+import CourseCard from '../Courses/CourseCard/CourseCard';
+import { useLocation } from 'react-router-dom';
+import { Fragment } from 'react';
+import { Listbox, Transition } from '@headlessui/react';
+
+// import { ChevronDownIcon, CheckIcon } from "@heroicons/react/24/outline";
 
 const ProfileLinks = ({ img, title }) => {
   return (
@@ -25,15 +30,15 @@ const ProfileLinks = ({ img, title }) => {
 export const Profile = () => {
   const [isEditing, setisEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: "Kiran RV",
-    email: "",
-    designation: "",
-    portfolioLink: "",
+    name: 'Kiran RV',
+    email: '',
+    designation: '',
+    portfolioLink: '',
   });
 
   useEffect(() => {
     // Load user data from local storage when the component mounts
-    const savedData = localStorage.getItem("userData");
+    const savedData = localStorage.getItem('userData');
     if (savedData) {
       setFormData(JSON.parse(savedData));
     }
@@ -49,7 +54,7 @@ export const Profile = () => {
     setisEditing(false);
 
     // Save user data to local storage when the form is submitted
-    localStorage.setItem("userData", JSON.stringify(formData));
+    localStorage.setItem('userData', JSON.stringify(formData));
   };
 
   const Location = useLocation();
@@ -60,11 +65,14 @@ export const Profile = () => {
         <div className="text-white mt-20">
           <img
             className="rounded-[50%] w-[160px] h-[160px] border-2 border-shardeumOrange object-cover"
-            src={"https://api.dicebear.com/7.x/micah/svg?seed=Garfield"}
+            src={'https://api.dicebear.com/7.x/micah/svg?seed=Garfield'}
             alt="user avatar"
           />
           {isEditing === false && (
-            <p style={{ fontFamily: "satoshiVariable" }} className="text-center text-[22px] font-[700] mt-2 ">
+            <p
+              style={{ fontFamily: 'satoshiVariable' }}
+              className="text-center text-[22px] font-[700] mt-2 "
+            >
               {formData.name}
             </p>
           )}
@@ -98,20 +106,22 @@ export const Profile = () => {
                 <Listbox
                   value={formData.designation}
                   onChange={(value) =>
-                    handleChange({ target: { name: "designation", value } })
+                    handleChange({ target: { name: 'designation', value } })
                   }
                 >
                   <div className="relative mt-1">
-                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-gray-50 py-2 pl-3 pr-10 text-left border border-gray-300 text-gray-900 text-sm focus:ring-shardeumOrange focus:border-shardeumOrange shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 bg-white">
-                      <span className="block truncate">
-                        {formData.designation || "Select Designation"}
-                      </span>
-                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                        <ChevronDownIcon
-                          className="h-5 w-5 text-gray-400"
-                          aria-hidden="true"
+                    <Listbox.Button className="relative w-full flex-row cursor-default rounded-lg bg-gray-50 py-2 text-left border border-gray-300 text-gray-900 text-sm focus:ring-shardeumOrange focus:border-shardeumOrange shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 bg-white">
+                      <div className="px-2 flex justify-between align-middle h-full w-full">
+                        <span className="block truncate">
+                          {formData.designation || 'Select Designation'}
+                        </span>
+                        {/* <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"> */}
+                        <FontAwesomeIcon
+                          icon={faCaretSquareDown}
+                          color="black"
                         />
-                      </span>
+                        {/* </span> */}
+                      </div>
                     </Listbox.Button>
                     <Transition
                       as={Fragment}
@@ -119,20 +129,20 @@ export const Profile = () => {
                       leaveFrom="opacity-100"
                       leaveTo="opacity-0"
                     >
-                      <Listbox.Options className=" relative mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 ">
+                      <Listbox.Options className="relative mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 ">
                         {[
-                          "Select Designation",
-                          "Developer",
-                          "Designer",
-                          "Researcher",
+                          'Select Designation',
+                          'Developer',
+                          'Designer',
+                          'Researcher',
                         ].map((designation, index) => (
                           <Listbox.Option
                             key={index}
                             className={({ active }) =>
                               `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                                 active
-                                  ? "bg-shardeumOrange text-white"
-                                  : "text-gray-900"
+                                  ? 'bg-shardeumOrange text-white'
+                                  : 'text-gray-900'
                               }`
                             }
                             value={designation}
@@ -141,17 +151,14 @@ export const Profile = () => {
                               <>
                                 <span
                                   className={`block truncate ${
-                                    selected ? "font-medium" : "font-normal"
+                                    selected ? 'font-medium' : 'font-normal'
                                   }`}
                                 >
                                   {designation}
                                 </span>
                                 {selected && (
-                                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-shardeumOrange">
-                                    <CheckIcon
-                                      className="h-5 w-5"
-                                      aria-hidden="true"
-                                    />
+                                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-shardeumBlue">
+                                    <FontAwesomeIcon icon={faHandPointRight} />
                                   </span>
                                 )}
                               </>
@@ -186,7 +193,9 @@ export const Profile = () => {
             </form>
           </div>
         ) : (
-          <div className={`w-full flex flex-col h-[30%] justify-evenly align-middle items-center`}>
+          <div
+            className={`w-full flex flex-col h-[30%] justify-evenly align-middle items-center`}
+          >
             <div className="flex  flex-col h-full justify-evenly">
               <ProfileLinks img={linkSVG} title={formData.portfolioLink} />
               <ProfileLinks img={mailSVG} title={formData.email} />
@@ -213,12 +222,16 @@ export const Profile = () => {
               Welcome, <span className="BlueGradientFade">{formData.name}</span>
             </p>
             <span className="text-[18px] font-[500]">
-              Cras tincidunt lobortis feugiat vivamus at morbi leo urna molestie atole elementum eu facilisis faucibus
-              interdum posuere.elementum eu facilisis faucibus interdum posuere.
+              Cras tincidunt lobortis feugiat vivamus at morbi leo urna molestie
+              atole elementum eu facilisis faucibus interdum posuere.elementum
+              eu facilisis faucibus interdum posuere.
             </span>
           </div>
           <div className="flex w-full h-auto gap-5 flex-col">
-            <p className="text-[24px] font-[600]"> Get Started with Our Courses</p>
+            <p className="text-[24px] font-[600]">
+              {' '}
+              Get Started with Our Courses
+            </p>
             <div className="flex flex-wrap gap-5 w-full items-center justify-start align-middle">
               <CourseCard />
               <CourseCard />
