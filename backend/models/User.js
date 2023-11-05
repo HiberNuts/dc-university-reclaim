@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema(
     walletAddress: {
       type: String,
       required: true,
-      default: "default"
+      default: "abc123"
     },
     email: {
       type: String,
@@ -30,6 +30,16 @@ const userSchema = new mongoose.Schema(
       type: Object,
       required: true,
       default: []
+    },
+    portfolio: {
+      type: String,
+      required: true,
+      default: "https://sample.com/link"
+    },
+    designation: {
+      type: String,
+      required: true,
+      default: "developer"
     },
     roles: [
       {
