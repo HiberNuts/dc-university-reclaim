@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { OrangeButton } from "../button/OrangeButton";
-import { faCheck, faPencil, faPencilAlt, faSave } from "@fortawesome/free-solid-svg-icons";
+
+import { faCheck, faCaretSquareDown, faHandPointRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import linkSVG from "./linkSVG.svg";
 import mailSVG from "./mailSVG.svg";
 import workSVG from "./workSVG.svg";
 import pencil from "../../assets/pencil.png";
-import FeatureCourses from "../Home/FeatureCourses";
+
 import CourseCard from "../Courses/CourseCard/CourseCard";
 import { useLocation } from "react-router-dom";
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
+
 // import { ChevronDownIcon, CheckIcon } from "@heroicons/react/24/outline";
 
 const ProfileLinks = ({ img, title }) => {
@@ -100,9 +101,13 @@ export const Profile = () => {
                   onChange={(value) => handleChange({ target: { name: "designation", value } })}
                 >
                   <div className="relative mt-1">
-                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-gray-50 py-2 pl-3 pr-10 text-left border border-gray-300 text-gray-900 text-sm focus:ring-shardeumOrange focus:border-shardeumOrange shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 bg-white">
-                      <span className="block truncate">{formData.designation || "Select Designation"}</span>
-                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"></span>
+                    <Listbox.Button className="relative w-full flex-row cursor-default rounded-lg bg-gray-50 py-2 text-left border border-gray-300 text-gray-900 text-sm focus:ring-shardeumOrange focus:border-shardeumOrange shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 bg-white">
+                      <div className="px-2 flex justify-between align-middle h-full w-full">
+                        <span className="block truncate">{formData.designation || "Select Designation"}</span>
+                        {/* <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"> */}
+                        <FontAwesomeIcon icon={faCaretSquareDown} color="black" />
+                        {/* </span> */}
+                      </div>
                     </Listbox.Button>
                     <Transition
                       as={Fragment}
@@ -110,7 +115,7 @@ export const Profile = () => {
                       leaveFrom="opacity-100"
                       leaveTo="opacity-0"
                     >
-                      <Listbox.Options className=" relative mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 ">
+                      <Listbox.Options className="relative mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 ">
                         {["Select Designation", "Developer", "Designer", "Researcher"].map((designation, index) => (
                           <Listbox.Option
                             key={index}
@@ -127,8 +132,8 @@ export const Profile = () => {
                                   {designation}
                                 </span>
                                 {selected && (
-                                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-shardeumOrange">
-                                    <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-shardeumBlue">
+                                    <FontAwesomeIcon icon={faHandPointRight} />
                                   </span>
                                 )}
                               </>

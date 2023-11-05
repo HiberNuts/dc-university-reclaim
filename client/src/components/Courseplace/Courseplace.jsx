@@ -9,7 +9,7 @@ const Courseplace = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:1337/api/courses/4?populate=deep")
+      .get("http://localhost:1337/api/courses/1?populate=deep")
       .then((response) => {
         const content = response.data?.data?.attributes?.module?.[0]?.chapter?.[0]?.content;
         console.log(content);
