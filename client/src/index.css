@@ -11,6 +11,22 @@
   src: url("./assets/Satoshi-Variable.ttf");
 }
 
+
+.animate-scale {
+  animation: scale 1s infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+}
+
+
 :root {
   --blue: #1e90ff;
   --white: #ffffff;

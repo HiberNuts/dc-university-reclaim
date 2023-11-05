@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import ReactPlayer from "react-player";
-import { getCoursebyId } from "../../utils/PolybaseUtils";
-import { useLocation, useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import ReactPlayer from 'react-player';
+import { getCoursebyId } from '../../utils/PolybaseUtils';
+import { useLocation, useParams } from 'react-router-dom';
 
 const Workplace = () => {
   const [courseInfo, setcourseInfo] = useState({});
   const [contentInfo, setcontentInfo] = useState([]);
-  const [videoUrl, setvideoUrl] = useState("");
+  const [videoUrl, setvideoUrl] = useState('');
   let { search } = useLocation();
   const query = new URLSearchParams(search);
-  const userId = query.get("userId");
-  const courseId = query.get("courseId");
+  const userId = query.get('userId');
+  const courseId = query.get('courseId');
   const getCourseData = async () => {
     const data = await getCoursebyId(courseId);
     setcourseInfo(data.data);
@@ -40,7 +40,10 @@ const Workplace = () => {
           </div>
         </div>
         <div className=" relative w-[50%] h-[50px] bg-[#2D3E50] left-[5%] flex justify-around align-center rounded-lg">
-          <input type="text" className="w-[80%] h-[70%] my-2 rounded-lg"></input>
+          <input
+            type="text"
+            className="w-[80%] h-[70%] my-2 rounded-lg"
+          ></input>
           <button className="text-white">Send</button>
         </div>
       </div>
