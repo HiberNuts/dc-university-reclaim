@@ -6,9 +6,11 @@ import levelIcon from "../../../assets/levelIcon.svg";
 import { OrangeButton } from "../../button/OrangeButton";
 import { motion, useScroll } from "framer-motion";
 import { Link } from "react-router-dom";
+import { AbiEncodingArrayLengthMismatchError } from "viem";
 
-const CourseCard = () => {
+const CourseCard = ({ props }) => {
   const scrollRef = useRef(null);
+  console.log(props);
   const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
   return (
     <motion.div
@@ -22,17 +24,11 @@ const CourseCard = () => {
     >
       <div className="image-section h-full flex flex-col justify-evenly  px-[20px]">
         <div className="flex justify-center align-middle items-center">
-          <img
-            className="w-[360px] h-[200px] rounded-[16px]"
-            src="https://gateway.lighthouse.storage/ipfs/QmToDciCFsxxcsrr5qJnszYVH1VWLCF5NSeeJsxZ9Xw3N2"
-          />
+          <img className="w-[360px] h-[200px] rounded-[16px]" src={props.attributes.banner.data[0].attributes.url} />
         </div>
         <div className="description-section flex flex-col justify-center align-middle">
-          <p className="text-[22px] font-bold">How do you clone a Smart Contract?</p>
-          <p className="text-[1rem] ">
-            Ensure rapid development and build powerful Linearly Scalable Dapps with Shardeum Ensure rapid development
-            and build powerful Linearly
-          </p>
+          <p className="text-[22px] font-bold">{props.attributes.title}</p>
+          <p className="text-[1rem] ">{props.attributes.description}</p>
         </div>
         <div className="description-section flex flex-col w-full">
           <div className="flex ">
@@ -41,14 +37,14 @@ const CourseCard = () => {
               src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
               alt=""
             />
-            <p className="text-[18px] items-center text-center font-semibold ml-2">Raghav Jindal</p>
+            <p className="text-[18px] items-center text-center font-semibold ml-2">Shardeum</p>
           </div>
           <div className="flex justify-evenly align-middle w-full"></div>
         </div>
         <div className="flex w-full justify-evenly align-middle">
           <div className="flex gap-2">
             <img className="w-5 h-5 mt-1" src={timeIcon} />
-            <span>5 Hrs</span>
+            <span>{props.attributes.duration} hrs</span>
           </div>
           <p>|</p>
           <div className="flex gap-2">
@@ -58,10 +54,10 @@ const CourseCard = () => {
           <p>|</p>
           <div className="flex gap-2">
             <img className="w-5 h-5 mt-1" src={levelIcon} />
-            <span>Begineer</span>
+            <span>{props.attributes.level}</span>
           </div>
         </div>
-        <Link to="/1">
+        <Link to={`/course/${props.attributes.title.split(" ").join("-")}`}>
           <OrangeButton title={"Start Learning"} style={"w-full h-[40px]"} />
         </Link>
       </div>

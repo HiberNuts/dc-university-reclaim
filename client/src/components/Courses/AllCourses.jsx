@@ -1,34 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import SkeletonLoader from "./SkeletonLoader";
 import { Toaster, toast } from "react-hot-toast";
-import { getAllCourses } from "../../utils/PolybaseUtils";
-import bgLogo from "../../assets/allcoursebg.png";
-import { motion } from "framer-motion";
-import { slideAnimateVariants } from "../animate/animate";
-import { OrangeButton } from "../button/OrangeButton";
 import CourseCard from "./CourseCard/CourseCard";
+import { ParentContext } from "../../contexts/ParentContext";
 
 export default function AllCourses() {
-  const [courseData, setcourseData] = useState([]);
-  const [loader, setloader] = useState(true);
-  const [searchNotFound, setsearchNotFound] = useState(false);
-
-  const [query, setQuery] = useState("");
-
-  const getCourseData = async () => {
-    setloader(true);
-    const data = await getAllCourses();
-    let arr = [];
-    data.forEach((d) => {
-      arr.push(d.data);
-    });
-    setcourseData(arr);
-    setloader(false);
-  };
-
-  useEffect(() => {
-    getCourseData();
-  }, []);
+  const { allCourseMetaInfo } = useContext(ParentContext);
+  const [Query, setQuery] = useState("");
 
   const BGlogoSVG = ({ props }) => {
     return (
@@ -82,13 +60,19 @@ export default function AllCourses() {
           </div>
         </div>
         <div className="all-course mt-[72px] mb-[72px] w-full items-center flex justify-center align-middle">
-          <div className="flex flex-wrap justify-evenly gap-y-[72px]">
-            <CourseCard />
-            <CourseCard />
-            <CourseCard />
-            <CourseCard />
-            <CourseCard />
-            <CourseCard />
+          <div className="flex flex-wrap w-full justify-evenly gap-y-[72px]">
+            {allCourseMetaInfo &&
+              allCourseMetaInfo
+                ?.filter((course) => {
+                  if (Query == "") {
+                    return course;
+                  } else if (course.attributes.title.toLowerCase().includes(Query.toLowerCase())) {
+                    return course;
+                  }
+                })
+                ?.map((course, index) => {
+                  return <CourseCard key={index} props={course} />;
+                })}
           </div>
         </div>
       </div>

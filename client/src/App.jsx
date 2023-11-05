@@ -24,9 +24,8 @@ function App() {
         <Route exact path="/" element={<Home />} />
         {/*Error Pages*/}
         <Route path="/courses" element={<AllCourses />} />
-        <Route path="/course/:id" element={<Course />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/1" element={<CourseDescription />} />
+        <Route path="/course/:id" element={<CourseDescription />} />
 
         {/*Main Routes*/}
         {/*Private route section*/}

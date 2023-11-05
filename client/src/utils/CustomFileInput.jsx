@@ -40,20 +40,7 @@ const CustomFileInput = ({ selectedFiles, setSelectedFiles }) => {
       )}
 
       <div>
-        {/* <div>{selectedFiles}</div> */}
-        {/* {!!selectedFiles && (
-          <div style={{ width: "50%" }} className="p-4 mt-4 bg-violet-500 overflow-hidden text-ellipsis">
-            <p className="text-white">Selected Files:</p>
-            {selectedFiles.files.item(0)}
-            {selectedFiles.map((file, i) => {
-              return (
-                <span key={i} className="text-white whitespace-nowrap">
-                  {file.name}
-                </span>
-              );
-            })}
-          </div>
-        )} */}
+        
       </div>
     </div>
   );

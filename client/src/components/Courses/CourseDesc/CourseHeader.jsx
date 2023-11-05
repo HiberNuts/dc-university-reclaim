@@ -9,7 +9,8 @@ import { faDiscord, faGithub, faTwitter } from "@fortawesome/free-brands-svg-ico
 import { faAngleRight, faX } from "@fortawesome/free-solid-svg-icons";
 import { OrangeButton } from "../../button/OrangeButton";
 
-const CourseHeader = () => {
+const CourseHeader = ({ props }) => {
+  console.log(props);
   return (
     <div className="flex  mt-[66px] h-[90vh] lg:h-auto flex-wrap w-[80%] justify-between gap-8 align-middle">
       <div className="description-div lg:flex-1 flex-wrap flex flex-col justify-between">
@@ -28,13 +29,9 @@ const CourseHeader = () => {
               WebkitTextFillColor: "transparent",
             }}
           >
-            <p className=" ">Blockchain Basics</p>
+            <p className=" ">{props?.attributes?.title}</p>
           </div>
-          <p className="text-[18px] mt-6 font-[500]">
-            The visual guide will provide a view to the customer of what their website or project will end up looking
-            like. The visual guide will provide a view to the customer of what their website or project will end up
-            looking like.
-          </p>
+          <p className="text-[18px] mt-6 font-[500]">{props?.attributes?.description}</p>
         </div>
         <div className="author-div flex ">
           <div className="flex ">
@@ -50,7 +47,7 @@ const CourseHeader = () => {
           <div className="flex gap-4">
             <div className="flex gap-2">
               <img className="w-5 h-5 mt-1" src={timeIcon} />
-              <span>5 Hrs</span>
+              <span>{props?.attributes?.duration} Hrs</span>
             </div>
             <p>|</p>
             <div className="flex gap-2">
@@ -60,15 +57,15 @@ const CourseHeader = () => {
             <p>|</p>
             <div className="flex gap-2">
               <img className="w-5 h-5 mt-1" src={levelIcon} />
-              <span>Begineer</span>
+              <span>{props?.attributes?.level}</span>
             </div>
           </div>
         </div>
         <OrangeButton style={"w-52 h-12 "} title={"Start Course"} iconRight={faAngleRight} />
       </div>
-      <div className="banner-div lg:flex-1 flex justify-center align-middle">
-        <div className="w-[100%] h-[400px] ">
-          <img className="rounded-xl w-full h-full" src={top} />
+      <div className="banner-div  lg:flex-1 flex justify-center align-middle">
+        <div className="w-[100%] sm:h-[400px]  ">
+          <img className="rounded-xl w-full h-full" src={props?.attributes?.banner.data[0].attributes.url} />
         </div>
       </div>
     </div>

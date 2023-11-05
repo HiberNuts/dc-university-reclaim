@@ -1,9 +1,6 @@
 import React, { useLayoutEffect, useState } from "react";
 import grid from "../../../assets/Grid.png";
 
-const text =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore etdolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip exea commodo consequat. aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitationullamco laboris nisi ut aliquip ex ea commodo consequat. aliqua. Ut enim ad minim veniam, quis nostrudexercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
-
 const useTruncatedElement = ({ ref }) => {
   const [isTruncated, setIsTruncated] = useState(false);
   const [isShowingMore, setIsShowingMore] = useState(false);
@@ -27,7 +24,7 @@ const useTruncatedElement = ({ ref }) => {
   };
 };
 
-const CourseAbout = () => {
+const CourseAbout = ({ props }) => {
   const ref = React.useRef(null);
   const { isTruncated, isShowingMore, toggleIsShowingMore } = useTruncatedElement({
     ref,
@@ -44,7 +41,7 @@ const CourseAbout = () => {
         </div>
         <div className="md:w-[80%] transition ease-in-out delay-150">
           <p ref={ref} className={`font-[500] text-[18px] break-words  ${!isShowingMore && "line-clamp-4"}`}>
-            {text}
+            {props ? props : ""}
           </p>
           {isTruncated && (
             <button
