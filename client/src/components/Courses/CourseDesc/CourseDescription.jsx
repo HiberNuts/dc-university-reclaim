@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, useRef } from "react";
+import React, { useLayoutEffect, useState, useRef, useContext, useEffect } from "react";
 import { OrangeButton } from "../../button/OrangeButton";
 import image1 from "../../../assets/image1.png";
 import timeIcon from "../../../assets/timeIcon.svg";
@@ -17,16 +17,34 @@ import CourseLearn from "./CourseLearn";
 import Acordian from "../../Accordian/Acordian";
 import CourseFAQ from "./CourseFAQ";
 import CourseCertificate from "./CourseCertificate";
+import { useLocation, useParams } from "react-router-dom";
+import { ParentContext } from "../../../contexts/ParentContext";
+import { getCoursebyName } from "../../../utils/api/CourseAPI";
 
 const CourseDescription = () => {
+  const params = useParams();
+  const [courseData, setcourseData] = useState({});
+  const { getCourseByName } = useContext(ParentContext);
+
+  const getCourseInfo = async () => {
+    const data = await getCoursebyName(params?.id);
+    setcourseData(data);
+    console.log(data);
+  };
+  console.log(courseData);
+
+  useEffect(() => {
+    getCourseInfo();
+  }, [params]);
+
   return (
     <div className="w-full justify-center items-center gap-[100px] align-middle flex flex-col">
-      <CourseHeader />
-      <CourseAbout />
-      <CourseSkills />
-      <CourseLearn />
+      <CourseHeader props={courseData[0]} />
+      <CourseAbout props={courseData[0]?.attributes?.aboutCourse} />
+      <CourseSkills props={courseData[0]?.attributes?.skills} />
+      <CourseLearn props={courseData[0]?.attributes?.whatYouLearn} />
       <CourseCertificate />
-      <CourseFAQ />
+      <CourseFAQ props={courseData[0]?.attributes?.faq} />
     </div>
   );
 };
