@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import { faCheck, faCaretSquareDown, faHandPointRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,6 +11,7 @@ import CourseCard from "../Courses/CourseCard/CourseCard";
 import { useLocation } from "react-router-dom";
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
+import { ParentContext } from "../../contexts/ParentContext";
 
 // import { ChevronDownIcon, CheckIcon } from "@heroicons/react/24/outline";
 
@@ -31,6 +32,7 @@ export const Profile = () => {
     designation: "",
     portfolioLink: "",
   });
+  const { allCourseMetaInfo } = useContext(ParentContext);
 
   useEffect(() => {
     // Load user data from local storage when the component mounts
@@ -202,11 +204,10 @@ export const Profile = () => {
           <div className="flex w-full h-auto gap-5 flex-col">
             <p className="text-[24px] font-[600]"> Get Started with Our Courses</p>
             <div className="flex flex-wrap gap-5 w-full items-center justify-start align-middle">
-              <CourseCard />
-              <CourseCard />
-              <CourseCard />
-              <CourseCard />
-              <CourseCard />
+              {allCourseMetaInfo &&
+                allCourseMetaInfo?.map((course, index) => {
+                  return <CourseCard key={index} props={course} />;
+                })}
             </div>
           </div>
         </div>

@@ -44,7 +44,7 @@ export default function Header() {
 
   const signinUser = async () => {
     try {
-      const res = await axios.post("http://localhost:8080/api/auth/signin", { email: "lovlyraghav2@gmail.com" });
+      const res = await axios.post("http://localhost:8080/api/auth/signin", { email: "lovlyraghav4@gmail.com" });
       if (res?.data?.isVerified == false) {
         navigate("/profile");
         console.log(res);

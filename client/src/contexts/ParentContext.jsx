@@ -8,10 +8,13 @@ export const ParentContext = createContext("");
 export const ParentProvider = ({ children }) => {
   const [allCourseMetaInfo, setallCourseMetaInfo] = useState([]);
 
+  const [courseLoading, setcourseLoading] = useState(false);
+
   const getAllCourseMetaInfo = async () => {
+    setcourseLoading(true);
     const data = await getAllCourse();
     setallCourseMetaInfo(data);
-    console.log(data);
+    setcourseLoading(false);
   };
 
   const getCourseByName = async (title) => {

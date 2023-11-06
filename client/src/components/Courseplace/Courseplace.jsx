@@ -29,15 +29,7 @@ const Courseplace = () => {
         <HTMLRenderer
           html={moduleContent}
           components={{
-            // figure: (props) => <div className=""> {props.children}</div>,
-            // h2: (props) => <H2 {...props} />,
-            // h3: (props) => <H3 {...props} />,
-            // h4: (props) => <H4 {...props} />,
-            // ul: (props) => <UL {...props} />,
-            // ol: (props) => <OL {...props} />,
-            // li: (props) => <LI {...props} />,
-            // h2: Subheading,
-            // a: Link,
+            
           }}
         />
       </div>
