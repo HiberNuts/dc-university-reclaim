@@ -4,8 +4,14 @@ import HTMLRenderer from "react-html-renderer";
 
 import "./CoursePlace.scss";
 import { H1 } from "./customCourseElement";
+import hljs from 'highlight.js';
+
 const Courseplace = () => {
   const [moduleContent, setModuleContent] = useState("");
+  useEffect(() => {
+    hljs.highlightAll();
+    
+  });
 
   useEffect(() => {
     axios
@@ -23,7 +29,9 @@ const Courseplace = () => {
   }, []);
 
   return (
+    
     <div className="flex  justify-center align-middle">
+    
       {/* <div className="flex justify-center align-middle w-[80%] flex-col" dangerouslySetInnerHTML={{ __html: moduleContent }} /> */}
       <div className="flex text-[20px] courseContent justify-center align-middle w-[80%] flex-col ">
         <HTMLRenderer
@@ -34,6 +42,7 @@ const Courseplace = () => {
         />
       </div>
     </div>
+
   );
 };
 
