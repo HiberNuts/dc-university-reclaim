@@ -24,5 +24,7 @@ module.exports = function(app) {
   app.get("/api/auth/confirmation", controller.confirmation);
   app.post("/api/auth/resend", controller.resend);
 
+  app.put("/api/auth/update", controller.update);
+
 
 };
