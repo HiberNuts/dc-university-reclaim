@@ -19,7 +19,6 @@ export default function Header() {
   const location = useLocation();
   const [homeRoute, sethomeRoute] = useState(true);
   const { address, isConnected } = useAccount();
-  console.log(address);
 
   const coursesRef = useRef(null);
 

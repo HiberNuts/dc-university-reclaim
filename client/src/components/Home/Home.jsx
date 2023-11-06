@@ -1,6 +1,5 @@
 import React from "react";
 import Main from "./Main";
-import SmoothScroll from "../SmoothScroll";
 
 export default function Home() {
   return (
