@@ -27,13 +27,13 @@ function App() {
         {/*Error Pages*/}
         <Route path="/courses" element={<AllCourses />} />
         <Route path="/course/:id" element={<Course />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path="/coursepage" element={<CoursePage />} />
         <Route path="/1" element={<CourseDescription />} />
 
         {/*Main Routes*/}
         {/*Private route section*/}
         <Route exact path="/" element={<PrivateRoute />}>
+          <Route path="/profile" element={<Profile />} />
           <Route path="/workplace" element={<Courseplace />} />
         </Route>
         <Route component={RedirectAs404}></Route>

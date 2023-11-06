@@ -40,6 +40,7 @@ exports.signup = async (req, res) => {
     user.roles = roles.map((role) => role._id);
     await user.save();
 
+    console.log(user);
 
     let token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString("hex") });
     await token.save();
@@ -116,7 +117,7 @@ exports.update = async (req, res) => {
   try {
     const userIdQuery = req.query.userid;
     let user = await User.findOne({ _id: userIdQuery }).populate("roles", "-__v");
-
+    console.log(req.body)
     for (let key in req.body) {
       if (key in user) {
         console.log(key, user[key], req.body[key]);
@@ -143,6 +144,34 @@ exports.update = async (req, res) => {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
   }
 }
+
+exports.getUserData = async (req, res) => {
+  try {
+    const userIdQuery = req.query.userid;
+    const user = await User.findOne({ _id: userIdQuery }).populate("roles", "-__v");
+    
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    const authorities = user.roles.map((role) => "ROLE_" + role.name.toUpperCase());
+
+    res.status(200).send({
+      type: "user-data",
+      id: user._id,
+      username: user.username,
+      email: user.email,
+      isVerified: user.isVerified,
+      walletAddress: user.walletAddress,
+      roles: authorities,
+      designation: user.designation,
+      portfolio: user.portfolio,
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message || "Internal Server Error", error });
+  }
+}
+
 
 exports.confirmation = async (req, res) => {
   try {

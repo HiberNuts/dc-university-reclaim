@@ -45,8 +45,8 @@ export default function Header() {
 
   const signinUser = async () => {
     try {
-      const res = await axios.post("http://localhost:8080/api/auth/signin", { email: "lovlyraghav2@gmail.com" });
-      if (res?.data?.isVerified == false) {
+      const res = await axios.post("http://localhost:8080/api/auth/signin", { walletAddress:address });
+      if (res?.data?.email === "default") {
         navigate("/profile");
         console.log(res);
       }
@@ -55,11 +55,11 @@ export default function Header() {
     }
   };
 
-  // useEffect(() => {
-  //   if (isConnected) {
-  //     signinUser();
-  //   }
-  // }, [address]);
+  useEffect(() => {
+    if (isConnected) {
+      signinUser();
+    }
+  }, [address]);
 
   const styleNavEl = `before:bg-white before:left-0 ${
     homeRoute ? "hover:text-white text-white" : "hover:text-black text-black hover:before:bg-shardeumOrange "
