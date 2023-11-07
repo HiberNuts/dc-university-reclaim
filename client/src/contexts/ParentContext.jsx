@@ -13,7 +13,7 @@ export const ParentProvider = ({ children }) => {
   const getAllCourseMetaInfo = async () => {
     setcourseLoading(true);
     const data = await getAllCourse();
-    setallCourseMetaInfo(data);
+    setallCourseMetaInfo(data ? data : []);
     setcourseLoading(false);
   };
 
