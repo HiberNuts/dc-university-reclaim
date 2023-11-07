@@ -39,6 +39,7 @@ export interface CourseMetadataModule extends Schema.Component {
   attributes: {
     chapter: Attribute.Component<'course-metadata.chapter', true>;
     quizes: Attribute.Component<'course-metadata.quiz', true>;
+    moduleTitle: Attribute.String;
   };
 }
 

@@ -17,6 +17,9 @@
       "type": "component",
       "repeatable": true,
       "component": "course-metadata.quiz"
+    },
+    "moduleTitle": {
+      "type": "string"
     }
   }
 }
