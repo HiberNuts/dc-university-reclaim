@@ -19,12 +19,10 @@ export const getAllCourse = async () => {
 export const getCoursebyName = async (title) => {
   try {
     const { data } = await axios.get(
-      `${import.meta.env.VITE_CMS_URL}/courses?filters[title][$eq]=${title
-        .split("-")
-        .join(" ")}&populate[whatYouLearn][populate]=*&populate[faq][populate]=*&populate[banner][populate]=*`
+      `${import.meta.env.VITE_CMS_URL}/courses?filters[title][$eq]=${title.split("-").join(" ")}&populate=deep`
     );
     if (data) {
-      return data.data;
+      return data.data[0];
     }
   } catch (error) {
     toast.error("Something went wrong");

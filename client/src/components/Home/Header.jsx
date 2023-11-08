@@ -54,11 +54,7 @@ export default function Header() {
     }
   };
 
-  // useEffect(() => {
-  //   if (isConnected) {
-  //     signinUser();
-  //   }
-  // }, [address]);
+  console.log(location.pathname);
 
   const styleNavEl = `before:bg-white before:left-0 ${
     homeRoute ? "hover:text-white text-white" : "hover:text-black text-black hover:before:bg-shardeumOrange "
@@ -76,7 +72,7 @@ export default function Header() {
   return (
     <header
       className={`header border-b-4 border-gray w-full  ${homeRoute ? "bg-shardeumBlue" : "bg-white"} ${
-        location.pathname == "/profile" ? "fixed" : ""
+        location.pathname.includes("/workplace") ? "fixed" : ""
       } `}
     >
       <nav className="p-6 lg:mx-48 md:mx-8 items-center text-center h-full ">
