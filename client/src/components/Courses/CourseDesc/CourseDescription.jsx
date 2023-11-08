@@ -29,9 +29,7 @@ const CourseDescription = () => {
   const getCourseInfo = async () => {
     const data = await getCoursebyName(params?.id);
     setcourseData(data);
-    console.log(data);
   };
-  console.log(courseData);
 
   useEffect(() => {
     getCourseInfo();
@@ -39,12 +37,12 @@ const CourseDescription = () => {
 
   return (
     <div className="w-full justify-center items-center gap-[100px] align-middle flex flex-col">
-      <CourseHeader props={courseData[0]} />
-      <CourseAbout props={courseData[0]?.attributes?.aboutCourse} />
-      <CourseSkills props={courseData[0]?.attributes?.skills} />
-      <CourseLearn props={courseData[0]?.attributes?.whatYouLearn} />
+      <CourseHeader props={courseData ? courseData : {}} />
+      <CourseAbout props={courseData?.attributes?.aboutCourse} />
+      <CourseSkills props={courseData?.attributes?.skills} />
+      <CourseLearn props={courseData?.attributes?.whatYouLearn} />
       <CourseCertificate />
-      <CourseFAQ props={courseData[0]?.attributes?.faq} />
+      <CourseFAQ props={courseData?.attributes?.faq} />
     </div>
   );
 };

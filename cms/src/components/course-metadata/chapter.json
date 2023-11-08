@@ -16,6 +16,9 @@
         "preset": "rich"
       },
       "customField": "plugin::ckeditor.CKEditor"
+    },
+    "videoUrl": {
+      "type": "string"
     }
   }
 }

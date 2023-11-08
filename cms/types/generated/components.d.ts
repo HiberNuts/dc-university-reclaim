@@ -16,6 +16,7 @@ export interface CourseMetadataChapter extends Schema.Component {
           preset: 'rich';
         }
       >;
+    videoUrl: Attribute.String;
   };
 }
 
