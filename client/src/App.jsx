@@ -26,7 +26,6 @@ function App() {
         {/*Error Pages*/}
         <Route path="/courses" element={<AllCourses />} />
         <Route path="/course/:id" element={<Course />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path="/course/:id" element={<CourseDescription />} />
         <Route path="/coursepage" element={<CoursePage />} />
 
@@ -38,7 +37,7 @@ function App() {
        
         </Route>
         <Route component={RedirectAs404}></Route>
-      </Routes>
+      </Routes> 
 
       <Footer />
     </>

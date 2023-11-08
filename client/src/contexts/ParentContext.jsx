@@ -7,13 +7,14 @@ export const ParentContext = createContext("");
 
 export const ParentProvider = ({ children }) => {
   const [allCourseMetaInfo, setallCourseMetaInfo] = useState([]);
-
+  const [loggedInUserData, setloggedInUserData] = useState({})
+const [userDataIsUpdated, setuserDataIsUpdated] = useState(false)
   const [courseLoading, setcourseLoading] = useState(false);
 
   const getAllCourseMetaInfo = async () => {
     setcourseLoading(true);
-    const data = await getAllCourse();
-    setallCourseMetaInfo(data);
+    const data = await getAllCourse();    
+    setallCourseMetaInfo(data?data:[]);
     setcourseLoading(false);
   };
 
@@ -30,5 +31,5 @@ export const ParentProvider = ({ children }) => {
     getAllCourseMetaInfo();
   }, []);
 
-  return <ParentContext.Provider value={{ allCourseMetaInfo, getCourseByName }}>{children}</ParentContext.Provider>;
+  return <ParentContext.Provider value={{ allCourseMetaInfo,loggedInUserData,setloggedInUserData, getCourseByName,userDataIsUpdated,setuserDataIsUpdated }}>{children}</ParentContext.Provider>;
 };
