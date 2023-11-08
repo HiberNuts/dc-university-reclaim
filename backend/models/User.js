@@ -10,7 +10,8 @@ const chapterSchema = new mongoose.Schema({
     type: String,
     enum: ['none', 'partial', 'full'],
     default: 'none'
-  }
+  },
+  strapiId: Number
 });
 
 const quizSchema = new mongoose.Schema({
@@ -26,7 +27,8 @@ const quizSchema = new mongoose.Schema({
   answer: {
     type: String,
     enum: ['a', 'b', 'c', 'd']
-  }
+  },
+  strapiId: Number
 });
 
 const moduleSchema = new mongoose.Schema({
@@ -40,7 +42,8 @@ const moduleSchema = new mongoose.Schema({
     default: 'none'
   },
   chapters: [chapterSchema],
-  quizzes: [quizSchema]
+  quizzes: [quizSchema],
+  strapiId: Number
 });
 
 const enrolledCourseSchema = new mongoose.Schema({

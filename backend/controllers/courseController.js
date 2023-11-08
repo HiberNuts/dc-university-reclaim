@@ -66,6 +66,7 @@ exports.syncData = async (req, res) => {
           chapter: moduleItem.chapter.map(chapterItem => ({
             title: chapterItem.title,
             content: chapterItem.content,
+            strapiId: chapterItem.id
           })),
           quizzes: moduleItem.quizes.map(quizItem => ({
             quizTitle: quizItem.quizTitle,
@@ -74,7 +75,9 @@ exports.syncData = async (req, res) => {
             c: quizItem.c,
             d: quizItem.d,
             answer: quizItem.answer,
+            strapiId: quizItem.id
           })),
+          strapiId: moduleItem.id
         })),
       };
 
@@ -84,7 +87,7 @@ exports.syncData = async (req, res) => {
           { $set: courseDetails },
           { new: true }
         );
-        console.log("course updated:", updatedCourse._id)
+        console.log("course updated:", updatedCourse._id);
         continue;
       }
 
