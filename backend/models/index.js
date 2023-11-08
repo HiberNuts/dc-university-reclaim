@@ -8,6 +8,7 @@ db.mongoose = mongoose;
 db.user = require("./User");
 db.userToken = require("./UserToken")
 db.role = require("./Role");
+db.course = require("./Course");
 
 db.ROLES = ["user", "admin", "moderator"];
 
