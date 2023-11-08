@@ -176,7 +176,7 @@ exports.confirmation = async (req, res) => {
 
 exports.resend = async (req, res) => {
   try {
-    const userIdQuery = req.query.userid;
+    const userIdQuery = req.query.userId;
     const user = await User.findOne({ _id: userIdQuery });
 
     let token = await Token.findOne({ __userId: user._id });
@@ -205,3 +205,16 @@ exports.resend = async (req, res) => {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
   }
 };
+
+exports.getUser = async(req, res) => {
+  try {
+    const userIdQuery = req.query.userId;
+    const user = await User.findOne({ _id: userIdQuery }).populate("roles", "-__v");;
+
+    console.log(user);
+
+    res.status(200).send(user)
+  } catch (error) {
+    res.status(500).send({ message: error.message || "Internal Server Error", error });
+  }
+}

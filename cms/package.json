@@ -9,7 +9,6 @@
     "build": "strapi build",
     "strapi": "strapi"
   },
-  "devDependencies": {},
   "dependencies": {
     "@ckeditor/strapi-plugin-ckeditor": "^0.0.10",
     "@strapi/plugin-i18n": "4.15.0",
@@ -17,6 +16,7 @@
     "@strapi/provider-upload-cloudinary": "^4.15.0",
     "@strapi/strapi": "4.15.0",
     "better-sqlite3": "8.6.0",
+    "sharp": "^0.32.6",
     "strapi-plugin-multi-select": "^1.2.2",
     "strapi-plugin-populate-deep": "^3.0.0"
   },
