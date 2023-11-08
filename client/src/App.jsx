@@ -28,7 +28,7 @@ function App() {
         <Route path="/course/:id" element={<Course />} />
         <Route path="/course/:id" element={<CourseDescription />} />
         <Route path="/coursepage" element={<CoursePage />} />
-        <Route path="/courseplace" element={<Courseplace />} />
+        <Route path="/courseplace" element={<Courseplace />} />     
 
         {/*Main Routes*/}
         {/*Private route section*/}
