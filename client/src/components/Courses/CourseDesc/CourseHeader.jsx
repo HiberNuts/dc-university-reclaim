@@ -8,9 +8,12 @@ import orangeShardeum from "../../../assets/orangeShardeum.png";
 import { faDiscord, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faAngleRight, faX } from "@fortawesome/free-solid-svg-icons";
 import { OrangeButton } from "../../button/OrangeButton";
+import { Link, useNavigate } from "react-router-dom";
+
+import { generateSlug } from "../../../utils/generateSlug";
 
 const CourseHeader = ({ props }) => {
-  console.log(props);
+  const navigate = useNavigate();
   return (
     <div className="flex  mt-[66px] h-[90vh] lg:h-auto flex-wrap w-[80%] justify-between gap-8 align-middle">
       <div className="description-div lg:flex-1 flex-wrap flex flex-col justify-between">
@@ -61,7 +64,15 @@ const CourseHeader = ({ props }) => {
             </div>
           </div>
         </div>
-        <OrangeButton style={"w-52 h-12 "} title={"Start Course"} iconRight={faAngleRight} />
+
+        <OrangeButton
+          onClick={() => {
+            navigate(`/workplace/${generateSlug(props?.attributes?.title)}`);
+          }}
+          style={"w-52 h-12 "}
+          title={"Start Course"}
+          iconRight={faAngleRight}
+        />
       </div>
       <div className="banner-div  lg:flex-1 flex justify-center align-middle">
         <div className="w-[100%] sm:h-[400px]  ">
