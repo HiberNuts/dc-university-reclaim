@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { ethers } from "ethers";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -10,6 +10,7 @@ import Burger from "./Burger";
 import axios from "axios";
 import { ProfileDropDown } from "./ProfileDropdown";
 import { useAccount } from "wagmi";
+import { ParentContext } from "../../contexts/ParentContext";
 // import { Profile } from "../Profile/Profile";
 // import { MobileMenu } from "./MobileMenu";
 // import { Menu } from "@headlessui/react";
@@ -19,6 +20,8 @@ export default function Header() {
   const location = useLocation();
   const [homeRoute, sethomeRoute] = useState(true);
   const { address, isConnected } = useAccount();
+
+  const {loggedInUserData,setloggedInUserData,setuserDataIsUpdated,userDataIsUpdated}=useContext(ParentContext)
 
   const coursesRef = useRef(null);
 
@@ -44,17 +47,22 @@ export default function Header() {
 
   const signinUser = async () => {
     try {
-      const res = await axios.post("http://localhost:8080/api/auth/signin", { email: "lovlyraghav4@gmail.com" });
-      if (res?.data?.isVerified == false) {
+      const res = await axios.post("http://localhost:8080/api/auth/signin", { walletAddress:address });
+      setloggedInUserData(res?.data)
+      if (res?.data?.email === "default") {
         navigate("/profile");
-        console.log(res);
+        console.log(res); 
       }
     } catch (error) {
       console.log(error);
     }
-  };
+  };  
 
-  console.log(location.pathname);
+  useEffect(() => {
+    if (isConnected) {
+      signinUser();
+    }
+  }, [address,userDataIsUpdated]);
 
   const styleNavEl = `before:bg-white before:left-0 ${
     homeRoute ? "hover:text-white text-white" : "hover:text-black text-black hover:before:bg-shardeumOrange "
@@ -136,6 +144,7 @@ export default function Header() {
                           return (
                             <div style={{ display: "flex", gap: 12 }}>
                               <ProfileDropDown
+                              loggedInUserData={loggedInUserData}
                                 account={account.displayName}
                                 chain={chain}
                                 openChainModal={openChainModal}
@@ -251,6 +260,7 @@ export default function Header() {
                       return (
                         <div style={{ display: "flex", gap: 12 }}>
                           <ProfileDropDown
+                           loggedInUserData={loggedInUserData}
                             account={account.displayName}
                             chain={chain}
                             toggleNavbar={toggleNavbar}

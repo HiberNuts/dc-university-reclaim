@@ -3,7 +3,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 // import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
-export const ProfileDropDown = ({ account, openChainModal, chain, openAccountModal, toggleNavbar }) => {
+export const ProfileDropDown = ({ account, openChainModal, chain, openAccountModal, toggleNavbar ,loggedInUserData}) => {
   return (
     <div className=" z-50 w-56 text-right">
       <Menu as="div" className="relative inline-block text-left">
@@ -14,7 +14,7 @@ export const ProfileDropDown = ({ account, openChainModal, chain, openAccountMod
               src="https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=Bubba"
               alt="avatar"
             />
-            <p className=" font-bold">Raghav </p>
+            <p className=" font-bold">{loggedInUserData?.username =="default"?"Anon":loggedInUserData?.username} </p>
             <svg
               className="w-9 -m-2"
               xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +91,10 @@ export const ProfileDropDown = ({ account, openChainModal, chain, openAccountMod
                   <button
                     onClick={() => {
                       openAccountModal();
-                      toggleNavbar();
+                      if(toggleNavbar){
+                        toggleNavbar();
+                      }
+                     
                     }}
                     className={`${
                       active ? "bg-shardeumBlue text-white" : "text-gray-900"

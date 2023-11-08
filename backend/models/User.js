@@ -1,5 +1,60 @@
 const mongoose = require("mongoose");
 
+
+const chapterSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Chapter'
+  },
+  status: {
+    type: String,
+    enum: ['none', 'partial', 'full'],
+    default: 'none'
+  },
+  strapiId: Number
+});
+
+const quizSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Chapter'
+  }, 
+  status: {
+    type: String,
+    enum: ['none', 'partial', 'full'],
+    default: 'none'
+  },
+  answer: {
+    type: String,
+    enum: ['a', 'b', 'c', 'd']
+  },
+  strapiId: Number
+});
+
+const moduleSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Module'
+  },
+  status: {
+    type: String,
+    enum: ['none', 'partial', 'full'],
+    default: 'none'
+  },
+  chapters: [chapterSchema],
+  quizzes: [quizSchema],
+  strapiId: Number
+});
+
+const enrolledCourseSchema = new mongoose.Schema({
+  courseId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Course'
+  },
+  modules: [moduleSchema]
+});
+
+
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -26,11 +81,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: "default"
     },
-    coursesEnrolled: {
-      type: Object,
-      required: true,
-      default: []
-    },
+    enrolledCourses: [enrolledCourseSchema],
     portfolio: {
       type: String,
       required: true,

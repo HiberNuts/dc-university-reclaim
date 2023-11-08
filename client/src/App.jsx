@@ -25,7 +25,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
         {/*Error Pages*/}
         <Route path="/courses" element={<AllCourses />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/course/:id" element={<Course />} />
         <Route path="/course/:id" element={<CourseDescription />} />
         {/* <Route path="/coursepage" element={<CoursePage />} /> */}
         <Route path="/workplace/:id" element={<WorkPlace />} />
@@ -34,9 +34,12 @@ function App() {
         {/*Private route section*/}
         <Route exact path="/" element={<PrivateRoute />}>
           {/* <Route path="/workplace" element={<CoursePage />} /> */}
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/workplace" element={<Courseplace />} />
+       
         </Route>
         <Route component={RedirectAs404}></Route>
-      </Routes>
+      </Routes> 
 
       <Footer />
     </>
