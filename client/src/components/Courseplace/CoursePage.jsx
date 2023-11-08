@@ -26,6 +26,7 @@ const CoursePage = () => {
     getCourseContent()
   }, []);
 
+
   const modules = [
     {
       id: '1',
