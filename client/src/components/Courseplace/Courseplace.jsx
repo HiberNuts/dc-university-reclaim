@@ -6,7 +6,7 @@ import "./CoursePlace.scss";
 import { H1 } from "./customCourseElement";
 import hljs from 'highlight.js';
 
-const Courseplace = () => {
+const CoursePlace = () => {
   const [moduleContent, setModuleContent] = useState("");
   useEffect(() => {
     hljs.highlightAll();
@@ -30,10 +30,10 @@ const Courseplace = () => {
 
   return (
     
-    <div className="flex  justify-center align-middle">
+    <div className="flex w-full justify-center items-center align-middle">
     
       {/* <div className="flex justify-center align-middle w-[80%] flex-col" dangerouslySetInnerHTML={{ __html: moduleContent }} /> */}
-      <div className="flex text-[20px] courseContent justify-center align-middle w-[80%] flex-col ">
+      <div className="flex text-[20px] w-[90%] courseContent justify-center align-middle  flex-col ">
         <HTMLRenderer
           html={moduleContent}
           components={{
@@ -46,4 +46,4 @@ const Courseplace = () => {
   );
 };
 
-export default Courseplace;
+export default CoursePlace;

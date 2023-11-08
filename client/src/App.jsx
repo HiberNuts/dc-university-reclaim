@@ -9,7 +9,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 
 // import Courses from "./components/Courses/Courses";
 import Course from "./components/Courses/Course/Course";
-import Courseplace from "./components/Courseplace/Courseplace";
+import Courseplace from "./components/Courseplace/CoursePlace";
 import AllCourses from "./components/Courses/AllCourses";
 import { Profile } from "./components/Profile/Profile";
 import CourseDescription from "./components/Courses/CourseDesc/CourseDescription";
@@ -28,6 +28,7 @@ function App() {
         <Route path="/course/:id" element={<Course />} />
         <Route path="/course/:id" element={<CourseDescription />} />
         <Route path="/coursepage" element={<CoursePage />} />
+        <Route path="/courseplace" element={<Courseplace />} />
 
         {/*Main Routes*/}
         {/*Private route section*/}
