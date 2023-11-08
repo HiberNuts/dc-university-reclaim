@@ -9,10 +9,12 @@ export const getAllCourse = async () => {
     );
     if (data) {
       return data.data;
+    }else{
+      return [] 
     }
   } catch (error) {
     toast.error("Something went wrong");
-    return error;
+    return [];
   }
 };
 

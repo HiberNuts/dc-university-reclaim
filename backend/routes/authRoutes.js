@@ -20,11 +20,10 @@ module.exports = function(app) {
   );
 
   app.post("/api/auth/signin", controller.signin);
-
   app.get("/api/auth/confirmation", controller.confirmation);
   app.post("/api/auth/resend", controller.resend);
-
   app.put("/api/auth/update", controller.update);
+  app.get("/api/auth/getUserData", controller.getUserData)
   app.get("/api/auth/user", controller.getUser);
 
 
