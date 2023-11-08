@@ -19,6 +19,7 @@ require("./db");
 // routes
 require("./routes/authRoutes")(app);
 require("./routes/userRoutes")(app);
+require("./routes/courseRoutes")(app);
 
 // simple route
 app.get("/", (req, res) => {

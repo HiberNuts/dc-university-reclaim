@@ -40,6 +40,7 @@ exports.signup = async (req, res) => {
     user.roles = roles.map((role) => role._id);
     await user.save();
 
+    console.log(user);
 
     let token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString("hex") });
     await token.save();
@@ -119,12 +120,18 @@ exports.update = async (req, res) => {
 
     for (let key in req.body) {
       if (key in user) {
-        console.log(key, user[key], req.body[key]);
-        user[key] = req.body[key];
+        if (key === "roles") {
+          const roleNames = req.body.roles;
+          const roleIds = []; // Fetch and populate this array with role ObjectId values based on roleNames.
+          user.roles = roleIds;
+        } else {
+          user[key] = req.body[key];
+        }
       }
     }
+
     await user.save();
-    console.log("user updated successfully!")
+
     const authorities = user.roles.map((role) => "ROLE_" + role.name.toUpperCase());
 
     res.status(200).send({
@@ -138,11 +145,39 @@ exports.update = async (req, res) => {
       designation: user.designation,
       portfolio: user.portfolio,
     });
-    await user.save();
   } catch (error) {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
   }
 }
+
+
+exports.getUserData = async (req, res) => {
+  try {
+    const userIdQuery = req.query.userid;
+    const user = await User.findOne({ _id: userIdQuery }).populate("roles", "-__v");
+    
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    const authorities = user.roles.map((role) => "ROLE_" + role.name.toUpperCase());
+
+    res.status(200).send({
+      type: "user-data",
+      id: user._id,
+      username: user.username,
+      email: user.email,
+      isVerified: user.isVerified,
+      walletAddress: user.walletAddress,
+      roles: authorities,
+      designation: user.designation,
+      portfolio: user.portfolio,
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message || "Internal Server Error", error });
+  }
+}
+
 
 exports.confirmation = async (req, res) => {
   try {
@@ -176,7 +211,7 @@ exports.confirmation = async (req, res) => {
 
 exports.resend = async (req, res) => {
   try {
-    const userIdQuery = req.query.userid;
+    const userIdQuery = req.query.userId;
     const user = await User.findOne({ _id: userIdQuery });
 
     let token = await Token.findOne({ __userId: user._id });
@@ -184,6 +219,7 @@ exports.resend = async (req, res) => {
       token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString("hex") });
       await token.save();
     }
+    console.log(user.email)
 
     let mailOptions = {
       from: process.env.EMAILID,
@@ -204,4 +240,18 @@ exports.resend = async (req, res) => {
   } catch (error) {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
   }
+  
 };
+
+exports.getUser = async(req, res) => {
+  try {
+    const userIdQuery = req.query.userId;
+    const user = await User.findOne({ _id: userIdQuery }).populate("roles", "-__v");;
+
+    console.log(user);
+
+    res.status(200).send(user)
+  } catch (error) {
+    res.status(500).send({ message: error.message || "Internal Server Error", error });
+  }
+}
