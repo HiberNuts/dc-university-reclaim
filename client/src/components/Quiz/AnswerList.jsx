@@ -3,7 +3,7 @@ import Answer from './Answer';
 import { v4 as uuidv4 } from 'uuid';
 
 const AnswerList = ({ answers, choice, onSelectAnswer }) => {
-  console.log(choice);
+
   return (
     <div className="my-8">
       {answers &&

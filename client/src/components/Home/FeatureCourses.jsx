@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./Home.css";
 import CourseCard from "../Courses/CourseCard/CourseCard";
 
@@ -6,9 +6,21 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { ParentContext } from "../../contexts/ParentContext";
+import { getAllCourse } from "../../utils/api/CourseAPI";
 
 export default function FeatureCourses() {
-  const { allCourseMetaInfo } = useContext(ParentContext);
+  // const { allCourseMetaInfo } = useContext(ParentContext);
+
+  const [allCourseInfo, setallCourseInfo] = useState([]);
+
+  const getAllCourseInfo = async () => {
+    const data = await getAllCourse();
+    setallCourseInfo(data);
+  };
+
+  useEffect(() => {
+    getAllCourseInfo();
+  }, []);
 
   return (
     <div className="w-full flex flex-col text-black items-center  justify-center align-middle">
@@ -17,8 +29,8 @@ export default function FeatureCourses() {
           Explore Our <span className="BlueGradientFade">Courses</span>
         </p>
         <div className="flex w-full my-5 justify-center gap-x-14 flex-wrap gap-5">
-          {allCourseMetaInfo &&
-            allCourseMetaInfo?.map((course, index) => {
+          {allCourseInfo &&
+            allCourseInfo?.map((course, index) => {
               return <CourseCard key={index} props={course} />;
             })}
         </div>
