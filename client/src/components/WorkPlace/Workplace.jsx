@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
-import image from "../../assets/courseimage.png";
-import CourseAcordian from "../CourseAcoridan/CourseAcordian";
-import axios from "axios";
-import hljs from "highlight.js";
-import HTMLRenderer from "react-html-renderer";
-import { useParams } from "react-router-dom";
-import { getCoursebyName } from "../../utils/api/CourseAPI";
-import { H1 } from "./customCourseElement";
-import ReactPlayer from "react-player";
-import "./WorkPlace.scss";
+import React, { useEffect, useRef, useState } from 'react';
+import image from '../../assets/courseimage.png';
+import CourseAcordian from '../CourseAcoridan/CourseAcordian';
+import axios from 'axios';
+import hljs from 'highlight.js';
+import HTMLRenderer from 'react-html-renderer';
+import { useParams } from 'react-router-dom';
+import { getCoursebyName } from '../../utils/api/CourseAPI';
+import { H1 } from './customCourseElement';
+import ReactPlayer from 'react-player';
+import './WorkPlace.scss';
 export default function WorkPlace() {
   const params = useParams();
   const [moduleContent, setModuleContent] = useState([]);
@@ -21,7 +21,9 @@ export default function WorkPlace() {
     const data = await getCoursebyName(params?.id);
     if (data) {
       setcourseContent(data?.attributes ? data?.attributes : {});
-      setModuleContent(data?.attributes?.module ? data?.attributes?.module : []);
+      setModuleContent(
+        data?.attributes?.module ? data?.attributes?.module : []
+      );
       setCurrentChapter(data?.attributes?.module[0]?.chapter[0]?.id);
       setcurrentModule(data?.attributes?.module[0]);
     }
@@ -32,9 +34,14 @@ export default function WorkPlace() {
   };
 
   useEffect(() => {
-    hljs.highlightAll();
     getCourseInfo();
   }, []);
+
+  useEffect(() => {
+    hljs.highlightAll();
+    
+  }, [moduleContent]);
+
 
   return (
     <div className="w-full mt-[10vh] h-full flex justify-between align-middle">
@@ -46,7 +53,7 @@ export default function WorkPlace() {
               src={
                 courseContent?.banner?.data[0]?.attributes.url
                   ? courseContent?.banner?.data[0]?.attributes.url
-                  : "https://coinviet.net/wp-content/uploads/2022/11/2-16.png"
+                  : 'https://coinviet.net/wp-content/uploads/2022/11/2-16.png'
               }
               alt=""
             />
@@ -111,7 +118,10 @@ export default function WorkPlace() {
           {currentChapter && (
             <div className="flex text-[20px] w-[70%] courseContent justify-center align-middle  flex-col ">
               <div className="w-full my-6 items-center flex justify-center">
-                <ReactPlayer controls={true} url="https://www.youtube.com/live/U9mJuUkhUzk?si=0UJPlY3vlAvDB3d1" />
+                {/* <ReactPlayer
+                  controls={true}
+                  url="https://www.youtube.com/live/U9mJuUkhUzk?si=0UJPlY3vlAvDB3d1"
+                /> */}
               </div>
 
               {currentModule.chapter
