@@ -25,7 +25,6 @@ function App() {
         <Route exact path="/" element={<Home />} />
         {/*Error Pages*/}
         <Route path="/courses" element={<AllCourses />} />
-
         <Route path="/course/:id" element={<CourseDescription />} />
         {/* <Route path="/coursepage" element={<CoursePage />} /> */}
         <Route path="/workplace/:id" element={<WorkPlace />} />

@@ -35,9 +35,14 @@ export default function WorkPlace() {
   };
 
   useEffect(() => {
-    hljs.highlightAll();
     getCourseInfo();
   }, []);
+
+  useEffect(() => {
+    hljs.highlightAll();
+    
+  }, [moduleContent]);
+
 
   return (
     <div className="w-full mt-[10vh] h-full flex justify-between align-middle">
@@ -80,7 +85,10 @@ export default function WorkPlace() {
           {/* {currentChapter && (
             <div className="flex text-[20px] w-[70%] courseContent justify-center align-middle  flex-col ">
               <div className="w-full my-6 items-center flex justify-center">
-                <ReactPlayer controls={true} url="https://www.youtube.com/live/U9mJuUkhUzk?si=0UJPlY3vlAvDB3d1" />
+                {/* <ReactPlayer
+                  controls={true}
+                  url="https://www.youtube.com/live/U9mJuUkhUzk?si=0UJPlY3vlAvDB3d1"
+                /> */}
               </div>
 
               {currentModule.chapter
