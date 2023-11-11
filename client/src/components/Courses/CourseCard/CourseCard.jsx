@@ -24,11 +24,11 @@ const CourseCard = ({ props }) => {
     >
       <div className="image-section h-full flex flex-col justify-evenly  px-[20px]">
         <div className="flex justify-center align-middle items-center">
-          <img className="w-[360px] h-[200px] rounded-[16px]" src={props?.attributes.banner.data[0].attributes.url} />
+          <img className="w-[360px] h-[200px] rounded-[16px]" src={props?.banner} />
         </div>
         <div className="description-section flex flex-col justify-center align-middle">
-          <p className="text-[22px] font-bold">{props?.attributes.title}</p>
-          <p className="text-[1rem] ">{props?.attributes.description}</p>
+          <p className="text-[22px] font-bold">{props?.title}</p>
+          <p className="text-[1rem] ">{props?.description}</p>
         </div>
         <div className="description-section flex flex-col w-full">
           <div className="flex ">
@@ -44,7 +44,7 @@ const CourseCard = ({ props }) => {
         <div className="flex w-full justify-evenly align-middle">
           <div className="flex gap-2">
             <img className="w-5 h-5 mt-1" src={timeIcon} />
-            <span>{props?.attributes.duration} hrs</span>
+            <span>{props?.duration} hrs</span>
           </div>
           <p>|</p>
           <div className="flex gap-2">
@@ -54,10 +54,10 @@ const CourseCard = ({ props }) => {
           <p>|</p>
           <div className="flex gap-2">
             <img className="w-5 h-5 mt-1" src={levelIcon} />
-            <span>{props?.attributes.level}</span>
+            <span>{props?.level}</span>
           </div>
         </div>
-        <Link to={`/course/${props?.attributes.title.split(" ").join("-")}`}>
+        <Link to={`/course/${props?.title.split(" ").join("-")}`}>
           <OrangeButton title={"Start Learning"} style={"w-full h-[40px]"} />
         </Link>
       </div>

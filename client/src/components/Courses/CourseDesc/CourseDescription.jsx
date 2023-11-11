@@ -38,11 +38,11 @@ const CourseDescription = () => {
   return (
     <div className="w-full justify-center items-center gap-[100px] align-middle flex flex-col">
       <CourseHeader props={courseData ? courseData : {}} />
-      <CourseAbout props={courseData?.attributes?.aboutCourse} />
-      <CourseSkills props={courseData?.attributes?.skills} />
-      <CourseLearn props={courseData?.attributes?.whatYouLearn} />
+      <CourseAbout props={courseData?.aboutCourse} />
+      <CourseSkills props={courseData?.skills} />
+      <CourseLearn props={courseData?.whatYouLearn} />
       <CourseCertificate />
-      <CourseFAQ props={courseData?.attributes?.faq} />
+      <CourseFAQ props={courseData?.faq} />
     </div>
   );
 };

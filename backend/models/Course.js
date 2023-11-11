@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const quizSchema = new mongoose.Schema({
   quizTitle: String,
@@ -7,19 +7,20 @@ const quizSchema = new mongoose.Schema({
   c: String,
   d: String,
   answer: String,
-  strapiId: Number
+  strapiId: Number,
 });
 
 const chapterSchema = new mongoose.Schema({
   title: String,
   content: String,
-  strapiId: Number
+  strapiId: Number,
 });
 
 const moduleSchema = new mongoose.Schema({
+  moduleTitle: String,
   chapter: [chapterSchema],
   quizzes: [quizSchema],
-  strapiId: Number
+  strapiId: Number,
 });
 
 const courseSchema = new mongoose.Schema({
@@ -31,6 +32,7 @@ const courseSchema = new mongoose.Schema({
   level: String,
   skills: [String],
   nftImage: String,
+  banner: String,
   whatYouLearn: [String],
   faq: [
     {
@@ -39,12 +41,14 @@ const courseSchema = new mongoose.Schema({
     },
   ],
   module: [moduleSchema],
-  usersEnrolled: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User" 
-  }]
+  usersEnrolled: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
-const Course = mongoose.model('Course', courseSchema);
+const Course = mongoose.model("Course", courseSchema);
 
 module.exports = Course;

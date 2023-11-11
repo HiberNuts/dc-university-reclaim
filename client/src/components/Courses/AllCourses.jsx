@@ -3,9 +3,19 @@ import SkeletonLoader from "./SkeletonLoader";
 import { Toaster, toast } from "react-hot-toast";
 import CourseCard from "./CourseCard/CourseCard";
 import { ParentContext } from "../../contexts/ParentContext";
+import { getAllCourse } from "../../utils/api/CourseAPI";
 
 export default function AllCourses() {
-  const { allCourseMetaInfo } = useContext(ParentContext);
+  const [allCourseInfo, setallCourseInfo] = useState([]);
+
+  const getAllCourseInfo = async () => {
+    const data = await getAllCourse();
+    setallCourseInfo(data);
+  };
+
+  useEffect(() => {
+    getAllCourseInfo();
+  }, []);
   const [Query, setQuery] = useState("");
 
   const BGlogoSVG = ({ props }) => {
@@ -61,12 +71,12 @@ export default function AllCourses() {
         </div>
         <div className="all-course mt-[72px] mb-[72px] w-full items-center flex justify-center align-middle">
           <div className="flex flex-wrap w-full justify-evenly gap-y-[72px]">
-            {allCourseMetaInfo &&
-              allCourseMetaInfo
+            {allCourseInfo &&
+              allCourseInfo
                 ?.filter((course) => {
                   if (Query == "") {
                     return course;
-                  } else if (course.attributes.title.toLowerCase().includes(Query.toLowerCase())) {
+                  } else if (course.title.toLowerCase().includes(Query.toLowerCase())) {
                     return course;
                   }
                 })

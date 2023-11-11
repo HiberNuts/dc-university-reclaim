@@ -13,6 +13,7 @@ export const LearnCard = ({ text }) => {
 };
 
 const CourseLearn = ({ props }) => {
+  console.log(props);
   return (
     <div className="w-full  flex justify-center items-center align-middle">
       <div className="sm:w-[80%] flex flex-col">
@@ -22,7 +23,7 @@ const CourseLearn = ({ props }) => {
         <div className="w-full flex justify-center align-middle items-center">
           <div className="learn-div grid md:grid-cols-2  flex-wrap  justify-between  mt-6 gap-10">
             {props?.map((prop, index) => (
-              <LearnCard key={index} text={prop?.title} />
+              <LearnCard key={index} text={prop} />
             ))}
           </div>
         </div>

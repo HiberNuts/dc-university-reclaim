@@ -119,9 +119,11 @@ const CourseAcordian = ({
   currentChapter,
   setcurrentModule,
   handleChapterClick,
+  setisModuleChanged,
+  isModuleChanged,
 }) => {
   const navigate = useNavigate();
-  const [courseStatus, setcourseStatus] = useState('ticked');
+  const [courseStatus, setcourseStatus] = useState("");
   return (
     <div className="courseAcc">
       <Accordion>
@@ -137,6 +139,7 @@ const CourseAcordian = ({
                     onClick={() => {
                       handleChapterClick(chapter);
                       setcurrentModule(module);
+                      setisModuleChanged(!isModuleChanged);
                     }}
                   >
                     <div className="flex items-center pt-2  mr-4">
@@ -151,23 +154,17 @@ const CourseAcordian = ({
                       ) : (
                         <div
                           className={`rounded-full ${
-                            chapter.id == currentChapter
-                              ? 'border-2 border-shardeumOrange'
-                              : 'border-2 border-white '
+                            chapter._id == currentChapter ? "border-2 border-shardeumOrange" : "border-2 border-white "
                           } bg-shardeumBlue  w-6 h-6`}
                         ></div>
                       )}
 
                       <label
                         htmlFor="red-checkbox"
-                        className={`ml-2 text-[16px] ${
-                          chapter.id == currentChapter
-                            ? 'text-shardeumOrange  font-bold'
-                            : `${
-                                courseStatus == 'locked'
-                                  ? 'text-gray-300'
-                                  : 'text-white '
-                              }`
+                        className={`ml-2 text-[16px] items-start text-start ${
+                          chapter._id == currentChapter
+                            ? "text-shardeumOrange  font-bold"
+                            : `${courseStatus == "locked" ? "text-gray-300" : "text-white "}`
                         } cursor-pointer   `}
                       >
                         {chapter?.title}

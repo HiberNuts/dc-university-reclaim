@@ -2,6 +2,7 @@ import React from "react";
 import Acordian from "../../Accordian/Acordian";
 
 const CourseFAQ = ({ props }) => {
+  console.log(props);
   return (
     <div className="w-full mb-[60px] flex justify-center items-center align-middle">
       <div className="w-[80%] flex flex-col">
