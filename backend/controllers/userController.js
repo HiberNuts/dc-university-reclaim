@@ -140,11 +140,35 @@ exports.courseEnrolled = async (req, res) => {
       // console.log(user.enrolledCourses[enrolledCourseIndex].modules.length, "check user2");
       await user.save();
 
+      console.log(newCourse.usersEnrolled);
+
+      if (!newCourse.usersEnrolled.some(userId => userId.equals(user._id))) {
+        newCourse.usersEnrolled.push(user._id);
+        console.log(newCourse.usersEnrolled);
+        await newCourse.save();
+        console.log("User added to the course's usersEnrolled array");
+      } else {
+        console.log("User already added in the course's usersEnrolled array");
+      }
+      
+
+
       return res.status(200).send({ message: 'User is already enrolled in this course but updated user-progress if there was change in Course' });
     }
 
     let course = await Course.findOne({ _id: courseId });
-    // console.log(course.module)
+    console.log(course.usersEnrolled);
+
+    if (!course.usersEnrolled.some(userId => userId.equals(user._id))) {
+      course.usersEnrolled.push(user._id);
+      console.log(course.usersEnrolled);
+      await course.save();
+      console.log("User added to the course's usersEnrolled array");
+    } else {
+      console.log("User already added in the course's usersEnrolled array");
+    }
+    
+
 
     let userEnrolledCourse = {};
     userEnrolledCourse.courseId = courseId;
@@ -210,11 +234,83 @@ exports.updateCourseProgress = async (req, res) => {
     console.log(enrolledCourseIndex);
 
     if (enrolledCourseIndex !== -1) {
+
       user.enrolledCourses[enrolledCourseIndex] = updatedEnrolledCourse;
       await user.save();
       res.status(200).send({
         message: "Course progress updated successfully",
         updatedProgress: user.enrolledCourses[enrolledCourseIndex]
+      });
+    } else {
+      res.status(404).send({ message: "Enrolled course not found" });
+    }
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: error.message || "Internal Server Error" });
+  }
+}
+
+exports.userCourseProgressPercentage = async(req, res) => {
+  try {
+    const userId = req.body.userId;
+    const courseId = req.body.courseId;
+
+    let user = await User.findOne({ _id: userId });
+    console.log(user.enrolledCourses)
+
+    const enrolledCourseIndex = user.enrolledCourses.findIndex(course => String(course.courseId) === courseId);
+    console.log(enrolledCourseIndex);
+
+    console.log("Provided courseId:", courseId);
+    console.log("Stored courseId:", String(user.enrolledCourses[0].courseId));
+
+    if (enrolledCourseIndex !== -1) {
+      const courseProgress = user.enrolledCourses[enrolledCourseIndex].modules;
+
+      let totalModules = courseProgress.length;
+      let completedModules = 0;
+
+      let totalQuizzes = 0;
+      let completedQuizzes = 0;
+
+      let totalChapters = 0;
+      let completedChapters = 0;
+
+      courseProgress.forEach((module) => {
+        if (module.status === 'full') {
+          completedModules++;
+
+          totalChapters += module.chapters.length;
+          completedChapters += module.chapters.filter(chapter => chapter.status === 'full').length;
+
+          totalQuizzes += module.quizzes.length;
+          completedQuizzes += module.quizzes.filter(quiz => quiz.status === 'full').length;
+        } else {
+          totalChapters += module.chapters.length;
+          completedChapters += module.chapters.filter(chapter => chapter.status === 'full').length;
+
+          totalQuizzes += module.quizzes.length;
+          completedQuizzes += module.quizzes.filter(quiz => quiz.status === 'full').length;
+        }
+      });
+      console.log(completedModules, completedChapters, completedQuizzes, "completed");
+      console.log(totalModules, totalChapters, totalQuizzes, "total")
+
+      // Calculate percentages
+      const moduleCompletionPercentage = (completedModules / totalModules) * 100 || 0;
+      const chapterCompletionPercentage = (completedChapters / totalChapters) * 100 || 0;
+      const quizCompletionPercentage = (completedQuizzes / totalQuizzes) * 100 || 0;
+
+      // Calculate overall course completion percentage
+      const overallCompletionPercentage = (moduleCompletionPercentage + chapterCompletionPercentage + quizCompletionPercentage) / 3;
+
+      res.status(200).send({
+        message: "Course progress percentages calculated successfully",
+        moduleCompletionPercentage,
+        chapterCompletionPercentage,
+        quizCompletionPercentage,
+        overallCompletionPercentage,
       });
     } else {
       res.status(404).send({ message: "Enrolled course not found" });
