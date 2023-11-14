@@ -45,16 +45,17 @@ exports.signup = async (req, res) => {
     let token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString("hex") });
     await token.save();
 
+    const jwtToken = jwt.sign({ id: user.id }, config.SECRET, {
+      algorithm: "HS256",
+      allowInsecureKeySizes: true,
+      expiresIn: 86400, // 24 hours
+    });
+
+
     res.status(200).send({
       type: "user-registered",
-      id: newUserData._id,
-      username: newUserData.username,
-      email: newUserData.email,
-      isVerified: newUserData.isVerified,
-      walletAddress: newUserData.walletAddress,
-      roles: authorities,
-      designation: newUserData.designation,
-      portfolio: newUserData.portfolio,
+      ...user._doc,
+      accessToken: jwtToken,
     });
   } catch (error) {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
@@ -82,6 +83,12 @@ exports.signin = async (req, res) => {
       return;
     }
 
+    if (user.isBlocked) {
+      console.log("user is blocked");
+      return res.status(401).send({ type: "user-blocked", message: "user is blocked, cannot sign in", user });
+
+    }
+
     if (!user.isVerified) {
       let token = await Token.findOne({ _userId: user._id });
       msg_type = "not-verified";
@@ -98,14 +105,10 @@ exports.signin = async (req, res) => {
       expiresIn: 86400, // 24 hours
     });
 
-    const authorities = user.roles.map((role) => "ROLE_" + role.name.toUpperCase());
+    // const authorities = user.roles.map((role) => "ROLE_" + role.name.toUpperCase());
     res.status(200).send({
       type: msg_type,
-      id: user._id,
-      username: user.username,
-      email: user.email,
-      isVerified: user.isVerified,
-      roles: authorities,
+      ...user._doc,
       accessToken: jwtToken,
     });
   } catch (error) {
@@ -136,14 +139,7 @@ exports.update = async (req, res) => {
 
     res.status(200).send({
       type: "updated-user",
-      id: user._id,
-      username: user.username,
-      email: user.email,
-      isVerified: user.isVerified,
-      walletAddress: user.walletAddress,
-      roles: authorities,
-      designation: user.designation,
-      portfolio: user.portfolio,
+      ...user._doc
     });
   } catch (error) {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
@@ -251,6 +247,24 @@ exports.getUser = async(req, res) => {
     console.log(user);
 
     res.status(200).send(user)
+  } catch (error) {
+    res.status(500).send({ message: error.message || "Internal Server Error", error });
+  }
+}
+
+exports.toggleBlock = async(req, res) => {
+  try {
+    const userIdQuery = req.query.userId;
+    const user = await User.findOne({ _id: userIdQuery }).populate("roles", "-__v");
+
+    console.log(user, user.isBlocked, "before");
+
+    user.isBlocked = user.isBlocked ? false : true;
+    await user.save();
+
+    console.log(user, user.isBlocked, "after");
+
+    res.status(200).send({ message: `user's block status is ${user.isBlocked}`, isBlocked: user.isBlocked });
   } catch (error) {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
   }

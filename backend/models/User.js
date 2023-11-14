@@ -76,6 +76,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false 
     },
+    isBlocked: { 
+      type: Boolean,
+      default: false 
+    },
     displayName: {
       type: String,
       required: true,
@@ -104,4 +108,7 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-module.exports = users = mongoose.model("users", userSchema);
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;
+ 
