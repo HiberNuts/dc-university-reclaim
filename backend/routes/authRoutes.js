@@ -25,6 +25,6 @@ module.exports = function(app) {
   app.put("/api/auth/update", controller.update);
   app.get("/api/auth/getUserData", controller.getUserData)
   app.get("/api/auth/user", controller.getUser);
-
+  app.post("/api/auth/toggleBlock", controller.toggleBlock);
 
 };
