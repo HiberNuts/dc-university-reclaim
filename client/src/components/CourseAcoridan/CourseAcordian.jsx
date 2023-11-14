@@ -14,7 +14,9 @@ const AccordionContext = React.createContext({});
 const useAccordion = () => React.useContext(AccordionContext);
 
 function Accordion({ children, multiple, defaultIndex }) {
-  const [activeIndex, setActiveIndex] = React.useState(multiple ? [defaultIndex] : defaultIndex);
+  const [activeIndex, setActiveIndex] = React.useState(
+    multiple ? [defaultIndex] : defaultIndex
+  );
 
   function onChangeIndex(index) {
     setActiveIndex((currentActiveIndex) => {
@@ -31,28 +33,50 @@ function Accordion({ children, multiple, defaultIndex }) {
   }
 
   return React.Children.map(children, (child, index) => {
-    const isActive = multiple && Array.isArray(activeIndex) ? activeIndex.includes(index) : activeIndex === index;
+    const isActive =
+      multiple && Array.isArray(activeIndex)
+        ? activeIndex.includes(index)
+        : activeIndex === index;
 
-    return <AccordionContext.Provider value={{ isActive, index, onChangeIndex }}>{child}</AccordionContext.Provider>;
+    return (
+      <AccordionContext.Provider value={{ isActive, index, onChangeIndex }}>
+        {child}
+      </AccordionContext.Provider>
+    );
   });
 }
 
 function AccordionItem({ children }) {
-  return <div className="AccordionItem  text-white font-satoshi text-[18px] font-[800px]">{children}</div>;
+  return (
+    <div className="AccordionItem  text-white font-satoshi text-[18px] font-[800px]">
+      {children}
+    </div>
+  );
 }
 
 function AccordionHeader({ text }) {
   const { isActive, index, onChangeIndex } = useAccordion();
 
   return (
-    <motion.div className={`AccordionHeader ${isActive ? "active" : ""} w-full `} onClick={() => onChangeIndex(index)}>
-      <div style={{ fontFamily: "satoshiVariable" }} className="flex  w-full justify-between align-middle h-full">
-        <span style={{ fontFamily: "satoshiVariable" }} className="font-[500] text-[16px]">
+    <motion.div
+      className={`AccordionHeader ${isActive ? 'active' : ''} w-full `}
+      onClick={() => onChangeIndex(index)}
+    >
+      <div
+        style={{ fontFamily: 'satoshiVariable' }}
+        className="flex  w-full justify-between align-middle h-full"
+      >
+        <span
+          style={{ fontFamily: 'satoshiVariable' }}
+          className="font-[500] text-[16px]"
+        >
           {text}
-        </span>{" "}
+        </span>{' '}
         <img
           className={`${
-            isActive ? "rotate-180 transition-all ease-in-out duration-500 " : ""
+            isActive
+              ? 'rotate-180 transition-all ease-in-out duration-500 '
+              : ''
           } w-6 sm:w-6 h-6  mt-3 ml-2 fill-white sm:mt-0 sm:ml-0 `}
           src={whiteExpand}
         />
@@ -70,11 +94,13 @@ function AccordionPanel({ children }) {
       {isActive && (
         <motion.div
           initial={{ height: 0 }}
-          animate={{ height: "auto" }}
+          animate={{ height: 'auto' }}
           exit={{ height: 0 }}
-          transition={{ type: "spring", duration: 0.4, bounce: 0 }}
+          transition={{ type: 'spring', duration: 0.4, bounce: 0 }}
         >
-          <div className="AccordionPanel   bg-shardeumBlue text-white">{children}</div>
+          <div className="AccordionPanel   bg-shardeumBlue text-white">
+            {children}
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
@@ -97,14 +123,14 @@ const CourseAcordian = ({
   return (
     <div className="courseAcc">
       <Accordion>
-        <AccordionItem key={"i"}>
+        <AccordionItem key={'i'}>
           <AccordionHeader text={module?.moduleTitle} />
           <AccordionPanel className="bg-shardeumBlue">
             {module?.chapter.map((chapter, i) => {
               return (
                 <div>
                   <button
-                    disabled={courseStatus == "locked" ? true : false}
+                    disabled={courseStatus == 'locked' ? true : false}
                     key={i}
                     onClick={() => {
                       handleChapterClick(chapter);
@@ -113,11 +139,11 @@ const CourseAcordian = ({
                     }}
                   >
                     <div className="flex items-center pt-2  mr-4">
-                      {courseStatus === "locked" ? (
+                      {courseStatus === 'locked' ? (
                         <div className="rounded-full bg-gray-300 w-6 h-6">
                           <img src={lock} />
                         </div>
-                      ) : courseStatus === "complete" ? (
+                      ) : courseStatus === 'complete' ? (
                         <div className="rounded-full bg-white w-6 h-6">
                           <img src={tick} />
                         </div>

@@ -35,9 +35,14 @@ export default function WorkPlace() {
   };
 
   useEffect(() => {
-    hljs.highlightAll();
     getCourseInfo();
   }, []);
+
+  useEffect(() => {
+    hljs.highlightAll();
+    
+  }, [moduleContent]);
+
 
   return (
     <div className="w-full mt-[10vh] h-full flex justify-between align-middle">
