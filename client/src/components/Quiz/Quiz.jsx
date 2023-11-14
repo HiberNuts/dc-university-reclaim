@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { RiArrowRightLine } from "react-icons/ri";
-import Button from "./Button";
-import AnswerList from "./AnswerList";
-import Question from "./Question";
-import ResultPage from "./ResultPage";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { RiArrowRightLine } from 'react-icons/ri';
+import Button from './Button';
+import AnswerList from './AnswerList';
+import Question from './Question';
+import ResultPage from './ResultPage';
+import axios from 'axios';
 
 const Quiz = ({ moduleQuiz, isModuleChanged }) => {
   const [quizNo, setQuizNo] = useState(0);
-  const [choice, setChoice] = useState("");
+  const [choice, setChoice] = useState('');
   const [score, setScore] = useState(0);
   const [isloading, setIsloading] = useState(false);
 
   const [answerArray, setAnswerArray] = useState([]);
   const [currentQuiz, setcurrentQuiz] = useState({});
-  const [correctAnswer, setcorrectAnswer] = useState("");
+  const [correctAnswer, setcorrectAnswer] = useState('');
 
   function extractABCDValues(quizArray, quizNo) {
     if (quizArray) {
@@ -28,10 +28,10 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
   }
 
   const INT_TO_ABC_MAP = {
-    0: "a",
-    1: "b",
-    2: "c",
-    3: "d",
+    0: 'a',
+    1: 'b',
+    2: 'c',
+    3: 'd',
   };
 
   const getQuiz = async () => {
@@ -51,7 +51,7 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
 
   const handleClickTry = () => {
     setScore(0);
-    setChoice("");
+    setChoice('');
     setQuizNo(0);
   };
 
@@ -80,26 +80,35 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
   const checkAnswer = () => isCorrect && setScore(score + 1);
   //   console.log(answerArray);
   return (
-    <div className=" w-full md:max-w-lg ">
+    <div className=" w-full ">
       {moduleQuiz?.length === 0 || isloading ? (
         <p>Loading</p>
       ) : quizNo == moduleQuiz?.length ? (
-        <ResultPage score={score} quizzes={moduleQuiz} onClickTry={handleClickTry} />
+        <ResultPage
+          score={score}
+          quizzes={moduleQuiz}
+          onClickTry={handleClickTry}
+        />
       ) : (
         <div>
           <div className=" flex justify-between mb-3">
-            <span>
+            <span className='text-[18px] font-satoshi'>
               {quizNo + 1}/{moduleQuiz?.length}
             </span>
           </div>
+          <span className='text-[18px] text-shardeumBlue font-satoshi font-[700]'>Question {quizNo + 1}</span>
 
           <Question currentQuiz={currentQuiz} />
 
-          <AnswerList answers={answers} choice={choice} onSelectAnswer={handleSelectAnswer} />
+          <AnswerList
+            answers={answers}
+            choice={choice}
+            onSelectAnswer={handleSelectAnswer}
+          />
 
           <Button onClickButton={handleClickNext}>
             Next
-            <RiArrowRightLine />
+            <RiArrowRightLine />  
           </Button>
         </div>
       )}
