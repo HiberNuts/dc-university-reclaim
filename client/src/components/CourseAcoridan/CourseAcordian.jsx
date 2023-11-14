@@ -9,14 +9,7 @@ import lock from "../../assets/lock.svg";
 import tick from "../../assets/tick.svg";
 import { useNavigate } from "react-router-dom";
 import { generateSlug } from "../../utils/generateSlug";
-import {
-  faArrowCircleDown,
-  faArrowDown,
-  faArrowDown19,
-  faArrowDownShortWide,
-  faArrowTurnDown,
-  faExpand,
-} from "@fortawesome/free-solid-svg-icons";
+
 const AccordionContext = React.createContext({});
 const useAccordion = () => React.useContext(AccordionContext);
 
@@ -98,6 +91,9 @@ const CourseAcordian = ({
 }) => {
   const navigate = useNavigate();
   const [courseStatus, setcourseStatus] = useState("");
+  console.log(currentChapter);
+  console.log(module);
+
   return (
     <div className="courseAcc">
       <Accordion>

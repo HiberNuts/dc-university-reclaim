@@ -1,36 +1,7 @@
 import React, { useEffect, useRef } from "react";
+import ReactPlayer from "react-player";
 
 export const H1 = (props) => {
-  const parentContainers = useRef([]);
-
-  useEffect(() => {
-    // Find all div elements with the 'data-oembed-url' attribute
-    const divs = document.querySelectorAll("div[data-oembed-url]");
-
-    divs.forEach((element, index) => {
-      // Add the 'parent_container_iframe' class to the parent container
-      element.classList.add("parent_container_iframe");
-
-      // Find the first child of the div element
-      const child = element.firstChild;
-
-      if (child) {
-        // Add the 'video_container_iframe' class to the child
-        child.classList.add("video_container_iframe");
-
-        // Find the first child of the child element (the iframe)
-        const iframe = child.firstChild;
-
-        if (iframe) {
-          // Add the 'video_iframe' class to the iframe
-          iframe.classList.add("video_iframe");
-        }
-      }
-
-      // Store a reference to the parent container for later use (if needed)
-      parentContainers.current[index] = element;
-    });
-  }, []);
   const extractNumberFromString = (inputString) => {
     const regex = /([\d.]+)/; // This regex captures one or more digits or dots
     const match = regex.exec(inputString);
@@ -43,10 +14,23 @@ export const H1 = (props) => {
     }
   };
   const extractedNumber = extractNumberFromString(props.style);
-  console.log(`w-[${extractedNumber}%]`);
+  console.log(props);
   return (
     <div className="w-full flex justify-center align-middle items-center">
-      <div className={`w-[${extractedNumber}%] items-center flex justify-center flex-col`}>{props?.children}</div>
+      {props.class == "media" ? (
+        <div className="w-full flex justify-center align-middle">
+          <ReactPlayer
+            width={"100%"}
+           height={"500px"}
+            controls={true}
+            className="w-full"
+            url={props?.children?.props?.url}
+          />
+        </div>
+      ) : (
+        <div className={`w-[${extractedNumber}%] items-center flex justify-center flex-col`}>{props?.children}</div>
+      )}
+
       {/* <div className={`w-[23.21%]`}>{props?.children}</div> */}
     </div>
   );
