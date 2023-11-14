@@ -16,7 +16,7 @@ const ResultPage = ({ score, quizzes, onClickTry }) => (
 		<span className="block text-lg font-light">Quiz completed successfully.</span>
 
 		<Button
-			customStyle=" w-full md:w-fit bg-accent text-white dark:bg-primary px-8 py-2 rounded-full mt-auto md:mt-14 "
+			customStyle=" w-full md:w-fit bg-accent text-black dark:bg-primary px-8 py-2 rounded-full mt-auto md:mt-14 "
 			onClickButton={onClickTry}
 		>
 			Let's do it again

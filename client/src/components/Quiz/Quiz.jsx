@@ -15,6 +15,8 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
   const [answerArray, setAnswerArray] = useState([]);
   const [currentQuiz, setcurrentQuiz] = useState({});
   const [correctAnswer, setcorrectAnswer] = useState('');
+  const [choices, setChoices] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   function extractABCDValues(quizArray, quizNo) {
     if (quizArray) {
@@ -25,6 +27,31 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
         setAnswerArray([a, b, c, d]);
       }
     }
+  }
+
+  const handleSelectAnswer = (answer, questionIndex) => {
+    const updatedChoices = [...choices];
+    updatedChoices[questionIndex] = answer;
+    setChoices(updatedChoices);
+  };
+
+  const handleSubmit = () => {
+    checkAllAnswers();
+    setIsSubmitted(true);
+  };
+  
+  const checkAllAnswers = () => {
+    let newScore = 0;
+    choices.forEach((choice, index) => {
+      if (moduleQuiz[index]?.answer === INT_TO_ABC_MAP[choice]) {
+        newScore += 1;
+      }
+    });
+    setScore(newScore);
+  };
+
+  function extractAnswersForQuestion(question) {
+    return question ? [question.a, question.b, question.c, question.d] : [];
   }
 
   const INT_TO_ABC_MAP = {
@@ -40,7 +67,7 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
     setcorrectAnswer(currentQuiz?.answer);
   };
 
-  const handleSelectAnswer = (answer) => setChoice(answer);
+
 
   const handleClickNext = () => {
     checkAnswer();
@@ -53,6 +80,7 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
     setScore(0);
     setChoice('');
     setQuizNo(0);
+    setIsSubmitted(false);
   };
 
   useEffect(() => {
@@ -80,38 +108,43 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
   const checkAnswer = () => isCorrect && setScore(score + 1);
   //   console.log(answerArray);
   return (
+    
     <div className=" w-full ">
+    {console.log(moduleQuiz)}
       {moduleQuiz?.length === 0 || isloading ? (
         <p>Loading</p>
-      ) : quizNo == moduleQuiz?.length ? (
-        <ResultPage
-          score={score}
-          quizzes={moduleQuiz}
-          onClickTry={handleClickTry}
-        />
       ) : (
-        <div>
-          <div className=" flex justify-between mb-3">
-            <span className='text-[18px] font-satoshi'>
-              {quizNo + 1}/{moduleQuiz?.length}
+        <>
+          
+        {moduleQuiz.slice(0, moduleQuiz?.length).map((question, index) => (
+          <div key={index}>
+            <span className='text-[18px] text-shardeumBlue font-satoshi font-[700]'>
+              Question {index + 1}
             </span>
+            <Question currentQuiz={question} />
+            <AnswerList
+              answers={extractAnswersForQuestion(question)}
+              choice={choices[index]}
+              onSelectAnswer={(answer) => handleSelectAnswer(answer, index)}
+              correctAnswer={isSubmitted ? question.answer : null}
+            />
           </div>
-          <span className='text-[18px] text-shardeumBlue font-satoshi font-[700]'>Question {quizNo + 1}</span>
-
-          <Question currentQuiz={currentQuiz} />
-
-          <AnswerList
-            answers={answers}
-            choice={choice}
-            onSelectAnswer={handleSelectAnswer}
-          />
-
-          <Button onClickButton={handleClickNext}>
-            Next
-            <RiArrowRightLine />  
+        ))}
+        
+          <Button className="text-black" onClickButton={handleSubmit}>
+            Submit
           </Button>
-        </div>
+  
+        </>
       )}
+
+      {isSubmitted && (
+      <ResultPage
+        score={score}
+        quizzes={moduleQuiz}
+        onClickTry={handleClickTry}
+      />
+    )}
     </div>
   );
 };
