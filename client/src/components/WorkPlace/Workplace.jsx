@@ -27,13 +27,13 @@ export default function WorkPlace() {
   const [courseContent, setcourseContent] = useState({});
   const [currentChapter, setCurrentChapter] = useState({});
   const [currentModule, setcurrentModule] = useState(null);
-  const [completedChapters, setCompletedChapters] = useState([]);
   const [isModuleChanged, setisModuleChanged] = useState(false);
   const [isCourseEnrolled, setisCourseEnrolled] = useState(false);
   const [isCourseDataChanged, setisCourseDataChanged] = useState(false);
   const [userCourseProgress, setuserCourseProgress] = useState({});
   const [isQuizSelected, setisQuizSelected] = useState(false);
   const [currentChapterStatus, setcurrentChapterStatus] = useState("none");
+  const [currentModuleAllChapterStatus, setcurrentModuleAllChapterStatus] = useState("none");
 
   const getUserProgress = async () => {
     const data = await courseProgressAPI({
@@ -53,6 +53,7 @@ export default function WorkPlace() {
       setCurrentChapter(data?.module[0]?.chapter[0]);
       setcurrentModule(data?.module[0]);
       setisCourseDataChanged(!isCourseDataChanged);
+      checkModuleCoursesStatus({ module: data?.module[0] });
 
       // if (!data?.usersEnrolled.includes(loggedInUserData._id)) {
       //   toast("Please enroll course before proceeding", {
@@ -61,14 +62,14 @@ export default function WorkPlace() {
       //   navigate(-1);
       // }
       await getUserProgress();
-      // await checkChapterStatus({ chapter: data?.module[0]?.chapter[0] });
+      await checkChapterStatus({ chapter: data?.module[0]?.chapter[0] });
     }
   };
 
-  console.log(currentChapter);
+  // console.log(currentChapter);
 
   const handleChapterClick = async (chapter) => {
-    await checkChapterStatus({ chapter });
+    // await checkChapterStatus({ chapter });
     setCurrentChapter(chapter._id === currentChapter._id ? currentChapter : chapter);
   };
 
@@ -82,18 +83,18 @@ export default function WorkPlace() {
         return progressChapter;
       });
       // Check if all chapters are full in the updated module
-      const isModuleFull = updatedChapters.every((c) => c.status === "full");
+      const isChapterFull = updatedChapters.every((c) => c.status === "full");
 
       const updatedModule = {
         ...progressModule,
         chapters: updatedChapters,
-        status: isModuleFull ? "full" : progressModule.status,
+        chapterStatus: isChapterFull ? "full" : progressModule.chapterStatus,
       };
 
       return updatedModule;
     });
 
-    setuserCourseProgress({ ...userCourseProgress, modules: updatedProgress });
+    // setuserCourseProgress({ ...userCourseProgress, modules: updatedProgress });
     const updatesUserPorgress = { ...userCourseProgress, modules: updatedProgress };
 
     const updatedUserProgress = await updateCourseProgressAPI({
@@ -101,25 +102,33 @@ export default function WorkPlace() {
       courseId: courseContent?._id,
       userId: loggedInUserData?._id,
     });
+    setuserCourseProgress(updatedUserProgress.updatedProgress);
 
-    if (updatedUserProgress) {
-      checkChapterStatus({ chapter });
-    }
-
-    // console.log(updatedUserProgress);
+    checkChapterStatus({ chapter });
   };
 
+  // console.log(userCourseProgress);
+
   const checkChapterStatus = async ({ chapter }) => {
-    console.log(chapter);
-    await userCourseProgress.modules.map((progressModule) => {
-      progressModule.chapters.map((progressChapter) => {
+    await userCourseProgress?.modules?.map((progressModule) => {
+      progressModule?.chapters?.map((progressChapter) => {
         if (progressChapter?._id === chapter._id) {
           setcurrentChapterStatus(progressChapter.status);
         }
       });
     });
   };
-  console.log(currentChapterStatus);
+
+  const checkModuleCoursesStatus = async ({ module }) => {
+    await userCourseProgress?.modules?.map((progressModule) => {
+      if (progressModule?._id == module?._id) {
+        setcurrentModuleAllChapterStatus(progressModule?.chapterStatus);
+      }
+    });
+  };
+
+  console.log(currentModuleAllChapterStatus);
+
   useEffect(() => {
     checkChapterStatus({ chapter: currentChapter });
   }, [userCourseProgress, currentChapter]);
@@ -130,7 +139,7 @@ export default function WorkPlace() {
 
   useEffect(() => {
     getUserProgress();
-  }, [courseContent, isCourseDataChanged, loggedInUserData, currentChapterStatus]);
+  }, [loggedInUserData, moduleContent]);
 
   useEffect(() => {
     hljs.highlightAll();
@@ -151,7 +160,7 @@ export default function WorkPlace() {
               alt=""
             />
           </div>
-          {/* <p className="text-white text-[12px] text-center mt-2">{moduleContent?.title}</p> */}
+          <p className="text-white text-[24px] text-center mt-2">{courseContent?.title}</p>
           <div className="mt-10">
             {moduleContent?.map((module, index) => (
               <div key={index}>
@@ -169,6 +178,9 @@ export default function WorkPlace() {
                   isQuizSelected={isQuizSelected}
                   setisQuizSelected={setisQuizSelected}
                   userCourseProgress={userCourseProgress}
+                  setcurrentModuleAllChapterStatus={setcurrentModuleAllChapterStatus}
+                  currentModuleAllChapterStatus={currentModuleAllChapterStatus}
+                  checkModuleCoursesStatus={checkModuleCoursesStatus}
                 />
               </div>
             ))}

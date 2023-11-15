@@ -13,7 +13,7 @@ import AllCourses from "./components/Courses/AllCourses";
 import { Profile } from "./components/Profile/Profile";
 import CourseDescription from "./components/Courses/CourseDesc/CourseDescription";
 
-import WorkPlace from "./components/WorkPlace/WorkPlace";
+import WorkPlace from "./components/WorkPlace/Workplace";
 
 function App() {
   const RedirectAs404 = ({ location }) => <Navigate to={Object.assign({}, location, { state: { is404: true } })} />;

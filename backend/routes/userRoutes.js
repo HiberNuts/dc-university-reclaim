@@ -13,13 +13,11 @@ module.exports = function (app) {
 
   app.get("/api/test/mod", [authJwt.verifyToken, authJwt.isModerator], controller.moderatorBoard);
 
-  app.get("/api/test/admin",[authJwt.verifyToken, authJwt.isAdmin],controller.adminBoard);
+  app.get("/api/test/admin", [authJwt.verifyToken, authJwt.isAdmin], controller.adminBoard);
 
-  app.post("/api/user/courseEnrolled",[authJwt.verifyToken],controller.courseEnrolled);
+  app.post("/api/user/courseEnrolled", [authJwt.verifyToken], controller.courseEnrolled);
 
-  app.get("/api/user/progress", controller.userProgress);
+  app.post("/api/user/progress", controller.userProgress);
   app.put("/api/user/updateProgress", controller.updateCourseProgress);
   app.get("/api/user/progressPercentage", controller.userCourseProgressPercentage);
-
-
-}
+};

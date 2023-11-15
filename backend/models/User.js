@@ -1,107 +1,115 @@
 const mongoose = require("mongoose");
 
-
 const chapterSchema = new mongoose.Schema({
   _id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Chapter'
+    ref: "Chapter",
   },
   status: {
     type: String,
-    enum: ['none', 'partial', 'full'],
-    default: 'none'
+    enum: ["none", "partial", "full"],
+    default: "none",
   },
-  strapiId: Number
+  strapiId: Number,
 });
 
 const quizSchema = new mongoose.Schema({
   _id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Chapter'
-  }, 
+    ref: "Chapter",
+  },
   status: {
     type: String,
-    enum: ['none', 'partial', 'full'],
-    default: 'none'
+    enum: ["none", "partial", "full"],
+    default: "none",
   },
   answer: {
     type: String,
-    enum: ['a', 'b', 'c', 'd']
+    enum: ["a", "b", "c", "d"],
   },
-  strapiId: Number
+  strapiId: Number,
 });
 
 const moduleSchema = new mongoose.Schema({
   _id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Module'
+    ref: "Module",
   },
   status: {
     type: String,
-    enum: ['none', 'partial', 'full'],
-    default: 'none'
+    enum: ["none", "partial", "full"],
+    default: "none",
+  },
+  chapterStatus: {
+    type: String,
+    enum: ["none", "partial", "full"],
+    default: "none",
+  },
+  quizStatus: {
+    type: String,
+    enum: ["none", "partial", "full"],
+    default: "none",
   },
   chapters: [chapterSchema],
   quizzes: [quizSchema],
-  strapiId: Number
+  strapiId: Number,
 });
 
 const enrolledCourseSchema = new mongoose.Schema({
   courseId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Course'
+    ref: "Course",
   },
-  modules: [moduleSchema]
+  modules: [moduleSchema],
 });
-
 
 const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
       required: true,
-      default: "default"
+      default: "default",
     },
     walletAddress: {
       type: String,
       required: true,
-      default: "abc123"
+      default: "abc123",
     },
     email: {
       type: String,
       required: false,
-      default: "default"
+      default: "default",
     },
-    isVerified: { 
+    isVerified: {
       type: Boolean,
-      default: false 
+      default: false,
     },
-    isBlocked: { 
+    isBlocked: {
       type: Boolean,
-      default: false 
+      default: false,
     },
     displayName: {
       type: String,
       required: true,
-      default: "default"
+      default: "default",
     },
     enrolledCourses: [enrolledCourseSchema],
     portfolio: {
       type: String,
       required: true,
-      default: "https://sample.com/link"
+      default: "https://sample.com/link",
     },
     designation: {
       type: String,
       required: true,
-      default: "developer"
+      default: "developer",
     },
     roles: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Role"
-      }
-    ]
+        ref: "Role",
+      },
+    ],
   },
   {
     timestamps: true,
@@ -111,4 +119,3 @@ const userSchema = new mongoose.Schema(
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
- 

@@ -60,3 +60,69 @@ export const getCoursebyName = async (title) => {
     return error;
   }
 };
+
+export const enrollCourseAPI = async ({ courseId, userId, accessToken }) => {
+  try {
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/user/courseEnrolled`,
+      {
+        courseId: courseId,
+        userId: userId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return data;
+    // toast.success(data?.message);
+  } catch (error) {
+    // toast.error("Something went wrong while enrolling Course, Please try again");
+    return error;
+  }
+};
+
+export const courseProgressAPI = async ({ courseId, userId, accessToken }) => {
+  try {
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/user/progress`,
+      {
+        courseId: courseId,
+        userId: userId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    // console.log(data);
+    return data;
+  } catch (error) {
+    // toast.error("Something went wrong while enrolling Course, Please try again");
+    return error;
+  }
+};
+
+export const updateCourseProgressAPI = async ({ updatesUserPorgress, courseId, userId, accessToken }) => {
+  try {
+    const { data } = await axios.put(
+      `${import.meta.env.VITE_BACKEND_URL}/user/updateProgress`,
+      {
+        courseId,
+        userId,
+        updatedEnrolledCourse: updatesUserPorgress,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    toast.error("Something went wrong!");
+    return error;
+  }
+};
