@@ -41,13 +41,14 @@ export const Profile = ({ isOpen, closeModal }) => {
   const { allCourseMetaInfo, loggedInUserData, setuserDataIsUpdated, userDataIsUpdated } = useContext(ParentContext);
   console.log(loggedInUserData);
 
-
   useEffect(() => {
     const fetchUserData = async () => {
       console.log(loggedInUserData);
       // console.log(formData)
       try {
-        const response = await axios.get(`http://localhost:8080/api/auth/getUserData?userid=${loggedInUserData._id}`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/auth/getUserData?userid=${loggedInUserData._id}`
+        );
         // console.log(response)
         if (response?.data?.email == "default") {
           setFormData({ ...formData, name: "", email: "" });
@@ -79,10 +80,13 @@ export const Profile = ({ isOpen, closeModal }) => {
     setisEditing(false);
 
     try {
-      const response = await axios.put(`http://localhost:8080/api/auth/update?userid=${loggedInUserData._id}`, {
-        ...formData,
-        username: formData.name,
-      });
+      const response = await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/update?userid=${loggedInUserData._id}`,
+        {
+          ...formData,
+          username: formData.name,
+        }
+      );
       setUserData(response.data);
 
       // setFro(response.data);
@@ -96,9 +100,12 @@ export const Profile = ({ isOpen, closeModal }) => {
 
   const handleResendVerificationEmail = async () => {
     try {
-      const response = await axios.post(`http://localhost:8080/api/auth/resend?userId=${loggedInUserData.id}`, {
-        userid: loggedInUserData.id,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/resend?userId=${loggedInUserData.id}`,
+        {
+          userid: loggedInUserData.id,
+        }
+      );
       if (response.status === 200) {
         toast.success("Verification email has been resent.");
       } else {
@@ -109,7 +116,6 @@ export const Profile = ({ isOpen, closeModal }) => {
       toast.error("Error while resending verification email.");
     }
   };
-
 
   return (
     <div className="w-full  h-full flex justify-between align-middle">

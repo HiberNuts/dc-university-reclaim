@@ -15,7 +15,7 @@ const CoursePlace = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:1337/api/courses/4?populate=deep")
+      .get(`${import.meta.env.VITE_BACKEND_URL}/courses/4?populate=deep`)
       .then((response) => {
         const content = response.data?.data?.attributes?.module?.[0]?.chapter?.[0]?.content;
         console.log(content);

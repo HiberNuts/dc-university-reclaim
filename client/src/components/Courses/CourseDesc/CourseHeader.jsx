@@ -30,7 +30,6 @@ const CourseHeader = ({ props }) => {
         userId: loggedInUserData._id,
       });
       if (data) {
-    
         toast.success("Course enrolled!", {
           icon: "🌟",
         });

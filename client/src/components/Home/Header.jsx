@@ -47,7 +47,7 @@ export default function Header() {
 
   const signinUser = async () => {
     try {
-      const res = await axios.post("http://localhost:8080/api/auth/signin", { walletAddress: address });
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, { walletAddress: address });
       setloggedInUserData(res?.data);
       if (res?.data?.email === "default") {
         navigate("/profile");
