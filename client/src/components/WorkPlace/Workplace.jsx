@@ -10,6 +10,7 @@ import { H1 } from './customCourseElement';
 import ReactPlayer from 'react-player';
 import './WorkPlace.scss';
 import Quiz from '../Quiz/Quiz';
+
 export default function WorkPlace() {
   const params = useParams();
   const [moduleContent, setModuleContent] = useState([]);
