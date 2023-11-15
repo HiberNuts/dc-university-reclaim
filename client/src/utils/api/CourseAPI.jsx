@@ -60,6 +60,19 @@ export const getCoursebyName = async (title) => {
     return error;
   }
 };
+export const getCoursebyIdAPI = async (id) => {
+  console.log(id);
+  try {
+    const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/course/getCourse?courseId=${id}`);
+    if (data.course) {
+      console.log(data.course);
+      return data.course;
+    }
+  } catch (error) {
+    toast.error("Something went wrong");
+    return error;
+  }
+};
 
 export const enrollCourseAPI = async ({ courseId, userId, accessToken }) => {
   try {
@@ -113,6 +126,27 @@ export const updateCourseProgressAPI = async ({ updatesUserPorgress, courseId, u
         courseId,
         userId,
         updatedEnrolledCourse: updatesUserPorgress,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    toast.error("Something went wrong!");
+    return error;
+  }
+};
+
+export const getUserCourseProgressPercentage = async ({  courseId, userId, accessToken }) => {
+  try {
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/user/progressPercentage`,
+      {
+        courseId,
+        userId,
       },
       {
         headers: {

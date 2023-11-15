@@ -1,14 +1,32 @@
-import React, { useRef } from "react";
-import "./CourseCard.css";
-import timeIcon from "../../../assets/timeIcon.svg";
-import profileIcon from "../../../assets/profileIcon.svg";
-import levelIcon from "../../../assets/levelIcon.svg";
-import { OrangeButton } from "../../button/OrangeButton";
+import React, { useEffect, useRef, useState } from "react";
+// import "./CourseCard.css";
+import timeIcon from "../../assets/timeIcon.svg";
+import profileIcon from "../../assets/profileIcon.svg";
+import levelIcon from "../../assets/levelIcon.svg";
 import { motion, useScroll } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getUserCourseProgressPercentage } from "../../utils/api/CourseAPI";
+import { generateSlug } from "../../utils/generateSlug";
 
-const CourseCard = ({ props }) => {
+const ProfileCourseCard = ({ props, loggedInUserData }) => {
+  const navigate = useNavigate();
   const scrollRef = useRef(null);
+  const [currentCourseProgress, setcurrentCourseProgress] = useState({});
+
+  const getProgressPercentage = async () => {
+    const data = await getUserCourseProgressPercentage({
+      courseId: props?._id,
+      userId: loggedInUserData?._id,
+      accessToken: loggedInUserData?.accessToken,
+    });
+    setcurrentCourseProgress(data);
+  };
+
+  useEffect(() => {
+    getProgressPercentage();
+  }, []);
+
+  console.log(currentCourseProgress);
 
   const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
   return (
@@ -21,7 +39,7 @@ const CourseCard = ({ props }) => {
       }}
       className="flex card-container  h-[550px] bg-white dark:border-2 dark:border-shardeumPurple flex-col justify-center align-middle w-[400px] rounded-[16px]"
     >
-      <div className="image-section h-full flex flex-col justify-evenly  px-[20px]">
+      <div className="image-section h-full flex flex-col justify-between py-2  px-[20px]">
         <div className="flex justify-center align-middle items-center">
           <img className="w-[360px] h-[200px] rounded-[16px]" src={props?.banner} />
         </div>
@@ -56,12 +74,22 @@ const CourseCard = ({ props }) => {
             <span>{props?.level}</span>
           </div>
         </div>
-        <Link to={`/course/${props?.title.split(" ").join("-")}`}>
-          <OrangeButton title={"Start Learning"} style={"w-full h-[40px]"} />
-        </Link>
+        <div class="w-full bg-gray-200 rounded-full h-4 mb-4 ">
+          <Link to={`/workplace/${generateSlug(props?.title)}`}>
+            <div className=" bg-gray-200  relative h-6 w-full rounded-2xl">
+              <div
+                className={`bg-shardeumOrange  h-full absolute top-0 left-0 flex w-[${
+                  Math.round(parseInt(currentCourseProgress?.overallCompletionPercentage) / 10) * 10
+                }%] items-center justify-center rounded-2xl text-sm  font-semibold text-white`}
+              >
+                {parseInt(currentCourseProgress?.overallCompletionPercentage)}% completed
+              </div>
+            </div>
+          </Link>
+        </div>
       </div>
     </motion.div>
   );
 };
 
-export default CourseCard;
+export default ProfileCourseCard;
