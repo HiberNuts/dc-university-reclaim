@@ -34,6 +34,7 @@ export default function WorkPlace() {
   const [isQuizSelected, setisQuizSelected] = useState(false);
   const [currentChapterStatus, setcurrentChapterStatus] = useState("none");
   const [currentModuleAllChapterStatus, setcurrentModuleAllChapterStatus] = useState("none");
+  const [currentQuiz, setcurrentQuiz] = useState([]);
 
   const getUserProgress = async () => {
     const data = await courseProgressAPI({
@@ -53,7 +54,7 @@ export default function WorkPlace() {
       setCurrentChapter(data?.module[0]?.chapter[0]);
       setcurrentModule(data?.module[0]);
       setisCourseDataChanged(!isCourseDataChanged);
-      checkModuleCoursesStatus({ module: data?.module[0] });
+      await checkModuleCoursesStatus({ module: data?.module[0] });
 
       // if (!data?.usersEnrolled.includes(loggedInUserData._id)) {
       //   toast("Please enroll course before proceeding", {
@@ -66,7 +67,7 @@ export default function WorkPlace() {
     }
   };
 
-  // console.log(currentChapter);
+  // console.log(moduleContent);
 
   const handleChapterClick = async (chapter) => {
     // await checkChapterStatus({ chapter });
@@ -120,17 +121,43 @@ export default function WorkPlace() {
   };
 
   const checkModuleCoursesStatus = async ({ module }) => {
-    await userCourseProgress?.modules?.map((progressModule) => {
+    const data = await userCourseProgress?.modules?.map((progressModule) => {
       if (progressModule?._id == module?._id) {
-        setcurrentModuleAllChapterStatus(progressModule?.chapterStatus);
+        if (progressModule?.chapterStatus == "full") {
+          return true;
+        }
       }
     });
+    return data;
   };
 
-  console.log(currentModuleAllChapterStatus);
+  // console.log(currentModuleAllChapterStatus);
+
+  const handleNextChapterClick = async ({ chapter }) => {
+    
+    let chapterIndex = currentModule?.chapter.findIndex((c) => c._id == chapter._id);
+    console.log(chapterIndex, "check");
+    if (chapterIndex == currentModule?.chapter.length - 1) {
+      setisQuizSelected(true);
+      setcurrentQuiz(currentModule?.quizzes);
+    } else {
+      setCurrentChapter(currentModule?.chapter[chapterIndex + 1]);
+    }
+  };
+  const handlePrevChapterClick = async ({ chapter }) => {
+
+    let chapterIndex = currentModule?.chapter.findIndex((c) => c._id == chapter._id);
+    console.log(chapterIndex, "check");
+    if (chapterIndex == 0) {
+      console.log("no button");
+    } else {
+      setCurrentChapter(currentModule?.chapter[chapterIndex - 1]);
+    }
+  };
 
   useEffect(() => {
     checkChapterStatus({ chapter: currentChapter });
+    checkModuleCoursesStatus({ module: moduleContent[0] });
   }, [userCourseProgress, currentChapter]);
 
   useEffect(() => {
@@ -168,6 +195,7 @@ export default function WorkPlace() {
                   moduleIndex={index}
                   setisModuleChanged={setisModuleChanged}
                   isModuleChanged={isModuleChanged}
+                  handleCompleteChapter={handleCompleteChapter}
                   module={module}
                   className="mt-10"
                   setCurrentChapter={setCurrentChapter}
@@ -181,6 +209,9 @@ export default function WorkPlace() {
                   setcurrentModuleAllChapterStatus={setcurrentModuleAllChapterStatus}
                   currentModuleAllChapterStatus={currentModuleAllChapterStatus}
                   checkModuleCoursesStatus={checkModuleCoursesStatus}
+                  setuserCourseProgress={setuserCourseProgress}
+                  setcurrentQuiz={setcurrentQuiz}
+                  currentQuiz={currentQuiz}
                 />
               </div>
             ))}
@@ -190,13 +221,15 @@ export default function WorkPlace() {
       <div className="ml-[25%] w-[80%]">
         <div className="flex w-full bg- my-10 justify-center items-center align-middle">
           {isQuizSelected ? (
-            <Quiz isModuleChanged={isModuleChanged} moduleQuiz={currentModule?.quizzes ? currentModule?.quizzes : []} />
+             <div className="flex text-[20px] w-[70%] courseContent justify-center align-middle  flex-col ">
+               <Quiz isModuleChanged={isModuleChanged} moduleQuiz={currentModule?.quizzes ? currentModule?.quizzes : []} />
+             </div>
           ) : (
             currentChapter && (
               <div className="flex text-[20px] w-[70%] courseContent justify-center align-middle  flex-col ">
                 {currentModule?.chapter
                   .filter((chapter) => chapter._id === currentChapter._id)
-                  .map((chapter, chapterIndex) => (
+                  .map((chapter) => (
                     <div className="w-full items-center">
                       <HTMLRenderer
                         html={chapter?.content}
@@ -205,6 +238,21 @@ export default function WorkPlace() {
                         }}
                       />
                       <div className="w-full mt-10 flex justify-evenly align-middle items-center">
+                        {currentModule?.chapter.findIndex((c) => c._id == chapter._id) == 0 ? (
+                          <div></div>
+                        ) : (
+                          <button
+                            onClick={() => {
+                              handlePrevChapterClick({ chapter });
+                            }}
+                            className={`bg-shardeumOrange flex justify-evenly align-middle  hover:bg-[#ff7a2e] rounded-[10px] w-auto px-4 py-3  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
+                          >
+                            {/* {icon && <FontAwesomeIcon className="mr-3" icon={icon ? icon : ""} />} */}
+                            <img className={`w-6 h-6 rotate-90 mr-2 items-center  fill-white `} src={whiteExpand} />
+                            <span className="items-center text-center ">Previous</span>
+                          </button>
+                        )}
+
                         <button
                           disabled={currentChapterStatus == "full" ? true : false}
                           onClick={() => handleCompleteChapter({ chapter })}
@@ -214,6 +262,9 @@ export default function WorkPlace() {
                         </button>
                         {currentChapterStatus == "full" && (
                           <button
+                            onClick={() => {
+                              handleNextChapterClick({ chapter });
+                            }}
                             className={`bg-shardeumOrange flex justify-evenly align-middle  hover:bg-[#ff7a2e] rounded-[10px] w-auto px-4 py-3  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
                           >
                             {/* {icon && <FontAwesomeIcon className="mr-3" icon={icon ? icon : ""} />} */}

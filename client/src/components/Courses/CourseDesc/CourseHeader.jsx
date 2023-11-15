@@ -30,9 +30,11 @@ const CourseHeader = ({ props }) => {
         userId: loggedInUserData._id,
       });
       if (data) {
+    
         toast.success("Course enrolled!", {
           icon: "🌟",
         });
+        setisCourseEnrolled(true);
       }
     } else {
       toast("Login to continue!", {
@@ -48,7 +50,6 @@ const CourseHeader = ({ props }) => {
         courseId: props._id,
         userId: loggedInUserData._id,
       });
-      console.log(data);
       if (data.enrolledCourse) {
         setisCourseEnrolled(true);
       }

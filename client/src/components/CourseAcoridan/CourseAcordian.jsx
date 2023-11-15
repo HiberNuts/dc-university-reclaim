@@ -97,85 +97,167 @@ const CourseAcordian = ({
   currentModuleAllChapterStatus,
   setcurrentModuleAllChapterStatus,
   checkModuleCoursesStatus,
+  currentModule,
+  currentQuiz,
+  setcurrentQuiz,
 }) => {
   const navigate = useNavigate();
   const [courseStatus, setcourseStatus] = useState("");
 
-  return (
-    <div className="courseAcc">
-      <Accordion>
-        <AccordionItem key={"i"}>
-          <AccordionHeader text={module?.moduleTitle} />
-          <AccordionPanel className="bg-shardeumBlue">
-            {module?.chapter.map((chapter, i) => {
-              return (
-                <div>
-                  <button
-                    disabled={
-                      userCourseProgress?.modules[moduleIndex]?.chapters[i - 1]?.status !== "full" ? true : false
-                    }
-                    key={i}
-                    onClick={() => {
-                      setisQuizSelected(false);
-                      handleChapterClick(chapter);
-                      checkModuleCoursesStatus({ module });
-                      setcurrentModule(module);
-                      setisModuleChanged(!isModuleChanged);
-                    }}
-                  >
-                    <div className="flex items-center pt-2  mr-4">
-                      {userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status === "full" ? (
-                        <div className="rounded-full bg-white items-center w-[25px] h-[25px]">
-                          <img className="w-full h-full" src={tick} />
-                        </div>
-                      ) : userCourseProgress?.modules[moduleIndex]?.chapters[i - 1]?.status !== "full" ? (
-                        <div className="rounded-full bg-white items-center w-[25px] h-[25px]">
-                          <img className="w-full h-full" src={lock} />
-                        </div>
-                      ) : (
-                        <div
-                          className={`rounded-full ${
-                            chapter._id == currentChapter._id
-                              ? "border-2 border-shardeumOrange"
-                              : "border-2 border-white "
-                          } bg-shardeumBlue  w-[25px] h-[25px]`}
-                        ></div>
-                      )}
+  const handleCompleteChapter = async ({ chapter }) => {
+    const updatedProgress = await userCourseProgress.modules.map((progressModule) => {
+      const updatedChapters = progressModule.chapters.map((progressChapter) => {
+        if (progressChapter._id === chapter._id) {
+          // Update the chapter status
+          return { ...progressChapter, status: "partial" };
+        }
+        return progressChapter;
+      });
+      // Check if all chapters are full in the updated module
 
-                      <label
-                        htmlFor="red-checkbox"
-                        className={`ml-2 text-[16px] items-start text-start ${
-                          chapter._id == currentChapter._id
-                            ? "text-shardeumOrange  font-bold"
-                            : `${
-                                userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status !== "full" ||
-                                userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status !== "none"
-                                  ? "text-gray-300"
-                                  : "text-white "
-                              }`
-                        } cursor-pointer   `}
-                      >
-                        {chapter?.title}
-                      </label>
-                    </div>
-                  </button>
-                </div>
-              );
-            })}
-            <RenderQuiz
-              module={module}
-              isModuleChanged={isModuleChanged}
-              setisQuizSelected={setisQuizSelected}
-              isQuizSelected={isQuizSelected}
-              setcurrentModule={setcurrentModule}
-              setisModuleChanged={setisModuleChanged}
-              currentModuleAllChapterStatus={currentModuleAllChapterStatus}
-            />
-          </AccordionPanel>
-        </AccordionItem>
-      </Accordion>
-    </div>
-  );
+      const updatedModule = {
+        ...progressModule,
+        chapters: updatedChapters,
+      };
+      // console.log(updatedModule);
+      return updatedModule;
+    });
+
+    setuserCourseProgress({ ...userCourseProgress, modules: updatedProgress });
+  };
+  // console.log(userCourseProgress);
+  if (userCourseProgress) {
+    return (
+      <div className="courseAcc">
+        <Accordion>
+          <AccordionItem key={"i"}>
+            <AccordionHeader text={module?.moduleTitle} />
+            <AccordionPanel className="bg-shardeumBlue">
+              {module?.chapter.map((chapter, i) => {
+                let disabled = false;
+                if (userCourseProgress?.modules) {
+                  if (moduleIndex == 0) {
+                    if (i == 0) {
+                      disabled = false;
+
+                      if (userCourseProgress?.modules[moduleIndex ? moduleIndex : 0]?.chapters[0]?.status == "none") {
+                        handleCompleteChapter({ chapter: userCourseProgress?.modules[moduleIndex]?.chapters[0] });
+                      }
+                    } else {
+                      disabled =
+                        userCourseProgress?.modules[moduleIndex]?.chapters[i - 1]?.status !== "full" ? true : false;
+                    }
+                  } else {
+                    if (
+                      userCourseProgress?.modules[moduleIndex - 1 ? moduleIndex - 1 : 0]?.status === "full" &&
+                      userCourseProgress?.modules[moduleIndex]?.chapters[0]?.status == "none"
+                    ) {
+                      handleCompleteChapter({ chapter: userCourseProgress?.modules[moduleIndex]?.chapters[0] });
+                    }
+                    // console.log(userCourseProgress?.modules[moduleIndex]?.chapters[0]?.status);
+
+                    // disabled = userCourseProgress?.modules[moduleIndex - 1]?.status == "full" ? false : true
+                  }
+                }
+
+                return (
+                  <div>
+                    <button
+                      disabled={disabled}
+                      key={i}
+                      onClick={() => {
+                        setisQuizSelected(false);
+                        handleChapterClick(chapter);
+                        checkModuleCoursesStatus({ module });
+                        setcurrentModule(module);
+                        setisModuleChanged(!isModuleChanged);
+                      }}
+                    >
+                      <div className="flex items-center pt-2  mr-4">
+                        {/* {i == 0 ? (
+                          userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status === "full" ? (
+                            <div className="rounded-full bg-white items-center w-[25px] h-[25px]">
+                              <img className="w-full h-full" src={tick} />
+                            </div>
+                          ) : (
+                            <div></div>
+                          )
+                        ) : (
+                          <div></div>
+                        )} */}
+
+                        {userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status === "full" ? (
+                          <div className="rounded-full bg-white items-center w-[25px] h-[25px]">
+                            <img className="w-full h-full" src={tick} />
+                          </div>
+                        ) : userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status === "partial" ? (
+                          <div
+                            className={`rounded-full ${
+                              isQuizSelected
+                                ? "text-white"
+                                : chapter._id == currentChapter._id
+                                ? "border-2 border-shardeumOrange"
+                                : "border-2 border-white "
+                            } bg-shardeumBlue  w-[25px] h-[25px]`}
+                          ></div>
+                        ) : userCourseProgress?.modules[moduleIndex]?.chapters[i - 1]?.status !== "full" ? (
+                          <div className="rounded-full bg-white items-center w-[25px] h-[25px]">
+                            <img className="w-full h-full" src={lock} />
+                          </div>
+                        ) : (
+                          <div
+                            className={`rounded-full ${
+                              isQuizSelected
+                                ? "text-white"
+                                : chapter._id == currentChapter._id
+                                ? "border-2 border-shardeumOrange"
+                                : "border-2 border-white "
+                            } bg-shardeumBlue  w-[25px] h-[25px]`}
+                          ></div>
+                        )}
+
+                        <label
+                          htmlFor="red-checkbox"
+                          className={`ml-2 text-[16px] items-start text-start ${
+                            isQuizSelected
+                              ? "text-white"
+                              : chapter._id == currentChapter._id
+                              ? "text-shardeumOrange  font-bold"
+                              : `${
+                                  userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status !== "full" ||
+                                  userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status !== "none"
+                                    ? "text-gray-300"
+                                    : "text-white "
+                                }`
+                          } cursor-pointer   `}
+                        >
+                          {chapter?.title}
+                        </label>
+                      </div>
+                    </button>
+                  </div>
+                );
+              })}
+              <RenderQuiz
+                module={module}
+                isModuleChanged={isModuleChanged}
+                setisQuizSelected={setisQuizSelected}
+                isQuizSelected={isQuizSelected}
+                setcurrentModule={setcurrentModule}
+                setisModuleChanged={setisModuleChanged}
+                currentModuleAllChapterStatus={currentModuleAllChapterStatus}
+                checkModuleCoursesStatus={checkModuleCoursesStatus}
+                userCourseProgress={userCourseProgress}
+                currentModule={currentModule}
+                setcurrentQuiz={setcurrentQuiz}
+                currentQuiz={currentQuiz}
+              />
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+      </div>
+    );
+  }
 };
 
 const RenderQuiz = ({
@@ -186,27 +268,46 @@ const RenderQuiz = ({
   setcurrentModule,
   setisModuleChanged,
   currentModuleAllChapterStatus,
+  userCourseProgress,
+  currentModule,
+  currentQuiz,
+  setcurrentQuiz,
   setcurrentModuleAllChapterStatus,
-  checkModuleCoursesStatus,
 }) => {
   // const [currentModuleStatus, setcurrentModuleStatus] = useState("");
 
   const [quizStatus, setquizStatus] = useState("");
   const handleQuizClick = (module) => {};
-  const [currentQuiz, setcurrentQuiz] = useState([]);
+
+  const [currentChaptersStatus, setcurrentChaptersStatus] = useState("none");
+
+  const checkModuleCoursesStatus = async ({ module }) => {
+    const data = await userCourseProgress?.modules?.map((progressModule) => {
+      if (progressModule?._id == module?._id) {
+        setcurrentChaptersStatus(progressModule?.chapterStatus);
+        setquizStatus(progressModule?.quizStatus);
+      }
+    });
+  };
+  console.log(currentQuiz);
+
+  useEffect(() => {
+    checkModuleCoursesStatus({ module });
+  }, []);
 
   return (
     <div>
       <button
-        disabled={currentModuleAllChapterStatus == "full" ? false : true}
+        disabled={currentChaptersStatus == "full" ? false : true}
         onClick={() => {
           setisQuizSelected(true);
           setcurrentModule(module);
+          setcurrentQuiz(module?.quizzes);
           setisModuleChanged(!isModuleChanged);
         }}
       >
         <div className="flex items-center pt-2  mr-4">
-          {currentModuleAllChapterStatus == "none" ? (
+          {currentChaptersStatus == "none" ? (
             <div className="rounded-full bg-gray-300 w-[25px] h-[25px]">
               <img src={lock} />
             </div>
@@ -217,7 +318,11 @@ const RenderQuiz = ({
           ) : (
             <div
               className={`rounded-full ${
-                module.quizzes == currentQuiz ? "border-2 border-shardeumOrange" : "border-2 border-white "
+                isQuizSelected &&
+                currentModule?.quizzes[0]?._id == currentQuiz[0]?._id &&
+                module._id == currentModule._id
+                  ? "border-2 border-shardeumOrange"
+                  : "border-2 border-white "
               } bg-shardeumBlue  w-[25px] h-[25px]`}
             ></div>
           )}
@@ -225,9 +330,9 @@ const RenderQuiz = ({
           <label
             htmlFor="red-checkbox"
             className={`ml-2 text-[16px] items-start text-start ${
-              module.quizzes == currentQuiz
-                ? "text-shardeumOrange  font-bold"
-                : `${quizStatus == "locked" ? "text-gray-300" : "text-white "}`
+              isQuizSelected && currentModule?.quizzes[0]?._id == currentQuiz[0]?._id && module._id == currentModule._id
+                ? "text-shardeumOrange font-bold"
+                : "text-white"
             }    cursor-pointer`}
           >
             Quiz
