@@ -13,7 +13,7 @@ export const LearnCard = ({ text }) => {
 };
 
 const CourseLearn = ({ props }) => {
-  console.log(props);
+
   return (
     <div className="w-full  flex justify-center items-center align-middle">
       <div className="sm:w-[80%] flex flex-col">
