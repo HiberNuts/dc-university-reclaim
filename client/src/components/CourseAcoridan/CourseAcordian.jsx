@@ -21,8 +21,10 @@ const AccordionContext = React.createContext({});
 const useAccordion = () => React.useContext(AccordionContext);
 
 function Accordion({ children, multiple, defaultIndex }) {
+  const childrenArray = React.Children.toArray(children);
+  const allIndices = childrenArray.map((_, index) => index);
   const [activeIndex, setActiveIndex] = React.useState(
-    multiple ? [defaultIndex] : defaultIndex
+    multiple ? [defaultIndex] : 0
   );
 
   function onChangeIndex(index) {
