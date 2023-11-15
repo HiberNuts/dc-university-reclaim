@@ -56,12 +56,12 @@ export default function WorkPlace() {
       setisCourseDataChanged(!isCourseDataChanged);
       await checkModuleCoursesStatus({ module: data?.module[0] });
 
-      // if (!data?.usersEnrolled.includes(loggedInUserData._id)) {
-      //   toast("Please enroll course before proceeding", {
-      //     icon: "🌟",
-      //   });
-      //   navigate(-1);
-      // }
+      if (loggedInUserData?._id && !data?.usersEnrolled.includes(loggedInUserData._id)) {
+        toast("Please enroll course before proceeding", {
+          icon: "🌟",
+        });
+        navigate(-1);
+      }
       await getUserProgress();
       await checkChapterStatus({ chapter: data?.module[0]?.chapter[0] });
     }
@@ -106,9 +106,10 @@ export default function WorkPlace() {
     setuserCourseProgress(updatedUserProgress.updatedProgress);
 
     checkChapterStatus({ chapter });
+    await checkModuleCoursesStatus({ currentModule });
   };
 
-  // console.log(userCourseProgress);
+  console.log(userCourseProgress);
 
   const checkChapterStatus = async ({ chapter }) => {
     await userCourseProgress?.modules?.map((progressModule) => {
@@ -134,7 +135,6 @@ export default function WorkPlace() {
   // console.log(currentModuleAllChapterStatus);
 
   const handleNextChapterClick = async ({ chapter }) => {
-    
     let chapterIndex = currentModule?.chapter.findIndex((c) => c._id == chapter._id);
     console.log(chapterIndex, "check");
     if (chapterIndex == currentModule?.chapter.length - 1) {
@@ -145,7 +145,6 @@ export default function WorkPlace() {
     }
   };
   const handlePrevChapterClick = async ({ chapter }) => {
-
     let chapterIndex = currentModule?.chapter.findIndex((c) => c._id == chapter._id);
     console.log(chapterIndex, "check");
     if (chapterIndex == 0) {
@@ -221,9 +220,17 @@ export default function WorkPlace() {
       <div className="ml-[25%] w-[80%]">
         <div className="flex w-full bg- my-10 justify-center items-center align-middle">
           {isQuizSelected ? (
-             <div className="flex text-[20px] w-[70%] courseContent justify-center align-middle  flex-col ">
-               <Quiz isModuleChanged={isModuleChanged} moduleQuiz={currentModule?.quizzes ? currentModule?.quizzes : []} />
-             </div>
+            <div className="flex text-[20px] w-[70%] courseContent justify-center align-middle  flex-col ">
+              <Quiz
+                courseId={courseContent?._id}
+                userId={loggedInUserData?._id}
+                currentModule={currentModule}
+                setuserCourseProgress={setuserCourseProgress}
+                userCourseProgress={userCourseProgress}
+                isModuleChanged={isModuleChanged}
+                moduleQuiz={currentModule?.quizzes ? currentModule?.quizzes : []}
+              />
+            </div>
           ) : (
             currentChapter && (
               <div className="flex text-[20px] w-[70%] courseContent justify-center align-middle  flex-col ">

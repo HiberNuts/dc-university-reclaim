@@ -15,7 +15,9 @@ const AccordionContext = React.createContext({});
 const useAccordion = () => React.useContext(AccordionContext);
 
 function Accordion({ children, multiple, defaultIndex }) {
-  const [activeIndex, setActiveIndex] = React.useState(multiple ? [defaultIndex] : defaultIndex);
+  const childrenArray = React.Children.toArray(children);
+  const allIndices = childrenArray.map((_, index) => index);
+  const [activeIndex, setActiveIndex] = React.useState(multiple ? [defaultIndex] : 0);
 
   function onChangeIndex(index) {
     setActiveIndex((currentActiveIndex) => {
@@ -126,7 +128,7 @@ const CourseAcordian = ({
     setuserCourseProgress({ ...userCourseProgress, modules: updatedProgress });
   };
   // console.log(userCourseProgress);
-  if (userCourseProgress) {
+  if (userCourseProgress?.modules) {
     return (
       <div className="courseAcc">
         <Accordion>
@@ -156,7 +158,7 @@ const CourseAcordian = ({
                     }
                     // console.log(userCourseProgress?.modules[moduleIndex]?.chapters[0]?.status);
 
-                    // disabled = userCourseProgress?.modules[moduleIndex - 1]?.status == "full" ? false : true
+                    disabled = userCourseProgress?.modules[moduleIndex - 1]?.status == "full" ? false : true;
                   }
                 }
 
@@ -194,7 +196,7 @@ const CourseAcordian = ({
                           <div
                             className={`rounded-full ${
                               isQuizSelected
-                                ? "text-white"
+                                ? "text-white border-2 border-white"
                                 : chapter._id == currentChapter._id
                                 ? "border-2 border-shardeumOrange"
                                 : "border-2 border-white "
@@ -208,11 +210,11 @@ const CourseAcordian = ({
                           <div
                             className={`rounded-full ${
                               isQuizSelected
-                                ? "text-white"
+                                ? "text-white border-2 border-white"
                                 : chapter._id == currentChapter._id
                                 ? "border-2 border-shardeumOrange"
-                                : "border-2 border-white "
-                            } bg-shardeumBlue  w-[25px] h-[25px]`}
+                                : "border-2 border-white"
+                            }   w-[25px] h-[25px]`}
                           ></div>
                         )}
 
@@ -289,11 +291,10 @@ const RenderQuiz = ({
       }
     });
   };
-  console.log(currentQuiz);
 
   useEffect(() => {
     checkModuleCoursesStatus({ module });
-  }, []);
+  }, [userCourseProgress]);
 
   return (
     <div>
