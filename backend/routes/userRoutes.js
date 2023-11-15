@@ -19,5 +19,5 @@ module.exports = function (app) {
 
   app.post("/api/user/progress", controller.userProgress);
   app.put("/api/user/updateProgress", controller.updateCourseProgress);
-  app.get("/api/user/progressPercentage", controller.userCourseProgressPercentage);
+  app.post("/api/user/progressPercentage", controller.userCourseProgressPercentage);
 };

@@ -14,6 +14,8 @@ import axios from "axios";
 import { useAccount } from "wagmi";
 import toast, { Toaster } from "react-hot-toast";
 import { ParentContext } from "../../contexts/ParentContext";
+import FeatureCourses from "../Home/FeatureCourses";
+import ProfileCourses from "./ProfileCourses";
 
 // import { ChevronDownIcon, CheckIcon } from "@heroicons/react/24/outline";
 
@@ -39,17 +41,16 @@ export const Profile = ({ isOpen, closeModal }) => {
     // roles: [""],
   });
   const { allCourseMetaInfo, loggedInUserData, setuserDataIsUpdated, userDataIsUpdated } = useContext(ParentContext);
-  console.log(loggedInUserData);
+
 
   useEffect(() => {
     const fetchUserData = async () => {
-      console.log(loggedInUserData);
       // console.log(formData)
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/auth/getUserData?userid=${loggedInUserData._id}`
         );
-        // console.log(response)
+     
         if (response?.data?.email == "default") {
           setFormData({ ...formData, name: "", email: "" });
           setisEditing(true);
@@ -57,13 +58,8 @@ export const Profile = ({ isOpen, closeModal }) => {
           setUserData(response.data);
           setFormData({ ...response.data, name: response.data.username });
         }
-        // if (!response.data.isVerified) {
-        //   // User is not verified, show a pop-up message
-        //   toast.error("Email is not verified");
-        // }
       } catch (error) {
         toast.error("Error while fetching user data");
-        // console.error('Error while fetching user data:', error);
       }
     };
 
@@ -89,8 +85,6 @@ export const Profile = ({ isOpen, closeModal }) => {
       );
       setUserData(response.data);
 
-      // setFro(response.data);
-
       console.log(response);
       setuserDataIsUpdated(!userDataIsUpdated);
     } catch (error) {
@@ -101,9 +95,9 @@ export const Profile = ({ isOpen, closeModal }) => {
   const handleResendVerificationEmail = async () => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/resend?userId=${loggedInUserData.id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/auth/resend?userId=${loggedInUserData._id}`,
         {
-          userid: loggedInUserData.id,
+          userid: loggedInUserData._id,
         }
       );
       if (response.status === 200) {
@@ -295,18 +289,8 @@ export const Profile = ({ isOpen, closeModal }) => {
               interdum posuere.elementum eu facilisis faucibus interdum posuere.
             </span>
           </div>
-          <div className="flex w-full h-auto gap-5 flex-col">
-            <p className="text-[24px] font-[600]"> Get Started with Our Courses</p>
-            <div className="flex flex-wrap gap-5 w-full items-center justify-start align-middle">
-              {allCourseMetaInfo ? (
-                allCourseMetaInfo?.map((course, index) => {
-                  return <CourseCard key={index} props={course} />;
-                })
-              ) : (
-                <span></span>
-              )}
-            </div>
-          </div>
+          <ProfileCourses loggedInUserData={loggedInUserData} />
+          
         </div>
       </div>
     </div>
