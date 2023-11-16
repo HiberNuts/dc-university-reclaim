@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 // import nav_logo from "../assets/nav-logo.png";
-import navLogoWhite from '../assets/navlogoWhite.png';
+import navLogoWhite from "../assets/navlogoWhite.png";
 
-import discord from '../assets/discord.svg';
+import discord from "../assets/discord.svg";
 
-import twitter from '../assets/twitter.svg';
-import github from '../assets/github.svg';
-import { OrangeButton } from './button/OrangeButton';
-import { useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import twitter from "../assets/twitter.svg";
+import github from "../assets/github.svg";
+import { OrangeButton } from "./button/OrangeButton";
+import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   const location = useLocation();
   const [profileRoute, setprofileRoute] = useState(false);
 
   useEffect(() => {
-    if (location.pathname == '/profile') {
+    if (location.pathname == "/profile") {
       setprofileRoute(true);
     } else {
       setprofileRoute(false);
@@ -24,8 +24,10 @@ export default function Footer() {
 
   return (
     <footer
-      className={`p-4  bg-shardeumBlue sm:p-6  ${
-        location.pathname.includes('/workplace') ? 'hidden' : 'block'
+      className={`p-4 bg-shardeumBlue sm:p-6 ${
+        location.pathname.includes("/workplace")
+          ? "hidden"
+          : "block"
       }`}
     >
       <div className={`mx-auto  max-w-screen-xl`}>
@@ -78,8 +80,8 @@ export default function Footer() {
                 className="rounded-[10px]"
               />
               <OrangeButton
-                title={'Subscribe'}
-                style={'py-[12px] px-[22px] text-[16px]'}
+                title={"Subscribe"}
+                style={"py-[12px] px-[22px] text-[16px]"}
               />
             </div>
           </div>
@@ -88,7 +90,7 @@ export default function Footer() {
         <hr className="my-6 border-gray-200 sm:mx-auto  lg:my-8" />
         <div className="sm:flex sm:items-center sm:justify-between">
           <span className="text-sm text-white sm:text-center">
-            © 2023{' '}
+            © 2023{" "}
             <a href="" className="hover:underline ">
               Shardeum, Inc
             </a>
@@ -97,10 +99,10 @@ export default function Footer() {
           <div className="text-white flex mt-4 space-x-6 sm:justify-center sm:mt-0">
             <Link target="_blank" to="https://Decentraclasses.com">
               <span>
-                Made with{' '}
+                Made with{" "}
                 <span className="animate-scale" role="img" aria-label="heart">
                   ❤️
-                </span>{' '}
+                </span>{" "}
                 by Decentraclasses.com
               </span>
             </Link>

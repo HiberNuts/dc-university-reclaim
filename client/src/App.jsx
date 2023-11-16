@@ -7,11 +7,14 @@ import Footer from "./components/Footer";
 import Header from "./components/Home/Header";
 import PrivateRoute from "./routes/PrivateRoute";
 
+
 // import Courses from "./components/Courses/Courses";
 
 import AllCourses from "./components/Courses/AllCourses";
 import { Profile } from "./components/Profile/Profile";
 import CourseDescription from "./components/Courses/CourseDesc/CourseDescription";
+import EmailVerification from "./components/Courses/CourseDesc/EmailVerification";
+
 
 import WorkPlace from "./components/WorkPlace/Workplace";
 
@@ -26,6 +29,8 @@ function App() {
         {/*Error Pages*/}
         <Route path="/courses" element={<AllCourses />} />
         <Route path="/course/:id" element={<CourseDescription />} />
+        <Route path="/emailverification" element={<EmailVerification />} />
+
         {/* <Route path="/coursepage" element={<CoursePage />} /> */}
 
         {/*Main Routes*/}
