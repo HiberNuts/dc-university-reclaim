@@ -42,7 +42,6 @@ export const Profile = ({ isOpen, closeModal }) => {
   });
   const { allCourseMetaInfo, loggedInUserData, setuserDataIsUpdated, userDataIsUpdated } = useContext(ParentContext);
 
-
   useEffect(() => {
     const fetchUserData = async () => {
       // console.log(formData)
@@ -50,7 +49,7 @@ export const Profile = ({ isOpen, closeModal }) => {
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/auth/getUserData?userid=${loggedInUserData._id}`
         );
-     
+
         if (response?.data?.email == "default") {
           setFormData({ ...formData, name: "", email: "" });
           setisEditing(true);
@@ -118,7 +117,7 @@ export const Profile = ({ isOpen, closeModal }) => {
         <div className="text-white mt-20">
           <img
             className="rounded-[50%] w-[160px] h-[160px] border-2 border-shardeumOrange object-cover"
-            src={"https://api.dicebear.com/7.x/micah/svg?seed=Garfield"}
+            src={`https://api.dicebear.com/7.x/notionists/svg?seed=${loggedInUserData?.username}`}
             alt="user avatar"
           />
           {isEditing === false && (
@@ -290,7 +289,6 @@ export const Profile = ({ isOpen, closeModal }) => {
             </span>
           </div>
           <ProfileCourses loggedInUserData={loggedInUserData} />
-          
         </div>
       </div>
     </div>
