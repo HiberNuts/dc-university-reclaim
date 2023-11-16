@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-  origin: [process.env.ORIGIN, "http://localhost:5173"],
+  origin: [process.env.ORIGIN, "http://localhost:5173","https://shardeum-academy.vercel.app"],
 };
 
 app.use(cors(corsOptions));
