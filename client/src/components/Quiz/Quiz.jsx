@@ -82,13 +82,15 @@ const Quiz = ({
     setChoices(updatedChoices);
   };
 
-  console.log(choices);
-  console.log(answerArray);
+  // console.log(choices);
+  // console.log(answerArray);
+
   const handleSubmit = () => {
-    if (choices.length === moduleQuiz.length) {
+  
+    if ( choices.includes(undefined)==false && choices.length === moduleQuiz.length) {
       checkAllAnswers();
       setIsSubmitted(true);
-    } else {
+    } else {  
       toast.custom((t) => (
         <div
           className={`${
@@ -152,7 +154,7 @@ const Quiz = ({
     d: 3,
   };
 
-  console.log(choices);
+
 
   const getQuiz = async () => {
     extractABCDValues(moduleQuiz, quizNo);
@@ -181,13 +183,13 @@ const Quiz = ({
     getQuiz();
     extractABCDValues(moduleQuiz, quizNo);
     setIsloading(false);
-  }, [isModuleChanged, moduleQuiz, quizNo]);
+  }, [currentQuiz, moduleQuiz, quizNo]);
 
   useEffect(() => {
     extractABCDValues(moduleQuiz, quizNo);
     setcurrentQuiz(moduleQuiz[quizNo] ? moduleQuiz[quizNo] : {});
     setcorrectAnswer(moduleQuiz[quizNo]?.answer);
-  }, [quizNo, isModuleChanged, moduleQuiz]);
+  }, [quizNo, currentQuiz, moduleQuiz]);
 
   useEffect(() => {
     setChoices([]);
@@ -212,11 +214,13 @@ const Quiz = ({
   useEffect(() => {
     if (currentQuizCompleted == true) {
       let finalAnswers = [];
-      moduleQuiz.forEach((m) => {
+      moduleQuiz.forEach((m) => { 
         console.log(m.answer);
         finalAnswers.push(ABC_TO_INT_MAP[m.answer]);
       });
       setChoices(finalAnswers);
+    }else{
+      setChoices([])
     }
   }, [currentQuizCompleted]);
 

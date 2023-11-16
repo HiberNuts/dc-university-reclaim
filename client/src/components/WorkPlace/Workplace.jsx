@@ -46,11 +46,6 @@ export default function WorkPlace() {
   const [currentQuiz, setcurrentQuiz] = useState([]);
   const [currentCourseProgress, setcurrentCourseProgress] = useState({});
 
-
-
-
-
-
   const getUserProgress = async () => {
     const data = await courseProgressAPI({
       courseId: courseContent?._id,
@@ -61,22 +56,22 @@ export default function WorkPlace() {
     setuserCourseProgress(data?.enrolledCourse);
   };
 
-    useEffect(() => {
-    const getProgressPercentage = async () => {
-      try {
-        const data = await getUserCourseProgressPercentage({
-          courseId: courseContent?._id,
-          userId: loggedInUserData?._id,
-          accessToken: loggedInUserData?.accessToken,
-        });
-        setcurrentCourseProgress(data);
-      } catch (error) {
-        console.error("Error fetching course progress:", error);
-      }
-    };
+  const getProgressPercentage = async () => {
+    try {
+      const data = await getUserCourseProgressPercentage({
+        courseId: courseContent?._id,
+        userId: loggedInUserData?._id,
+        accessToken: loggedInUserData?.accessToken,
+      });
+      setcurrentCourseProgress(data);
+    } catch (error) {
+      console.error("Error fetching course progress:", error);
+    }
+  };
 
+  useEffect(() => {
     getProgressPercentage();
-  }, [courseContent, loggedInUserData, getUserProgress]);
+  }, [courseContent, userCourseProgress]);
 
   const getCourseInfo = async () => {
     const data = await getCoursebyName(params?.id);
@@ -215,6 +210,8 @@ export default function WorkPlace() {
     hljs.highlightAll();
   }, [moduleContent]);
 
+  console.log(currentCourseProgress);
+
   return (
     <div className="w-full mt-[10vh] h-full flex justify-between align-middle">
       <div className="bg-shardeumBlue px-[15px] py-[48px] lg:w-[25%] md:w-[30%] sm:w-[30%] fixed h-[90vh] left-0 flex flex-col align-middle items-center scroll-m-0 overflow-y-auto">
@@ -269,7 +266,7 @@ export default function WorkPlace() {
         <div
           style={{
             display: "flex",
-            width:"80%",
+            width: "80%",
             padding: "20px 24px",
             flexDirection: "column",
             alignItems: "flex-start",
@@ -285,28 +282,24 @@ export default function WorkPlace() {
           </p>
           {currentCourseProgress && (
             <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
-              {/* <Link to={`/workplace/${generateSlug(courseContent?.title)}`}> */}
-              <div className="bg-gray-200 relative h-6 w-full rounded-2xl">
-                <div
-                  className={`bg-shardeumOrange h-full absolute top-0 left-0 flex w-[${
-                    Math.round(
-                      parseInt(
-                        currentCourseProgress?.overallCompletionPercentage
-                      ) / 10
-                    ) * 10
-                  }%] items-center justify-center rounded-2xl text-sm font-semibold text-white`}
-                >
-                  {parseInt(currentCourseProgress?.overallCompletionPercentage)}
-                  %
+              
+                <div className="bg-gray-200 relative h-6 w-full rounded-2xl"> 
+                  <div
+                    className={`bg-shardeumOrange h-full absolute z-0 top-0 left-0 flex w-[${Math.round(parseInt(currentCourseProgress?.overallCompletionPercentage) / 10) * 10}%] items-center justify-center rounded-2xl text-sm font-semibold text-white`}
+                  >
+                    {parseInt(
+                      currentCourseProgress?.overallCompletionPercentage
+                    )}  
+                    %
+                  </div>
                 </div>
-                
-              </div>
-              <div style={{gap:"12px"}}>
+          
+              <div style={{ gap: "12px" }}>
                 Course{" "}
                 {parseInt(currentCourseProgress?.overallCompletionPercentage)}%
+               
                 Completed{" "}
-                </div>
-
+              </div>
             </div>
           )}{" "}
         </div>
