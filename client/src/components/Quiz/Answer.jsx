@@ -1,6 +1,6 @@
 import React from "react";
 
-const Answer = ({ choice, text, onSelectAnswer, index, isCorrect, currentQuizCompleted }) => {
+const Answer = ({ choice, text, onSelectAnswer, index, isCorrect, currentQuizCompleted, isSubmitted }) => {
   const answerStyle = {
     label: `font-satoshi py-[20px] px-[24px] flex items-center cursor-pointer rounded-[16px] border ${
       choice === index
@@ -11,8 +11,12 @@ const Answer = ({ choice, text, onSelectAnswer, index, isCorrect, currentQuizCom
     customRadio: `h-[24px] w-[24px] p-[15px] rounded-full flex items-center justify-center text-black ${
       choice === index ? "bg-transparent text-white" : "bg-transparent"
     } border border-shardeumOrange mr-2 hover:bg-shardeumBlue`,
-    correct: isCorrect ? "text-red border-2 border-green-500" : "",
+    correct: isSubmitted && isCorrect ? "text-red border-4 border-green-700" : "",
+	incorrect: isSubmitted && !isCorrect ? "text-red border-4 border-red-700" : "",
+	disable: isSubmitted ? "cursor-not-allowed" : "",
   };
+
+
 
   const INT_TO_ABC_MAP = {
     0: "a",
@@ -23,12 +27,12 @@ const Answer = ({ choice, text, onSelectAnswer, index, isCorrect, currentQuizCom
 
   return (
     <div className="w-[100%]">
-      <label className={answerStyle.label}>
+      <label className={`${answerStyle.label} ${answerStyle.correct} ${answerStyle.incorrect} ${answerStyle.disable}`}>
         <div className={answerStyle.customRadio}>{INT_TO_ABC_MAP[index].toUpperCase()}</div>
         <input
           type="radio"
           name="answer"
-          disabled={currentQuizCompleted}
+          disabled={currentQuizCompleted || isSubmitted}
           checked={choice === index}
           onChange={() => onSelectAnswer(index)}
           className="hidden"

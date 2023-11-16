@@ -152,6 +152,8 @@ const Quiz = ({
     d: 3,
   };
 
+  console.log(choices);
+
   const getQuiz = async () => {
     extractABCDValues(moduleQuiz, quizNo);
     setcurrentQuiz(moduleQuiz[quizNo] ? moduleQuiz[quizNo] : {});
@@ -171,6 +173,7 @@ const Quiz = ({
     setQuizNo(0);
     setIsSubmitted(false);
     setChoices([]);
+    console.log(choices);
   };
 
   useEffect(() => {
@@ -243,6 +246,7 @@ const Quiz = ({
                 choice={choices[index]}
                 onSelectAnswer={(answer) => handleSelectAnswer(answer, index)}
                 correctAnswer={isSubmitted ? question.answer : null}
+                isSubmitted={isSubmitted}
               />
             </div>
           ))}
