@@ -5,118 +5,131 @@ import AnswerList from './AnswerList';
 import Question from './Question';
 import ResultPage from './ResultPage';
 import axios from 'axios';
+import toast, { Toaster } from "react-hot-toast";
 
-const Quiz = () => {
-//   const quizes = [
-//     {
-//       id: '0',
-//       correctAnswer: 'Tennis',
-//       a: 'a',
-//       b: 'b',
-//       c: 'c',
-//       d: 'd',
-//       incorrectAnswers: ['Tennis', 'Soccer', 'Badminton', 'Volleyball'],
-
-//       question: 'Within Which Sport Might You Encounter The Cyclops System?',
-//     },
-//     {
-//       id: '1',
-//       correctAnswer: 'Tennis',
-//       a: 'test',
-//       b: 'test2',
-//       c: 'test3',
-//       d: 'test4',
-//       incorrectAnswers: ['Tennis', 'Soccer', 'Badminton', 'Volleyball'],
-
-//       question: 'Question 2',
-//     },
-//   ];
-
- 
+const Quiz = ({ moduleQuiz, isModuleChanged }) => {
   const [quizNo, setQuizNo] = useState(0);
   const [choice, setChoice] = useState('');
   const [score, setScore] = useState(0);
   const [isloading, setIsloading] = useState(false);
-  const [quizContent, setQuizContent] = useState([]);
+
   const [answerArray, setAnswerArray] = useState([]);
+  const [currentQuiz, setcurrentQuiz] = useState({});
+  const [correctAnswer, setcorrectAnswer] = useState('');
+  const [choices, setChoices] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   function extractABCDValues(quizArray, quizNo) {
-	// console.log("called extracted");
-	// console.log(quizArray);
-	if(quizArray){
-		// console.log(quizArray);
-		const selectedQuiz = quizArray[quizNo]
-		//   console.log(selectedQuiz);
-		  if (selectedQuiz) {
-			const { a, b, c, d } = selectedQuiz;
-			// console.log([a, b, c, d]);
-			setAnswerArray([a, b, c, d]);
-		  }
-	}
-    
+    if (quizArray) {
+      const selectedQuiz = quizArray[quizNo];
+
+      if (selectedQuiz) {
+        const { a, b, c, d } = selectedQuiz;
+        setAnswerArray([a, b, c, d]);
+      }
+    }
   }
 
-  const INT_TO_ABC_MAP={
-	0:"a",
-	1:"b",
-	2:"c",
-	3:"d",
-  }
-
-  const getQuiz = async () => {
-    axios
-      .get('http://localhost:1337/api/courses/1?populate=deep')
-      .then((response) => {
-        const content = response.data?.data?.attributes?.module?.[0]?.quizes;
-        // console.log(content);
-        if (content) {
-			extractABCDValues(content, quizNo);
-          setQuizContent(content);
-        }
-      })
-
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
+  const handleSelectAnswer = (answer, questionIndex) => {
+    const updatedChoices = [...choices];
+    updatedChoices[questionIndex] = answer;
+    setChoices(updatedChoices);
   };
 
-  const handleSelectAnswer = (answer) => setChoice(answer);
+  const handleSubmit = () => {
+    if (choices.length === moduleQuiz.length) {
+      checkAllAnswers();
+      setIsSubmitted(true);
+    } else {
+      toast.custom((t) => (
+        <div
+          className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+        >
+          <div className="flex-1 w-0 p-4">
+            <div className="flex items-start">
+              <div className="flex-shrink-0 pt-0.5">
+                <p
+                  className="h-10 w-10 rounded-full "
+                  
+                >😭</p>
+              </div>
+              <div className="ml-3 flex-1">
+                <p className="font-satoshi text-md font-medium text-gray-900">
+                  Please answer all questions before submitting.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="flex border-l border-gray-200">
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="font-satoshi w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-shardeumBlue hover:text-shardeumOrange focus:outline-none"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      ));
+    }
+  };
+  
+  const checkAllAnswers = () => {
+    let newScore = 0;
+    choices.forEach((choice, index) => {
+      if (moduleQuiz[index]?.answer === INT_TO_ABC_MAP[choice]) {
+        newScore += 1;
+      }
+    });
+    setScore(newScore);
+  };
+
+  function extractAnswersForQuestion(question) {
+    return question ? [question.a, question.b, question.c, question.d] : [];
+  }
+
+  const INT_TO_ABC_MAP = {
+    0: 'a',
+    1: 'b',
+    2: 'c',
+    3: 'd',
+  };
+
+  const getQuiz = async () => {
+    extractABCDValues(moduleQuiz, quizNo);
+    setcurrentQuiz(moduleQuiz[quizNo] ? moduleQuiz[quizNo] : {});
+    setcorrectAnswer(currentQuiz?.answer);
+  };
+
+
 
   const handleClickNext = () => {
     checkAnswer();
     setQuizNo(quizNo + 1);
     setAnswerArray([]);
-    extractABCDValues(quizContent, quizNo);
+    extractABCDValues(moduleQuiz, quizNo);
   };
 
   const handleClickTry = () => {
     setScore(0);
     setChoice('');
     setQuizNo(0);
+    setIsSubmitted(false);
+    setChoices([]);
   };
 
-  //   useEffect(() => {
-
-  //     fetchData(api_url).then((data) => {
-  // 		console.log(data);
-  //       setQuizzes(data);
-  //       setIsloading(false);
-  //     });
-  //   }, []);
-
   useEffect(() => {
-	setIsloading(true)
+    setIsloading(true);
     getQuiz();
-    extractABCDValues(quizContent, quizNo);
+    extractABCDValues(moduleQuiz, quizNo);
     setIsloading(false);
-  }, []);
+  }, [isModuleChanged, moduleQuiz, quizNo]);
 
   useEffect(() => {
-    extractABCDValues(quizContent, quizNo);
-  }, [quizNo]);
+    extractABCDValues(moduleQuiz, quizNo);
+    setcurrentQuiz(moduleQuiz[quizNo] ? moduleQuiz[quizNo] : {});
+    setcorrectAnswer(moduleQuiz[quizNo]?.answer);
+  }, [quizNo, isModuleChanged, moduleQuiz]);
 
-  const currentQuiz = quizContent.length > 0 && quizContent[quizNo];
-  const correctAnswer = currentQuiz?.answer;
   const incorrectAnswers = answerArray;
   const answers = incorrectAnswers;
 
@@ -127,39 +140,48 @@ const Quiz = () => {
   console.log(choice);
 
   const checkAnswer = () => isCorrect && setScore(score + 1);
-//   console.log(answerArray);
+  //   console.log(answerArray);
   return (
-    <div className=" w-full md:max-w-lg ">
-      {quizContent.length === 0 || isloading ? (
+    
+    <div className=" w-full ">
+    <Toaster />
+    
+    {console.log(moduleQuiz)}
+      {moduleQuiz?.length === 0 || isloading ? (
         <p>Loading</p>
-      ) : quizNo == quizContent.length ? (
-        <ResultPage
-          score={score}
-          quizzes={quizContent}
-          onClickTry={handleClickTry}
-        />
       ) : (
-        <div>
-          <div className=" flex justify-between mb-3">
-            <span>
-              {quizNo + 1}/{quizContent.length}
+        <>
+        
+          
+        {moduleQuiz.slice(0, moduleQuiz?.length).map((question, index) => (
+          <div key={index}>
+            <span className='text-[18px] text-shardeumBlue font-satoshi font-[700]'>
+              Question {index + 1}
             </span>
+            <Question currentQuiz={question} />
+            <AnswerList
+              answers={extractAnswersForQuestion(question)}
+              choice={choices[index]}
+              onSelectAnswer={(answer) => handleSelectAnswer(answer, index)}
+              correctAnswer={isSubmitted ? question.answer : null}
+            />
           </div>
-
-          <Question currentQuiz={currentQuiz} />
-
-          <AnswerList
-            answers={answers}
-            choice={choice}
-            onSelectAnswer={handleSelectAnswer}
-          />
-
-          <Button onClickButton={handleClickNext}>
-            Next
-            <RiArrowRightLine />
+        ))}
+        
+          <Button className="" onClickButton={handleSubmit}>
+            Submit
           </Button>
-        </div>
+  
+        </>
       )}
+
+      {isSubmitted && (
+      <ResultPage
+        score={score}
+        quizzes={moduleQuiz}
+        onClickTry={handleClickTry}
+      />
+    )}
     </div>
   );
 };

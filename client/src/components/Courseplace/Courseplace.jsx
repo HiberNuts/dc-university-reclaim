@@ -11,7 +11,7 @@ const CoursePlace = () => {
   useEffect(() => {
     hljs.highlightAll();
     
-  });
+  }, [moduleContent]);
 
   useEffect(() => {
     axios

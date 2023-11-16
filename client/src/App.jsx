@@ -13,7 +13,7 @@ import AllCourses from "./components/Courses/AllCourses";
 import { Profile } from "./components/Profile/Profile";
 import CourseDescription from "./components/Courses/CourseDesc/CourseDescription";
 
-import WorkPlace from "./components/WorkPlace/WorkPlace";
+import WorkPlace from "./components/WorkPlace/Workplace";
 
 function App() {
   const RedirectAs404 = ({ location }) => <Navigate to={Object.assign({}, location, { state: { is404: true } })} />;
@@ -25,7 +25,6 @@ function App() {
         <Route exact path="/" element={<Home />} />
         {/*Error Pages*/}
         <Route path="/courses" element={<AllCourses />} />
-        {/* <Route path="/course/:id" ele ment={<Course />} /> */}
         <Route path="/course/:id" element={<CourseDescription />} />
         {/* <Route path="/coursepage" element={<CoursePage />} /> */}
         <Route path="/workplace/:id" element={<WorkPlace />} />
@@ -33,15 +32,13 @@ function App() {
         {/*Main Routes*/}
         {/*Private route section*/}
         <Route exact path="/" element={<PrivateRoute />}>
-          {/* <Route path="/workplace" element={<CoursePage />} /> */}
           <Route path="/profile" element={<Profile />} />
-          {/* <Route path="/workplace" element={<Courseplace />} /> */}
-       
+          {/* <Route path="/workplace" element={<CoursePage />} /> */}
         </Route>
         <Route component={RedirectAs404}></Route>
-      </Routes> 
+      </Routes>
 
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

@@ -32,9 +32,9 @@ const CourseHeader = ({ props }) => {
               WebkitTextFillColor: "transparent",
             }}
           >
-            <p className=" ">{props?.attributes?.title}</p>
+            <p className=" ">{props?.title}</p>
           </div>
-          <p className="text-[18px] mt-6 font-[500]">{props?.attributes?.description}</p>
+          <p className="text-[18px] mt-6 font-[500]">{props?.description}</p>
         </div>
         <div className="author-div flex ">
           <div className="flex ">
@@ -50,7 +50,7 @@ const CourseHeader = ({ props }) => {
           <div className="flex gap-4">
             <div className="flex gap-2">
               <img className="w-5 h-5 mt-1" src={timeIcon} />
-              <span>{props?.attributes?.duration} Hrs</span>
+              <span>{props?.duration} Hrs</span>
             </div>
             <p>|</p>
             <div className="flex gap-2">
@@ -60,14 +60,14 @@ const CourseHeader = ({ props }) => {
             <p>|</p>
             <div className="flex gap-2">
               <img className="w-5 h-5 mt-1" src={levelIcon} />
-              <span>{props?.attributes?.level}</span>
+              <span>{props?.level}</span>
             </div>
           </div>
         </div>
 
         <OrangeButton
           onClick={() => {
-            navigate(`/workplace/${generateSlug(props?.attributes?.title)}`);
+            navigate(`/workplace/${generateSlug(props?.title)}`);
           }}
           style={"w-52 h-12 "}
           title={"Start Course"}
@@ -76,7 +76,7 @@ const CourseHeader = ({ props }) => {
       </div>
       <div className="banner-div  lg:flex-1 flex justify-center align-middle">
         <div className="w-[100%] sm:h-[400px]  ">
-          <img className="rounded-xl w-full h-full" src={props?.attributes?.banner.data[0].attributes.url} />
+          <img className="rounded-xl w-full h-full" src={props?.banner} />
         </div>
       </div>
     </div>
