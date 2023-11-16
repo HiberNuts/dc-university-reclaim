@@ -16,11 +16,11 @@ const app = express();
 // };
 
 var corsOptions = {
-  origin: "https://shardeum-academy.vercel.app",
+  origin: "*",
 };
 app.use(cors(corsOptions));
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.use(express.json());
 
