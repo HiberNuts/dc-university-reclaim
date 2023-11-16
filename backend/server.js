@@ -3,9 +3,23 @@ const cors = require("cors");
 
 const app = express();
 
-var corsOptions = {
-  origin: [process.env.ORIGIN, "http://localhost:5173","https://shardeum-academy.vercel.app"],
+const allowedOrigins = [process.env.ORIGIN, "http://localhost:5173", "https://shardeum-academy.vercel.app"];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
 };
+
+app.use(cors(corsOptions));
+
+// var corsOptions = {
+//   origin: [process.env.ORIGIN, "http://localhost:5173", "https://shardeum-academy.vercel.app"],
+// };
 
 app.use(cors(corsOptions));
 
