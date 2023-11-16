@@ -21,7 +21,7 @@ export default function Header() {
   const [homeRoute, sethomeRoute] = useState(true);
   const { address, isConnected } = useAccount();
 
-  const {loggedInUserData,setloggedInUserData,setuserDataIsUpdated,userDataIsUpdated}=useContext(ParentContext)
+  const { loggedInUserData, setloggedInUserData, setuserDataIsUpdated, userDataIsUpdated } = useContext(ParentContext);
 
   const coursesRef = useRef(null);
 
@@ -47,22 +47,24 @@ export default function Header() {
 
   const signinUser = async () => {
     try {
-      const res = await axios.post("http://localhost:8080/api/auth/signin", { walletAddress:address });
-      setloggedInUserData(res?.data)
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, { walletAddress: address });
+      setloggedInUserData(res?.data);
       if (res?.data?.email === "default") {
         navigate("/profile");
-        console.log(res); 
       }
     } catch (error) {
       console.log(error);
     }
-  };  
+  };
 
   useEffect(() => {
     if (isConnected) {
       signinUser();
     }
-  }, [address,userDataIsUpdated]);
+    if (isConnected == false) {
+      setloggedInUserData({});
+    }
+  }, [address, userDataIsUpdated]);
 
   const styleNavEl = `before:bg-white before:left-0 ${
     homeRoute ? "hover:text-white text-white" : "hover:text-black text-black hover:before:bg-shardeumOrange "
@@ -144,7 +146,7 @@ export default function Header() {
                           return (
                             <div style={{ display: "flex", gap: 12 }}>
                               <ProfileDropDown
-                              loggedInUserData={loggedInUserData}
+                                loggedInUserData={loggedInUserData}
                                 account={account.displayName}
                                 chain={chain}
                                 openChainModal={openChainModal}
@@ -260,7 +262,7 @@ export default function Header() {
                       return (
                         <div style={{ display: "flex", gap: 12 }}>
                           <ProfileDropDown
-                           loggedInUserData={loggedInUserData}
+                            loggedInUserData={loggedInUserData}
                             account={account.displayName}
                             chain={chain}
                             toggleNavbar={toggleNavbar}

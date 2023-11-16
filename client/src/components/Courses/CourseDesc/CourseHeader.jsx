@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import image1 from "../../../assets/image1.png";
 import timeIcon from "../../../assets/timeIcon.svg";
 import profileIcon from "../../../assets/profileIcon.svg";
@@ -11,17 +11,65 @@ import { OrangeButton } from "../../button/OrangeButton";
 import { Link, useNavigate } from "react-router-dom";
 
 import { generateSlug } from "../../../utils/generateSlug";
+import { ParentContext } from "../../../contexts/ParentContext";
+import { courseProgressAPI, enrollCourseAPI } from "../../../utils/api/CourseAPI";
+import { useAccount } from "wagmi";
+import { toast, Toaster } from "react-hot-toast";
 
 const CourseHeader = ({ props }) => {
+  const { loggedInUserData, setloggedInUserData, setuserDataIsUpdated, userDataIsUpdated } = useContext(ParentContext);
   const navigate = useNavigate();
+  const { address, isConnected } = useAccount();
+  const [isCourseEnrolled, setisCourseEnrolled] = useState(false);
+
+  const enrollCourse = async () => {
+    if (isConnected) {
+      const data = await enrollCourseAPI({
+        accessToken: loggedInUserData.accessToken,
+        courseId: props._id,
+        userId: loggedInUserData._id,
+      });
+      if (data) {
+        toast.success("Course enrolled!", {
+          icon: "🌟",
+        });
+        setisCourseEnrolled(true);
+      }
+    } else {
+      toast("Login to continue!", {
+        icon: "🌟",
+      });
+    }
+  };
+
+  const getuserProgress = async () => {
+    if (isConnected) {
+      const data = await courseProgressAPI({
+        accessToken: loggedInUserData.accessToken,
+        courseId: props._id,
+        userId: loggedInUserData._id,
+      });
+      if (data.enrolledCourse) {
+        setisCourseEnrolled(true);
+      }
+    }
+  };
+
+  console.log(isCourseEnrolled);
+
+  useEffect(() => {
+    getuserProgress();
+  }, [loggedInUserData, props, isCourseEnrolled]);
+
   return (
     <div className="flex  mt-[66px] h-[90vh] lg:h-auto flex-wrap w-[80%] justify-between gap-8 align-middle">
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="description-div lg:flex-1 flex-wrap flex flex-col justify-between">
         <div className="header-div">
           <div
             className=" text-blue  md:text-[80px]  text-[60px]"
             style={{
-              lineHeight: "58px",
+              lineHeight: "80px",
               fontFamily: "Satoshi Variable",
               fontSize: "64px",
               fontStyle: "normal",
@@ -32,7 +80,7 @@ const CourseHeader = ({ props }) => {
               WebkitTextFillColor: "transparent",
             }}
           >
-            <p className=" ">{props?.title}</p>
+            <p className="">{props?.title}</p>
           </div>
           <p className="text-[18px] mt-6 font-[500]">{props?.description}</p>
         </div>
@@ -64,15 +112,24 @@ const CourseHeader = ({ props }) => {
             </div>
           </div>
         </div>
-
-        <OrangeButton
-          onClick={() => {
-            navigate(`/workplace/${generateSlug(props?.title)}`);
-          }}
-          style={"w-52 h-12 "}
-          title={"Start Course"}
-          iconRight={faAngleRight}
-        />
+        {isCourseEnrolled ? (
+          <OrangeButton
+            onClick={() => {
+              if (isConnected) {
+                navigate(`/workplace/${generateSlug(props?.title)}`);
+              } else {
+                toast("Login to continue!", {
+                  icon: "🌟",
+                });
+              }
+            }}
+            style={"w-52 h-12 "}
+            title={"Continue"}
+            iconRight={faAngleRight}
+          />
+        ) : (
+          <OrangeButton onClick={enrollCourse} style={"w-52 h-12 "} title={"Start Course"} iconRight={faAngleRight} />
+        )}
       </div>
       <div className="banner-div  lg:flex-1 flex justify-center align-middle">
         <div className="w-[100%] sm:h-[400px]  ">

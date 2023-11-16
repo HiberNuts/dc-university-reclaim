@@ -4,18 +4,17 @@ import HTMLRenderer from "react-html-renderer";
 
 import "./CoursePlace.scss";
 import { H1 } from "./customCourseElement";
-import hljs from 'highlight.js';
+import hljs from "highlight.js";
 
 const CoursePlace = () => {
   const [moduleContent, setModuleContent] = useState("");
   useEffect(() => {
     hljs.highlightAll();
-    
   });
 
   useEffect(() => {
     axios
-      .get("http://localhost:1337/api/courses/4?populate=deep")
+      .get("${import.meta.env.VITE_BACKEND_URL}/courses/4?populate=deep")
       .then((response) => {
         const content = response.data?.data?.attributes?.module?.[0]?.chapter?.[0]?.content;
         console.log(content);
@@ -29,20 +28,12 @@ const CoursePlace = () => {
   }, []);
 
   return (
-    
     <div className="flex w-full justify-center items-center align-middle">
-    
       {/* <div className="flex justify-center align-middle w-[80%] flex-col" dangerouslySetInnerHTML={{ __html: moduleContent }} /> */}
       <div className="flex text-[20px] w-[90%] courseContent justify-center align-middle  flex-col ">
-        <HTMLRenderer
-          html={moduleContent}
-          components={{
-            
-          }}
-        />
+        <HTMLRenderer html={moduleContent} components={{}} />
       </div>
     </div>
-
   );
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import { OrangeButton } from "../../button/OrangeButton";
 
 const CourseSkills = ({ props }) => {
-  console.log(props);
+
   return (
     <div className="w-full  flex justify-center items-center align-middle">
       <div className="sm:w-[70%] w-[90%] flex flex-col">

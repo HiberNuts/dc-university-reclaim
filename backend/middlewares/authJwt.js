@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-require('dotenv').config();
+require("dotenv").config();
 const config = process.env;
 const db = require("../models");
 const User = db.user;
@@ -7,16 +7,22 @@ const Role = db.role;
 
 const verifyToken = async (req, res, next) => {
   try {
-    let token = req.headers["x-access-token"];
+    let token = req.headers.authorization;
     if (!token) {
       return res.status(403).send({ message: "No token provided!" });
     }
+
+    if (!token.startsWith("Bearer ")) {
+      return res.status(401).send({ message: "Invalid token format!" });
+    }
+
+    token = token.slice(7);
 
     const decoded = jwt.verify(token, config.SECRET);
     req.userId = decoded.id;
     next();
   } catch (err) {
-    res.status(401).send({ message: "Unauthorized!", errorMessage:  err.message});
+    res.status(401).send({ message: "Unauthorized!", errorMessage: err.message });
   }
 };
 
@@ -25,7 +31,7 @@ const isAdmin = async (req, res, next) => {
     const user = await User.findById(req.userId).exec();
     const roles = await Role.find({ _id: { $in: user.roles } }).exec();
 
-    if (roles.some(role => role.name === "admin")) {
+    if (roles.some((role) => role.name === "admin")) {
       next();
     } else {
       res.status(403).send({ message: "Require Admin Role!" });
@@ -40,7 +46,7 @@ const isModerator = async (req, res, next) => {
     const user = await User.findById(req.userId).exec();
     const roles = await Role.find({ _id: { $in: user.roles } }).exec();
 
-    if (roles.some(role => role.name === "moderator")) {
+    if (roles.some((role) => role.name === "moderator")) {
       next();
     } else {
       res.status(403).send({ message: "Require Moderator Role!" });
@@ -53,7 +59,7 @@ const isModerator = async (req, res, next) => {
 const authJwt = {
   verifyToken,
   isAdmin,
-  isModerator
+  isModerator,
 };
 
 module.exports = authJwt;

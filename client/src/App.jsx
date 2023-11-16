@@ -27,18 +27,18 @@ function App() {
         <Route path="/courses" element={<AllCourses />} />
         <Route path="/course/:id" element={<CourseDescription />} />
         {/* <Route path="/coursepage" element={<CoursePage />} /> */}
-        <Route path="/workplace/:id" element={<WorkPlace />} />
 
         {/*Main Routes*/}
         {/*Private route section*/}
         <Route exact path="/" element={<PrivateRoute />}>
+          <Route path="/workplace/:id" element={<WorkPlace />} />
           <Route path="/profile" element={<Profile />} />
           {/* <Route path="/workplace" element={<CoursePage />} /> */}
         </Route>
         <Route component={RedirectAs404}></Route>
       </Routes>
 
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

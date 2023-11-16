@@ -14,6 +14,8 @@ import axios from "axios";
 import { useAccount } from "wagmi";
 import toast, { Toaster } from "react-hot-toast";
 import { ParentContext } from "../../contexts/ParentContext";
+import FeatureCourses from "../Home/FeatureCourses";
+import ProfileCourses from "./ProfileCourses";
 
 // import { ChevronDownIcon, CheckIcon } from "@heroicons/react/24/outline";
 
@@ -39,25 +41,15 @@ export const Profile = ({ isOpen, closeModal }) => {
     // roles: [""],
   });
   const { allCourseMetaInfo, loggedInUserData, setuserDataIsUpdated, userDataIsUpdated } = useContext(ParentContext);
-  console.log(allCourseMetaInfo);
-
-  useEffect(() => {
-    // Open the modal automatically when the condition is met
-    if (isOpen) {
-      openModal();
-    }
-  }, [isOpen]);
-  function openModal() {
-    setIsOpen(true);
-  }
 
   useEffect(() => {
     const fetchUserData = async () => {
-      console.log(loggedInUserData);
       // console.log(formData)
       try {
-        const response = await axios.get(`http://localhost:8080/api/auth/getUserData?userid=${loggedInUserData.id}`);
-        // console.log(response)
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/auth/getUserData?userid=${loggedInUserData._id}`
+        );
+
         if (response?.data?.email == "default") {
           setFormData({ ...formData, name: "", email: "" });
           setisEditing(true);
@@ -65,13 +57,8 @@ export const Profile = ({ isOpen, closeModal }) => {
           setUserData(response.data);
           setFormData({ ...response.data, name: response.data.username });
         }
-        // if (!response.data.isVerified) {
-        //   // User is not verified, show a pop-up message
-        //   toast.error("Email is not verified");
-        // }
       } catch (error) {
         toast.error("Error while fetching user data");
-        // console.error('Error while fetching user data:', error);
       }
     };
 
@@ -88,13 +75,14 @@ export const Profile = ({ isOpen, closeModal }) => {
     setisEditing(false);
 
     try {
-      const response = await axios.put(`http://localhost:8080/api/auth/update?userid=${loggedInUserData.id}`, {
-        ...formData,
-        username: formData.name,
-      });
+      const response = await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/update?userid=${loggedInUserData._id}`,
+        {
+          ...formData,
+          username: formData.name,
+        }
+      );
       setUserData(response.data);
-
-      // setFro(response.data);
 
       console.log(response);
       setuserDataIsUpdated(!userDataIsUpdated);
@@ -105,9 +93,12 @@ export const Profile = ({ isOpen, closeModal }) => {
 
   const handleResendVerificationEmail = async () => {
     try {
-      const response = await axios.post(`http://localhost:8080/api/auth/resend?userid=${loggedInUserData.id}`, {
-        userid: loggedInUserData.id,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/resend?userId=${loggedInUserData._id}`,
+        {
+          userid: loggedInUserData._id,
+        }
+      );
       if (response.status === 200) {
         toast.success("Verification email has been resent.");
       } else {
@@ -119,8 +110,6 @@ export const Profile = ({ isOpen, closeModal }) => {
     }
   };
 
-  const Location = useLocation();
-
   return (
     <div className="w-full  h-full flex justify-between align-middle">
       <Toaster />
@@ -128,7 +117,7 @@ export const Profile = ({ isOpen, closeModal }) => {
         <div className="text-white mt-20">
           <img
             className="rounded-[50%] w-[160px] h-[160px] border-2 border-shardeumOrange object-cover"
-            src={"https://api.dicebear.com/7.x/micah/svg?seed=Garfield"}
+            src={`https://api.dicebear.com/7.x/notionists/svg?seed=${loggedInUserData?.username}`}
             alt="user avatar"
           />
           {isEditing === false && (
@@ -299,18 +288,7 @@ export const Profile = ({ isOpen, closeModal }) => {
               interdum posuere.elementum eu facilisis faucibus interdum posuere.
             </span>
           </div>
-          <div className="flex w-full h-auto gap-5 flex-col">
-            <p className="text-[24px] font-[600]"> Get Started with Our Courses</p>
-            <div className="flex flex-wrap gap-5 w-full items-center justify-start align-middle">
-              {allCourseMetaInfo ? (
-                allCourseMetaInfo?.map((course, index) => {
-                  return <CourseCard key={index} props={course} />;
-                })
-              ) : (
-                <span></span>
-              )}
-            </div>
-          </div>
+          <ProfileCourses loggedInUserData={loggedInUserData} />
         </div>
       </div>
     </div>

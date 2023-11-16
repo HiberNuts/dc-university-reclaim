@@ -1,23 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { RiArrowRightLine } from 'react-icons/ri';
-import Button from './Button';
-import AnswerList from './AnswerList';
-import Question from './Question';
-import ResultPage from './ResultPage';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { RiArrowRightLine } from "react-icons/ri";
+import Button from "./Button";
+import AnswerList from "./AnswerList";
+import Question from "./Question";
+import ResultPage from "./ResultPage";
+import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { updateCourseProgressAPI } from "../../utils/api/CourseAPI";
 
-const Quiz = ({ moduleQuiz, isModuleChanged }) => {
+const Quiz = ({
+  moduleQuiz,
+  isModuleChanged,
+  currentModule,
+  userCourseProgress,
+  setuserCourseProgress,
+  courseId,
+  userId,
+}) => {
   const [quizNo, setQuizNo] = useState(0);
-  const [choice, setChoice] = useState('');
+  const [choice, setChoice] = useState("");
   const [score, setScore] = useState(0);
   const [isloading, setIsloading] = useState(false);
 
   const [answerArray, setAnswerArray] = useState([]);
   const [currentQuiz, setcurrentQuiz] = useState({});
-  const [correctAnswer, setcorrectAnswer] = useState('');
+  const [correctAnswer, setcorrectAnswer] = useState("");
   const [choices, setChoices] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [currentQuizCompleted, setcurrentQuizCompleted] = useState(
+    userCourseProgress?.modules[userCourseProgress.modules.findIndex((m) => m._id == currentModule._id)].quizStatus ==
+      "full"
+      ? true
+      : false
+  );
+
+  console.log(currentQuizCompleted);
 
   function extractABCDValues(quizArray, quizNo) {
     if (quizArray) {
@@ -30,12 +47,43 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
     }
   }
 
+  const handleQuizUpdateToBackend = async () => {
+    const updatedModules = userCourseProgress?.modules?.map((module) => {
+      if (module?._id === currentModule?._id) {
+        // Update quizStatus to true for the entire module
+        module.quizStatus = "full";
+        module.status = "full";
+
+        // Update all quiz statuses to 'full' for this module
+        module.quizzes = module.quizzes.map((quiz) => ({
+          ...quiz,
+          status: "full",
+        }));
+      }
+      return module;
+    });
+
+    const updatesUserPorgress = { ...userCourseProgress, modules: updatedModules };
+
+    const updatedUserProgress = await updateCourseProgressAPI({
+      updatesUserPorgress,
+      courseId: courseId,
+      userId: userId,
+    });
+    setuserCourseProgress(updatedUserProgress.updatedProgress);
+    if (updatedUserProgress.updatedUserProgress) {
+      setcurrentQuizCompleted(true);
+    }
+  };
+
   const handleSelectAnswer = (answer, questionIndex) => {
     const updatedChoices = [...choices];
     updatedChoices[questionIndex] = answer;
     setChoices(updatedChoices);
   };
 
+  console.log(choices);
+  console.log(answerArray);
   const handleSubmit = () => {
     if (choices.length === moduleQuiz.length) {
       checkAllAnswers();
@@ -43,15 +91,14 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
     } else {
       toast.custom((t) => (
         <div
-          className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+          className={`${
+            t.visible ? "animate-enter" : "animate-leave"
+          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
         >
           <div className="flex-1 w-0 p-4">
             <div className="flex items-start">
               <div className="flex-shrink-0 pt-0.5">
-                <p
-                  className="h-10 w-10 rounded-full "
-                  
-                >😭</p>
+                <p className="h-10 w-10 rounded-full ">😭</p>
               </div>
               <div className="ml-3 flex-1">
                 <p className="font-satoshi text-md font-medium text-gray-900">
@@ -72,7 +119,7 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
       ));
     }
   };
-  
+
   const checkAllAnswers = () => {
     let newScore = 0;
     choices.forEach((choice, index) => {
@@ -81,6 +128,10 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
       }
     });
     setScore(newScore);
+    // score * (100 / quizzes.length)
+    if (newScore * (100 / moduleQuiz.length) == 100) {
+      handleQuizUpdateToBackend();
+    }
   };
 
   function extractAnswersForQuestion(question) {
@@ -88,10 +139,17 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
   }
 
   const INT_TO_ABC_MAP = {
-    0: 'a',
-    1: 'b',
-    2: 'c',
-    3: 'd',
+    0: "a",
+    1: "b",
+    2: "c",
+    3: "d",
+  };
+
+  const ABC_TO_INT_MAP = {
+    a: 0,
+    b: 1,
+    c: 2,
+    d: 3,
   };
 
   const getQuiz = async () => {
@@ -99,8 +157,6 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
     setcurrentQuiz(moduleQuiz[quizNo] ? moduleQuiz[quizNo] : {});
     setcorrectAnswer(currentQuiz?.answer);
   };
-
-
 
   const handleClickNext = () => {
     checkAnswer();
@@ -111,7 +167,7 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
 
   const handleClickTry = () => {
     setScore(0);
-    setChoice('');
+    setChoice("");
     setQuizNo(0);
     setIsSubmitted(false);
     setChoices([]);
@@ -130,58 +186,77 @@ const Quiz = ({ moduleQuiz, isModuleChanged }) => {
     setcorrectAnswer(moduleQuiz[quizNo]?.answer);
   }, [quizNo, isModuleChanged, moduleQuiz]);
 
+  useEffect(() => {
+    setChoices([]);
+    setScore(0);
+    setIsSubmitted(false);
+    setcurrentQuizCompleted(
+      userCourseProgress?.modules[userCourseProgress.modules.findIndex((m) => m._id == currentModule._id)].quizStatus ==
+        "full"
+        ? true
+        : false
+    );
+    if (currentQuizCompleted == true) {
+      let finalAnswers = [];
+      moduleQuiz.forEach((m) => {
+        console.log(m.answer);
+        finalAnswers.push(ABC_TO_INT_MAP[m.answer]);
+      });
+      setChoices(finalAnswers);
+    }
+  }, [moduleQuiz]);
+
+  useEffect(() => {
+    if (currentQuizCompleted == true) {
+      let finalAnswers = [];
+      moduleQuiz.forEach((m) => {
+        console.log(m.answer);
+        finalAnswers.push(ABC_TO_INT_MAP[m.answer]);
+      });
+      setChoices(finalAnswers);
+    }
+  }, [currentQuizCompleted]);
+
   const incorrectAnswers = answerArray;
   const answers = incorrectAnswers;
 
   const isCorrect = correctAnswer === INT_TO_ABC_MAP[choice];
 
-  console.log(currentQuiz);
-  console.log(answerArray);
-  console.log(choice);
-
   const checkAnswer = () => isCorrect && setScore(score + 1);
   //   console.log(answerArray);
   return (
-    
     <div className=" w-full ">
-    <Toaster />
-    
-    {console.log(moduleQuiz)}
+      <Toaster />
+
+      {console.log(moduleQuiz)}
       {moduleQuiz?.length === 0 || isloading ? (
         <p>Loading</p>
       ) : (
         <>
-        
-          
-        {moduleQuiz.slice(0, moduleQuiz?.length).map((question, index) => (
-          <div key={index}>
-            <span className='text-[18px] text-shardeumBlue font-satoshi font-[700]'>
-              Question {index + 1}
-            </span>
-            <Question currentQuiz={question} />
-            <AnswerList
-              answers={extractAnswersForQuestion(question)}
-              choice={choices[index]}
-              onSelectAnswer={(answer) => handleSelectAnswer(answer, index)}
-              correctAnswer={isSubmitted ? question.answer : null}
-            />
-          </div>
-        ))}
-        
-          <Button className="" onClickButton={handleSubmit}>
-            Submit
-          </Button>
-  
+          {moduleQuiz.slice(0, moduleQuiz?.length).map((question, index) => (
+            <div key={index}>
+              <span className="text-[18px] text-shardeumBlue font-satoshi font-[700]">Question {index + 1}</span>
+              <Question currentQuiz={question} />
+              <AnswerList
+                currentQuizCompleted={currentQuizCompleted}
+                answers={extractAnswersForQuestion(question)}
+                choice={choices[index]}
+                onSelectAnswer={(answer) => handleSelectAnswer(answer, index)}
+                correctAnswer={isSubmitted ? question.answer : null}
+              />
+            </div>
+          ))}
+          {!currentQuizCompleted && (
+            <Button className="" onClickButton={handleSubmit}>
+              Submit
+            </Button>
+          )}
         </>
       )}
 
-      {isSubmitted && (
-      <ResultPage
-        score={score}
-        quizzes={moduleQuiz}
-        onClickTry={handleClickTry}
-      />
-    )}
+      {!currentQuizCompleted && isSubmitted && (
+        <ResultPage score={score} quizzes={moduleQuiz} onClickTry={handleClickTry} />
+      )}
     </div>
   );
 };
