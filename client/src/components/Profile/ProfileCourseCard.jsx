@@ -82,7 +82,7 @@ const ProfileCourseCard = ({ props, loggedInUserData }) => {
                   Math.round(parseInt(currentCourseProgress?.overallCompletionPercentage) / 10) * 10
                 }%] items-center justify-center rounded-2xl text-sm  font-semibold text-white`}
               >
-                {parseInt(currentCourseProgress?.overallCompletionPercentage)}% completed
+                {parseInt(currentCourseProgress?.overallCompletionPercentage)}%
               </div>
             </div>
           </Link>
