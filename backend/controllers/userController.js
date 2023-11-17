@@ -26,10 +26,10 @@ exports.moderatorBoard = (req, res) => {
 };
 
 exports.courseEnrolled = async (req, res) => {
-  const { userId, courseId } = req.body;
+  const { courseId } = req.body;
 
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(req.userId);
     if (!user) {
       return res.status(404).send({ message: 'User not found' });
     }
@@ -201,7 +201,7 @@ exports.courseEnrolled = async (req, res) => {
 
 exports.userProgress = async (req, res) => {
   try {
-    const userId = req.body.userId;
+    const userId = req.userId;
     const courseId = req.body?.courseId;
 
     let user = await User.findOne({ _id: userId });
@@ -224,7 +224,7 @@ exports.userProgress = async (req, res) => {
 
 exports.updateCourseProgress = async (req, res) => {
   try {
-    const userId = req.body.userId;
+    const userId = req.userId;
     const courseId = req.body.courseId;
     const updatedEnrolledCourse = req.body.updatedEnrolledCourse;
 
@@ -253,7 +253,7 @@ exports.updateCourseProgress = async (req, res) => {
 
 exports.userCourseProgressPercentage = async(req, res) => {
   try {
-    const userId = req.body.userId;
+    const userId = req.userId;
     const courseId = req.body.courseId;
 
     let user = await User.findOne({ _id: userId });
