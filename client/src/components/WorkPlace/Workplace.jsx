@@ -16,25 +16,26 @@ import toast from "react-hot-toast";
 import { useAccount } from "wagmi";
 import { OrangeButton } from "../button/OrangeButton";
 import whiteExpand from "../../assets/whiteArrow.svg";
+import ScrollToTop from "../../ScrollToTop";
+import NftModal from "./NftModal";
 
 export default function WorkPlace() {
   const params = useParams();
   const navigate = useNavigate();
   const { loggedInUserData } = useContext(ParentContext);
-  const { address, isConnected } = useAccount();
 
   const [moduleContent, setModuleContent] = useState([]);
   const [courseContent, setcourseContent] = useState({});
   const [currentChapter, setCurrentChapter] = useState({});
   const [currentModule, setcurrentModule] = useState(null);
   const [isModuleChanged, setisModuleChanged] = useState(false);
-  const [isCourseEnrolled, setisCourseEnrolled] = useState(false);
   const [isCourseDataChanged, setisCourseDataChanged] = useState(false);
   const [userCourseProgress, setuserCourseProgress] = useState({});
   const [isQuizSelected, setisQuizSelected] = useState(false);
   const [currentChapterStatus, setcurrentChapterStatus] = useState("none");
   const [currentModuleAllChapterStatus, setcurrentModuleAllChapterStatus] = useState("none");
   const [currentQuiz, setcurrentQuiz] = useState([]);
+  const [nftModalIsOpen, setnftModalIsOpen] = useState(false);
 
   const getUserProgress = async () => {
     const data = await courseProgressAPI({
@@ -109,7 +110,6 @@ export default function WorkPlace() {
     await checkModuleCoursesStatus({ currentModule });
   };
 
-  console.log(userCourseProgress);
 
   const checkChapterStatus = async ({ chapter }) => {
     await userCourseProgress?.modules?.map((progressModule) => {
@@ -140,8 +140,10 @@ export default function WorkPlace() {
     if (chapterIndex == currentModule?.chapter.length - 1) {
       setisQuizSelected(true);
       setcurrentQuiz(currentModule?.quizzes);
+      window.scrollTo(0, 0);
     } else {
       setCurrentChapter(currentModule?.chapter[chapterIndex + 1]);
+      window.scrollTo(0, 0);
     }
   };
   const handlePrevChapterClick = async ({ chapter }) => {
@@ -149,8 +151,10 @@ export default function WorkPlace() {
     console.log(chapterIndex, "check");
     if (chapterIndex == 0) {
       console.log("no button");
+      window.scrollTo(0, 0);
     } else {
       setCurrentChapter(currentModule?.chapter[chapterIndex - 1]);
+      window.scrollTo(0, 0);
     }
   };
 
@@ -173,6 +177,8 @@ export default function WorkPlace() {
 
   return (
     <div className="w-full mt-[10vh] h-full flex justify-between align-middle">
+      <ScrollToTop />
+      <NftModal loggedInUserData={loggedInUserData} isOpen={nftModalIsOpen} setIsOpen={setnftModalIsOpen} />
       <div className="bg-shardeumBlue px-[15px] py-[48px] lg:w-[25%] md:w-[30%] sm:w-[30%] fixed h-[90vh] left-0 flex flex-col align-middle items-center scroll-m-0 overflow-y-auto">
         <div className="">
           <div>
@@ -215,6 +221,9 @@ export default function WorkPlace() {
               </div>
             ))}
           </div>
+          <button onClick={() => setnftModalIsOpen(true)} className="text-white text-[24px] w-full text-center mt-2">
+            Claim your reward
+          </button>
         </div>
       </div>
       <div className="ml-[25%] w-[80%]">
