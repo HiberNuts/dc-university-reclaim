@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { RiArrowRightLine } from "react-icons/ri";
 import Button from "./Button";
 import AnswerList from "./AnswerList";
 import Question from "./Question";
 import ResultPage from "./ResultPage";
-import axios from "axios";
+import SuccessModal from "./SuccessModal";
 import toast, { Toaster } from "react-hot-toast";
 import { updateCourseProgressAPI } from "../../utils/api/CourseAPI";
 
@@ -21,7 +20,7 @@ const Quiz = ({
   const [choice, setChoice] = useState("");
   const [score, setScore] = useState(0);
   const [isloading, setIsloading] = useState(false);
-
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [answerArray, setAnswerArray] = useState([]);
   const [currentQuiz, setcurrentQuiz] = useState({});
   const [correctAnswer, setcorrectAnswer] = useState("");
@@ -88,6 +87,7 @@ const Quiz = ({
   const handleSubmit = () => {
   
     if ( choices.includes(undefined)==false && choices.length === moduleQuiz.length) {
+      setModalIsOpen(true);
       checkAllAnswers();
       setIsSubmitted(true);
     } else {  
@@ -254,17 +254,25 @@ const Quiz = ({
               />
             </div>
           ))}
+          
           {!currentQuizCompleted && (
             <Button className="" onClickButton={handleSubmit}>
-              Submit
+              {(score === answerArray.length) ? "Completed" : "Submit"}
             </Button>
           )}
         </>
       )}
 
       {!currentQuizCompleted && isSubmitted && (
-        <ResultPage score={score} quizzes={moduleQuiz} onClickTry={handleClickTry} />
+        <ResultPage score={score} quizzes={moduleQuiz} onClickTry={handleClickTry} answerArray={answerArray} />
+        
       )}
+        {console.log(score)}
+      {
+        (score === answerArray.length) ? <SuccessModal isOpen={modalIsOpen} setIsOpen={setModalIsOpen}/> : ""
+      }
+      
+      
     </div>
   );
 };

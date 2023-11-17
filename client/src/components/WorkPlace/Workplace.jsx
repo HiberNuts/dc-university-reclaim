@@ -161,7 +161,7 @@ export default function WorkPlace() {
 
   useEffect(() => {
     getUserProgress();
-  }, [loggedInUserData, currentChapter]);
+  }, [loggedInUserData, moduleContent]);
 
   return (
     <div className="w-full mt-[10vh] h-full flex justify-between align-middle">
