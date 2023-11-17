@@ -32,6 +32,7 @@ const ProfileCourseCard = ({ props, loggedInUserData }) => {
   const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
 
   return (
+    <Link to={`/workplace/${generateSlug(props?.title)}`}>
     <motion.div
       ref={scrollRef}
       style={{
@@ -77,21 +78,24 @@ const ProfileCourseCard = ({ props, loggedInUserData }) => {
           </div>
         </div>
 
-        <div class="w-full bg-gray-200 rounded-full h-4 mb-4 ">
-          <Link to={`/workplace/${generateSlug(props?.title)}`}>
-            <div className=" bg-gray-200  relative h-6 w-full rounded-2xl">
-              <div
-                className={`bg-shardeumOrange  h-full absolute top-0 left-0 flex w-[${
-                  Math.round(parseInt(currentCourseProgress?.overallCompletionPercentage) / 10) * 10
-                }%] items-center justify-center rounded-2xl text-sm  font-semibold text-white`}
-              >
-                {parseInt(currentCourseProgress?.overallCompletionPercentage)}%
-              </div>
-            </div>
-          </Link>
-        </div>
+
+        <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
+    <div className="bg-gray-200 relative h-6 w-full rounded-2xl">
+      <div
+        style={{
+          width: `${parseInt(currentCourseProgress?.overallCompletionPercentage)}%`,
+        }}
+        className="bg-shardeumOrange h-full absolute top-0 left-0 flex items-center justify-center rounded-2xl text-sm font-semibold text-white"
+      >
+        {parseInt(currentCourseProgress?.overallCompletionPercentage)}%
+      </div>
+    </div>
+</div>
+
+
       </div>
     </motion.div>
+  </Link>
   );
 };
 

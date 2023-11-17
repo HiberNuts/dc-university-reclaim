@@ -238,7 +238,49 @@ export default function WorkPlace() {
         </div>
       </div>
       <div className="ml-[25%] w-[80%] flex flex-col justify-center items-center">
-        <CourseProgress title={courseContent?.title} currentCourseProgress={currentCourseProgress} />
+        <div
+          style={{
+            display: "flex",
+            width: "80%",
+            padding: "20px 24px",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            gap: "12px",
+            borderRadius: "16px",
+            border: "2px solid #C3C8FF",
+            background: "var(--Primary, #FFF)",
+            boxShadow: "0px 4px 10px 0px rgba(195, 200, 255, 0.40)",
+          }}
+        >
+          <p className="text-black text-[24px] text-center mt-2">
+            {courseContent?.title}
+          </p>
+          {currentCourseProgress && (
+            <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
+              <div className="bg-gray-200 relative h-6 w-full rounded-2xl">
+                <div
+                  style={{
+                    width: `${parseInt(
+                      currentCourseProgress?.overallCompletionPercentage
+                    )}%`,
+                  }}
+                  className={`bg-shardeumOrange h-full absolute z-0 top-0 left-0 flex items-center justify-center rounded-2xl text-sm font-semibold text-white`}
+                >
+                  {parseInt(currentCourseProgress?.overallCompletionPercentage)}
+                  %
+                </div>
+              </div>
+
+              <div style={{ gap: "12px" }}>
+                Course{" "}
+                {parseInt(currentCourseProgress?.overallCompletionPercentage)}%
+                Completed{" "}
+              </div>
+            </div>
+          )}{" "}
+        </div>
+
+        {/* <CourseProgress title={courseContent?.title} currentCourseProgress={currentCourseProgress} /> */}
         <div className="flex w-full bg- my-10 justify-center items-center align-middle">
           {isQuizSelected ? (
             <div className="flex text-[20px] w-[70%] courseContent justify-center align-middle  flex-col ">
