@@ -7,13 +7,31 @@ const Token = db.userToken;
 var jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const brevo = require("@getbrevo/brevo");
+let defaultClient = brevo.ApiClient.instance;
+
+let apiKey = defaultClient.authentications["api-key"];
+apiKey.apiKey = config.BREVO_API_KEY;
+
+let apiInstance = new brevo.TransactionalEmailsApi();
+let sendSmtpEmail = new brevo.SendSmtpEmail();
 
 // create reusable transporter object using the default SMTP transport
+// let transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: config.EMAILID,
+//     pass: config.EMAILPASSWORD,
+//   },
+// });
+
 let transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: config.EMAILID,
-    pass: config.EMAILPASSWORD,
+    user: "ramakrishnanrahul003@gmail.com",
+    pass: config.BREVO_KEY,
   },
 });
 
@@ -42,7 +60,10 @@ exports.signup = async (req, res) => {
 
     console.log(user);
 
-    let token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString("hex") });
+    let token = new Token({
+      _userId: user._id,
+      token: crypto.randomBytes(16).toString("hex"),
+    });
     await token.save();
 
     const jwtToken = jwt.sign({ id: user.id }, config.SECRET, {
@@ -51,29 +72,32 @@ exports.signup = async (req, res) => {
       expiresIn: 86400, // 24 hours
     });
 
-
     res.status(200).send({
       type: "user-registered",
       ...user._doc,
       accessToken: jwtToken,
     });
   } catch (error) {
-    res.status(500).send({ message: error.message || "Internal Server Error", error });
+    res
+      .status(500)
+      .send({ message: error.message || "Internal Server Error", error });
   }
 };
 
 exports.signin = async (req, res) => {
   try {
-    let user = await User.findOne({ walletAddress: req.body.walletAddress }).populate("roles", "-__v");
+    let user = await User.findOne({
+      walletAddress: req.body.walletAddress,
+    }).populate("roles", "-__v");
     console.log(req.body.walletAddress, user?.walletAddress);
 
     /*
-    * there are 4 valid msg_types for signin api request
-    * 1) new-user   (action: mail is sent to them)
-    * 2) not-verified   (action: wait for them to click on verify link on their mail)
-    * 3) token-expired  (action: ask for resend verification mail)
-    * 4) normal-login [default]  (action: its usual signin with JWT token)
-    */
+     * there are 4 valid msg_types for signin api request
+     * 1) new-user   (action: mail is sent to them)
+     * 2) not-verified   (action: wait for them to click on verify link on their mail)
+     * 3) token-expired  (action: ask for resend verification mail)
+     * 4) normal-login [default]  (action: its usual signin with JWT token)
+     */
 
     let msg_type = "normal-login";
     if (!user) {
@@ -85,8 +109,11 @@ exports.signin = async (req, res) => {
 
     if (user.isBlocked) {
       console.log("user is blocked");
-      return res.status(401).send({ type: "user-blocked", message: "user is blocked, cannot sign in", user });
-
+      return res.status(401).send({
+        type: "user-blocked",
+        message: "user is blocked, cannot sign in",
+        user,
+      });
     }
 
     if (!user.isVerified) {
@@ -112,14 +139,19 @@ exports.signin = async (req, res) => {
       accessToken: jwtToken,
     });
   } catch (error) {
-    res.status(500).send({ message: error.message || "Internal Server Error", error });
+    res
+      .status(500)
+      .send({ message: error.message || "Internal Server Error", error });
   }
 };
 
 exports.update = async (req, res) => {
   try {
     const userIdQuery = req.query.userid;
-    let user = await User.findOne({ _id: userIdQuery }).populate("roles", "-__v");
+    let user = await User.findOne({ _id: userIdQuery }).populate(
+      "roles",
+      "-__v"
+    );
 
     for (let key in req.body) {
       if (key in user) {
@@ -135,45 +167,47 @@ exports.update = async (req, res) => {
 
     await user.save();
 
-    const authorities = user.roles.map((role) => "ROLE_" + role.name.toUpperCase());
+    const authorities = user.roles.map(
+      (role) => "ROLE_" + role.name.toUpperCase()
+    );
 
     res.status(200).send({
       type: "updated-user",
-      ...user._doc
+      ...user._doc,
     });
   } catch (error) {
-    res.status(500).send({ message: error.message || "Internal Server Error", error });
+    res
+      .status(500)
+      .send({ message: error.message || "Internal Server Error", error });
   }
-}
-
+};
 
 exports.getUserData = async (req, res) => {
   try {
     const userIdQuery = req.query.userid;
-    const user = await User.findOne({ _id: userIdQuery }).populate("roles", "-__v");
-    
+    const user = await User.findOne({ _id: userIdQuery }).populate(
+      "roles",
+      "-__v"
+    );
+
     if (!user) {
       return res.status(404).send({ message: "User not found" });
     }
 
-    const authorities = user.roles.map((role) => "ROLE_" + role.name.toUpperCase());
+    const authorities = user.roles.map(
+      (role) => "ROLE_" + role.name.toUpperCase()
+    );
 
     res.status(200).send({
       type: "user-data",
-      id: user._id,
-      username: user.username,
-      email: user.email,
-      isVerified: user.isVerified,
-      walletAddress: user.walletAddress,
-      roles: authorities,
-      designation: user.designation,
-      portfolio: user.portfolio,
+      ...user._doc,
     });
   } catch (error) {
-    res.status(500).send({ message: error.message || "Internal Server Error", error });
+    res
+      .status(500)
+      .send({ message: error.message || "Internal Server Error", error });
   }
-}
-
+};
 
 exports.confirmation = async (req, res) => {
   try {
@@ -181,27 +215,65 @@ exports.confirmation = async (req, res) => {
     const token = await Token.findOne({ token: tokenQuery });
 
     if (!token) {
-      res
-        .status(400)
-        .send({ type: "not-verified", message: "We were unable to find a valid token. Your token my have expired." });
+      res.status(400).send({
+        type: "not-verified",
+        message:
+          "We were unable to find a valid token. Your token my have expired.",
+      });
     }
 
     const user = await User.findOne({ _id: token._userId });
     if (!user) {
-      return res.status(400).send({ message: "We were unable to find a user for this token." });
+      return res
+        .status(400)
+        .send({ message: "We were unable to find a user for this token." });
     }
 
     if (user.isVerified) {
-      return res.status(400).send({ type: "already-verified", message: "This user has already been verified." });
+      // Redirect URL after successful verification
+      const redirectURL = config.FRONT_END_URL + "emailverification"; // Change this to your desired URL
+
+      return res.status(200).send(`
+    <html>
+      <head>
+        <meta http-equiv="refresh" content="5;url=${redirectURL}">
+      </head>
+      <body>
+        <p>Your account has been verified successfully. You will be redirected to the login page in a few seconds.</p>
+        <script>
+          setTimeout(function() {
+            window.location.href = "${redirectURL}";
+          }, 5000); // Redirect after 5 seconds
+        </script>
+      </body>
+    </html>
+  `);
     }
 
     user.isVerified = true;
     await user.save();
-    return res
-      .status(200)
-      .send({ type: "account-verified", message: "This account has been verified successfully. Please log in" });
+    // Redirect URL after successful verification
+    const redirectURL = config.FRONT_END_URL + "emailverification"; // Change this to your desired URL
+
+    res.status(200).send(`
+    <html>
+      <head>
+        <meta http-equiv="refresh" content="5;url=${redirectURL}">
+      </head>
+      <body>
+        <p>Your account has been verified successfully. You will be redirected to the login page in a few seconds.</p>
+        <script>
+          setTimeout(function() {
+            window.location.href = "${redirectURL}";
+          }, 2000); // Redirect after 2 seconds
+        </script>
+      </body>
+    </html>
+  `);
   } catch (error) {
-    res.status(500).send({ message: error.message || "Internal Server Error", error });
+    res
+      .status(500)
+      .send({ message: error.message || "Internal Server Error", error });
   }
 };
 
@@ -209,63 +281,102 @@ exports.resend = async (req, res) => {
   try {
     const userIdQuery = req.query.userId;
     const user = await User.findOne({ _id: userIdQuery });
+    console.log(userIdQuery);
 
     let token = await Token.findOne({ __userId: user._id });
     if (!token) {
-      token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString("hex") });
+      token = new Token({
+        _userId: user._id,
+        token: crypto.randomBytes(16).toString("hex"),
+      });
       await token.save();
     }
-    console.log(user.email)
+    console.log(user.email);
 
-    let mailOptions = {
-      from: process.env.EMAILID,
-      to: user.email,
+    sendSmtpEmail.subject = "{{params.subject}}";
+    // sendSmtpEmail.htmlContent =
+    //   "<html><body><h1>Common: This is my first transactional email {{params.parameter}}</h1></body></html>";
+    sendSmtpEmail.sender = {
+      name: "Shardeum Academy",
+      email: "no-reply@shardeum.com",
+    };
+    sendSmtpEmail.to = [{ email: user.email, name: user.name }];
+    sendSmtpEmail.replyTo = { email: config.EMAILID, name: "sample-name" };
+    // sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };
+    sendSmtpEmail.templateId = 2;
+    sendSmtpEmail.params = {
+      // parameter: "My param value",
       subject: "Email Verification",
-      html: `<p>Click <a href="http://${req.headers.host}/api/auth/confirmation?token=${token.token}">here</a> to verify your email address.</p>`,
+      link: `http://${req.headers.host}/api/auth/confirmation?token=${token.token}`,
+      name: user.name,
     };
 
-    transporter.sendMail(mailOptions, function (err) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("verification mail sent");
+    apiInstance.sendTransacEmail(sendSmtpEmail).then(
+      function (data) {
+        console.log(
+          "API called successfully. Returned data: " + JSON.stringify(data)
+        );
+      },
+      function (error) {
+        console.error(error);
       }
-    });
+    );
 
-    res.status(200).send({ ...user._doc, message: "Sent verification mail again" });
+    res.status(200).send({ message: "Sent verification mail again" });
   } catch (error) {
-    res.status(500).send({ message: error.message || "Internal Server Error", error });
+    res
+      .status(500)
+      .send({ message: error.message || "Internal Server Error", error });
   }
-  
 };
 
-exports.getUser = async(req, res) => {
+exports.getUser = async (req, res) => {
   try {
     const userIdQuery = req.query.userId;
-    const user = await User.findOne({ _id: userIdQuery }).populate("roles", "-__v");;
+    const user = await User.findOne({ _id: userIdQuery }).populate(
+      "roles",
+      "-__v"
+    );
 
     console.log(user);
 
-    res.status(200).send(user)
+    res.status(200).send(user);
   } catch (error) {
-    res.status(500).send({ message: error.message || "Internal Server Error", error });
+    res
+      .status(500)
+      .send({ message: error.message || "Internal Server Error", error });
   }
-}
+};
 
-exports.toggleBlock = async(req, res) => {
+exports.toggleBlock = async (req, res) => {
   try {
     const userIdQuery = req.query.userId;
-    const user = await User.findOne({ _id: userIdQuery }).populate("roles", "-__v");
+    const blockStatus = req.query?.blockStatus;
 
-    console.log(user, user.isBlocked, "before");
+    const user = await User.findOne({ _id: userIdQuery }).populate(
+      "roles",
+      "-__v"
+    );
 
-    user.isBlocked = user.isBlocked ? false : true;
+    console.log(user.isBlocked, "before");
+
+    if (blockStatus) {
+      user.isBlocked = blockStatus === "true";
+    } else {
+      user.isBlocked = user.isBlocked ? false : true;
+    }
     await user.save();
 
-    console.log(user, user.isBlocked, "after");
+    console.log(user.isBlocked, "after");
 
-    res.status(200).send({ message: `user's block status is ${user.isBlocked}`, isBlocked: user.isBlocked });
+    res.status(200).send({
+      message: `user's block status is ${user.isBlocked}`,
+      isBlocked: user.isBlocked,
+      user: user._doc,
+    });
   } catch (error) {
-    res.status(500).send({ message: error.message || "Internal Server Error", error });
+    res
+      .status(500)
+      .send({ message: error.message || "Internal Server Error", error });
   }
-}
+};

@@ -17,7 +17,7 @@ module.exports = function (app) {
 
   app.post("/api/user/courseEnrolled", [authJwt.verifyToken], controller.courseEnrolled);
 
-  app.post("/api/user/progress", controller.userProgress);
-  app.put("/api/user/updateProgress", controller.updateCourseProgress);
-  app.post("/api/user/progressPercentage", controller.userCourseProgressPercentage);
+  app.post("/api/user/progress", [authJwt.verifyToken], controller.userProgress);
+  app.put("/api/user/updateProgress", [authJwt.verifyToken], controller.updateCourseProgress);
+  app.post("/api/user/progressPercentage", [authJwt.verifyToken], controller.userCourseProgressPercentage);
 };

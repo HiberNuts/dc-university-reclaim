@@ -25,6 +25,7 @@ export default function WorkPlace() {
   const navigate = useNavigate();
   const { loggedInUserData } = useContext(ParentContext);
 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [moduleContent, setModuleContent] = useState([]);
   const [courseContent, setcourseContent] = useState({});
   const [currentChapter, setCurrentChapter] = useState({});
@@ -38,6 +39,8 @@ export default function WorkPlace() {
   const [currentQuiz, setcurrentQuiz] = useState([]);
   const [nftModalIsOpen, setnftModalIsOpen] = useState(false);
   const [currentCourseProgress, setcurrentCourseProgress] = useState({});
+
+  const isMobile = screenWidth < 768;
 
   const getUserProgress = async () => {
     const data = await courseProgressAPI({
@@ -157,13 +160,33 @@ export default function WorkPlace() {
 
   useEffect(() => {
     getCourseInfo();
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+    
   }, []);
 
   useEffect(() => {
     getUserProgress();
-  }, [loggedInUserData, currentChapter]);
+  }, [loggedInUserData, moduleContent]);
+
+  if(isMobile) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-center p-4">
+          <h1 className="text-xl font-bold text-shardeumBlue">Better Experience on Desktop</h1>
+          <p>Please open this website on a desktop for a better experience.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
+    
     <div className="w-full mt-[10vh] h-full flex justify-between align-middle">
       <ScrollToTop />
       <NftModal loggedInUserData={loggedInUserData} isOpen={nftModalIsOpen} setIsOpen={setnftModalIsOpen} />
@@ -215,7 +238,49 @@ export default function WorkPlace() {
         </div>
       </div>
       <div className="ml-[25%] w-[80%] flex flex-col justify-center items-center">
-        <CourseProgress title={courseContent?.title} currentCourseProgress={currentCourseProgress} />
+        <div
+          style={{
+            display: "flex",
+            width: "80%",
+            padding: "20px 24px",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            gap: "12px",
+            borderRadius: "16px",
+            border: "2px solid #C3C8FF",
+            background: "var(--Primary, #FFF)",
+            boxShadow: "0px 4px 10px 0px rgba(195, 200, 255, 0.40)",
+          }}
+        >
+          <p className="text-black text-[24px] text-center mt-2">
+            {courseContent?.title}
+          </p>
+          {currentCourseProgress && (
+            <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
+              <div className="bg-gray-200 relative h-6 w-full rounded-2xl">
+                <div
+                  style={{
+                    width: `${parseInt(
+                      currentCourseProgress?.overallCompletionPercentage
+                    )}%`,
+                  }}
+                  className={`bg-shardeumOrange h-full absolute z-0 top-0 left-0 flex items-center justify-center rounded-2xl text-sm font-semibold text-white`}
+                >
+                  {parseInt(currentCourseProgress?.overallCompletionPercentage)}
+                  %
+                </div>
+              </div>
+
+              <div style={{ gap: "12px" }}>
+                Course{" "}
+                {parseInt(currentCourseProgress?.overallCompletionPercentage)}%
+                Completed{" "}
+              </div>
+            </div>
+          )}{" "}
+        </div>
+
+        {/* <CourseProgress title={courseContent?.title} currentCourseProgress={currentCourseProgress} /> */}
         <div className="flex w-full bg- my-10 justify-center items-center align-middle">
           {isQuizSelected ? (
             <div className="flex text-[20px] w-[70%] courseContent justify-center align-middle  flex-col ">

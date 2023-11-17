@@ -12,6 +12,7 @@
   "dependencies": {
     "@thirdweb-dev/chains": "^0.1.58",
     "@thirdweb-dev/sdk": "^4.0.14",
+    "@getbrevo/brevo": "^1.0.1",
     "axios": "^1.6.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",

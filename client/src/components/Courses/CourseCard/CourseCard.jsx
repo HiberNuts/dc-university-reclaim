@@ -12,6 +12,7 @@ const CourseCard = ({ props }) => {
 
   const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
   return (
+    <Link to={`/course/${props?.title.split(" ").join("-")}`}>
     <motion.div
       ref={scrollRef}
       style={{
@@ -56,11 +57,10 @@ const CourseCard = ({ props }) => {
             <span>{props?.level}</span>
           </div>
         </div>
-        <Link to={`/course/${props?.title.split(" ").join("-")}`}>
           <OrangeButton title={"Start Learning"} style={"w-full h-[40px]"} />
-        </Link>
       </div>
     </motion.div>
+        </Link>
   );
 };
 

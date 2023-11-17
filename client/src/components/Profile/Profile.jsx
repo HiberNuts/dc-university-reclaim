@@ -32,12 +32,13 @@ export const Profile = ({ isOpen, closeModal }) => {
   const [isEditing, setisEditing] = useState(false);
   const [userData, setUserData] = useState({});
   const { address, isConnected } = useAccount();
+  const [error, setError] = useState(null); // State for managing errors
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     designation: "",
-    portfolio: "",
+    // portfolio: "",
     // roles: [""],
   });
   const { allCourseMetaInfo, loggedInUserData, setuserDataIsUpdated, userDataIsUpdated } = useContext(ParentContext);
@@ -68,10 +69,26 @@ export const Profile = ({ isOpen, closeModal }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    // Clear error message when the user selects a designation
+    if (name === "designation") {
+      setError(null);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if designation is selected
+    if (formData.designation === "Select Designation") {
+      setError("Please select a designation");
+      toast.error("Please select a designation"); // Show toast message
+      return; // Stop submission if designation is not selected
+    }
+
+    // Clear error message before attempting to submit
+    setError(null);
+
     setisEditing(false);
 
     try {
@@ -172,7 +189,7 @@ export const Profile = ({ isOpen, closeModal }) => {
                       leaveTo="opacity-0"
                     >
                       <Listbox.Options className="relative mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 ">
-                        {["Select Designation", "Developer", "Designer", "Researcher"].map((designation, index) => (
+                        {["Select Designation", "Web3 Beginner", "Web3 Intermediate", "Web3 Advanced", "Designer", "Product Manager", "Others"].map((designation, index) => (
                           <Listbox.Option
                             key={index}
                             className={({ active }) =>
@@ -202,7 +219,7 @@ export const Profile = ({ isOpen, closeModal }) => {
                 </Listbox>
               </div>
 
-              <div className="mb-6">
+              {/* <div className="mb-6">
                 <input
                   type="url"
                   name="portfolio"
@@ -212,7 +229,7 @@ export const Profile = ({ isOpen, closeModal }) => {
                   placeholder="Portfolio Link"
                   required
                 />
-              </div>
+              </div> */}
               <div className="w-full justify-center align-middle flex">
                 <button
                   type="submit"
@@ -224,9 +241,9 @@ export const Profile = ({ isOpen, closeModal }) => {
             </form>
           </div>
         ) : (
-          <div className={`w-full flex flex-col h-[30%] justify-evenly align-middle items-center`}>
+          <div className={`w-full flex flex-col h-[20%] justify-evenly align-middle items-center`}>
             <div className="flex  flex-col h-full justify-evenly">
-              <ProfileLinks img={linkSVG} title={formData.portfolio} />
+              {/* <ProfileLinks img={linkSVG} title={formData.portfolio} /> */}
               <ProfileLinks img={mailSVG} title={formData.email} />
               <ProfileLinks img={workSVG} title={formData.designation} />
             </div>
