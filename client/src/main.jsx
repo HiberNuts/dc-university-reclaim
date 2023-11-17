@@ -13,7 +13,7 @@ import {
   metaMaskWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { WagmiConfig, configureChains, createConfig, createStorage } from "wagmi";
-import { mainnet, polygon, polygonMumbai, goerli } from "wagmi/chains";
+import { mainnet, polygon, polygonMumbai, goerli, shardeumSphinx } from "wagmi/chains";
 import { RainbowKitProvider, connectorsForWallets, darkTheme } from "@rainbow-me/rainbowkit";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { InjectedConnector } from "@wagmi/core";
@@ -22,12 +22,11 @@ import { ParentProvider } from "./contexts/ParentContext";
 import ScrollToTop from "./ScrollToTop";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [mainnet, goerli, polygonMumbai, polygon],
+  [mainnet, goerli, polygonMumbai, polygon, shardeumSphinx],
   [alchemyProvider({ apiKey: "7wSu45FYTMHUO4HJkHjQwX4HFkb7k9Ui" }), publicProvider()]
 );
 
 const projectId = "b2024bb978e05dbfcd98d3ca8318ee07";
-
 
 const connectors = connectorsForWallets([
   {
@@ -78,10 +77,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     >
       <ParentProvider>
         <BrowserRouter>
-          
-            <ScrollToTop />
-            <App />
-       
+          <ScrollToTop />
+          <App />
         </BrowserRouter>
       </ParentProvider>
     </RainbowKitProvider>
