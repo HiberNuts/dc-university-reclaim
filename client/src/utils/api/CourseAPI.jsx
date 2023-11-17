@@ -135,7 +135,7 @@ export const updateCourseProgressAPI = async ({ updatesUserPorgress, courseId, u
     );
     return data;
   } catch (error) {
-    toast.error("Something went wrong!");
+    // toast.error("Something went wrong!");
     return error;
   }
 };
@@ -156,7 +156,7 @@ export const getUserCourseProgressPercentage = async ({  courseId, userId, acces
     );
     return data;
   } catch (error) {
-    toast.error("Something went wrong!");
+    // toast.error("Something went wrong!");
     return error;
   }
 };

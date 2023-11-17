@@ -7,10 +7,13 @@ import { getAllCourse } from "../../utils/api/CourseAPI";
 
 export default function AllCourses() {
   const [allCourseInfo, setallCourseInfo] = useState([]);
+  const [loading, setloading] = useState(false);
 
   const getAllCourseInfo = async () => {
+    setloading(true);
     const data = await getAllCourse();
     setallCourseInfo(data);
+    setloading(false);
   };
 
   useEffect(() => {
@@ -70,20 +73,24 @@ export default function AllCourses() {
           </div>
         </div>
         <div className="all-course mt-[72px] mb-[72px] w-full items-center flex justify-center align-middle">
-          <div className="flex flex-wrap w-full justify-evenly gap-y-[72px]">
-            {allCourseInfo &&
-              allCourseInfo
-                ?.filter((course) => {
-                  if (Query == "") {
-                    return course;
-                  } else if (course.title.toLowerCase().includes(Query.toLowerCase())) {
-                    return course;
-                  }
-                })
-                ?.map((course, index) => {
-                  return <CourseCard key={index} props={course} />;
-                })}
-          </div>
+          {loading ? (
+            <SkeletonLoader />
+          ) : (
+            <div className="flex flex-wrap w-full justify-evenly gap-y-[72px]">
+              {allCourseInfo &&
+                allCourseInfo
+                  ?.filter((course) => {
+                    if (Query == "") {
+                      return course;
+                    } else if (course.title.toLowerCase().includes(Query.toLowerCase())) {
+                      return course;
+                    }
+                  })
+                  ?.map((course, index) => {
+                    return <CourseCard key={index} props={course} />;
+                  })}
+            </div>
+          )}
         </div>
       </div>
       <div className="absolute sm:visible sm:flex overflow-hidden hidden lg:opacity-100 opacity-30 z-50 top-16 right-5 rotate-90 w-80 ">

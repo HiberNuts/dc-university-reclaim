@@ -12,7 +12,6 @@ const ProfileCourseCard = ({ props, loggedInUserData }) => {
   const navigate = useNavigate();
   const scrollRef = useRef(null);
 
-
   const [currentCourseProgress, setcurrentCourseProgress] = useState({});
 
   const getProgressPercentage = async () => {
@@ -32,7 +31,6 @@ const ProfileCourseCard = ({ props, loggedInUserData }) => {
 
   const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
 
-  
   return (
     <Link to={`/workplace/${generateSlug(props?.title)}`}>
     <motion.div

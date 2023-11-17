@@ -31,7 +31,6 @@ export default function Community() {
   };
 
   const returnImageUrl = (index) => {
-    console.log("return index", index);
     if (index === 1) {
       return "https://img.freepik.com/free-vector/vector-illustration-mountain-landscape_1441-72.jpg?size=626&ext=jpg&ga=GA1.1.1016455232.1698944705&semt=sph";
     }

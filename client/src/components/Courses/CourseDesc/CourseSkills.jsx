@@ -9,7 +9,7 @@ const CourseSkills = ({ props }) => {
         <p className="font-satoshi text-[48px] font-extrabold items-center text-center  ">
           Skills You'll <span className="BlueGradientFade">Gain</span>
         </p>
-        <div className="skills-div flex flex-wrap w-full justify-start md:justify-between mt-6 gap-10 items-start">
+        <div className="skills-div flex flex-wrap w-full justify-start lg:justify-between mt-6 gap-10 items-start">
           {props?.map((prop,index) => (
             <OrangeButton key={index} style={"h-10 px-10"} title={prop} />
           ))}
