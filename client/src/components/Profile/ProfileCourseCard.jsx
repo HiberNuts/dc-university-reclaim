@@ -11,6 +11,8 @@ import { generateSlug } from "../../utils/generateSlug";
 const ProfileCourseCard = ({ props, loggedInUserData }) => {
   const navigate = useNavigate();
   const scrollRef = useRef(null);
+
+
   const [currentCourseProgress, setcurrentCourseProgress] = useState({});
 
   const getProgressPercentage = async () => {
@@ -29,6 +31,8 @@ const ProfileCourseCard = ({ props, loggedInUserData }) => {
   console.log(currentCourseProgress);
 
   const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
+
+  
   return (
     <motion.div
       ref={scrollRef}
@@ -74,6 +78,8 @@ const ProfileCourseCard = ({ props, loggedInUserData }) => {
             <span>{props?.level}</span>
           </div>
         </div>
+
+
         <div class="w-full bg-gray-200 rounded-full h-4 mb-4 ">
           <Link to={`/workplace/${generateSlug(props?.title)}`}>
             <div className=" bg-gray-200  relative h-6 w-full rounded-2xl">
@@ -87,6 +93,8 @@ const ProfileCourseCard = ({ props, loggedInUserData }) => {
             </div>
           </Link>
         </div>
+
+
       </div>
     </motion.div>
   );
