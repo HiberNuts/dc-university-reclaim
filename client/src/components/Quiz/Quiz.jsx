@@ -15,6 +15,7 @@ const Quiz = ({
   setuserCourseProgress,
   courseId,
   userId,
+  accessToken,
 }) => {
   const [quizNo, setQuizNo] = useState(0);
   const [choice, setChoice] = useState("");
@@ -68,6 +69,7 @@ const Quiz = ({
       updatesUserPorgress,
       courseId: courseId,
       userId: userId,
+      accessToken: accessToken,
     });
     setuserCourseProgress(updatedUserProgress.updatedProgress);
     if (updatedUserProgress.updatedUserProgress) {
@@ -85,12 +87,11 @@ const Quiz = ({
   // console.log(answerArray);
 
   const handleSubmit = () => {
-  
-    if ( choices.includes(undefined)==false && choices.length === moduleQuiz.length) {
+    if (choices.includes(undefined) == false && choices.length === moduleQuiz.length) {
       setModalIsOpen(true);
       checkAllAnswers();
       setIsSubmitted(true);
-    } else {  
+    } else {
       toast.custom((t) => (
         <div
           className={`${
@@ -154,8 +155,6 @@ const Quiz = ({
     d: 3,
   };
 
-
-
   const getQuiz = async () => {
     extractABCDValues(moduleQuiz, quizNo);
     setcurrentQuiz(moduleQuiz[quizNo] ? moduleQuiz[quizNo] : {});
@@ -214,13 +213,13 @@ const Quiz = ({
   useEffect(() => {
     if (currentQuizCompleted == true) {
       let finalAnswers = [];
-      moduleQuiz.forEach((m) => { 
+      moduleQuiz.forEach((m) => {
         console.log(m.answer);
         finalAnswers.push(ABC_TO_INT_MAP[m.answer]);
       });
       setChoices(finalAnswers);
-    }else{
-      setChoices([])
+    } else {
+      setChoices([]);
     }
   }, [currentQuizCompleted]);
 
@@ -254,10 +253,10 @@ const Quiz = ({
               />
             </div>
           ))}
-          
+
           {!currentQuizCompleted && (
             <Button className="" onClickButton={handleSubmit}>
-              {(score === answerArray.length) ? "Completed" : "Submit"}
+              {score === answerArray.length ? "Completed" : "Submit"}
             </Button>
           )}
         </>
@@ -265,14 +264,9 @@ const Quiz = ({
 
       {!currentQuizCompleted && isSubmitted && (
         <ResultPage score={score} quizzes={moduleQuiz} onClickTry={handleClickTry} answerArray={answerArray} />
-        
       )}
-        {console.log(score)}
-      {
-        (score === answerArray.length) ? <SuccessModal isOpen={modalIsOpen} setIsOpen={setModalIsOpen}/> : ""
-      }
-      
-      
+      {console.log(score)}
+      {score === answerArray.length ? <SuccessModal isOpen={modalIsOpen} setIsOpen={setModalIsOpen} /> : ""}
     </div>
   );
 };

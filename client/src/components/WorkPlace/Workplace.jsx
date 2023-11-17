@@ -125,6 +125,7 @@ export default function WorkPlace() {
       updatesUserPorgress,
       courseId: courseContent?._id,
       userId: loggedInUserData?._id,
+      accessToken: loggedInUserData?.accessToken,
     });
     setuserCourseProgress(updatedUserProgress.updatedProgress);
 
@@ -164,17 +165,16 @@ export default function WorkPlace() {
       setScreenWidth(window.innerWidth);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener('resize', handleResize);
-    
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
     getUserProgress();
   }, [loggedInUserData, moduleContent]);
 
-  if(isMobile) {
+  if (isMobile) {
     return (
       <div className="flex justify-center items-center h-screen">
         <div className="text-center p-4">
@@ -186,7 +186,6 @@ export default function WorkPlace() {
   }
 
   return (
-    
     <div className="w-full mt-[10vh] h-full flex justify-between align-middle">
       <ScrollToTop />
       <NftModal loggedInUserData={loggedInUserData} isOpen={nftModalIsOpen} setIsOpen={setnftModalIsOpen} />
@@ -252,29 +251,22 @@ export default function WorkPlace() {
             boxShadow: "0px 4px 10px 0px rgba(195, 200, 255, 0.40)",
           }}
         >
-          <p className="text-black text-[24px] text-center mt-2">
-            {courseContent?.title}
-          </p>
+          <p className="text-black text-[24px] text-center mt-2">{courseContent?.title}</p>
           {currentCourseProgress && (
             <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
               <div className="bg-gray-200 relative h-6 w-full rounded-2xl">
                 <div
                   style={{
-                    width: `${parseInt(
-                      currentCourseProgress?.overallCompletionPercentage
-                    )}%`,
+                    width: `${parseInt(currentCourseProgress?.overallCompletionPercentage)}%`,
                   }}
                   className={`bg-shardeumOrange h-full absolute z-0 top-0 left-0 flex items-center justify-center rounded-2xl text-sm font-semibold text-white`}
                 >
-                  {parseInt(currentCourseProgress?.overallCompletionPercentage)}
-                  %
+                  {parseInt(currentCourseProgress?.overallCompletionPercentage)}%
                 </div>
               </div>
 
               <div style={{ gap: "12px" }}>
-                Course{" "}
-                {parseInt(currentCourseProgress?.overallCompletionPercentage)}%
-                Completed{" "}
+                Course {parseInt(currentCourseProgress?.overallCompletionPercentage)}% Completed{" "}
               </div>
             </div>
           )}{" "}
@@ -287,6 +279,7 @@ export default function WorkPlace() {
               <Quiz
                 courseId={courseContent?._id}
                 userId={loggedInUserData?._id}
+                accessToken={loggedInUserData?.accessToken}
                 currentModule={currentModule}
                 setuserCourseProgress={setuserCourseProgress}
                 userCourseProgress={userCourseProgress}
@@ -310,6 +303,7 @@ export default function WorkPlace() {
                 courseId={courseContent?._id}
                 setcurrentChapterStatus={setcurrentChapterStatus}
                 setcurrentQuiz={setcurrentQuiz}
+                accessToken={loggedInUserData?.accessToken}
               />
             )
           )}

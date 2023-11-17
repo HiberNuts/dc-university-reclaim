@@ -19,6 +19,7 @@ const DisplayChapter = ({
   checkModuleCoursesStatus,
   courseId,
   setcurrentQuiz,
+  accessToken,
 }) => {
   const handleNextChapterClick = async ({ chapter }) => {
     let chapterIndex = currentModule?.chapter.findIndex((c) => c._id == chapter._id);
@@ -71,6 +72,7 @@ const DisplayChapter = ({
       updatesUserPorgress,
       courseId: courseId,
       userId: loggedInUserData?._id,
+      accessToken: accessToken,
     });
 
     if (!updatedUserProgress) {

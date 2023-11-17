@@ -140,7 +140,7 @@ export const updateCourseProgressAPI = async ({ updatesUserPorgress, courseId, u
   }
 };
 
-export const getUserCourseProgressPercentage = async ({  courseId, userId, accessToken }) => {
+export const getUserCourseProgressPercentage = async ({ courseId, userId, accessToken }) => {
   try {
     const { data } = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/user/progressPercentage`,
