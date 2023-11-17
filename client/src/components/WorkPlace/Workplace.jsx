@@ -25,6 +25,7 @@ export default function WorkPlace() {
   const navigate = useNavigate();
   const { loggedInUserData } = useContext(ParentContext);
 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [moduleContent, setModuleContent] = useState([]);
   const [courseContent, setcourseContent] = useState({});
   const [currentChapter, setCurrentChapter] = useState({});
@@ -38,6 +39,8 @@ export default function WorkPlace() {
   const [currentQuiz, setcurrentQuiz] = useState([]);
   const [nftModalIsOpen, setnftModalIsOpen] = useState(false);
   const [currentCourseProgress, setcurrentCourseProgress] = useState({});
+
+  const isMobile = screenWidth < 768;
 
   const getUserProgress = async () => {
     const data = await courseProgressAPI({
@@ -157,13 +160,33 @@ export default function WorkPlace() {
 
   useEffect(() => {
     getCourseInfo();
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+    
   }, []);
 
   useEffect(() => {
     getUserProgress();
   }, [loggedInUserData, moduleContent]);
 
+  if(isMobile) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-center p-4">
+          <h1 className="text-xl font-bold text-shardeumBlue">Better Experience on Desktop</h1>
+          <p>Please open this website on a desktop for a better experience.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
+    
     <div className="w-full mt-[10vh] h-full flex justify-between align-middle">
       <ScrollToTop />
       <NftModal loggedInUserData={loggedInUserData} isOpen={nftModalIsOpen} setIsOpen={setnftModalIsOpen} />

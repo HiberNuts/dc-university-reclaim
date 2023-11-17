@@ -42,13 +42,14 @@ function AccordionHeader({ text }) {
 
   return (
     <motion.div className={`AccordionHeader ${isActive ? "active" : ""} w-full`} onClick={() => onChangeIndex(index)}>
-      <div style={{ fontFamily: "satoshiVariable" }} className="flex  w-full justify-between align-middle h-full">
+      <div style={{ fontFamily: "satoshiVariable" }} className="flex w-full justify-between align-middle h-full">
         <span style={{ fontFamily: "satoshiVariable" }} className="font-[500] text-[20px]">
           {text}
-        </span>{" "}
+        </span>
         <img
-          className={`${isActive ? "" : "rotate-180 transition-all "} w-6 sm:w-6 h-6  mt-3 ml-2 sm:mt-0 sm:ml-0 `}
+          className={`w-6 sm:w-6 h-6 mt-3 ml-2 sm:mt-0 sm:ml-0 transition-transform duration-300 ${isActive ? "rotate-0" : "rotate-180"}`}
           src={expand}
+          alt="Expand"
         />
       </div>
     </motion.div>

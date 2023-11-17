@@ -44,22 +44,22 @@ function AccordionItem({ children }) {
   return <div className="AccordionItem  text-white font-satoshi text-[18px] font-[800px]">{children}</div>;
 }
 
+
+
 function AccordionHeader({ text }) {
   const { isActive, index, onChangeIndex } = useAccordion();
 
   return (
-    <motion.div className={`AccordionHeader ${isActive ? "active" : ""} w-full `} onClick={() => onChangeIndex(index)}>
-      <div style={{ fontFamily: "satoshiVariable" }} className="flex  w-full justify-between align-middle h-full">
+    <motion.div className={`AccordionHeader ${isActive ? "active" : ""} w-full`} onClick={() => onChangeIndex(index)}>
+      <div style={{ fontFamily: "satoshiVariable" }} className="flex w-full justify-between align-middle h-full">
         <span style={{ fontFamily: "satoshiVariable" }} className="font-[500] text-[16px]">
           {text}
-        </span>{" "}
+        </span>
         <img
-          className={`${
-            isActive ? "rotate-180 transition-all ease-in-out duration-500 " : ""
-          } w-6 sm:w-[25px] h-[25px]  mt-3 ml-2 fill-white sm:mt-0 sm:ml-0 `}
+          className={`w-6 sm:w-[25px] h-[25px]  mt-3 ml-2 fill-white sm:mt-0 sm:ml-0 transition-transform duration-300 ${isActive ? "rotate-0" : "rotate-180"}`}
           src={whiteExpand}
+          alt="Expand"
         />
-        {/* <FontAwesomeIcon icon={lockSVG} /> */}
       </div>
     </motion.div>
   );
