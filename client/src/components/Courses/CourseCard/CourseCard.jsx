@@ -17,7 +17,7 @@ const CourseCard = ({ props }) => {
       style={{
         scale: scrollYProgress,
         opacity: scrollYProgress,
-        boxShadow: "0px 4px 20px 0px rgba(195, 200, 255, 0.30);",
+        boxShadow: "0px 4px 20px 0px rgba(195, 200, 255, 0.30)",
       }}
       className="flex card-container  h-[550px] bg-white dark:border-2 dark:border-shardeumPurple flex-col justify-center align-middle w-[400px] rounded-[16px]"
     >

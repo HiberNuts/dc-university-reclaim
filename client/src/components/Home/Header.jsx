@@ -5,15 +5,11 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import navLogoBlack from "../../assets/navlogoBlack.png";
 import navLogoWhite from "../../assets/navlogoWhite.png";
 import "./Home.css";
-import { HashLink } from "react-router-hash-link";
 import Burger from "./Burger";
 import axios from "axios";
 import { ProfileDropDown } from "./ProfileDropdown";
 import { useAccount } from "wagmi";
 import { ParentContext } from "../../contexts/ParentContext";
-// import { Profile } from "../Profile/Profile";
-// import { MobileMenu } from "./MobileMenu";
-// import { Menu } from "@headlessui/react";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -22,12 +18,6 @@ export default function Header() {
   const { address, isConnected } = useAccount();
 
   const { loggedInUserData, setloggedInUserData, setuserDataIsUpdated, userDataIsUpdated } = useContext(ParentContext);
-
-  const coursesRef = useRef(null);
-
-  const scrollToCourses = () => {
-    coursesRef.current.scrollIntoView({ behavior: "smooth" });
-  };
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -64,7 +54,7 @@ export default function Header() {
     if (isConnected == false) {
       setloggedInUserData({});
     }
-  }, [address, userDataIsUpdated]);
+  }, [address]);
 
   const styleNavEl = `before:bg-white before:left-0 ${
     homeRoute ? "hover:text-white text-white" : "hover:text-black text-black hover:before:bg-shardeumOrange "
@@ -81,7 +71,7 @@ export default function Header() {
 
   return (
     <header
-      className={`header border-b-4 border-gray w-full  ${homeRoute ? "bg-shardeumBlue" : "bg-white"} ${
+      className={`header border-b- z-50 border-gray w-full  ${homeRoute ? "bg-shardeumBlue" : "bg-white"} ${
         location.pathname.includes("/workplace") ? "fixed" : ""
       } `}
     >
@@ -164,9 +154,9 @@ export default function Header() {
             </ul>
 
             <div className="lg:hidden flex items-center z-60">
-              <button className="focus:outline-none" onClick={toggleNavbar}>
+              <div className="focus:outline-none" onClick={toggleNavbar}>
                 <Burger isOpen={isOpen} setIsOpen={setIsOpen} />
-              </button>
+              </div>
             </div>
           </div>
         </div>
@@ -191,7 +181,7 @@ export default function Header() {
                 <path
                   d="m38.22 17-1.95-1.59v-5.25a1.4 1.4 0 1 0-2.79 0v2.93L28.43 9a7 7 0 0 0-8.86 0l-9.79 8a6.92 6.92 0 0 0-2.56 5.38v11.3a7 7 0 0 0 7 7h19.57a7 7 0 0 0 7-7V22.34A6.92 6.92 0 0 0 38.22 17ZM19.81 37.83v-9.68a4.2 4.2 0 0 1 8.39 0v9.68ZM38 33.64a4.2 4.2 0 0 1-4.19 4.19H31v-9.68a7 7 0 0 0-14 0v9.68h-2.8a4.2 4.2 0 0 1-4.2-4.19v-11.3a4.19 4.19 0 0 1 1.54-3.25l9.79-8a4.21 4.21 0 0 1 5.3 0l9.79 8A4.19 4.19 0 0 1 38 22.34Z"
                   fill="#ff8066"
-                  class="color000000 svgShape"
+                  className="color000000 svgShape"
                 ></path>
               </svg>
 

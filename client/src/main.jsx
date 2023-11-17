@@ -19,8 +19,6 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import { InjectedConnector } from "@wagmi/core";
 import "@rainbow-me/rainbowkit/styles.css";
 import { ParentProvider } from "./contexts/ParentContext";
-import { PolybaseProvider } from "@polybase/react";
-import { Polybase } from "@polybase/client";
 import ScrollToTop from "./ScrollToTop";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
@@ -30,7 +28,6 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 
 const projectId = "b2024bb978e05dbfcd98d3ca8318ee07";
 
-const polybase = new Polybase();
 
 const connectors = connectorsForWallets([
   {
@@ -81,10 +78,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     >
       <ParentProvider>
         <BrowserRouter>
-          <PolybaseProvider polybase={polybase}>
+          
             <ScrollToTop />
             <App />
-          </PolybaseProvider>
+       
         </BrowserRouter>
       </ParentProvider>
     </RainbowKitProvider>

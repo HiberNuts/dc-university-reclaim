@@ -24,16 +24,47 @@ const CourseHeader = ({ props }) => {
 
   const enrollCourse = async () => {
     if (isConnected) {
-      const data = await enrollCourseAPI({
-        accessToken: loggedInUserData.accessToken,
-        courseId: props._id,
-        userId: loggedInUserData._id,
-      });
-      if (data) {
-        toast.success("Course enrolled!", {
-          icon: "🌟",
+      if (loggedInUserData?.isVerified == true) {
+        const data = await enrollCourseAPI({
+          accessToken: loggedInUserData.accessToken,
+          courseId: props._id,
+          userId: loggedInUserData._id,
         });
-        setisCourseEnrolled(true);
+        if (data) {
+          toast.success("Course enrolled!", {
+            icon: "🌟",
+          });
+          setisCourseEnrolled(true);
+        }
+      } else {
+        toast.custom((t) => (
+          <div
+            className={`${
+              t.visible ? "animate-enter" : "animate-leave"
+            } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+          >
+            <div className="flex p-4">
+              <div className="flex items-start">
+                <div className="flex flex-col justify-center align-middle h-full pt-0.5">
+                  <p className=" rounded-full ">🌟</p>
+                </div>
+                <div className="ml-3 flex-1">
+                  <p className="font-satoshi text-md font-medium text-gray-900">
+                    Please verify your email before proceeding!
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex border-l border-gray-200">
+              <button
+                onClick={() => navigate("/profile")}
+                className="font-satoshi w-full border border-transparent rounded-none rounded-r-lg ml-2  flex items-center justify-center text-sm font-medium text-shardeumBlue hover:text-shardeumOrange focus:outline-none"
+              >
+                Click here
+              </button>
+            </div>
+          </div>
+        ));
       }
     } else {
       toast("Login to continue!", {
