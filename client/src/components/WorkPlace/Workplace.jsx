@@ -1,12 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import image from "../../assets/courseimage.png";
 import CourseAcordian from "../CourseAcoridan/CourseAcordian";
 import axios from "axios";
-import hljs from "highlight.js";
-import HTMLRenderer from "react-html-renderer";
+
 import { useParams } from "react-router-dom";
 import { courseProgressAPI, getCoursebyName, updateCourseProgressAPI } from "../../utils/api/CourseAPI";
-import { CustomFigure } from "./customCourseElement";
 import ReactPlayer from "react-player";
 import "./WorkPlace.scss";
 import Quiz from "../Quiz/Quiz";
@@ -17,11 +14,11 @@ import { useAccount } from "wagmi";
 import { OrangeButton } from "../button/OrangeButton";
 import whiteExpand from "../../assets/whiteArrow.svg";
 import ScrollToTop from "../../ScrollToTop";
-import NftModal from "./NftModal";
+import NftModal from "./component/NftModal";
 import { getUserCourseProgressPercentage } from "../../utils/api/CourseAPI";
-import { generateSlug } from "../../utils/generateSlug";
-import { motion, useScroll } from "framer-motion";
-import { Link } from "react-router-dom";
+
+import CourseProgress from "./component/CourseProgress";
+import DisplayChapter from "./component/DisplayChapter";
 
 export default function WorkPlace() {
   const params = useParams();
@@ -90,10 +87,7 @@ export default function WorkPlace() {
     }
   };
 
-  // console.log(moduleContent);
-
   const handleChapterClick = async (chapter) => {
-    // await checkChapterStatus({ chapter });
     setCurrentChapter(chapter._id === currentChapter._id ? currentChapter : chapter);
   };
 
@@ -156,32 +150,6 @@ export default function WorkPlace() {
     return data;
   };
 
-  // console.log(currentModuleAllChapterStatus);
-
-  const handleNextChapterClick = async ({ chapter }) => {
-    let chapterIndex = currentModule?.chapter.findIndex((c) => c._id == chapter._id);
-    console.log(chapterIndex, "check");
-    if (chapterIndex == currentModule?.chapter.length - 1) {
-      setisQuizSelected(true);
-      setcurrentQuiz(currentModule?.quizzes);
-      window.scrollTo(0, 0);
-    } else {
-      setCurrentChapter(currentModule?.chapter[chapterIndex + 1]);
-      window.scrollTo(0, 0);
-    }
-  };
-  const handlePrevChapterClick = async ({ chapter }) => {
-    let chapterIndex = currentModule?.chapter.findIndex((c) => c._id == chapter._id);
-    console.log(chapterIndex, "check");
-    if (chapterIndex == 0) {
-      console.log("no button");
-      window.scrollTo(0, 0);
-    } else {
-      setCurrentChapter(currentModule?.chapter[chapterIndex - 1]);
-      window.scrollTo(0, 0);
-    }
-  };
-
   useEffect(() => {
     checkChapterStatus({ chapter: currentChapter });
     checkModuleCoursesStatus({ module: moduleContent[0] });
@@ -193,13 +161,7 @@ export default function WorkPlace() {
 
   useEffect(() => {
     getUserProgress();
-  }, [loggedInUserData, moduleContent]);
-
-  useEffect(() => {
-    hljs.highlightAll();
-  }, [moduleContent]);
-
-  console.log(currentCourseProgress);
+  }, [loggedInUserData, currentChapter]);
 
   return (
     <div className="w-full mt-[10vh] h-full flex justify-between align-middle">
@@ -253,41 +215,7 @@ export default function WorkPlace() {
         </div>
       </div>
       <div className="ml-[25%] w-[80%] flex flex-col justify-center items-center">
-        <div
-          style={{
-            display: "flex",
-            width: "80%",
-            padding: "20px 24px",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            gap: "12px",
-            marginTop: "15px",
-            borderRadius: "16px",
-            border: "2px solid #C3C8FF",
-            background: "var(--Primary, #FFF)",
-            boxShadow: "0px 4px 10px 0px rgba(195, 200, 255, 0.40)",
-          }}
-        >
-          <p className="text-black text-[24px] text-center mt-2">{courseContent?.title}</p>
-          {currentCourseProgress && (
-            <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
-              <div className="bg-gray-200  relative h-6 w-full rounded-2xl">
-                <div
-                  className={`bg-shardeumOrange h-full absolute z-0 top-0 left-0 flex w-[${
-                    Math.round(parseInt(currentCourseProgress?.overallCompletionPercentage) / 10) * 10
-                  }%] items-center justify-center rounded-2xl text-sm font-semibold text-white`}
-                >
-                  {parseInt(currentCourseProgress?.overallCompletionPercentage)}%
-                </div>
-              </div>
-
-              <div style={{ gap: "12px" }}>
-                Course {parseInt(currentCourseProgress?.overallCompletionPercentage)}% Completed{" "}
-              </div>
-            </div>
-          )}{" "}
-        </div>
-
+        <CourseProgress title={courseContent?.title} currentCourseProgress={currentCourseProgress} />
         <div className="flex w-full bg- my-10 justify-center items-center align-middle">
           {isQuizSelected ? (
             <div className="flex text-[20px] w-[70%] courseContent justify-center align-middle  flex-col ">
@@ -303,57 +231,21 @@ export default function WorkPlace() {
             </div>
           ) : (
             currentChapter && (
-              <div className="flex text-[20px] w-[70%] courseContent justify-center align-middle  flex-col ">
-                {currentModule?.chapter
-                  .filter((chapter) => chapter._id === currentChapter._id)
-                  .map((chapter) => (
-                    <div className="w-full items-center">
-                      <HTMLRenderer
-                        html={chapter?.content}
-                        components={{
-                          figure: (props) => <CustomFigure {...props} />,
-                        }}
-                      />
-
-                      <div className="w-full mt-10 flex justify-evenly align-middle items-center">
-                        {currentModule?.chapter.findIndex((c) => c._id == chapter._id) == 0 ? (
-                          <div></div>
-                        ) : (
-                          <button
-                            onClick={() => {
-                              handlePrevChapterClick({ chapter });
-                            }}
-                            className={`bg-shardeumOrange flex justify-evenly align-middle  hover:bg-[#ff7a2e] rounded-[10px] w-auto px-4 py-3  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
-                          >
-                            {/* {icon && <FontAwesomeIcon className="mr-3" icon={icon ? icon : ""} />} */}
-                            <img className={`w-6 h-6 rotate-90 mr-2 items-center  fill-white `} src={whiteExpand} />
-                            <span className="items-center text-center ">Previous</span>
-                          </button>
-                        )}
-
-                        <button
-                          disabled={currentChapterStatus == "full" ? true : false}
-                          onClick={() => handleCompleteChapter({ chapter })}
-                          className={`bg-shardeumOrange  hover:bg-[#ff7a2e] rounded-[10px] w-auto px-4 py-3  transition ease-in-out items-center font-semibold align-middle text-center text-white text-[18px] `}
-                        >
-                          <span className="items-center text-center ">Mark as complete</span>
-                        </button>
-                        {currentChapterStatus == "full" && (
-                          <button
-                            onClick={() => {
-                              handleNextChapterClick({ chapter });
-                            }}
-                            className={`bg-shardeumOrange flex justify-evenly align-middle  hover:bg-[#ff7a2e] rounded-[10px] w-auto px-4 py-3  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
-                          >
-                            {/* {icon && <FontAwesomeIcon className="mr-3" icon={icon ? icon : ""} />} */}
-                            <span className="items-center text-center ">Next</span>
-                            <img className={`w-6 h-6 -rotate-90 ml-2 items-center  fill-white `} src={whiteExpand} />
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-              </div>
+              <DisplayChapter
+                currentModule={currentModule}
+                currentChapter={currentChapter}
+                setCurrentChapter={setCurrentChapter}
+                setisQuizSelected={setisQuizSelected}
+                currentChapterStatus={currentChapterStatus}
+                userCourseProgress={userCourseProgress}
+                setuserCourseProgress={setuserCourseProgress}
+                loggedInUserData={loggedInUserData}
+                checkChapterStatus={checkChapterStatus}
+                checkModuleCoursesStatus={checkModuleCoursesStatus}
+                courseId={courseContent?._id}
+                setcurrentChapterStatus={setcurrentChapterStatus}
+                setcurrentQuiz={setcurrentQuiz}
+              />
             )
           )}
         </div>
