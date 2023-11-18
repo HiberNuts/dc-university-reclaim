@@ -1,15 +1,12 @@
-// import { ThirdwebSDK } from "@thirdweb-dev/sdk";
-// import { Shardeum } from "@thirdweb-dev/chains";
-// import { abi } from "./abi.json";
 const { ThirdwebSDK } = require("@thirdweb-dev/sdk");
-const { Mumbai } = require("@thirdweb-dev/chains");
+// const { sharde } = require("@thirdweb-dev/chains");
 const abi = require("./abi.json");
 
-const main = async () => {
-  const CLIENT_ID = "2b3bf217784412a2432bff944b7c3118";
-  const SECRET_KEY = "FoB0lMh763eNFt7bV0u2CGGc76LxIhb4xjl1Un_jmthuu5hVIpcejhig9_Y29YUrDMJPyO1a4mNLTMQjmnPYGg";
+exports.MintPOLNft = async ({ walletAddress }) => {
+  const CLIENT_ID = process.env.CLIENT_ID;
+  const SECRET_KEY = process.env.SECRET_KEY;
 
-  const toAddress = "0x72FdC25331Cd34579c5Dd8DbbABe0a38cdCcb97F";
+  const toAddress = walletAddress;
   const _uri = "ipfs://QmdwaiAzpZP3cDZHCqcs9A6yAHMtP67KdfMeYEdEDBBrho";
 
   const sdk = ThirdwebSDK.fromPrivateKey(
@@ -24,34 +21,30 @@ const main = async () => {
   token_abi = abi;
 
   const contract = await sdk.getContract(
-    "0xd9145CCE52D386f254917e481eB44e9943F39138", // The address of your smart contract
+    "0x16032aEdEb8683Dd6d881a5396E62EE069Fa068b", // The address of your smart contract
     token_abi // The ABI of your smart contract
   );
 
-  const mintNFT = async () => {
-    const result = await contract.call(
-      "safeMint", // Name of your function as it is on the smart contract
-      // Arguments to your function, in the same order they are on your smart contract
-      [
-        toAddress, // e.g. Argument 2
-      ]
-    );
-    console.log(result);
-  };
+  const result = await contract.call(
+    "safeMint", // Name of your function as it is on the smart contract
+    // Arguments to your function, in the same order they are on your smart contract
+    [
+      toAddress, // e.g. Argument 2
+    ]
+  );
+  return result;
 
-  const set = async () => {
-    const setURI = await contract.call(
-      "setBaseURI", // Name of your function as it is on the smart contract
-      // Arguments to your function, in the same order they are on your smart contract
-      [
-        _uri, // e.g. Argument 2
-      ]
-    );
-    console.log(setURI);
-  };
+  // const set = async () => {
+  //   const setURI = await contract.call(
+  //     "setBaseURI", // Name of your function as it is on the smart contract
+  //     // Arguments to your function, in the same order they are on your smart contract
+  //     [
+  //       _uri, // e.g. Argument 2
+  //     ]
+  //   );
+  //   console.log(setURI);
+  // };
 
-  mintNFT();
+  // mintNFT();
   // set();
 };
-
-main();

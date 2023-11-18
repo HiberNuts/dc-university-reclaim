@@ -188,7 +188,15 @@ export default function WorkPlace() {
   return (
     <div className="w-full mt-[10vh] h-full flex justify-between align-middle">
       <ScrollToTop />
-      <NftModal loggedInUserData={loggedInUserData} isOpen={nftModalIsOpen} setIsOpen={setnftModalIsOpen} />
+      <NftModal
+        userCourseProgress={userCourseProgress}
+        courseId={courseContent?._id}
+        userId={loggedInUserData?._id}
+        accessToken={loggedInUserData?.accessToken}
+        loggedInUserData={loggedInUserData}
+        isOpen={nftModalIsOpen}
+        setIsOpen={setnftModalIsOpen}
+      />
       <div className="bg-shardeumBlue px-[15px] py-[48px] lg:w-[25%] md:w-[30%] sm:w-[30%] fixed h-[90vh] left-0 flex flex-col align-middle items-center scroll-m-0 overflow-y-auto">
         <div className="">
           <div>
@@ -231,7 +239,12 @@ export default function WorkPlace() {
               </div>
             ))}
           </div>
-          <button onClick={() => setnftModalIsOpen(true)} className="text-white text-[24px] w-full text-center mt-2">
+
+          <button
+            disabled={currentCourseProgress?.overallCompletionPercentage === 100 ? false : true}
+            onClick={() => setnftModalIsOpen(true)}
+            className="text-white text-[24px] w-full text-center mt-2"
+          >
             Claim your reward
           </button>
         </div>

@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "@thirdweb-dev/chains": "^0.1.58",
-    "@thirdweb-dev/sdk": "^4.0.14",
-    "dotenv": "^16.3.1",
-    "ethers": "^5.7.2"
-  }
-}
