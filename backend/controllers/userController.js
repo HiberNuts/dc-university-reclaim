@@ -7,6 +7,8 @@ const Role = db.role;
 const Token = db.userToken;
 const _ = require("lodash");
 const brevo = require("@getbrevo/brevo");
+const { MintPOLNft } = require("../dNFT/link");
+
 let defaultClient = brevo.ApiClient.instance;
 
 let apiKey = defaultClient.authentications["api-key"];
@@ -43,9 +45,7 @@ exports.courseEnrolled = async (req, res) => {
     }
 
     // Check if the course is already enrolled by the user
-    const enrolledCourseIndex = user.enrolledCourses.findIndex(
-      (course) => String(course.courseId) === courseId
-    );
+    const enrolledCourseIndex = user.enrolledCourses.findIndex((course) => String(course.courseId) === courseId);
     console.log(enrolledCourseIndex);
     if (enrolledCourseIndex !== -1) {
       // console.log(user.enrolledCourses[enrolledCourseIndex].modules.length, "check user1");
@@ -57,31 +57,27 @@ exports.courseEnrolled = async (req, res) => {
       // console.log((existingCourseProgress.modules).length, "len1")
       existingCourseProgress.modules.forEach((existingModule) => {
         const newModule = newCourse.module.find(
-          (module) =>
-            String(module.strapiId) === String(existingModule.strapiId)
+          (module) => String(module.strapiId) === String(existingModule.strapiId)
         );
         // console.log(existingModule.status, existingModule.strapiId);
         if (newModule) {
           existingModule.chapters.forEach((existingChapter) => {
             const newChapter = newModule.chapter.find(
-              (chapter) =>
-                String(chapter.strapiId) === String(existingChapter.strapiId)
+              (chapter) => String(chapter.strapiId) === String(existingChapter.strapiId)
             );
 
             if (!newChapter) {
               // Remove the chapter from existingModule if it's not found in the newModule
               console.log(newChapter);
               existingModule.chapters = existingModule.chapters.filter(
-                (chapter) =>
-                  String(chapter.strapiId) !== String(existingChapter.strapiId)
+                (chapter) => String(chapter.strapiId) !== String(existingChapter.strapiId)
               );
             }
           });
 
           newModule.chapter.forEach((existingChapter) => {
             const isNewChapter = !existingModule.chapters.some(
-              (chapter) =>
-                String(chapter.strapiId) === String(existingChapter.strapiId)
+              (chapter) => String(chapter.strapiId) === String(existingChapter.strapiId)
             );
             // console.log(`Chapter ${existingChapter._id} is new: ${isNewChapter}`);
 
@@ -101,9 +97,7 @@ exports.courseEnrolled = async (req, res) => {
 
           // Compare quizzes within modules
           existingModule.quizzes.forEach((existingQuiz) => {
-            const newQuiz = newModule.quizzes.find(
-              (quiz) => String(quiz.strapiId) === String(existingQuiz.strapiId)
-            );
+            const newQuiz = newModule.quizzes.find((quiz) => String(quiz.strapiId) === String(existingQuiz.strapiId));
             if (newQuiz) {
               // Compare quiz properties and update them if changed
               // For example:
@@ -113,8 +107,7 @@ exports.courseEnrolled = async (req, res) => {
             } else {
               // Remove the quiz from existingModule if it's not found in the newModule
               existingModule.quizzes = existingModule.quizzes.filter(
-                (quiz) =>
-                  String(quiz.strapiId) !== String(existingQuiz.strapiId)
+                (quiz) => String(quiz.strapiId) !== String(existingQuiz.strapiId)
               );
             }
           });
@@ -143,18 +136,15 @@ exports.courseEnrolled = async (req, res) => {
         } else {
           // console.log(existingModule.status);
 
-          existingCourseProgress.modules =
-            existingCourseProgress.modules.filter(
-              (module) =>
-                String(module.strapiId) !== String(existingModule.strapiId)
-            );
+          existingCourseProgress.modules = existingCourseProgress.modules.filter(
+            (module) => String(module.strapiId) !== String(existingModule.strapiId)
+          );
         }
       });
 
       newCourse.module.forEach((newModule) => {
         const isModuleAlreadyExists = existingCourseProgress.modules.some(
-          (existingModule) =>
-            String(existingModule.strapiId) === String(newModule.strapiId)
+          (existingModule) => String(existingModule.strapiId) === String(newModule.strapiId)
         );
         if (!isModuleAlreadyExists) {
           // Handle new module addition
@@ -201,15 +191,13 @@ exports.courseEnrolled = async (req, res) => {
         subject: `Thanks for enrolling to ${newCourse.title}`,
         link: config.FRONT_END_URL,
         courseTitle: newCourse?.title,
-        courseDescription: newCourse?.description
+        courseDescription: newCourse?.description,
       };
 
-      console.log(sendSmtpEmail.params)
+      console.log(sendSmtpEmail.params);
       await apiInstance.sendTransacEmail(sendSmtpEmail).then(
         function (data) {
-          console.log(
-            "API called successfully. Returned data: " + JSON.stringify(data)
-          );
+          console.log("API called successfully. Returned data: " + JSON.stringify(data));
         },
         function (error) {
           console.error(error);
@@ -227,12 +215,9 @@ exports.courseEnrolled = async (req, res) => {
         console.log("User already added in the course's usersEnrolled array");
       }
 
-      return res
-        .status(200)
-        .send({
-          message:
-            "User is already enrolled in this course but updated user-progress if there was change in Course",
-        });
+      return res.status(200).send({
+        message: "User is already enrolled in this course but updated user-progress if there was change in Course",
+      });
     }
 
     let course = await Course.findOne({ _id: courseId });
@@ -269,12 +254,10 @@ exports.courseEnrolled = async (req, res) => {
     user.enrolledCourses.push(userEnrolledCourse);
     await user.save();
 
-    res
-      .status(200)
-      .send({
-        message: "User enrolled in the course successfully",
-        courseId: courseId,
-      });
+    res.status(200).send({
+      message: "User enrolled in the course successfully",
+      courseId: courseId,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: error.message || "Internal Server Error" });
@@ -289,21 +272,15 @@ exports.userProgress = async (req, res) => {
     let user = await User.findOne({ _id: userId });
 
     if (courseId) {
-      const enrolledCourse = user.enrolledCourses.find(
-        (course) => String(course.courseId) === courseId
-      );
+      const enrolledCourse = user.enrolledCourses.find((course) => String(course.courseId) === courseId);
       // console.log(enrolledCourse);
 
-      res
-        .status(200)
-        .send({ message: "course progress retrieved", enrolledCourse });
+      res.status(200).send({ message: "course progress retrieved", enrolledCourse });
     } else {
-      res
-        .status(200)
-        .send({
-          message: "user's entire courses and their progress",
-          enrolledCourses: user.enrolledCourses,
-        });
+      res.status(200).send({
+        message: "user's entire courses and their progress",
+        enrolledCourses: user.enrolledCourses,
+      });
     }
   } catch (error) {
     console.error(error);
@@ -319,9 +296,7 @@ exports.updateCourseProgress = async (req, res) => {
 
     let user = await User.findOne({ _id: userId });
 
-    const enrolledCourseIndex = user.enrolledCourses.findIndex(
-      (course) => String(course.courseId) === courseId
-    );
+    const enrolledCourseIndex = user.enrolledCourses.findIndex((course) => String(course.courseId) === courseId);
     console.log(enrolledCourseIndex);
 
     if (enrolledCourseIndex !== -1) {
@@ -348,9 +323,7 @@ exports.userCourseProgressPercentage = async (req, res) => {
     let user = await User.findOne({ _id: userId });
     console.log(user.enrolledCourses);
 
-    const enrolledCourseIndex = user.enrolledCourses.findIndex(
-      (course) => String(course.courseId) === courseId
-    );
+    const enrolledCourseIndex = user.enrolledCourses.findIndex((course) => String(course.courseId) === courseId);
     console.log(enrolledCourseIndex);
 
     console.log("Provided courseId:", courseId);
@@ -373,48 +346,29 @@ exports.userCourseProgressPercentage = async (req, res) => {
           completedModules++;
 
           totalChapters += module.chapters.length;
-          completedChapters += module.chapters.filter(
-            (chapter) => chapter.status === "full"
-          ).length;
+          completedChapters += module.chapters.filter((chapter) => chapter.status === "full").length;
 
           totalQuizzes += module.quizzes.length;
-          completedQuizzes += module.quizzes.filter(
-            (quiz) => quiz.status === "full"
-          ).length;
+          completedQuizzes += module.quizzes.filter((quiz) => quiz.status === "full").length;
         } else {
           totalChapters += module.chapters.length;
-          completedChapters += module.chapters.filter(
-            (chapter) => chapter.status === "full"
-          ).length;
+          completedChapters += module.chapters.filter((chapter) => chapter.status === "full").length;
 
           totalQuizzes += module.quizzes.length;
-          completedQuizzes += module.quizzes.filter(
-            (quiz) => quiz.status === "full"
-          ).length;
+          completedQuizzes += module.quizzes.filter((quiz) => quiz.status === "full").length;
         }
       });
-      console.log(
-        completedModules,
-        completedChapters,
-        completedQuizzes,
-        "completed"
-      );
+      console.log(completedModules, completedChapters, completedQuizzes, "completed");
       console.log(totalModules, totalChapters, totalQuizzes, "total");
 
       // Calculate percentages
-      const moduleCompletionPercentage =
-        (completedModules / totalModules) * 100 || 0;
-      const chapterCompletionPercentage =
-        (completedChapters / totalChapters) * 100 || 0;
-      const quizCompletionPercentage =
-        (completedQuizzes / totalQuizzes) * 100 || 0;
+      const moduleCompletionPercentage = (completedModules / totalModules) * 100 || 0;
+      const chapterCompletionPercentage = (completedChapters / totalChapters) * 100 || 0;
+      const quizCompletionPercentage = (completedQuizzes / totalQuizzes) * 100 || 0;
 
       // Calculate overall course completion percentage
       const overallCompletionPercentage =
-        (moduleCompletionPercentage +
-          chapterCompletionPercentage +
-          quizCompletionPercentage) /
-        3;
+        (moduleCompletionPercentage + chapterCompletionPercentage + quizCompletionPercentage) / 3;
 
       res.status(200).send({
         message: "Course progress percentages calculated successfully",
@@ -429,5 +383,113 @@ exports.userCourseProgressPercentage = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: error.message || "Internal Server Error" });
+  }
+};
+
+const checkifUserCompletedCourse = async (params) => {
+  try {
+    const userId = params.userId;
+    const courseId = params.courseId;
+
+    let user = await User.findOne({ _id: userId });
+
+    const enrolledCourseIndex = user.enrolledCourses.findIndex((course) => String(course.courseId) === courseId);
+
+    if (enrolledCourseIndex !== -1) {
+      const courseProgress = user.enrolledCourses[enrolledCourseIndex].modules;
+
+      let totalModules = courseProgress.length;
+      let completedModules = 0;
+
+      let totalQuizzes = 0;
+      let completedQuizzes = 0;
+
+      let totalChapters = 0;
+      let completedChapters = 0;
+
+      courseProgress.forEach((module) => {
+        if (module.status === "full") {
+          completedModules++;
+
+          totalChapters += module.chapters.length;
+          completedChapters += module.chapters.filter((chapter) => chapter.status === "full").length;
+
+          totalQuizzes += module.quizzes.length;
+          completedQuizzes += module.quizzes.filter((quiz) => quiz.status === "full").length;
+        } else {
+          totalChapters += module.chapters.length;
+          completedChapters += module.chapters.filter((chapter) => chapter.status === "full").length;
+
+          totalQuizzes += module.quizzes.length;
+          completedQuizzes += module.quizzes.filter((quiz) => quiz.status === "full").length;
+        }
+      });
+      console.log(completedModules, completedChapters, completedQuizzes, "completed");
+      console.log(totalModules, totalChapters, totalQuizzes, "total");
+
+      // Calculate percentages
+      const moduleCompletionPercentage = (completedModules / totalModules) * 100 || 0;
+      const chapterCompletionPercentage = (completedChapters / totalChapters) * 100 || 0;
+      const quizCompletionPercentage = (completedQuizzes / totalQuizzes) * 100 || 0;
+
+      // Calculate overall course completion percentage
+      const overallCompletionPercentage =
+        (moduleCompletionPercentage + chapterCompletionPercentage + quizCompletionPercentage) / 3;
+
+      return {
+        message: "Course progress percentages calculated successfully",
+        moduleCompletionPercentage,
+        chapterCompletionPercentage,
+        quizCompletionPercentage,
+        overallCompletionPercentage,
+        user,
+      };
+    } else {
+      return { message: "Enrolled course not found" };
+    }
+  } catch (error) {
+    console.error(error);
+    return { message: error.message || "Internal Server Error" };
+  }
+};
+
+exports.mintNft = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const courseId = req.body.courseId;
+    const walletAddress = req.body.walletAddress;
+    console.log(walletAddress);
+
+    const userProgressPercentage = await checkifUserCompletedCourse({ courseId: courseId, userId: userId });
+    const user = await User.findOne({ _id: userId });
+    const enrolledCourseIndex = user.enrolledCourses.findIndex((course) => String(course.courseId) === courseId);
+
+    if (
+      userProgressPercentage?.moduleCompletionPercentage == 100 &&
+      userProgressPercentage?.chapterCompletionPercentage == 100 &&
+      userProgressPercentage?.quizCompletionPercentage == 100 &&
+      userProgressPercentage?.overallCompletionPercentage == 100
+    ) {
+      if (user.enrolledCourses[enrolledCourseIndex].nftStatus) {
+        res.status(404).send({ message: "NFT already minted, check your wallet", minted: false });
+      } else {
+        const result = await MintPOLNft({ walletAddress });
+        if (result.receipt.status === 1) {
+          user.enrolledCourses[enrolledCourseIndex].nftStatus = true;
+          user.enrolledCourses[enrolledCourseIndex].nftTxHash = result.receipt.transactionHash;
+          await user.save();
+
+          res
+            .status(200)
+            .send({ message: "Nft successfully Minted", minted: true, TxHash: result.receipt.transactionHash });
+        } else {
+          res.status(400).send({ message: "Error while minting NFT", minted: false });
+        }
+      }
+    } else {
+      res.status(400).send({ message: "Course not yet completed", minted: false });
+    }
+  } catch (error) {
+    console.log(error);
   }
 };

@@ -130,7 +130,7 @@ export const Profile = ({ isOpen, closeModal }) => {
   return (
     <div className="w-full  h-full flex justify-between align-middle">
       <Toaster />
-      <div className="bg-shardeumBlue px-14 lg:w-[30%] h-[100vh]   left-0 rounded-r-xl  flex flex-col align-middle items-center">
+      <div className="bg-shardeumBlue px-14 lg:w-[25%] h-[100vh]   left-0 rounded-r-xl  flex flex-col align-middle items-center">
         <div className="text-white mt-20">
           <img
             className="rounded-[50%] w-[160px] h-[160px] border-2 border-shardeumOrange object-cover"

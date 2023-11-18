@@ -1,17 +1,49 @@
 import React, { Fragment, useState, useEffect } from "react";
 
 import { Dialog, Transition } from "@headlessui/react";
+import { MintUserNftAPI } from "../../../utils/api/CourseAPI";
+import toast, { Toaster } from "react-hot-toast";
 
-const NftModal = ({ isOpen, setIsOpen, loggedInUserData }) => {
+const NftModal = ({ isOpen, setIsOpen, loggedInUserData, courseId, userCourseProgress }) => {
   const [walletAddress, setwalletAddress] = useState(loggedInUserData?.walletAddress);
   const [loading, setloading] = useState(false);
+  const [nftMinted, setnftMinted] = useState(false);
+  const [TxHash, setTxHash] = useState("dssdsd");
+
+  const MintUsreNft = async ({}) => {
+    setloading(true);
+    console.log(walletAddress);
+    if (walletAddress.length == 0) {
+      toast.error("Please provide wallet address");
+    } else {
+      const result = await MintUserNftAPI({
+        courseId: courseId,
+        accessToken: loggedInUserData?.accessToken,
+        walletAddress: loggedInUserData?.walletAddress,
+      });
+      if (result?.minted == true) {
+        console.log("nftMinted");
+        setTxHash(result.TxHash);
+        setnftMinted(true);
+        setloading(false);
+      }
+    }
+    setloading(false);
+  };
+
+  const getNFTData = async () => {
+    setnftMinted(userCourseProgress?.nftStatus ? userCourseProgress?.nftStatus : false);
+    setTxHash(userCourseProgress?.nftTxHash ? userCourseProgress?.nftTxHash : "");
+  };
 
   useEffect(() => {
     setwalletAddress(loggedInUserData?.walletAddress);
-  }, [loggedInUserData]);
+    getNFTData();
+  }, [loggedInUserData, userCourseProgress]);
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
+      {/* <Toaster /> */}
       <Dialog as="div" className="relative z-10" onClose={() => setIsOpen(false)}>
         <Transition.Child
           as={Fragment}
@@ -51,15 +83,24 @@ const NftModal = ({ isOpen, setIsOpen, loggedInUserData }) => {
                   value={walletAddress}
                   onChange={(e) => setwalletAddress(e.target.value)}
                 />
+                {TxHash.length > 0 && (
+                  <div className="mt-2 h-fit w-full">
+                    <a href={`https://mumbai.polygonscan.com/tx/${TxHash}`} className="text-md text-gray-500">
+                      https://mumbai.polygonscan.com/tx/{TxHash}
+                    </a>
+                  </div>
+                )}
+
                 <div className="mt-4">
                   <button
-                    disable={loading}
+                    disabled={loading ? true : nftMinted ? true : false}
+                    // disabled
                     type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    // onClick={() => setIsOpen(false)}
+                    className="justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    onClick={MintUsreNft}
                   >
                     {loading ? (
-                      <div role="status">
+                      <div role="status " className="gap-2 items-center">
                         <svg
                           aria-hidden="true"
                           class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -77,7 +118,10 @@ const NftModal = ({ isOpen, setIsOpen, loggedInUserData }) => {
                           />
                         </svg>
                         <span class="sr-only"></span>
+                        <p>Do not close this window</p>
                       </div>
+                    ) : nftMinted ? (
+                      "Your NFT is successfully minted, check your wallet 😉 "
                     ) : (
                       " Mint me 🚀"
                     )}

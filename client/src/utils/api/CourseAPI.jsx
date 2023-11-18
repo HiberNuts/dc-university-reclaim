@@ -160,3 +160,28 @@ export const getUserCourseProgressPercentage = async ({ courseId, userId, access
     return error;
   }
 };
+
+export const MintUserNftAPI = async ({ courseId, accessToken, walletAddress }) => {
+  try {
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/user/mintNft`,
+      {
+        courseId,
+        walletAddress,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    if (data?.minted == true) {
+      toast.success(data.message);
+    }
+
+    return data;
+  } catch (error) {
+    // toast.error("Something went wrong!");
+    return error;
+  }
+};

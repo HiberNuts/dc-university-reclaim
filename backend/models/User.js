@@ -50,6 +50,7 @@ const moduleSchema = new mongoose.Schema({
     enum: ["none", "partial", "full"],
     default: "none",
   },
+
   chapters: [chapterSchema],
   quizzes: [quizSchema],
   strapiId: Number,
@@ -59,6 +60,14 @@ const enrolledCourseSchema = new mongoose.Schema({
   courseId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course",
+  },
+  nftStatus: {
+    type: Boolean,
+    default: false,
+  },
+  nftTxHash: {
+    type: String,
+    default: "",
   },
   modules: [moduleSchema],
 });
