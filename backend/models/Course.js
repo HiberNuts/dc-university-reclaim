@@ -47,6 +47,10 @@ const courseSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
+  softDelete: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Course = mongoose.model("Course", courseSchema);

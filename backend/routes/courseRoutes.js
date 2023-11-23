@@ -11,4 +11,5 @@ module.exports = function (app) {
   app.get("/api/course/getCourse", controller.getCourseById);
   app.get("/api/course/getCourse/:title", controller.getCourseByName);
   app.delete("/api/course/getCourse", controller.deleteCourseById);
+  app.get("/api/course/softDelete", controller.softDelete);
 };
