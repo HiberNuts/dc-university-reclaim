@@ -26,7 +26,7 @@ module.exports = {
         darkslategray: {
           100: "#495057",
           200: "#333",
-        },
+        },  
         slategray: "#808191",
         skyblue: "#70c4cf",
         royalblue: "#3d5ee1",
