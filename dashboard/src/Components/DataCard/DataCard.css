@@ -1,0 +1,26 @@
+.DataCard{
+    width: 25%;
+    height: 240px;
+    background-color: white;
+    margin: 10px;
+    border: 2px solid #C3C8FF;
+    border-radius: 20px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    grid-area: datacard;
+    min-width: 350px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.DataCard:hover {
+    transform: scale(1.05); /* Scale up the card slightly on hover */
+}
+
+.datacardno{
+    font-size: 60px;
+    align-self: center;
+    margin-top: 40px;
+}
