@@ -1,70 +1,68 @@
-# Shardeum University
+# Shardeum University 🧑‍🎓
 
 Dedicated education platform for shardeum ecosystem
-
 
 ## Getting Started
 
 ### Client
 
+Client UI for Shardeum university
+
 - Add env, refer example.env file
-- ex. Windows 10
-
-### Installing
-
-- How/where to download your program
-- Any modifications needed to be made to files/folders
 
 ### Executing program
 
-- How to run the program
-- Step-by-step bullets
-
 ```
-code blocks for commands
-```
-
-## Help
-
-Any advise for common problems or issues.
-
-```
-command to run if program contains helper info
+cd client
+npm install
+npm start
 ```
 
-## Authors
+### Backend
+
+Backend for shardeum university
+
+- Add env, refer example.env file
+- Like MongoURI, STRAPI_TOKEN, ORIGIN, ThirdWeb CLIENT_ID/SECRET_KEY, STRAPI_API_ENDPOINT = CMS endpoint, BREVO_API_KEY, FRONT_END_URL
+- To gain Strapi token go to CMS -> login -> settings -> API token -> Generate a key
+
+### Executing program
+
+```
+cd Backend
+npm install
+npm start
+```
+
+### CMS
+
+Headless content managament system that handles the course content part
+
+- Add env, refer example.env file
+
+### Executing program
+
+```
+cd cms
+yarn install
+yarn develop
+```
+
+### Dashboard
+
+Analytics dashboard for shardeum university
+
+- Add env, refer example.env file
+
+### Executing program
+
+```
+cd cms
+npm install
+npm start
+```
 
 Contributors names and contact info
 
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
-
-## Version History
-
-- 0.2
-  - Various bug fixes and optimizations
-  - See [commit change]() or See [release history]()
-- 0.1
-  - Initial Release
-
-## License
-
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
-
-## Acknowledgments
-
-Inspiration, code snippets, etc.
-
-- [awesome-readme](https://github.com/matiassingers/awesome-readme)
-- [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-- [dbader](https://github.com/dbader/readme-template)
-- [zenorocha](https://gist.github.com/zenorocha/4526327)
-- [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
-
-Unable to Save
-
-Link Saved
-
-Link Saved
-
-Add Note
+ex. Raghav Jindal (Decentraclasses)  
+ex. [@Raghav](https://twitter/R__J02)
