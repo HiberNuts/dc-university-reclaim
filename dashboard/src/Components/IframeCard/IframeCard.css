@@ -1,0 +1,17 @@
+.IframeCard{
+    width: 25%;
+    height: 240px;
+    background-color: white;
+    margin: 10px;
+    border: 0.2px solid #c4c5ff;
+    border-radius: 2px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    grid-area: datacard;
+    min-width: 350px;
+    /* padding: 30px; */
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+   
+}
+

@@ -1,0 +1,41 @@
+
+
+.sidenav{
+    width: 250px;
+    min-width: 250px;
+    background-color: #3A4CFF;
+    height: 100vh;
+    position: fixed;
+}
+
+.innersidenav{
+    padding: 30px;
+    padding-left: 30px;
+    /* margin-top: 10px; */
+}
+
+.sidenavitems{
+    color: white;
+    display: flex;
+    margin-top: 40px;
+    font-size: 16px;
+    cursor:pointer;
+
+}
+
+
+
+.sidenavicons{
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.sidenavtitle{
+    padding: 20px;
+    margin-top: 25px;
+    color:  white;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
