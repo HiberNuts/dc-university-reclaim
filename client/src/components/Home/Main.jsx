@@ -8,29 +8,24 @@ import logo from "../../assets/navlogoBlack.png";
 
 export default function Main() {
   return (
-    <main className="w-full">
-      <Suspense
-        fallback={
-          <div className="w-screen bg-[#FCFAEF] h-screen items-center flex justify-center align-middle">
-            <img src={logo} />
-          </div>
-        }
-      >
+    <Suspense
+      fallback={
+        <div className="w-screen bg-[#FCFAEF] h-screen items-center flex justify-center align-middle">
+          <img src={logo} />
+        </div>
+      }
+    >
+      <main className="w-full">
         <Hero />
-      </Suspense>
-      <Suspense fallback={<div></div>}>
-        <Stats />
-      </Suspense>
-      <Suspense fallback={<div></div>}>
-        <FeatureCourses />
-      </Suspense>
-      <Suspense fallback={<div></div>}>
-        <Community />
-      </Suspense>
 
-      <Suspense fallback={<div></div>}>
+        <Stats />
+
+        <FeatureCourses />
+
+        <Community />
+
         <FaqHome />
-      </Suspense>
-    </main>
+      </main>
+    </Suspense>
   );
 }
