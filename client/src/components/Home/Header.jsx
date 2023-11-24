@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
-import { ethers } from "ethers";
+import React, { useEffect, useState, useContext, lazy } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import navLogoBlack from "../../assets/navlogoBlack.png";
 import navLogoWhite from "../../assets/navlogoWhite.png";
 import "./Home.css";
-import Burger from "./Burger";
+const Burger = lazy(() => import("./Burger"));
+const ProfileDropDown = lazy(() => import("./ProfileDropdown"));
 import axios from "axios";
-import { ProfileDropDown } from "./ProfileDropdown";
 import { useAccount } from "wagmi";
 import { ParentContext } from "../../contexts/ParentContext";
 
@@ -62,8 +61,7 @@ export default function Header() {
   const activeNavEl = ` before:left-0 ${
     homeRoute ? "text-white before:bg-white " : ". before:bg-shardeumOrange text-shardeumOrange"
   }   before:transition-transform  before:scale-x-100 before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full`;
-  const styleMobileNavEl = "p-3 font-medium";
-  const activeMobileNavEl = "bg-white-400 text-white font-medium relative h-full   w-full text-center p-3";
+
   const styleMobileNavBox =
     "opacity-0 z-[60]  relative lg:hidden mt-2 pb-4 flex flex-col items-center transition-all duration-1000 flex shadow-sm flex-col gap-0 items-center -top-[26rem] bg-white -z-20";
   const activeMobileNavBox =
@@ -243,7 +241,8 @@ export default function Header() {
                         return (
                           <button
                             onClick={openConnectModal}
-                            className={`bg-shardeumOrange flex justify-center align-middle hover:bg-[#fc7d34] rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[22px] w-[150px] h-[40px]`}
+                            style={{ fontFamily: "satoshiVariable" }}
+                            className={`bg-shardeumOrange flex justify-center align-middle hover:bg-[#fc7d34] rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[18px] w-[150px] h-[40px]`}
                           >
                             Login
                           </button>
@@ -255,7 +254,6 @@ export default function Header() {
                             loggedInUserData={loggedInUserData}
                             account={account.displayName}
                             chain={chain}
-                            toggleNavbar={toggleNavbar}
                             openChainModal={openChainModal}
                             openAccountModal={openAccountModal}
                           />

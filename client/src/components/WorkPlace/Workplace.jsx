@@ -4,20 +4,14 @@ import axios from "axios";
 
 import { useParams } from "react-router-dom";
 import { courseProgressAPI, getCoursebyName, updateCourseProgressAPI } from "../../utils/api/CourseAPI";
-import ReactPlayer from "react-player";
 import "./WorkPlace.scss";
 import Quiz from "../Quiz/Quiz";
 import { ParentContext } from "../../contexts/ParentContext";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { useAccount } from "wagmi";
-import { OrangeButton } from "../button/OrangeButton";
-import whiteExpand from "../../assets/whiteArrow.svg";
 import ScrollToTop from "../../ScrollToTop";
 import NftModal from "./component/NftModal";
 import { getUserCourseProgressPercentage } from "../../utils/api/CourseAPI";
-
-import CourseProgress from "./component/CourseProgress";
 import DisplayChapter from "./component/DisplayChapter";
 
 export default function WorkPlace() {

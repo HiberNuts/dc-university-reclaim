@@ -6,7 +6,7 @@ import discord from "../assets/discord.svg";
 
 import twitter from "../assets/twitter.svg";
 import github from "../assets/github.svg";
-import { OrangeButton } from "./button/OrangeButton";
+import  OrangeButton  from "./button/OrangeButton";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 

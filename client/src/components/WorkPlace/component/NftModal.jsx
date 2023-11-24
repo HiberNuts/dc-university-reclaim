@@ -12,7 +12,7 @@ const NftModal = ({ isOpen, setIsOpen, loggedInUserData, courseId, userCoursePro
 
   const MintUsreNft = async ({}) => {
     setloading(true);
-    console.log(walletAddress);
+
     if (walletAddress.length == 0) {
       toast.error("Please provide wallet address");
     } else {
@@ -22,7 +22,6 @@ const NftModal = ({ isOpen, setIsOpen, loggedInUserData, courseId, userCoursePro
         walletAddress: loggedInUserData?.walletAddress,
       });
       if (result?.minted == true) {
-        console.log("nftMinted");
         setTxHash(result.TxHash);
         setnftMinted(true);
         setloading(false);

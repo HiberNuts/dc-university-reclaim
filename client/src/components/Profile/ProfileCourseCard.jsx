@@ -27,8 +27,6 @@ const ProfileCourseCard = ({ props, loggedInUserData }) => {
     getProgressPercentage();
   }, []);
 
-  console.log(currentCourseProgress);
-
   const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
 
   return (

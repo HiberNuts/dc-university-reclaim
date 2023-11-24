@@ -1,5 +1,5 @@
 import React from "react";
-import { OrangeButton } from "../../button/OrangeButton";
+import  OrangeButton  from "../../button/OrangeButton";
 
 const CourseSkills = ({ props }) => {
 

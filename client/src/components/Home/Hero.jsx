@@ -1,14 +1,14 @@
-import React from "react";
+import React, { lazy } from "react";
 import "./Home.css";
 import heroLogoBlack from "../../assets/heroLogoBlack.png";
-import { OrangeButton } from "../button/OrangeButton";
+const OrangeButton = lazy(() => import("../button/OrangeButton"));
 import cube from "../../assets/cube.png";
 import left from "../../assets/heroLeft.svg";
 import right from "../../assets/heroRight.svg";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-export default function Hero() {
+const Hero = () => {
   return (
     <div className=" heroSection md:flex md:h-[88vh] h-[100vh] z-10 flex flex-col w-full justify-between align-middle text-white bg-shardeumBlue sm:rounded-b-[100px]">
       <div className="absolute z-50 left-32 hidden md:flex">
@@ -49,4 +49,6 @@ export default function Hero() {
       </div>
     </div>
   );
-}
+};
+
+export default Hero;

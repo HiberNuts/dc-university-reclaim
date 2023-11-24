@@ -3,7 +3,7 @@ import "./CourseCard.css";
 import timeIcon from "../../../assets/timeIcon.svg";
 import profileIcon from "../../../assets/profileIcon.svg";
 import levelIcon from "../../../assets/levelIcon.svg";
-import { OrangeButton } from "../../button/OrangeButton";
+import OrangeButton  from "../../button/OrangeButton";
 import { motion, useScroll } from "framer-motion";
 import { Link } from "react-router-dom";
 

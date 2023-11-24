@@ -35,7 +35,6 @@ const DisplayChapter = ({
   const handlePrevChapterClick = async ({ chapter }) => {
     let chapterIndex = currentModule?.chapter.findIndex((c) => c._id == chapter._id);
     if (chapterIndex == 0) {
-      console.log("no button");
       window.scrollTo(0, 0);
     } else {
       setCurrentChapter(currentModule?.chapter[chapterIndex - 1]);
@@ -79,7 +78,7 @@ const DisplayChapter = ({
       toast.error("Something went wrong!");
     } else {
       setuserCourseProgress(updatedUserProgress.updatedProgress);
-      console.log(updatedUserProgress);
+     
     }
 
     checkChapterStatus({ chapter });

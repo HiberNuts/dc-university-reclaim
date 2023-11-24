@@ -1,23 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import { faCheck, faCaretSquareDown, faHandPointRight, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import linkSVG from "./linkSVG.svg";
 import mailSVG from "./mailSVG.svg";
 import workSVG from "./workSVG.svg";
 import pencil from "../../assets/pencil.png";
-
-import CourseCard from "../Courses/CourseCard/CourseCard";
-import { useLocation } from "react-router-dom";
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import axios from "axios";
-import { useAccount } from "wagmi";
 import toast, { Toaster } from "react-hot-toast";
 import { ParentContext } from "../../contexts/ParentContext";
-import FeatureCourses from "../Home/FeatureCourses";
-import ProfileCourses from "./ProfileCourses";
-
-// import { ChevronDownIcon, CheckIcon } from "@heroicons/react/24/outline";
+const ProfileCourses = lazy(() => import("./ProfileCourses"));
 
 const ProfileLinks = ({ img, title }) => {
   return (
@@ -28,24 +20,20 @@ const ProfileLinks = ({ img, title }) => {
   );
 };
 
-export const Profile = ({ isOpen, closeModal }) => {
+const Profile = ({ isOpen, closeModal }) => {
   const [isEditing, setisEditing] = useState(false);
   const [userData, setUserData] = useState({});
-  const { address, isConnected } = useAccount();
   const [error, setError] = useState(null); // State for managing errors
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     designation: "",
-    // portfolio: "",
-    // roles: [""],
   });
-  const { allCourseMetaInfo, loggedInUserData, setuserDataIsUpdated, userDataIsUpdated } = useContext(ParentContext);
+  const {  loggedInUserData, setuserDataIsUpdated, userDataIsUpdated } = useContext(ParentContext);
 
   useEffect(() => {
     const fetchUserData = async () => {
-      // console.log(formData)
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/auth/getUserData?userid=${loggedInUserData._id}`
@@ -88,7 +76,6 @@ export const Profile = ({ isOpen, closeModal }) => {
 
     // Clear error message before attempting to submit
     setError(null);
-
     setisEditing(false);
 
     try {
@@ -100,8 +87,6 @@ export const Profile = ({ isOpen, closeModal }) => {
         }
       );
       setUserData(response.data);
-
-      console.log(response);
       setuserDataIsUpdated(!userDataIsUpdated);
     } catch (error) {
       console.error("Error while updating user data:", error);
@@ -189,7 +174,15 @@ export const Profile = ({ isOpen, closeModal }) => {
                       leaveTo="opacity-0"
                     >
                       <Listbox.Options className="relative mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 ">
-                        {["Select Designation", "Web3 Beginner", "Web3 Intermediate", "Web3 Advanced", "Designer", "Product Manager", "Others"].map((designation, index) => (
+                        {[
+                          "Select Designation",
+                          "Web3 Beginner",
+                          "Web3 Intermediate",
+                          "Web3 Advanced",
+                          "Designer",
+                          "Product Manager",
+                          "Others",
+                        ].map((designation, index) => (
                           <Listbox.Option
                             key={index}
                             className={({ active }) =>
@@ -218,18 +211,6 @@ export const Profile = ({ isOpen, closeModal }) => {
                   </div>
                 </Listbox>
               </div>
-
-              {/* <div className="mb-6">
-                <input
-                  type="url"
-                  name="portfolio"
-                  value={formData.portfolio}
-                  onChange={handleChange}
-                  className="bg-gray-50  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-shardeumOrange focus:border-shardeumOrange block w-full p-2.5  dark:focus:ring-blue-500 dark:focus:border-blue-50"
-                  placeholder="Portfolio Link"
-                  required
-                />
-              </div> */}
               <div className="w-full justify-center align-middle flex">
                 <button
                   type="submit"
@@ -243,7 +224,6 @@ export const Profile = ({ isOpen, closeModal }) => {
         ) : (
           <div className={`w-full flex flex-col h-[20%] justify-evenly align-middle items-center`}>
             <div className="flex  flex-col h-full justify-evenly">
-              {/* <ProfileLinks img={linkSVG} title={formData.portfolio} /> */}
               <ProfileLinks img={mailSVG} title={formData.email} />
               <ProfileLinks img={workSVG} title={formData.designation} />
             </div>
@@ -284,7 +264,6 @@ export const Profile = ({ isOpen, closeModal }) => {
                       <span style={{ color: "orange", fontWeight: "bold" }}>Email</span> not yet verified. Please verify
                       to proceed.
                     </div>
-                    {/* <p className="text-black">Please verify to proceed</p> */}
                   </div>
                   <button
                     onClick={handleResendVerificationEmail}
@@ -311,3 +290,5 @@ export const Profile = ({ isOpen, closeModal }) => {
     </div>
   );
 };
+
+export default Profile;

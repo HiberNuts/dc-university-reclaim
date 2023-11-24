@@ -18,8 +18,6 @@ let apiInstance = new brevo.TransactionalEmailsApi();
 let sendSmtpEmail = new brevo.SendSmtpEmail();
 
 exports.allAccess = (req, res) => {
-  console.log(req.data);
-  console.log(req.body);
   res.status(200).send("Public Content.");
 };
 
@@ -46,20 +44,15 @@ exports.courseEnrolled = async (req, res) => {
 
     // Check if the course is already enrolled by the user
     const enrolledCourseIndex = user.enrolledCourses.findIndex((course) => String(course.courseId) === courseId);
-    console.log(enrolledCourseIndex);
     if (enrolledCourseIndex !== -1) {
-      // console.log(user.enrolledCourses[enrolledCourseIndex].modules.length, "check user1");
-
       const existingCourseProgress = user.enrolledCourses[enrolledCourseIndex];
 
       // retrieve new course data
       let newCourse = await Course.findOne({ _id: courseId });
-      // console.log((existingCourseProgress.modules).length, "len1")
       existingCourseProgress.modules.forEach((existingModule) => {
         const newModule = newCourse.module.find(
           (module) => String(module.strapiId) === String(existingModule.strapiId)
         );
-        // console.log(existingModule.status, existingModule.strapiId);
         if (newModule) {
           existingModule.chapters.forEach((existingChapter) => {
             const newChapter = newModule.chapter.find(
@@ -172,9 +165,6 @@ exports.courseEnrolled = async (req, res) => {
       // console.log(user.enrolledCourses[enrolledCourseIndex].modules.length, "check user2");
       // await user.save();
 
-      console.log(newCourse.usersEnrolled);
-      console.log("successfully sent msssjjsjsj");
-
       sendSmtpEmail.subject = "{{params.subject}}";
       // sendSmtpEmail.htmlContent =
       //   "<html><body><h1>Common: This is my first transactional email {{params.parameter}}</h1></body></html>";
@@ -194,7 +184,6 @@ exports.courseEnrolled = async (req, res) => {
         courseDescription: newCourse?.description,
       };
 
-      console.log(sendSmtpEmail.params);
       await apiInstance.sendTransacEmail(sendSmtpEmail).then(
         function (data) {
           console.log("API called successfully. Returned data: " + JSON.stringify(data));
@@ -208,9 +197,8 @@ exports.courseEnrolled = async (req, res) => {
 
       if (!newCourse.usersEnrolled.some((userId) => userId.equals(user._id))) {
         newCourse.usersEnrolled.push(user._id);
-        console.log(newCourse.usersEnrolled);
+
         await newCourse.save();
-        console.log("User added to the course's usersEnrolled array");
       } else {
         console.log("User already added in the course's usersEnrolled array");
       }
@@ -221,11 +209,9 @@ exports.courseEnrolled = async (req, res) => {
     }
 
     let course = await Course.findOne({ _id: courseId });
-    console.log(course.usersEnrolled);
 
     if (!course.usersEnrolled.some((userId) => userId.equals(user._id))) {
       course.usersEnrolled.push(user._id);
-      console.log(course.usersEnrolled);
       await course.save();
       console.log("User added to the course's usersEnrolled array");
     } else {
@@ -297,7 +283,6 @@ exports.updateCourseProgress = async (req, res) => {
     let user = await User.findOne({ _id: userId });
 
     const enrolledCourseIndex = user.enrolledCourses.findIndex((course) => String(course.courseId) === courseId);
-    console.log(enrolledCourseIndex);
 
     if (enrolledCourseIndex !== -1) {
       user.enrolledCourses[enrolledCourseIndex] = updatedEnrolledCourse;
@@ -321,13 +306,11 @@ exports.userCourseProgressPercentage = async (req, res) => {
     const courseId = req.body.courseId;
 
     let user = await User.findOne({ _id: userId });
-    console.log(user.enrolledCourses);
 
     const enrolledCourseIndex = user.enrolledCourses.findIndex((course) => String(course.courseId) === courseId);
-    console.log(enrolledCourseIndex);
 
-    console.log("Provided courseId:", courseId);
-    console.log("Stored courseId:", String(user.enrolledCourses[0].courseId));
+    // console.log("Provided courseId:", courseId);
+    // console.log("Stored courseId:", String(user.enrolledCourses[0].courseId));
 
     if (enrolledCourseIndex !== -1) {
       const courseProgress = user.enrolledCourses[enrolledCourseIndex].modules;
@@ -358,8 +341,8 @@ exports.userCourseProgressPercentage = async (req, res) => {
           completedQuizzes += module.quizzes.filter((quiz) => quiz.status === "full").length;
         }
       });
-      console.log(completedModules, completedChapters, completedQuizzes, "completed");
-      console.log(totalModules, totalChapters, totalQuizzes, "total");
+      // console.log(completedModules, completedChapters, completedQuizzes, "completed");
+      // console.log(totalModules, totalChapters, totalQuizzes, "total");
 
       // Calculate percentages
       const moduleCompletionPercentage = (completedModules / totalModules) * 100 || 0;
@@ -424,8 +407,8 @@ const checkifUserCompletedCourse = async (params) => {
           completedQuizzes += module.quizzes.filter((quiz) => quiz.status === "full").length;
         }
       });
-      console.log(completedModules, completedChapters, completedQuizzes, "completed");
-      console.log(totalModules, totalChapters, totalQuizzes, "total");
+      // console.log(completedModules, completedChapters, completedQuizzes, "completed");
+      // console.log(totalModules, totalChapters, totalQuizzes, "total");
 
       // Calculate percentages
       const moduleCompletionPercentage = (completedModules / totalModules) * 100 || 0;
@@ -458,7 +441,7 @@ exports.mintNft = async (req, res) => {
     const userId = req.userId;
     const courseId = req.body.courseId;
     const walletAddress = req.body.walletAddress;
-    console.log(walletAddress);
+    // console.log(walletAddress);
 
     const userProgressPercentage = await checkifUserCompletedCourse({ courseId: courseId, userId: userId });
     const user = await User.findOne({ _id: userId });

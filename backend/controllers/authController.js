@@ -58,8 +58,6 @@ exports.signup = async (req, res) => {
     user.roles = roles.map((role) => role._id);
     await user.save();
 
-    console.log(user);
-
     let token = new Token({
       _userId: user._id,
       token: crypto.randomBytes(16).toString("hex"),
@@ -89,7 +87,6 @@ exports.signin = async (req, res) => {
     let user = await User.findOne({
       walletAddress: req.body.walletAddress,
     }).populate("roles", "-__v");
-    console.log(req.body.walletAddress, user?.walletAddress);
 
     /*
      * there are 4 valid msg_types for signin api request
@@ -281,7 +278,6 @@ exports.resend = async (req, res) => {
   try {
     const userIdQuery = req.query.userId;
     const user = await User.findOne({ _id: userIdQuery });
-    console.log(userIdQuery);
 
     let token = await Token.findOne({ __userId: user._id });
     if (!token) {
@@ -338,8 +334,6 @@ exports.getUser = async (req, res) => {
       "-__v"
     );
 
-    console.log(user);
-
     res.status(200).send(user);
   } catch (error) {
     res
@@ -357,17 +351,12 @@ exports.toggleBlock = async (req, res) => {
       "roles",
       "-__v"
     );
-
-    console.log(user.isBlocked, "before");
-
     if (blockStatus) {
       user.isBlocked = blockStatus === "true";
     } else {
       user.isBlocked = user.isBlocked ? false : true;
     }
     await user.save();
-
-    console.log(user.isBlocked, "after");
 
     res.status(200).send({
       message: `user's block status is ${user.isBlocked}`,

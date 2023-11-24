@@ -1,4 +1,3 @@
-import "./init";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
@@ -6,7 +5,6 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { publicProvider } from "wagmi/providers/public";
 import {
-  injectedWallet,
   rainbowWallet,
   walletConnectWallet,
   // talismanWallet,
@@ -16,7 +14,6 @@ import { WagmiConfig, configureChains, createConfig, createStorage } from "wagmi
 import { mainnet, polygon, polygonMumbai, goerli, shardeumSphinx } from "wagmi/chains";
 import { RainbowKitProvider, connectorsForWallets, darkTheme } from "@rainbow-me/rainbowkit";
 import { alchemyProvider } from "wagmi/providers/alchemy";
-import { InjectedConnector } from "@wagmi/core";
 import "@rainbow-me/rainbowkit/styles.css";
 import { ParentProvider } from "./contexts/ParentContext";
 import ScrollToTop from "./ScrollToTop";
@@ -44,14 +41,14 @@ const wagmiEntity = createConfig({
   autoConnect: true,
   publicClient,
 });
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors,
-  publicClient,
-  webSocketPublicClient,
-  storage: createStorage({ storage: window.localStorage }),
-  // connectors: publicClient,
-});
+// const wagmiConfig = createConfig({
+//   autoConnect: true,
+//   connectors,
+//   publicClient,
+//   webSocketPublicClient,
+//   storage: createStorage({ storage: window.localStorage }),
+//   // connectors: publicClient,
+// });
 
 const Disclaimer = ({ Text, Link }) => (
   <Text>

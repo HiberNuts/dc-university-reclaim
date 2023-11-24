@@ -34,17 +34,4 @@ exports.MintPOLNft = async ({ walletAddress }) => {
   );
   return result;
 
-  // const set = async () => {
-  //   const setURI = await contract.call(
-  //     "setBaseURI", // Name of your function as it is on the smart contract
-  //     // Arguments to your function, in the same order they are on your smart contract
-  //     [
-  //       _uri, // e.g. Argument 2
-  //     ]
-  //   );
-  //   console.log(setURI);
-  // };
-
-  // mintNFT();
-  // set();
 };

@@ -1,23 +1,12 @@
-import React, { useLayoutEffect, useState, useRef, useContext, useEffect } from "react";
-import { OrangeButton } from "../../button/OrangeButton";
-import image1 from "../../../assets/image1.png";
-import timeIcon from "../../../assets/timeIcon.svg";
-import profileIcon from "../../../assets/profileIcon.svg";
-import levelIcon from "../../../assets/levelIcon.svg";
-import check from "../../../assets/check1.png";
-import top from "../../../assets/top.png";
-import orangeShardeum from "../../../assets/orangeShardeum.png";
-import { faDiscord, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { faAngleDown, faAngleRight, faX } from "@fortawesome/free-solid-svg-icons";
+import React, {  useState, useContext, useEffect } from "react";
 import CourseHeader from "./CourseHeader";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CourseAbout from "./CourseAbout";
 import CourseSkills from "./CourseSkills";
 import CourseLearn from "./CourseLearn";
-import Acordian from "../../Accordian/Acordian";
+
 import CourseFAQ from "./CourseFAQ";
 import CourseCertificate from "./CourseCertificate";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { getCoursebyName } from "../../../utils/api/CourseAPI";
 
