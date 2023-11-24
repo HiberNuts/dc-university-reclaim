@@ -1,5 +1,5 @@
 {
-  "name": "decentraschool",
+  "name": "shardeum_university",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -34,6 +34,7 @@
     "react-player": "^2.13.0",
     "react-router-dom": "^6.12.1",
     "viem": "^1.2.1",
+    "vite-plugin-compression2": "^0.11.0",
     "wagmi": "^1.3.2"
   },
   "devDependencies": {
