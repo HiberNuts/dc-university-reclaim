@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const Burger = ({ isOpen, setIsOpen }) => {
   // const [isOpen, setIsOpen] = useState(false);

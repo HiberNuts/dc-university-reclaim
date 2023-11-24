@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import SkeletonLoader from "./SkeletonLoader";
 import { Toaster, toast } from "react-hot-toast";
 import CourseCard from "./CourseCard/CourseCard";

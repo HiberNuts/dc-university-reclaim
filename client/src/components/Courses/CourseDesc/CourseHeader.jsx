@@ -1,15 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import image1 from "../../../assets/image1.png";
 import timeIcon from "../../../assets/timeIcon.svg";
 import profileIcon from "../../../assets/profileIcon.svg";
 import levelIcon from "../../../assets/levelIcon.svg";
-import top from "../../../assets/top.png";
-import orangeShardeum from "../../../assets/orangeShardeum.png";
-import { faDiscord, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { faAngleRight, faX } from "@fortawesome/free-solid-svg-icons";
-import { OrangeButton } from "../../button/OrangeButton";
-import { Link, useNavigate } from "react-router-dom";
-
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import OrangeButton from "../../button/OrangeButton";
+import { useNavigate } from "react-router-dom";
 import { generateSlug } from "../../../utils/generateSlug";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { courseProgressAPI, enrollCourseAPI } from "../../../utils/api/CourseAPI";
@@ -85,8 +80,6 @@ const CourseHeader = ({ props }) => {
       }
     }
   };
-
-  console.log(isCourseEnrolled);
 
   useEffect(() => {
     getuserProgress();

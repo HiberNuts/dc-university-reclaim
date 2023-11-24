@@ -1,14 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Home.css";
-import { OrangeButton } from "../button/OrangeButton";
-import { faDiscord, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import  OrangeButton  from "../button/OrangeButton";
+import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import orangeShardeum from "../../assets/orangeShardeum.png";
-import boat from "../../assets/boat.png";
-
 import { useScroll } from "framer-motion";
 import { motion } from "framer-motion";
-import Acordian from "../Accordian/Acordian";
 
 export default function Community() {
   const scrollRef = useRef(null);
@@ -16,9 +13,6 @@ export default function Community() {
   const [isImageVisible, setImageVisible] = useState(false);
   const [animation, setAnimation] = useState(false);
 
-  // setInterval(() => {
-  //   setimageIndex(imageIndex + 1 == 4 ? 1 : imageIndex + 1);
-  // }, 2500);
 
   const [imageUrl, setimageUrl] = useState(
     "https://img.freepik.com/free-vector/vector-illustration-mountain-landscape_1441-72.jpg?size=626&ext=jpg&ga=GA1.1.1016455232.1698944705&semt=sph"

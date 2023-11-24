@@ -1,6 +1,4 @@
-import { createContext, useEffect, useState } from "react";
-
-import * as ethers from "ethers";
+import { createContext, useState } from "react";
 import { getAllCourse } from "../utils/api/CourseAPI";
 
 export const ParentContext = createContext("");
@@ -14,7 +12,6 @@ export const ParentProvider = ({ children }) => {
   const getAllCourseMetaInfo = async () => {
     setcourseLoading(true);
     const data = await getAllCourse();
-    console.log(data);
     setallCourseMetaInfo(data ? data : []);
     setcourseLoading(false);
   };
@@ -25,7 +22,6 @@ export const ParentProvider = ({ children }) => {
         allCourseMetaInfo,
         loggedInUserData,
         setloggedInUserData,
-        // getCourseByName,
         userDataIsUpdated,
         setuserDataIsUpdated,
         courseLoading,

@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const OrangeButton = ({ title, style, icon, iconRight, onClick }) => {
+const OrangeButton = ({ title, style, icon, iconRight, onClick }) => {
   return (
     <button
       onClick={onClick ? onClick : null}
@@ -13,3 +13,5 @@ export const OrangeButton = ({ title, style, icon, iconRight, onClick }) => {
     </button>
   );
 };
+
+export default OrangeButton;

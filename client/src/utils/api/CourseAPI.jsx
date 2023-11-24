@@ -61,11 +61,9 @@ export const getCoursebyName = async (title) => {
   }
 };
 export const getCoursebyIdAPI = async (id) => {
-  console.log(id);
   try {
     const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/course/getCourse?courseId=${id}`);
     if (data.course) {
-      console.log(data.course);
       return data.course;
     }
   } catch (error) {
@@ -110,7 +108,6 @@ export const courseProgressAPI = async ({ courseId, userId, accessToken }) => {
         },
       }
     );
-    // console.log(data);
     return data;
   } catch (error) {
     // toast.error("Something went wrong while enrolling Course, Please try again");

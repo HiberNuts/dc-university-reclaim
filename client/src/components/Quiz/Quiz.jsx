@@ -34,8 +34,6 @@ const Quiz = ({
       : false
   );
 
-  console.log(currentQuizCompleted);
-
   function extractABCDValues(quizArray, quizNo) {
     if (quizArray) {
       const selectedQuiz = quizArray[quizNo];
@@ -82,9 +80,6 @@ const Quiz = ({
     updatedChoices[questionIndex] = answer;
     setChoices(updatedChoices);
   };
-
-  // console.log(choices);
-  // console.log(answerArray);
 
   const handleSubmit = () => {
     if (choices.includes(undefined) == false && choices.length === moduleQuiz.length) {
@@ -265,7 +260,6 @@ const Quiz = ({
       {!currentQuizCompleted && isSubmitted && (
         <ResultPage score={score} quizzes={moduleQuiz} onClickTry={handleClickTry} answerArray={answerArray} />
       )}
-      {console.log(score)}
       {score === answerArray.length ? <SuccessModal isOpen={modalIsOpen} setIsOpen={setModalIsOpen} /> : ""}
     </div>
   );

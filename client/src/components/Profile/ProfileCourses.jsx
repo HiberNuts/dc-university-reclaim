@@ -19,9 +19,7 @@ const ProfileCourses = ({ loggedInUserData }) => {
     setprofileCoursesID(list);
     var results = await Promise.all(
       list.map(async (item) => {
-        console.log(item);
         const data = await getCoursebyIdAPI(item);
-        console.log(data);
         return data;
       })
     );
