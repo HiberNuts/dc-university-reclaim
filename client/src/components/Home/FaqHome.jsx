@@ -4,8 +4,8 @@ import Acordian from "../Accordian/Acordian";
 const FaqHome = () => {
   return (
     <div className="w-full my-[80px] flex flex-col items-center justify-center align-middle gap-4">
-      <p className="font-satoshi text-[48px] font-extrabold items-center text-center  ">
-        Frequently Asked <span className="BlueGradientFade">Questions</span>
+      <p className="text-center items-center flex justify-center align-middle text-[64px] font-[700] font-helvetica-neue">
+        Frequently Asked Questions
       </p>
       <div className="w-[80%] md:mt-10 gap-4 grid">
         <Acordian

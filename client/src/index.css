@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200&display=swap");
+@import url("https://fonts.cdnfonts.com/css/helvetica-neue-lt-pro-2");
 
 @tailwind base;
 @tailwind components;
@@ -11,7 +12,10 @@
   src: url("./assets/Satoshi-Variable.ttf");
 }
 
-
+@font-face {
+  font-family: "helvetica-neue";
+  src: url("./assets/HelveticaNeue.otf");
+}
 .animate-scale {
   animation: scale 1s infinite alternate;
   transform-origin: center;
@@ -26,7 +30,6 @@
   }
 }
 
-
 :root {
   --blue: #1e90ff;
   --white: #ffffff;
@@ -38,7 +41,7 @@
 body {
   margin: 0;
   font-family: "Poppins", sans-serif, "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif,
-    "Satoshi", "DM Sans", "satoshiVariable";
+    "Satoshi", "DM Sans", "satoshiVariable", "helvetica-neue-lt-pro-2";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: white;

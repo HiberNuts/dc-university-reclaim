@@ -5,6 +5,7 @@ const FeatureCourses = lazy(() => import("./FeatureCourses"));
 const FaqHome = lazy(() => import("./FaqHome"));
 const Stats = lazy(() => import("./Stats"));
 import logo from "../../assets/navlogoBlack.png";
+import Unique from "./Unique";
 
 export default function Main() {
   return (
@@ -15,12 +16,11 @@ export default function Main() {
         </div>
       }
     >
-      <main className="w-full">
+      <main className="w-full bg-shardeumWhite">
         <Hero />
-
         <Stats />
-
         <FeatureCourses />
+        <Unique />
 
         <Community />
 

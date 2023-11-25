@@ -9,8 +9,6 @@ import { ParentContext } from "../../contexts/ParentContext";
 import { getAllCourse } from "../../utils/api/CourseAPI";
 
 export default function FeatureCourses() {
-  // const { allCourseMetaInfo } = useContext(ParentContext);
-
   const [allCourseInfo, setallCourseInfo] = useState([]);
 
   const getAllCourseInfo = async () => {
@@ -23,11 +21,9 @@ export default function FeatureCourses() {
   }, []);
 
   return (
-    <div className="w-full flex flex-col text-black items-center  justify-center align-middle">
+    <div className="w-full flex flex-col bg-shardeumPink p-[80px] text-black items-center  justify-center align-middle">
       <div className="flex flex-col w-full ">
-        <p className="font-satoshi text-[48px] font-extrabold items-center text-center  ">
-          Explore Our <span className="BlueGradientFade">Courses</span>
-        </p>
+        <p className="font-helvetica-neue text-[64px] font-extrabold items-center text-center  ">Explore Our Courses</p>
         <div className="flex w-full my-5 justify-center gap-x-14 flex-wrap gap-5">
           {allCourseInfo &&
             allCourseInfo?.map((course, index) => {

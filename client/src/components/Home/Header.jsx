@@ -9,6 +9,7 @@ const ProfileDropDown = lazy(() => import("./ProfileDropdown"));
 import axios from "axios";
 import { useAccount } from "wagmi";
 import { ParentContext } from "../../contexts/ParentContext";
+import GreenButton from "../button/GreenButton";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -125,15 +126,7 @@ export default function Header() {
                         >
                           {(() => {
                             if (!connected) {
-                              return (
-                                <button
-                                  onClick={openConnectModal}
-                                  style={{ fontFamily: "satoshiVariable" }}
-                                  className={`bg-shardeumOrange flex justify-center align-middle hover:bg-[#fc7d34] rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[18px] w-[150px] h-[40px]`}
-                                >
-                                  Login
-                                </button>
-                              );
+                              return <GreenButton onClick={openConnectModal} text={"Login"} />;
                             }
                             return (
                               <div style={{ display: "flex", gap: 12 }}>

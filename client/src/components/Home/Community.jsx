@@ -1,18 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Home.css";
-import  OrangeButton  from "../button/OrangeButton";
+import OrangeButton from "../button/OrangeButton";
 import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import orangeShardeum from "../../assets/orangeShardeum.png";
 import { useScroll } from "framer-motion";
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
 export default function Community() {
   const scrollRef = useRef(null);
   const { scrollYProgress } = useScroll({ container: scrollRef });
   const [isImageVisible, setImageVisible] = useState(false);
   const [animation, setAnimation] = useState(false);
-
 
   const [imageUrl, setimageUrl] = useState(
     "https://img.freepik.com/free-vector/vector-illustration-mountain-landscape_1441-72.jpg?size=626&ext=jpg&ga=GA1.1.1016455232.1698944705&semt=sph"
@@ -64,141 +65,91 @@ export default function Community() {
     setimageUrl(returnImageUrl(imageIndex));
   }, [imageIndex]);
 
+  const LogoSvg = () => {
+    return (
+      <svg width="430" height="456" viewBox="0 0 430 456" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.3">
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M29.1628 351.963L-29.4131 454.501H369.353L310.777 351.963H29.1628Z"
+            stroke="black"
+            stroke-width="2"
+          />
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M111.416 3L-88 351.962H29.1804L169.992 105.542L111.416 3Z"
+            stroke="black"
+            stroke-width="2"
+          />
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M228.591 3L170.016 105.542L310.823 351.962H428.007L228.591 3Z"
+            stroke="black"
+            stroke-width="2"
+          />
+          <path
+            d="M169.974 206.161C205.005 206.161 233.401 234.853 233.401 270.249C233.401 305.645 205.005 334.337 169.974 334.337C134.943 334.337 106.547 305.645 106.547 270.249C106.547 234.853 134.943 206.161 169.974 206.161"
+            stroke="black"
+            stroke-width="2"
+          />
+        </g>
+      </svg>
+    );
+  };
+
   return (
-    <div>
-      <div className="heroSection md:flex  items-center flex flex-col w-full justify-center align-middle text-white bg-shardeumBlue">
-        <motion.div
-          ref={scrollRef}
-          style={{ scaleX: scrollYProgress * 500 }}
-          className="absolute hidden md:visible md:flex left-44 mt-32"
-        ></motion.div>
-        <div className="mt-[50px] subHeading sm:w-[80%] text-center  flex justify-center align-middle leading-[36px] items-center text-white md:text-[18px] sm:[18px] text-[18px]">
-          <span className="text-white md:w-[50%] w-[70%] font-satoshi ">What makes us unique</span>
-        </div>
-        <div className="items-center  sm:w-[80%] text-white heroText lg:text-[48px] md:mt-10 md:text-[48px] sm:text-[36px] text-[36px]">
-          <p className="text-center items-center flex justify-center align-middle">
-            More than just a learning platform
-          </p>
-        </div>
-        <div className="subHeading sm:w-[80%] text-center  flex justify-center align-middle leading-[36px] items-center text-white md:text-[18px] sm:[18px] text-[18px]">
-          <span className="text-white md:w-[50%] w-[70%] font-satoshi ">
-            Connect with like-minded developers on our social platforms. Dive into discussions, share insights, and
-            explore the world of Web3 together. Let's learn, create, and evolve together!
-          </span>
-        </div>
-
-        <div className="w-full flex flex-wrap justify-evenly align-middle items-center">
-          <div className="learn-div flex flex-col   flex-wrap  justify-between  mt-6 gap-10">
-            <div className="relative cursor-pointer">
-              <div
-                className={`flex ${
-                  imageIndex === 1 ? "bg-shardeumOrange text-white" : "bg-white "
-                } flex-col active:bg-shardeumPurple hover:bg-shardeumPurple  hover:text-black transition-all ease-linear duration-100 w-[600px] items-start gap-[16px] px-[24px] py-[20px] relative text-black rounded-[16px] overflow-hidden`}
-                onClick={() => handleBlockClick(1)}
-              >
-                <div className="flex items-center gap-[32px] relative self-stretch w-full flex-[0_0_auto]">
-                  <div className="relative w-fit mt-[-1.00px] font-bold  text-[20px]  leading-[30px] ">
-                    Find your path
-                  </div>
-                </div>
-                <p>
-                  Web3 is a vast and complex ecosystem. Choose from hundreds of materials to find the path that&#39;s
-                  right for you.
-                </p>
-              </div>
-            </div>
-            <div className="relative cursor-pointer">
-              <div
-                className={`flex ${
-                  imageIndex === 2 ? "bg-shardeumOrange text-white" : "bg-white "
-                } flex-col active:bg-shardeumPurple hover:bg-shardeumPurple  hover:text-black transition-all ease-linear duration-100 w-[600px] items-start gap-[16px] px-[24px] py-[20px] relative text-black rounded-[16px] overflow-hidden`}
-                onClick={() => handleBlockClick(2)}
-              >
-                <div className="flex items-center gap-[32px] relative self-stretch w-full flex-[0_0_auto]">
-                  <div className="relative w-fit mt-[-1.00px] font-bold  text-[20px]  leading-[30px] ">
-                    World-class web3 instructors
-                  </div>
-                </div>
-                <p>
-                  Web3 is a vast and complex ecosystem. Choose from hundreds of materials to find the path that&#39;s
-                  right for you.
-                </p>
-              </div>
-            </div>
-            <div className="relative cursor-pointer">
-              <div
-                className={`flex ${
-                  imageIndex === 3 ? "bg-shardeumOrange text-white" : "bg-white "
-                } flex-col active:bg-shardeumPurple hover:bg-shardeumPurple  hover:text-black transition-all ease-linear duration-100 w-[600px] items-start gap-[16px] px-[24px] py-[20px] relative text-black rounded-[16px] overflow-hidden`}
-                onClick={() => handleBlockClick(3)}
-              >
-                <div className="flex items-center gap-[32px] relative self-stretch w-full flex-[0_0_auto]">
-                  <div className="relative w-fit mt-[-1.00px] font-bold  text-[20px]  leading-[30px] ">
-                    Learn and Earn
-                  </div>
-                </div>
-                <p>
-                  Web3 is a vast and complex ecosystem. Choose from hundreds of materials to find the path that&#39;s
-                  right for you.
-                </p>
-              </div>
-            </div>
-          </div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="relative w-[600px] h-[518px]  rounded-[16px] mt-8"
-          >
-            <motion.img
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.9 }}
-              src={imageUrl}
-              alt="Description of the image"
-              className="object-fill w-full h-full rounded-[16px]"
-            />
-          </motion.div>
-        </div>
+    <div className=" flex  my-[80px] items-center w-full justify-center align-middle text-black ">
+      <div className="absolute left-0">
+        <LogoSvg />
       </div>
+      <div
+        style={{ boxShadow: "8px 8px 0px 0px rgba(0, 0, 0, 0.15)" }}
+        className="w-[80%] z-20 border-2 border-black flex flex-col justify-center  rounded-[16px] px-[20px]  sm:px-[100px] py-[50px] bg-shardeumTeelGreen"
+      >
+        <p className="text-center items-center flex justify-center align-middle text-[64px] font-[700] font-helvetica-neue">
+          Be a part of an Active Community 🌟
+        </p>
+        <span className="w-full items-center font-light text-[18px] text-center">
+          Connect with like-minded developers on our social platforms. Dive into discussions, share insights, and
+          explore the world of Web3 together. Let's learn, create, and evolve together!
+        </span>
 
-      <div className=" heroSection md:flex  items-center flex flex-col w-full justify-center align-middle text-white bg-shardeumBlue">
-        <motion.div
-          ref={scrollRef}
-          style={{ scaleX: scrollYProgress * 500 }}
-          className="absolute hidden md:visible md:flex left-44 mt-32"
-        >
-          <img src={orangeShardeum} />
-        </motion.div>
-        <div className="items-center  sm:w-[80%] text-white heroText lg:text-[48px] md:mt-10 md:text-[48px] sm:text-[36px] text-[36px]">
-          <p className="text-center items-center flex justify-center align-middle">
-            Be a part of an Active Community 🌟
-          </p>
+        <div className="flex flex-wrap mt-[32px] gap-8 justify-evenly align-middle">
+          <Link to="">
+            <div className="w-[260px] cursor-pointer hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-2 border-shardeumBlue align-middle justify-evenly">
+              <FontAwesomeIcon
+                className="flex flex-col justify-center  align-middle w-[30px] h-[30px]"
+                color="#3A4CFF"
+                icon={faDiscord}
+              />
+              <p className="text-[18px] font-bold text-shardeumBlue">Join Our Dsicord</p>
+            </div>
+          </Link>
+          <Link to="">
+            <div className="w-[260px] cursor-pointer hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-2 border-shardeumBlue align-middle justify-evenly">
+              <FontAwesomeIcon
+                className="flex flex-col justify-center  align-middle w-[30px] h-[30px]"
+                color="#3A4CFF"
+                icon={faX}
+              />
+              <p className="text-[18px] font-bold text-shardeumBlue">Join Our Twitter</p>
+            </div>
+          </Link>
+          <Link to="">
+            {" "}
+            <div className="w-[260px] cursor-pointer hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-2 border-shardeumBlue align-middle justify-evenly">
+              <FontAwesomeIcon
+                className="flex flex-col justify-center  align-middle w-[30px] h-[30px]"
+                color="#3A4CFF"
+                icon={faGithub}
+              />
+              <p className="text-[18px] font-bold text-shardeumBlue">Join Our GitHub</p>
+            </div>
+          </Link>
         </div>
-        <div className="subHeading sm:w-[80%] text-center  flex justify-center align-middle leading-[36px] items-center text-white md:text-[18px] sm:[18px] text-[18px]">
-          <span className="text-white md:w-[50%] w-[70%] font-satoshi ">
-            Connect with like-minded developers on our social platforms. Dive into discussions, share insights, and
-            explore the world of Web3 together. Let's learn, create, and evolve together!
-          </span>
-        </div>
-        <div className="sm:w-[80%] my-[40px]  md:flex-row flex-col flex   justify-center items-center md:gap-5 gap-y-5 md:justify-evenly align-middle">
-          <OrangeButton
-            icon={faDiscord}
-            title={"Join Our Discord"}
-            style={"lg:w-[250px] md:w-[250px] text-[18px] w-[80%] py-2 md:py-0  lg:h-[50px] hover:scale-105"}
-          />
-          <OrangeButton
-            icon={faX}
-            title={"Join Our Twitter"}
-            style={"lg:w-[250px] md:w-[250px] text-[18px] w-[80%] py-2 md:py-0  lg:h-[50px] hover:scale-105"}
-          />
-          <OrangeButton
-            icon={faGithub}
-            title={"Join Our GitHub"}
-            style={"lg:w-[250px] md:w-[250px] text-[18px] w-[80%] py-2 md:py-0  lg:h-[50px] hover:scale-105"}
-          />
-        </div>
-        <img className="absolute hidden md:visible md:flex right-44 mb-32 rotate-45" src={orangeShardeum} />
       </div>
     </div>
   );
