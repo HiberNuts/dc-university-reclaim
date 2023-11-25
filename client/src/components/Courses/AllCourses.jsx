@@ -76,7 +76,9 @@ export default function AllCourses() {
           {loading ? (
             <SkeletonLoader />
           ) : (
+            
             <div className="flex flex-wrap w-full justify-evenly gap-y-[72px]">
+              
               {allCourseInfo &&
                 allCourseInfo
                   ?.filter((course) => {
@@ -87,7 +89,7 @@ export default function AllCourses() {
                     }
                   })
                   ?.map((course, index) => {
-                    return <CourseCard key={index} props={course} />;
+                    return course.softDelete !=true ? <CourseCard key={index} props={course} /> : "" ;
                   })}
             </div>
           )}
