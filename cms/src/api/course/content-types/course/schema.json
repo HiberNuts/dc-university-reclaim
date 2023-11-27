@@ -57,9 +57,6 @@
       ],
       "customField": "plugin::multi-select.multi-select"
     },
-    "nftImage": {
-      "type": "string"
-    },
     "whatYouLearn": {
       "displayName": "what you'll learn",
       "type": "component",
@@ -76,6 +73,17 @@
       "type": "component",
       "repeatable": true,
       "component": "course-metadata.module"
+    },
+    "nftImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     }
   }
 }
