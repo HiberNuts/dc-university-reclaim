@@ -51,6 +51,7 @@ const courseSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  contractAddress: String,
 });
 
 const Course = mongoose.model("Course", courseSchema);

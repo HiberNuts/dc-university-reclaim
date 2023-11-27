@@ -401,6 +401,7 @@ export interface ApiCourseCourse extends Schema.CollectionType {
     faq: Attribute.Component<'course-metadata.faq', true>;
     module: Attribute.Component<'course-metadata.module', true>;
     nftImage: Attribute.Media;
+    contractAddress: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

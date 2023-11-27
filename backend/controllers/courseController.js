@@ -57,7 +57,6 @@ exports.syncData = async (req, res) => {
     for (const courseData of coursesData) {
       // Extract course details from courseData.attributes
 
-
       const existingCourse = await Course.findOne({ strapiId: courseData.id });
       const courseDetails = {
         strapiId: courseData.id,
@@ -67,10 +66,11 @@ exports.syncData = async (req, res) => {
         duration: courseData.attributes.duration,
         level: courseData.attributes.level,
         skills: courseData.attributes.skills,
-        nftImage: courseData.attributes.nftImage,
+        nftImage: courseData.attributes.nftImage.data?.attributes?.url,
         banner: courseData.attributes.banner.data[0]?.attributes?.url,
         whatYouLearn: courseData.attributes.whatYouLearn.map((item) => item.title),
         // Transform faq data
+        contractAddress: courseData.attributes.contractAddress,
         faq: courseData.attributes.faq.map((faqItem) => ({
           faqTitle: faqItem.faqTitle,
           faqAnswer: faqItem.faqAnswer,

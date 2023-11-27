@@ -84,6 +84,9 @@
         "videos",
         "audios"
       ]
+    },
+    "contractAddress": {
+      "type": "string"
     }
   }
 }

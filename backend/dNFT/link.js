@@ -2,7 +2,7 @@ const { ThirdwebSDK } = require("@thirdweb-dev/sdk");
 // const { sharde } = require("@thirdweb-dev/chains");
 const abi = require("./abi.json");
 
-exports.MintPOLNft = async ({ walletAddress }) => {
+exports.MintPOLNft = async ({ walletAddress, contractAddress }) => {
   const CLIENT_ID = process.env.CLIENT_ID;
   const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -21,7 +21,7 @@ exports.MintPOLNft = async ({ walletAddress }) => {
   token_abi = abi;
 
   const contract = await sdk.getContract(
-    "0x16032aEdEb8683Dd6d881a5396E62EE069Fa068b", // The address of your smart contract
+    contractAddress, // The address of your smart contract
     token_abi // The ABI of your smart contract
   );
 
@@ -33,5 +33,4 @@ exports.MintPOLNft = async ({ walletAddress }) => {
     ]
   );
   return result;
-
 };

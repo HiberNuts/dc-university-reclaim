@@ -1,4 +1,4 @@
-import React, {  useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import CourseHeader from "./CourseHeader";
 import CourseAbout from "./CourseAbout";
 import CourseSkills from "./CourseSkills";
@@ -30,7 +30,7 @@ const CourseDescription = () => {
       <CourseAbout props={courseData?.aboutCourse} />
       <CourseSkills props={courseData?.skills} />
       <CourseLearn props={courseData?.whatYouLearn} />
-      <CourseCertificate />
+      <CourseCertificate props={courseData?.nftImage} />
       <CourseFAQ props={courseData?.faq} />
     </div>
   );

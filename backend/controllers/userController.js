@@ -441,7 +441,8 @@ exports.mintNft = async (req, res) => {
     const userId = req.userId;
     const courseId = req.body.courseId;
     const walletAddress = req.body.walletAddress;
-    // console.log(walletAddress);
+    const { contractAddress } = await Course.findOne({ _id: courseId }, { contractAddress: 1, _id: 0 });
+    console.log(contractAddress);
 
     const userProgressPercentage = await checkifUserCompletedCourse({ courseId: courseId, userId: userId });
     const user = await User.findOne({ _id: userId });
@@ -456,7 +457,7 @@ exports.mintNft = async (req, res) => {
       if (user.enrolledCourses[enrolledCourseIndex].nftStatus) {
         res.status(404).send({ message: "NFT already minted, check your wallet", minted: false });
       } else {
-        const result = await MintPOLNft({ walletAddress });
+        const result = await MintPOLNft({ walletAddress, contractAddress });
         if (result.receipt.status === 1) {
           user.enrolledCourses[enrolledCourseIndex].nftStatus = true;
           user.enrolledCourses[enrolledCourseIndex].nftTxHash = result.receipt.transactionHash;

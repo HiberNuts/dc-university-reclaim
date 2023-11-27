@@ -27,7 +27,7 @@ const useTruncatedElement = ({ ref }) => {
   };
 };
 
-const CourseCertificate = () => {
+const CourseCertificate = ({ props }) => {
   const ref = React.useRef(null);
   const { isTruncated, isShowingMore, toggleIsShowingMore } = useTruncatedElement({
     ref,
@@ -74,10 +74,7 @@ const CourseCertificate = () => {
         onMouseMove={handleMouse}
         className="flex w-[300px] transition-all ease-linear cursor-pointer h-[400px] object-cover mb-10 sm:mb-0"
       >
-        <img
-          className="w-full h-full object-cover rounded-xl"
-          src="https://cdn.pixabay.com/photo/2022/03/01/02/51/galaxy-7040416_1280.png"
-        />
+        <img className="w-full h-full object-cover rounded-xl" src={props} />
       </motion.div>
     </motion.div>
   );
