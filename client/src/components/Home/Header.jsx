@@ -5,7 +5,7 @@ import navLogoBlack from "../../assets/navlogoBlack.png";
 import navLogoWhite from "../../assets/navlogoWhite.png";
 import "./Home.css";
 const Burger = lazy(() => import("./Burger"));
-const ProfileDropDown = lazy(() => import("./ProfileDropdown"));
+import ProfileDropDown from "./ProfileDropdown";
 import axios from "axios";
 import { useAccount } from "wagmi";
 import { ParentContext } from "../../contexts/ParentContext";

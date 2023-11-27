@@ -23,7 +23,7 @@ export default function FeatureCourses() {
   return (
     <div className="w-full flex flex-col bg-shardeumPink p-[80px] text-black items-center  justify-center align-middle">
       <div className="flex flex-col w-full ">
-        <p className="font-helvetica-neue text-[64px] font-extrabold items-center text-center  ">Explore Our Courses</p>
+        <p className="font-helvetica-neue text-[64px] font-extrabold items-center text-center  ">View All Courses</p>
         <div className="flex w-full my-5 justify-center gap-x-14 flex-wrap gap-5">
           {allCourseInfo &&
             allCourseInfo?.map((course, index) => {

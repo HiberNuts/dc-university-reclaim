@@ -15,19 +15,18 @@ const Hero = () => {
       >
         <div className="relative heroSection  md:flex min-h-full  z-10 flex flex-col w-full justify-between align-middle text-white bg-shardeumBlue sm:rounded-b-[100px]">
           <div className="items-center text-white heroText">
-            <p className="text-center lg:text-[120px] md:text-[90px] sm:text-[80px] font-helvetica-neue text-[60px] items-center ">
-              Become a{" "}
-              <span className=" lg:text-[120px] md:text-[90px] sm:text-[60px] font-helvetica-neue text-[60px] text-shardeumGreen">
-                Next-Gen{" "}
+            <p className="text-center lg:text-[100px] md:text-[70px] sm:text-[80px] font-helvetica-neue text-[60px] items-center ">
+              Your One-Stop Gateway
+              <span className="ml-3 lg:text-[100px] md:text-[70px] sm:text-[60px] font-helvetica-neue text-[60px] text-shardeumGreen">
+                to Becoming
               </span>{" "}
-              <br />
-              Web 3.0 Developer
+              <br />a Top-Notch Web3 Developer
             </p>
             {/* <p className="text-center items-center flex justify-center align-middle"></p> */}
           </div>
           <div className="subHeading text-center w-full flex justify-center align-middle leading-[36px] items-center text-white md:text-[24px] sm:[24px] text-[20px]">
             <span className="text-white  text-[24px] md:w-[70%] w-[90%] font-helvetica ">
-              Ensure rapid development and build powerful Linearly Scalable Dapps with Shardeum
+              Stay ahead in the future of the internet with best web3 content.
             </span>
           </div>
           <motion.div className="w-full flex justify-center align-middle">

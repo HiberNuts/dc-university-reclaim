@@ -82,12 +82,16 @@ const Unique = () => {
   return (
     <div className=" md:flex font-helvetica-neue  items-center flex flex-col w-full sm:py-[60px] py-[20px] justify-center align-middle text-white bg-shardeumBlue">
       <div className="items-center  sm:w-[80%] text-white heroText lg:text-[48px] md:mt-10 md:text-[48px] sm:text-[36px] text-[36px]">
-        <p className="text-center items-center flex justify-center align-middle">More than just a learning platform</p>
+        <p className="text-center items-center flex justify-center align-middle">
+          Become the Next Big Web3 Developer with Shardeum University
+        </p>
       </div>
       <div className="subHeading sm:w-[80%] text-center  flex justify-center align-middle leading-[36px] items-center text-white md:text-[18px] sm:[18px] text-[18px]">
         <span className="text-white sm:w-[70%] w-[80%] font-satoshi ">
-          Connect with like-minded developers on our social platforms. Dive into discussions, share insights, and
-          explore the world of Web3 together. Let's learn, create, and evolve together!
+          Unlike Web2, becoming a Web3 developer or even a founder is within your reach with just an internet
+          connection, a laptop, and mobility. At Shardeum University, we're dedicated to preparing you for success
+          through innovative programs like Reverse Day Demos, Founder’s Bootcamps, and Interactive Coding Workshops
+          based on our own real word experiences.
         </span>
       </div>
 
@@ -104,12 +108,12 @@ const Unique = () => {
               <div className="flex items-center gap-[32px] relative self-stretch w-full flex-[0_0_auto]">
                 <TickSvg />
                 <div className="relative w-fit mt-[-1.00px] font-bold  text-[20px]  leading-[30px] ">
-                  Find your path
+                  Choose your Skill Stream(s)
                 </div>
               </div>
               <p>
-                Web3 is a vast and complex ecosystem. Choose from hundreds of materials to find the path that&#39;s
-                right for you.
+                Select from a diverse array of resources, that includes both beginner friendly and advanced materials,
+                to carve out a path that truly resonates with your passion and ambitions.
               </p>
             </div>
           </div>
@@ -124,12 +128,12 @@ const Unique = () => {
               <div className="flex items-center gap-[32px] relative self-stretch w-full flex-[0_0_auto]">
                 <TickSvg />
                 <div className="relative w-fit mt-[-1.00px] font-bold  text-[20px]  leading-[30px] ">
-                  World-class web3 instructors
+                  Engage & Innovate
                 </div>
               </div>
               <p>
-                Web3 is a vast and complex ecosystem. Choose from hundreds of materials to find the path that&#39;s
-                right for you.
+                Connect with a vibrant community of Web3 enthusiasts and experts. Participate in full stack courses and
+                technical deep dives to apply your knowledge and innovate in the real world.
               </p>
             </div>
           </div>
@@ -144,12 +148,13 @@ const Unique = () => {
               <div className="flex items-center gap-[32px] relative self-stretch w-full flex-[0_0_auto]">
                 <TickSvg />
                 <div className="relative w-fit mt-[-1.00px] font-bold  text-[20px]  leading-[30px] ">
-                  Learn and Earn
+                  Mentorship & Guidance
                 </div>
               </div>
               <p>
-                Web3 is a vast and complex ecosystem. Choose from hundreds of materials to find the path that&#39;s
-                right for you.
+                Gain insights from seasoned Web3 professionals and mentors across Shardeum and other projects. Benefit
+                from personalized guidance, industry wisdom, and support to navigate the complexities of a dynamic
+                blockchain ecosystem.
               </p>
             </div>
           </div>
