@@ -3,9 +3,9 @@
     height: 240px;
     background-color: white;
     margin: 10px;
-    border: 2px solid #C3C8FF;
+    border: 2px solid var(--shardeum-blue);
     border-radius: 20px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 0.15);
     grid-area: datacard;
     min-width: 350px;
     padding: 30px;
@@ -13,6 +13,7 @@
     flex-direction: column;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
+    
 }
 
 .DataCard:hover {
@@ -20,7 +21,7 @@
 }
 
 .datacardno{
-    font-size: 60px;
+    font-size: 16px;
     align-self: center;
     margin-top: 40px;
 }

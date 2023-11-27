@@ -1,0 +1,99 @@
+.register-field .MuiOutlinedInput-root {
+  input {
+    color: var(--shardeum-blue);
+  }
+
+  fieldset {
+    border: 3px solid var(--shardeum-blue);
+    transition: 0.3s ease-in-out;
+    border-radius: 10px;
+  }
+
+  &:hover fieldset {
+    border-color: var(--shardeum-green);
+  }
+
+  &.Mui-focused fieldset {
+    border: 3px solid var(--shardeum-blue);
+  }
+}
+
+@keyframes moveRightAndAppearLeft {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  51% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes modalFadeInScaleUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(90deg);
+  }
+}
+
+.overall {
+  height: 90vh;
+}
+
+.fab-bottom-right:hover .fab-icon {
+  animation: spin 0.2s linear;
+}
+
+.fab-bottom-right {
+  position: fixed !important;
+  right: 20px;
+  bottom: 20px;
+  background-color: var(--shardeum-blue) !important;
+  
+}
+
+
+.register-button {
+  margin-top: 30px !important;
+  border: 2px solid var(--shardeum-blue) !important;
+  border-radius: 5px !important;
+  color: var(--shardeum-blue) !important;
+  background-color: var(--shardeum-white) !important;
+  box-shadow: 5px 5px 0px 0px rgba(0, 0, 0, 0.15) !important;
+  transition: transform 0.3s ease-in-out, border-radius 0.3s ease-in-out !important;
+}
+
+.register-button:hover {
+  border-radius: 12px !important;
+}
+
+.register-button:hover .icon {
+  animation: moveRightAndAppearLeft 0.3s linear;
+}
+
+.register-field {
+  border-radius: 10px;
+  width: 100%;
+
+  box-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 0.15);
+}

@@ -23,7 +23,7 @@ export const DataCard = ({ title, data, onClick }) => {
 
   return (
 <div className="DataCard" onClick={handleClick}>
-  <span style={{ fontSize: '24px', fontWeight: 'bold' }}>{title}</span>
+  <span style={{ fontSize: '25px', fontWeight: 'bold', color: 'var(--shardeum-blue)' }}>{title}</span>
   {loading ? (
     <div
       style={{
@@ -36,7 +36,7 @@ export const DataCard = ({ title, data, onClick }) => {
       <BeatLoader color="indigo" style={{ marginTop: "50px" }} />
     </div>
   ) : (
-    <span className="datacardno" style={{ fontSize: '16px' }}>{data}</span>
+    <span className="datacardno">{data}</span>
   )}
 </div>
 

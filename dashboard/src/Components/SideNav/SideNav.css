@@ -3,7 +3,7 @@
 .sidenav{
     width: 250px;
     min-width: 250px;
-    background-color: #3A4CFF;
+    background-color: var(--shardeum-blue);
     height: 100vh;
     position: fixed;
 }

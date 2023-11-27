@@ -1,10 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/helvetica-neue-55');
+
+@font-face {
+  font-family: 'HelveticaNeueMedium';
+  src: url('./assets/HelveticaNeueMedium.ttf') format('truetype');  
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* background: var(--Gradient-Bg, linear-gradient(0deg, #FFFACE 13.46%, #CEFAFF 58.77%, #FFD9CE 88.88%)); */
+
+:root {
+  --shardeum-white: #FCFAEF;
+  --shardeum-blue: #3042FB;
+  --shardeum-orange: #FF4C0F;
+  --shardeum-green: #A4FF00;
+  
+}
 
 *{
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'HelveticaNeueMedium', 'DM Sans' !important;
+  
 }
 
 .Layout{
@@ -17,7 +36,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #f1f5f9;
+  background-color: #FCFAEF;
   margin-left: 250px;
 
 }
