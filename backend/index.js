@@ -33,6 +33,7 @@ require("./db");
 require("./routes/authRoutes")(app);
 require("./routes/userRoutes")(app);
 require("./routes/courseRoutes")(app);
+require("./routes/adminRoutes")(app);
 
 // simple route
 app.get("/", (req, res) => {

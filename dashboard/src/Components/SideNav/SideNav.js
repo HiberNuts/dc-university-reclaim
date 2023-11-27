@@ -1,6 +1,8 @@
 import React from "react";
 import "./SideNav.css";
 import { ImStatsDots } from "react-icons/im";
+import { RiAdminFill } from "react-icons/ri";
+import { GiWhiteBook } from "react-icons/gi";
 import logo from '../../assets/nav.png'
 
 export const SideNav = () => {
@@ -21,12 +23,18 @@ export const SideNav = () => {
 				<a
 					href="/"
 					className="sidenavitems"
-					// onClick={() => {
-					// 	navigate("/");
-					// }}
+	
 				>
-					<ImStatsDots className="sidenavicons" />
-					<p>Dashboard</p>
+					<GiWhiteBook className="sidenavicons" />
+					<p>Courses Overview</p>
+				</a>
+				<a
+					href="/administrators"
+					className="sidenavitems"
+	
+				>
+					<RiAdminFill className="sidenavicons" />
+					<p>Administrator</p>
 				</a>
 				
 			

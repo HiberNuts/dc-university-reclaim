@@ -25,7 +25,7 @@ function CourseDetailsPage() {
   const handleBlockToggle = async (userId, blockStatus) => {
     try {
       const response = await axios.post(
-        `${process.env.BACKEND_URL}/api/auth/toggleBlock?userId=${userId}`
+        `${process.env.REACT_APP_BACKEND_URL}/api/auth/toggleBlock?userId=${userId}`
       );
 
       // Update the local state based on the API response
@@ -100,14 +100,14 @@ function CourseDetailsPage() {
   ];
 
   useEffect(() => {
-    setUserDetails(userData); // Update local state when userData changes
+    setUserDetails(userData); 
   }, [userData]);
 
   return (
     <div style={{ textAlign: 'center' }}>
       <Toaster position="top-right" reverseOrder={false} />
-      <div style={{ marginTop: '30px', marginBottom: '20px' }}>
-        <h2>Course Details</h2>
+      <div style={{ marginTop: '30px', marginBottom: '20px', }}>
+        <h2>COURSE DETAILS</h2>
       </div>
 
       <div
@@ -174,7 +174,16 @@ function CourseDetailsPage() {
           }}
         >
           <DataCard title="Title" data={course.title} />
-          <DataCard title="Description" data={course.description} />
+          <DataCard
+            title="Description"
+            data={course.description.slice(0, 200) + (course.description.length > 200 ? "..." : "")}
+            sx={{
+              maxHeight: '20px',
+              overflowY: 'auto',
+              margin: '0',
+              padding: '0',
+            }}
+          />
           <DataCard title="Users Enrolled" data={course.usersEnrolled.length} />
           <DataCard title="Level" data={course.level} />
           <DataCard title="Duration" data={course.duration} />

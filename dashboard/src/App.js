@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { DataCard } from './Components/DataCard/DataCard';
-import { DataGrid } from '@mui/x-data-grid';
-import BeatLoader from 'react-spinners/BeatLoader';
-import { useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { PieChart } from '@mui/x-charts/PieChart';
-import { Grid } from '@mui/material';
+import { Button } from '@mui/material';
+import './App.css'
+
 
 function App() {
   const [courses, setCourses] = useState([]);
@@ -14,6 +13,7 @@ function App() {
   const navigate = useNavigate();
   const [pagedata, setPageData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const columns = [
     { field: 'username', headerName: 'Username', flex: 0.2 },
@@ -22,6 +22,14 @@ function App() {
     { field: 'designation', headerName: 'Designation', flex: 0.2 },
     { field: 'portfolio', headerName: 'Portfolio', flex: 0.2 },
   ];
+
+  
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      setIsAuthenticated(!!token);
+    }
+  }, []);
 
   useEffect(() => {
     getCourseData();
@@ -106,6 +114,8 @@ function App() {
   };
 
   return (
+    
+
     <div className="Dashboard" style={{ textAlign: 'center' }}>
       <Toaster position="top-center" reverseOrder={false} />
       <div
@@ -121,21 +131,24 @@ function App() {
           <span style={{ color: '#FF8743' }}>{courses.length}</span>
         </p>
       </div>
-      <button
+      <Button
         className="sync-button"
         onClick={syncCourseData}
+        contained
+        disableElevation
         style={{
           padding: '10px',
           margin: '10px',
-          backgroundColor: '#FF8743',
+          backgroundColor: 'var(--shardeum-orange)',
           cursor: 'pointer',
-          border: 'none',
+          border: '2px solid var(--shardeum-blue)',
           borderRadius: '10px',
           color: 'white',
+          
         }}
       >
         Sync Courses
-      </button>
+      </Button>
 
       <div
         className="Dashboard-grid"
@@ -158,8 +171,8 @@ function App() {
           {courses.map((course) => (
           
               <DataCard
-                title={course.title}
-                data={course.description}
+                title={course.title.slice(0, 20) + (course.title.length > 20 ? '...': '')}
+                data={course.description.slice(0, 200) + (course.description.length > 200 ? '...' : '')}
                 onClick={() => handleCourseClick(course)}
                 key={course._id}
               />
@@ -178,6 +191,7 @@ function App() {
         </div>
       </div>
     </div>
+   
   );
 }
 

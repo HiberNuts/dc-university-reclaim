@@ -1,23 +1,62 @@
+@keyframes moveRightAndAppearLeft {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(100%); 
+      opacity: 1;
+    }
+    51% {
+      transform: translateX(-100%); 
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0); 
+      opacity: 1;
+    }
+  }
+  
+
 .TopBar{
     width: 100;
-    height: 60px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    background-color: white;
+    height: 70px;
+    /* box-shadow: 1px 6px 0px 0px rgba(0, 0, 0, 0.15); */
+    background-color: #FCFAEF;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     padding: 20px;
 }
 
+.btn-container{
+    border-radius: 12px;
+    border: 2px solid var(--shardeum-blue);
+    padding: 7px;
+    box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 0.15);
+    /* transition: border-radius 0.4s ease-in-out; */
+}
+
+.btn-container:hover .logoutbtn {
+    border-radius: 100%;
+    cursor: pointer;
+    transform: scale(0.9);
+  }
+
 .logoutbtn{
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 3px;
+    background-color: var(--shardeum-green);
+    color: var(--shardeum-blue);
     padding: 10px;
+    transition: transform 0.3s ease-in-out, border-radius 0.3s ease-in-out;
+    overflow: hidden;
+    
 }
 
-.logoutbtn:hover{
-    background-color: rgb(243, 243, 243);
-    border-radius: 5px;
-    cursor: pointer;
+.btn-container:hover .icon, .logoutbtn:hover .icon {
+  animation: moveRightAndAppearLeft 0.3s linear; 
 }
+
