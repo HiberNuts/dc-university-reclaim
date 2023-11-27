@@ -29,7 +29,7 @@ const CourseCard = ({ props }) => {
           </div>
           <div className="description-section flex flex-col justify-center align-middle">
             <p className="text-[22px] font-bold">{props?.title}</p>
-            <p className="text-[1rem] ">{props?.description}</p>
+            <p className="text-[1rem] ">{props?.description.slice(0, 200) + (props?.description.length > 200 ? "..." : '') }</p>
           </div>
           <div className="description-section flex flex-col w-full">
             <div className="flex ">

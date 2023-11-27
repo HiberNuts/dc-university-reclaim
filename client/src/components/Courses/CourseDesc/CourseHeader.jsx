@@ -86,7 +86,7 @@ const CourseHeader = ({ props }) => {
   }, [loggedInUserData, props, isCourseEnrolled]);
 
   return (
-    <div className="flex  mt-[66px] h-[90vh] lg:h-auto flex-wrap w-[80%] justify-between gap-8 align-middle">
+    <div className="flex  mt-[66px] min-h-[90vh] lg:h-auto flex-wrap w-[80%] justify-between gap-8 align-middle">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="description-div lg:flex-1 flex-wrap flex flex-col justify-between">
         <div className="header-div">
