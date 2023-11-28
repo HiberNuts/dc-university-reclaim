@@ -62,10 +62,11 @@ export default function AllCourses() {
           <p className="font-[500] text-center text-[18px]">Learn how to build on Shardeum and Join the Community</p>
           <div className="w-[80%] h-[48px] text-center items-center flex justify-center align-middle">
             <input
-              className="w-full border-2 border-shardeumPurple align-middle h-full items-center pl-5 focus:border-2 focus:outline-none focus:border-shardeumOrange focus:ring-shardeumOrange active:border-shardeumOrange"
+              className="w-full border-2 border-shardeumBlue align-middle h-full items-center pl-5 focus:border-2 focus:outline-none focus:border-shardeumGreen focus:ring-shardeumGreen active:border-shardeumGreen"
               style={{
                 borderRadius: "10px",
                 fontSize: "20px",
+                boxShadow: "6px 6px 0px 0px rgba(0, 0, 0, 0.15)",
               }}
               placeholder=" &#128270; Search course by title"
               onChange={(event) => setQuery(event.target.value)}

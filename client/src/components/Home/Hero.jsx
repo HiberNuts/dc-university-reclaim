@@ -15,7 +15,7 @@ const Hero = () => {
       >
         <div className="relative heroSection  md:flex min-h-full  z-10 flex flex-col w-full justify-between align-middle text-white bg-shardeumBlue sm:rounded-b-[100px]">
           <div className="items-center text-white heroText">
-            <p className="text-center lg:text-[100px] md:text-[70px] sm:text-[80px] font-helvetica-neue text-[60px] items-center ">
+            <p className="text-center lg:text-[80px] md:text-[50px] sm:text-[50px] font-helvetica-neue items-center ">
               Your One-Stop Gateway
               <span className="ml-3 lg:text-[100px] md:text-[70px] sm:text-[60px] font-helvetica-neue text-[60px] text-shardeumGreen">
                 to Becoming
@@ -29,15 +29,15 @@ const Hero = () => {
               Stay ahead in the future of the internet with best web3 content.
             </span>
           </div>
-          <motion.div className="w-full flex justify-center align-middle">
+          <motion.div className="w-full flex justify-center align-middle mt-2">
             <Link to="/courses">
               <GreenButton text={"Explore Courses"} />
               {/* <OrangeButton title={"Explore Courses"} style={"w-[250px] h-[50px] hover:scale-110"} /> */}
             </Link>
           </motion.div>
-          <div className="w-full flex flex-col items-center justify-center align-middle">
+          <div className="w-full mt-2  flex flex-col items-center justify-center align-middle">
             <div className="bg-shardeumWhite sm:px-[200px] sm:pt-[100px] sm:w-auto w-full pt-[100px] items-center flex justify-center align-middle rounded-t-full">
-              <img className="w-[220px] heroLogo h-[200px]  items-center text-center" src={heroLogo} />
+              <img className="w-[240px] heroLogo h-[220px] items-center text-center" src={heroLogo} />
             </div>
           </div>
         </div>
