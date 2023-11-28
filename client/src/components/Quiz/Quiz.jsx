@@ -260,6 +260,7 @@ const Quiz = ({
       {!currentQuizCompleted && isSubmitted && (
         <ResultPage score={score} quizzes={moduleQuiz} onClickTry={handleClickTry} answerArray={answerArray} />
       )}
+      {console.log(answerArray.length)}
       {score === answerArray.length ? <SuccessModal isOpen={modalIsOpen} setIsOpen={setModalIsOpen} /> : ""}
     </div>
   );

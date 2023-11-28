@@ -57,10 +57,10 @@ export default function Header() {
   }, [address]);
 
   const styleNavEl = `before:bg-white before:left-0 ${
-    homeRoute ? "hover:text-white text-white" : "hover:text-black text-black hover:before:bg-shardeumOrange "
+    homeRoute ? "hover:text-white text-white" : "hover:text-black text-black hover:before:bg-shardeumBlue "
   }  before:transition-transform hover:before:scale-x-100 before:scale-x-0  before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full `;
   const activeNavEl = ` before:left-0 ${
-    homeRoute ? "text-white before:bg-white " : ". before:bg-shardeumOrange text-shardeumOrange"
+    homeRoute ? "text-white before:bg-white " : ". before:bg-shardeumBlue text-shardeumBlue"
   }   before:transition-transform  before:scale-x-100 before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full`;
 
   const styleMobileNavBox =
@@ -156,7 +156,7 @@ export default function Header() {
             </div>
           </div>
           <div
-            className={`bg-white  z-50 w-full p-2 flex items-center justify-center align-middle  border-2 border-shardeumOrange rounded-lg ${
+            className={`bg-white  z-50 w-full p-2 flex items-center justify-center align-middle  border-4 border-shardeumGreen rounded-lg ${
               isOpen ? activeMobileNavBox : styleMobileNavBox
             }`}
           >
