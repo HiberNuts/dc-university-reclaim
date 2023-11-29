@@ -12,9 +12,9 @@ import { useAccount } from "wagmi";
 import { toast, Toaster } from "react-hot-toast";
 
 const CourseHeader = ({ props }) => {
-  const { loggedInUserData, setloggedInUserData, setuserDataIsUpdated, userDataIsUpdated } = useContext(ParentContext);
+  const { loggedInUserData } = useContext(ParentContext);
   const navigate = useNavigate();
-  const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
   const [isCourseEnrolled, setisCourseEnrolled] = useState(false);
 
   const enrollCourse = async () => {
@@ -86,9 +86,9 @@ const CourseHeader = ({ props }) => {
   }, [loggedInUserData, props, isCourseEnrolled]);
 
   return (
-    <div className="flex  mt-[66px] min-h-[90vh] lg:h-auto flex-wrap w-[80%] justify-between gap-8 align-middle">
+    <div className="flex  mt-[66px] flex-wrap sm:w-[80%] w-[90%] justify-between gap-8 align-middle">
       <Toaster position="top-center" reverseOrder={false} />
-      <div className="description-div lg:flex-1 flex-wrap flex flex-col justify-between">
+      <div className="description-div lg:flex-1 flex-wrap flex flex-col gap-3  justify-between">
         <div className="header-div">
           <div
             className=" text-blue  md:text-[80px]  text-[60px]"
@@ -155,10 +155,14 @@ const CourseHeader = ({ props }) => {
           <OrangeButton onClick={enrollCourse} style={"w-52 h-12 "} title={"Start Course"} iconRight={faAngleRight} />
         )}
       </div>
-      <div className="banner-div  lg:flex-1 flex justify-center align-middle">
-        <div className="w-[100%] sm:h-[400px]  ">
-          <img className="rounded-xl w-full h-full" src={props?.banner} />
-        </div>
+      <div className="banner-div rounded-xl lg:flex-1 flex w-full justify-center align-middle">
+        {/* <div className=""> */}
+        <img
+          style={{ borderRadius: "200px !important" }}
+          className="max-w-[600px] w-auto h-auto max-h-[400px] object-contain rounded-[12px]"
+          src={props?.banner}
+        />
+        {/* </div> */}
       </div>
     </div>
   );

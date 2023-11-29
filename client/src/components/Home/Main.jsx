@@ -4,16 +4,13 @@ const Community = lazy(() => import("./Community"));
 const FeatureCourses = lazy(() => import("./FeatureCourses"));
 const FaqHome = lazy(() => import("./FaqHome"));
 const Stats = lazy(() => import("./Stats"));
-import logo from "../../assets/navlogoBlack.png";
 import Unique from "./Unique";
 
 export default function Main() {
   return (
     <Suspense
       fallback={
-        <div className="w-screen bg-[#FCFAEF] h-screen items-center flex justify-center align-middle">
-          <img src={logo} />
-        </div>
+        <div className="w-screen bg-[#FCFAEF] h-screen items-center flex justify-center align-middle">SHARDEUM</div>
       }
     >
       <main className="w-full bg-shardeumWhite">

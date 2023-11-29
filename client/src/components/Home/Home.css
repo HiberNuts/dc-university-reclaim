@@ -116,7 +116,7 @@ img.vert-move {
   background-position: center;
   background-size: cover;
   box-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 0.15);
-  background-image: url("../../assets/statsbg.png");
+  background-image: url("https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/00b1f139513c40aae62449d668a11628.png");
   background-color: white;
 }
 
@@ -160,26 +160,23 @@ img.vert-move {
     transform: translateX(0);
   }
   50% {
-    transform: translateX(100%); 
+    transform: translateX(100%);
     opacity: 1;
   }
   51% {
-    transform: translateX(-100%); 
+    transform: translateX(-100%);
     opacity: 0;
   }
   100% {
-    transform: translateX(0); 
+    transform: translateX(0);
     opacity: 1;
   }
 }
 
-
-.btnContainer{
+.btnContainer {
   border-radius: 12px !important;
   border: 3px solid var(--shardeumBlue) !important;
   padding: 5px;
   box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 0.15);
   background-color: #fff;
-  
 }
-

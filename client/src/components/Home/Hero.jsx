@@ -1,6 +1,5 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense } from "react";
 import "./Home.css";
-import heroLogo from "../../assets/heroLogo.svg";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import GreenButton from "../button/GreenButton";
@@ -37,7 +36,12 @@ const Hero = () => {
           </motion.div>
           <div className="w-full mt-2  flex flex-col items-center justify-center align-middle">
             <div className="bg-shardeumWhite sm:px-[200px] sm:pt-[100px] sm:w-auto w-full pt-[100px] items-center flex justify-center align-middle rounded-t-full">
-              <img className="w-[240px] heroLogo h-[220px] items-center text-center" src={heroLogo} />
+              <img
+                className="w-[240px] heroLogo h-[220px] items-center text-center"
+                src={
+                  "https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/7309508a2a8db4b935edd4f4446516f2.png"
+                }
+              />
             </div>
           </div>
         </div>

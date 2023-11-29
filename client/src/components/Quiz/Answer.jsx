@@ -11,12 +11,10 @@ const Answer = ({ choice, text, onSelectAnswer, index, isCorrect, currentQuizCom
     customRadio: `h-[24px] w-[24px] p-[15px] rounded-full flex items-center justify-center text-black ${
       choice === index ? "bg-transparent text-white" : "bg-transparent"
     } border border-shardeumOrange mr-2 hover:bg-shardeumBlue`,
-    correct: isSubmitted && isCorrect ? "text-red border-4 border-green-700" : "",
-	incorrect: isSubmitted && !isCorrect ? "text-red border-4 border-red-700" : "",
-	disable: isSubmitted ? "cursor-not-allowed" : "",
+    correct: isSubmitted && isCorrect ? "bg-green-700 text-white border-4 border-green-700" : "",
+    incorrect: isSubmitted && !isCorrect ? "border-4 border-black" : "",
+    disable: isSubmitted ? "cursor-not-allowed" : "",
   };
-
-
 
   const INT_TO_ABC_MAP = {
     0: "a",

@@ -69,6 +69,7 @@ const Quiz = ({
       userId: userId,
       accessToken: accessToken,
     });
+    setModalIsOpen(true);
     setuserCourseProgress(updatedUserProgress.updatedProgress);
     if (updatedUserProgress.updatedUserProgress) {
       setcurrentQuizCompleted(true);
@@ -80,10 +81,11 @@ const Quiz = ({
     updatedChoices[questionIndex] = answer;
     setChoices(updatedChoices);
   };
+  console.log(choices);
+  console.log(score);
 
   const handleSubmit = () => {
     if (choices.includes(undefined) == false && choices.length === moduleQuiz.length) {
-      setModalIsOpen(true);
       checkAllAnswers();
       setIsSubmitted(true);
     } else {
@@ -251,7 +253,7 @@ const Quiz = ({
 
           {!currentQuizCompleted && (
             <Button className="" onClickButton={handleSubmit}>
-              {score === answerArray.length ? "Completed" : "Submit"}
+              {score === moduleQuiz.length ? "Completed" : "Submit"}
             </Button>
           )}
         </>

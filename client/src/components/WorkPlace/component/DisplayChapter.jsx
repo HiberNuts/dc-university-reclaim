@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import HTMLRenderer from "react-html-renderer";
-import hljs from "highlight.js";
 import { CustomFigure } from "./customCourseElement";
 import { updateCourseProgressAPI } from "../../../utils/api/CourseAPI";
 import whiteExpand from "../../../assets/whiteArrow.svg";
@@ -78,16 +77,11 @@ const DisplayChapter = ({
       toast.error("Something went wrong!");
     } else {
       setuserCourseProgress(updatedUserProgress.updatedProgress);
-     
     }
 
     checkChapterStatus({ chapter });
     await checkModuleCoursesStatus({ currentModule });
   };
-
-  useEffect(() => {
-    hljs.highlightAll();
-  }, [currentChapter]);
 
   return (
     <div className="flex text-[20px] w-[70%] courseContent justify-center align-middle  flex-col ">
