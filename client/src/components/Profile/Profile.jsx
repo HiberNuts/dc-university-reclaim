@@ -29,9 +29,9 @@ const Profile = ({ isOpen, closeModal }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    designation: "",
+    designation: "Web3 Beginner",
   });
-  const { loggedInUserData, setuserDataIsUpdated, userDataIsUpdated } = useContext(ParentContext);
+  const { loggedInUserData, setuserDataIsUpdated, userDataIsUpdated, setloggedInUserData } = useContext(ParentContext);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -44,16 +44,16 @@ const Profile = ({ isOpen, closeModal }) => {
           setFormData({ ...formData, name: "", email: "" });
           setisEditing(true);
         } else {
-          setUserData(response.data);
+          setloggedInUserData(response.data);
           setFormData({ ...response.data, name: response.data.username });
         }
       } catch (error) {
-        toast.error("Error while fetching user data");
+        // toast.error("Error while fetching user data");
       }
     };
 
     fetchUserData();
-  }, [loggedInUserData]);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,33 +64,36 @@ const Profile = ({ isOpen, closeModal }) => {
       setError(null);
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Check if designation is selected
+
     if (formData.designation === "Select Designation") {
       setError("Please select a designation");
       toast.error("Please select a designation"); // Show toast message
       return; // Stop submission if designation is not selected
-    }
+    } else {
+      if (loggedInUserData.email === "default") {
+        handleResendVerificationEmail();
+      }
+      // Clear error message before attempting to submit
+      setError(null);
+      setisEditing(false);
 
-    // Clear error message before attempting to submit
-    setError(null);
-    setisEditing(false);
-
-    try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/update?userid=${loggedInUserData._id}`,
-        {
-          ...formData,
-          username: formData.name,
-        }
-      );
-      setUserData(response.data);
-      setuserDataIsUpdated(!userDataIsUpdated);
-    } catch (error) {
-      console.error("Error while updating user data:", error);
+      try {
+        const response = await axios.put(
+          `${import.meta.env.VITE_BACKEND_URL}/auth/update?userid=${loggedInUserData._id}`,
+          {
+            ...formData,
+            username: formData.name,
+          }
+        );
+        setloggedInUserData(response.data);
+        // setuserDataIsUpdated(!userDataIsUpdated);
+      } catch (error) {
+        console.error("Error while updating user data:", error);
+      }
     }
   };
 
@@ -103,7 +106,7 @@ const Profile = ({ isOpen, closeModal }) => {
         }
       );
       if (response.status === 200) {
-        toast.success("Verification email has been resent.");
+        toast.success("Verification email has been sent.");
       } else {
         toast.error("Failed to resend verification email.");
       }
@@ -169,7 +172,7 @@ const Profile = ({ isOpen, closeModal }) => {
                     <div className="relative mt-1">
                       <Listbox.Button className="relative w-full flex-row cursor-default rounded-lg bg-gray-50 py-2 text-left border border-gray-300 text-gray-900 text-sm focus:ring-shardeumOrange focus:border-shardeumOrange shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 bg-white">
                         <div className="px-2 flex justify-between align-middle h-full w-full">
-                          <span className="block truncate">{formData.designation || "Select Designation"}</span>
+                          <span className="block truncate">{formData.designation || "Web3 Beginner"}</span>
                           {/* <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"> */}
                           <FontAwesomeIcon icon={faCaretSquareDown} color="black" />
                           {/* </span> */}
@@ -183,7 +186,6 @@ const Profile = ({ isOpen, closeModal }) => {
                       >
                         <Listbox.Options className="relative mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 ">
                           {[
-                            "Select Designation",
                             "Web3 Beginner",
                             "Web3 Intermediate",
                             "Web3 Advanced",
@@ -254,7 +256,7 @@ const Profile = ({ isOpen, closeModal }) => {
           <div className="content  w-full mx-20">
             <div className="mb-20">
               <div className="mt-10 relative">
-                {!formData.isVerified && (
+                {!formData.isVerified && loggedInUserData.email !== "default" && (
                   <div
                     className="strip-bar"
                     style={{
