@@ -442,7 +442,7 @@ exports.mintNft = async (req, res) => {
     const courseId = req.body.courseId;
     const walletAddress = req.body.walletAddress;
     const { contractAddress } = await Course.findOne({ _id: courseId }, { contractAddress: 1, _id: 0 });
-    console.log(contractAddress);
+    // console.log(contractAddress);
 
     const userProgressPercentage = await checkifUserCompletedCourse({ courseId: courseId, userId: userId });
     const user = await User.findOne({ _id: userId });

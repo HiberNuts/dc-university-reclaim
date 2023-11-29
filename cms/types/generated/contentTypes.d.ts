@@ -391,7 +391,9 @@ export interface ApiCourseCourse extends Schema.CollectionType {
           'Javascript',
           'HTML',
           'CSS',
-          'reactjs'
+          'reactjs',
+          'Raghav',
+          ''
         ]
       >;
     whatYouLearn: Attribute.Component<

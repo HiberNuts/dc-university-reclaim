@@ -5,6 +5,7 @@ const abi = require("./abi.json");
 exports.MintPOLNft = async ({ walletAddress, contractAddress }) => {
   const CLIENT_ID = process.env.CLIENT_ID;
   const SECRET_KEY = process.env.SECRET_KEY;
+  console.log("Contract",contractAddress);
 
   const toAddress = walletAddress;
   const _uri = "ipfs://QmdwaiAzpZP3cDZHCqcs9A6yAHMtP67KdfMeYEdEDBBrho";
