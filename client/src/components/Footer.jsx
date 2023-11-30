@@ -41,7 +41,7 @@ export default function Footer() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <span className="text-white">The web3 development platform</span>
+              <span className="text-white font-helvetica-neue">The web3 development platform</span>
               <div className="flex gap-4">
                 <img
                   className=" relative w-[32px] h-[32px] cursor-pointer transition-all hover:scale-110"
@@ -63,12 +63,12 @@ export default function Footer() {
           </div>
           <div className="flex flex-col gap-2">
             <div>
-              <span className="font-satoshi text-[20px] text-white font-semibold">
+              <span className="font-helvetica-neue text-[20px] text-white font-semibold">
                 Subscribe to Our Newsletter
               </span>
             </div>
-            <div className="font-satoshi text-white ">
-              <span>
+            <div className=" text-white ">
+              <span className="text-[16px] text-white">
                 The latest news, articles, and resources, sent to your inbox
                 weekly.
               </span>

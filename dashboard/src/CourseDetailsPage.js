@@ -97,10 +97,13 @@ function CourseDetailsPage() {
         </IconButton>
       ),
     },
-  ];
+    
+];
 
   useEffect(() => {
     setUserDetails(userData); 
+    console.log(userData)
+    
   }, [userData]);
 
   return (
@@ -148,7 +151,7 @@ function CourseDetailsPage() {
             </span>{' '}
           </p>
         </div>
-        {console.log(course)}
+        {/* {console.log(course)} */}
         <div
           style={{
             display: 'flex',
@@ -204,7 +207,7 @@ function CourseDetailsPage() {
         <h2>User Details</h2>
       </div>
 
-      <div style={{ height: '400px', width: '100%' }} className="tablediv">
+      <div style={{height: '400px', width: '100%', overflow: 'auto' }} className="tablediv">
         <DataGrid
           sx={{
             backgroundColor: 'white',

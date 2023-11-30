@@ -1,8 +1,9 @@
-import React, { useLayoutEffect, useState } from "react";
-import grid from "../../../assets/Grid.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import React, { useLayoutEffect, useState } from 'react';
+import grid from '../../../assets/Grid.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { motion, useMotionValue, useTransform } from 'framer-motion';
+import GreenButton from '../../button/GreenButton';
 
 const useTruncatedElement = ({ ref }) => {
   const [isTruncated, setIsTruncated] = useState(false);
@@ -29,9 +30,10 @@ const useTruncatedElement = ({ ref }) => {
 
 const CourseCertificate = ({ props }) => {
   const ref = React.useRef(null);
-  const { isTruncated, isShowingMore, toggleIsShowingMore } = useTruncatedElement({
-    ref,
-  });
+  const { isTruncated, isShowingMore, toggleIsShowingMore } =
+    useTruncatedElement({
+      ref,
+    });
 
   const x = useMotionValue(200);
   const y = useMotionValue(200);
@@ -47,23 +49,23 @@ const CourseCertificate = ({ props }) => {
   }
 
   return (
-    <motion.div
-      style={{ backgroundImage: `url(${grid})`, backgroundPosition: "center" }}
-      className="w-full transition ease-in-out delay-150 flex-wrap  flex justify-center items-center align-middle text-white bg-shardeumBlue"
-    >
+    <motion.div className="w-full transition ease-in-out delay-150 flex-wrap  flex justify-center items-center align-middle text-white bg-shardeumBlue">
       <div className="flex gap-6 flex-col px-10 py-12 md:w-[65%] ">
-        <div className=" flex  flex-col font-[700] text-[48px]">Earn Your Certificate</div>
-        <div className="md:w-[80%] transition ease-in-out delay-150">
-          <p ref={ref} className={`font-[500] text-[18px] break-words  `}>
-            Complete the Ethereum Developer Bootcamp to ear an NFT Certificate. Complete the Ethereum Developer Bootcamp
-            to ear an NFT Certificate. Complete the Ethereum Developer Bootcamp to ear an
-          </p>
-          <button
-            className="font-bold text-[20px] mt-4 bg-shardeumOrange rounded-md w-44 h-10"
-            onClick={toggleIsShowingMore}
+        <div className=" flex  flex-col font-[700] text-[64px] font-helvetica-neue">
+          Earn Your Certificate
+        </div>
+        <div className="md:w-[80%] flex flex-col gap-6  transition ease-in-out delay-150">
+          <p
+            ref={ref}
+            className={`font-[500] text-[18px] break-words font-helvetica-neue`}
           >
-            Start Learning <FontAwesomeIcon icon={faArrowRight} />
-          </button>
+            Complete the Ethereum Developer Bootcamp to ear an NFT Certificate.
+            Complete the Ethereum Developer Bootcamp to ear an NFT Certificate.
+            Complete the Ethereum Developer Bootcamp to ear an
+          </p>
+          <div>
+            <GreenButton text="Start Learning" />
+          </div>
         </div>
       </div>
       <motion.div

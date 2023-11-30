@@ -77,13 +77,13 @@ const Unique = () => {
   }, [imageIndex]);
   return (
     <div className=" md:flex font-helvetica-neue  items-center flex flex-col w-full sm:py-[60px] py-[20px] justify-center align-middle text-white bg-shardeumBlue">
-      <div className="items-center  sm:w-[80%] text-white heroText lg:text-[48px] md:mt-10 md:text-[48px] sm:text-[36px] text-[36px]">
-        <p className="text-center items-center flex justify-center align-middle">
+      <div className="items-center  sm:w-[80%] text-white lg:text-[64px] md:mt-10 md:text-[64px] sm:text-[36px] text-[36px]">
+        <p className="text-center items-center flex justify-center align-middle font-helvetica-neue font-extrabold ">
           Become the Next Big Web3 Developer with Shardeum University
         </p>
       </div>
       <div className="subHeading sm:w-[80%] text-center  flex justify-center align-middle leading-[36px] items-center text-white md:text-[18px] sm:[18px] text-[18px]">
-        <span className="text-white sm:w-[70%] w-[80%] font-satoshi ">
+        <span className="text-white sm:w-[70%] w-[80%] font-helvetica-neue ">
           Unlike Web2, becoming a Web3 developer or even a founder is within your reach with just an internet
           connection, a laptop, and mobility. At Shardeum University, we're dedicated to preparing you for success
           through innovative programs like Reverse Day Demos, Founder’s Bootcamps, and Interactive Coding Workshops
@@ -98,16 +98,16 @@ const Unique = () => {
               style={{ boxShadow: "8px 8px 0px 0px rgba(0, 0, 0, 0.15)" }}
               className={`flex  ${
                 imageIndex === 1 ? "bg-shardeumPink text-black" : "bg-white border-2 border-black"
-              } flex-col active:bg-shardeumPurple hover:bg-shardeumPurple  hover:text-black transition-all ease-linear duration-100 items-start px-[24px] py-[20px] md:w-[600px] w-[90%] relative text-black rounded-[16px] overflow-hidden`}
+              } flex-col gap-4 active:bg-shardeumPurple hover:bg-shardeumPurple border-2 border-black hover:text-black transition-all ease-linear duration-100 items-start px-[24px] py-[20px] md:w-[600px] w-[90%] relative text-black rounded-[16px] overflow-hidden`}
               onClick={() => handleBlockClick(1)}
             >
               <div className="flex items-center gap-[32px] relative self-stretch w-full flex-[0_0_auto]">
                 <TickSvg />
-                <div className="relative w-fit mt-[-1.00px] font-bold  text-[20px]  leading-[30px] ">
+                <div className="relative w-fit mt-[-1.00px] font-[800]  text-[20px]  leading-[30px] font-helvetica-neue">
                   Choose your Skill Stream(s)
                 </div>
               </div>
-              <p>
+              <p className="font-helvetica-neue text-[16px] font-extralight text-slate-700">
                 Select from a diverse array of resources, that includes both beginner friendly and advanced materials,
                 to carve out a path that truly resonates with your passion and ambitions.
               </p>
@@ -118,16 +118,16 @@ const Unique = () => {
               style={{ boxShadow: "8px 8px 0px 0px rgba(0, 0, 0, 0.15)" }}
               className={`flex ${
                 imageIndex === 2 ? "bg-shardeumPink text-black" : "bg-white border-2 border-black"
-              } flex-col active:bg-shardeumPurple hover:bg-shardeumPurple  hover:text-black transition-all ease-linear duration-100 md:w-[600px] items-start  px-[24px] py-[20px] w-[90%] relative text-black rounded-[16px] overflow-hidden`}
+              } flex-col gap-4 active:bg-shardeumPurple hover:bg-shardeumPurple border-2 border-black hover:text-black transition-all ease-linear duration-100 md:w-[600px] items-start  px-[24px] py-[20px] w-[90%] relative text-black rounded-[16px] overflow-hidden`}
               onClick={() => handleBlockClick(2)}
             >
               <div className="flex items-center gap-[32px] relative self-stretch w-full flex-[0_0_auto]">
                 <TickSvg />
-                <div className="relative w-fit mt-[-1.00px] font-bold  text-[20px]  leading-[30px] ">
+                <div className="relative w-fit mt-[-1.00px] font-bold  text-[20px]  leading-[30px] font-helvetica-neue">
                   Engage & Innovate
                 </div>
               </div>
-              <p>
+              <p className="font-helvetica-neue text-[16px] font-extralight text-slate-700">
                 Connect with a vibrant community of Web3 enthusiasts and experts. Participate in full stack courses and
                 technical deep dives to apply your knowledge and innovate in the real world.
               </p>
@@ -138,16 +138,16 @@ const Unique = () => {
               style={{ boxShadow: "8px 8px 0px 0px rgba(0, 0, 0, 0.15)" }}
               className={`flex ${
                 imageIndex === 3 ? "bg-shardeumPink text-black" : "bg-white border-2 border-black"
-              } flex-col active:bg-shardeumPurple hover:bg-shardeumPurple  hover:text-black transition-all ease-linear duration-100 md:w-[600px] items-start  px-[24px] py-[20px] w-[90%] relative text-black rounded-[16px] overflow-hidden`}
+              } flex-col gap-4 active:bg-shardeumPurple border-2 border-black hover:bg-shardeumPurple  hover:text-black transition-all ease-linear duration-100 md:w-[600px] items-start  px-[24px] py-[20px] w-[90%] relative text-black rounded-[16px] overflow-hidden`}
               onClick={() => handleBlockClick(3)}
             >
               <div className="flex items-center gap-[32px] relative self-stretch w-full flex-[0_0_auto]">
                 <TickSvg />
-                <div className="relative w-fit mt-[-1.00px] font-bold  text-[20px]  leading-[30px] ">
+                <div className="relative w-fit mt-[-1.00px] font-bold  text-[20px]  leading-[30px] font-helvetica-neue">
                   Mentorship & Guidance
                 </div>
               </div>
-              <p>
+              <p className="font-helvetica-neue text-[16px] font-extralight text-slate-700">
                 Gain insights from seasoned Web3 professionals and mentors across Shardeum and other projects. Benefit
                 from personalized guidance, industry wisdom, and support to navigate the complexities of a dynamic
                 blockchain ecosystem.

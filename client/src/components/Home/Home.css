@@ -44,6 +44,7 @@ img.vert-move {
   /* background: radial-gradient(26.09% 22.03% at 50% 31.8%, #000 0%, rgba(0, 0, 0, 0.85) 58.94%, rgba(8, 0, 0, 0.29) 100%); */
   background-position: center;
   background-size: cover;
+  background-repeat: no-repeat;
   background-color: rgba(0, 0, 0, 0.2);
 }
 

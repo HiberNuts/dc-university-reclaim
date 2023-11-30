@@ -34,7 +34,7 @@ function Accordion({ children, multiple, defaultIndex }) {
 }
 
 function AccordionItem({ children }) {
-  return <div className="AccordionItem font-roboto text-[18px] font-[400px]">{children}</div>;
+  return <div className="AccordionItem font-helvetica-neue text-[18px] font-[100px] border-2 shadow-[5px_5px_0px_0px_rgba(0,0,0,0.2)] border-black">{children}</div>;
 }
 
 function AccordionHeader({ text }) {
@@ -42,11 +42,11 @@ function AccordionHeader({ text }) {
 
   return (
     <motion.div
-      className={`AccordionHeader ${isActive ? "active" : ""} font-helvetica-neue w-full`}
+      className={`AccordionHeader ${isActive ? "active" : ""} font-helvetica-neue w-full `}
       onClick={() => onChangeIndex(index)}
     >
-      <div  className="flex w-full justify-between align-middle h-full">
-        <span  className="font-[500] text-[20px]">
+      <div  className="flex w-full justify-between align-middle h-full ">
+        <span  className="font-[800] text-[20px] font-helvetica-neue">
           {text}
         </span>
         <img
@@ -73,7 +73,7 @@ function AccordionPanel({ children }) {
           exit={{ height: 0 }}
           transition={{ type: "spring", duration: 0.4, bounce: 0 }}
         >
-          <div className="AccordionPanel">{children}</div>
+          <div className="AccordionPanel font-helvetica-neue ">{children}</div>
         </motion.div>
       )}
     </AnimatePresence>
@@ -85,7 +85,7 @@ const Acordian = ({ title, desc }) => {
     <Accordion>
       <AccordionItem key={"i"}>
         <AccordionHeader text={title} />
-        <AccordionPanel>{desc}</AccordionPanel>
+        <AccordionPanel >{desc}</AccordionPanel>
       </AccordionItem>
     </Accordion>
   );

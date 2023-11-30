@@ -70,8 +70,8 @@ export default function Header() {
 
   return (
     <header
-      className={`header font-helvetica-neue flex justify-center align-middle flex-col z-50 border-gray w-full  ${
-        homeRoute ? "bg-shardeumBlue" : "bg-shardeumWhite"
+      className={`header font-helvetica-neue flex justify-center align-middle flex-col z-50  w-full  ${
+        homeRoute ? "bg-shardeumBlue" : "bg-shardeumWhite border-b-[1px] border-b-black"
       } ${location.pathname.includes("/workplace") ? "fixed" : ""} `}
     >
       <Suspense fallback={<div className="header  z-50 border-gray w-full bg-shardeumBlue"></div>}>
@@ -235,7 +235,7 @@ export default function Header() {
                           return (
                             <button
                               onClick={openConnectModal}
-                              className={`bg-shardeumOrange flex justify-center align-middle hover:bg-[#fc7d34] rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[18px] w-[150px] h-[40px]`}
+                              className={`bg-shardeumBlue flex justify-center align-middle hover:bg-shardeumGreen rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[18px] w-[150px] h-[40px]`}
                             >
                               Login
                             </button>

@@ -27,6 +27,7 @@ export const TopBar = () => {
   return (
     <div className="TopBar">
       <div className="btn-container" onClick={handleLogout}>
+  
         <div className="logoutbtn">
           {isLoggingOut ? (
             <CircularProgress style={{ color: 'inherit' }} size={24} />

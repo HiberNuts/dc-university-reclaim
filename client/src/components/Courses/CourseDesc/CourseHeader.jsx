@@ -85,27 +85,22 @@ const CourseHeader = ({ props }) => {
   }, [loggedInUserData, props, isCourseEnrolled]);
 
   return (
-    <div className="flex flex-wrap w-full px-[100px] py-[80px] justify-between gap-8 align-middle">
+    <div className="flex flex-wrap w-full md:px-[100px] md:pb-[80px] md:pt-[50px]  px-[60px] pb-[64px] justify-between gap-8 align-middle">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="description-div lg:flex-1 flex-wrap flex flex-col gap-[32px]  justify-between">
         <div className="header-div">
           <div
-            className=" text-blue  md:text-[80px]  text-[60px]"
+            className=" text-shardeumBlue  md:text-[80px]"
             style={{
               lineHeight: "80px",
-              fontFamily: "Satoshi Variable",
+              fontFamily: "helvetica-neue",
               fontSize: "64px",
-              fontStyle: "normal",
               fontWeight: 700,
-              background: "var(--Gradient-1, linear-gradient(118deg, #3A4CFF 32.82%, rgba(58, 76, 255, 0.69) 71.69%)",
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
             }}
           >
-            <p className="">{props?.title}</p>
+            <p className="font-helvetica-neue">{props?.title}</p>
           </div>
-          <p className="text-[18px] mt-6 font-[500]">{props?.description}</p>
+          <p className="text-[18px] mt-6 font-[500] font-helvetica-neue">{props?.description}</p>
         </div>
         <div className="author-div flex ">
           <div className="flex ">
@@ -114,24 +109,24 @@ const CourseHeader = ({ props }) => {
               src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
               alt=""
             />
-            <p className="text-[18px] items-center text-center font-semibold ml-2">Raghav Jindal</p>
+            <p className="text-[18px] items-center text-center font-semibold ml-2 font-helvetica-neue">Shardeum</p>
           </div>
         </div>
-        <div className="flex w-full ">
+        <div className="flex w-full">
           <div className="flex gap-4">
             <div className="flex gap-2">
               <img className="w-5 h-5 mt-1" src={timeIcon} />
-              <span>{props?.duration} Hrs</span>
+              <span className="font-helvetica-neue font-normal">{props?.duration} Hrs</span>
             </div>
             <p>|</p>
             <div className="flex gap-2">
               <img className="w-5 h-5 mt-1" src={profileIcon} />
-              <span>10 Students</span>
+              <span className="font-helvetica-neue font-normal">{props?.usersEnrolled?.length} Students</span>
             </div>
             <p>|</p>
             <div className="flex gap-2">
               <img className="w-5 h-5 mt-1" src={levelIcon} />
-              <span>{props?.level}</span>
+              <span className="font-helvetica-neue font-normal">{props?.level}</span>
             </div>
           </div>
         </div>
