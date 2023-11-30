@@ -3,9 +3,9 @@ import { DataCard } from './Components/DataCard/DataCard';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { PieChart } from '@mui/x-charts/PieChart';
+import { BarChart } from '@mui/x-charts/BarChart';
 import { Button } from '@mui/material';
-import './App.css'
-
+import './App.css';
 
 function App() {
   const [courses, setCourses] = useState([]);
@@ -23,7 +23,6 @@ function App() {
     { field: 'portfolio', headerName: 'Portfolio', flex: 0.2 },
   ];
 
-  
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     if (token) {
@@ -114,8 +113,6 @@ function App() {
   };
 
   return (
-    
-
     <div className="Dashboard" style={{ textAlign: 'center' }}>
       <Toaster position="top-center" reverseOrder={false} />
       <div
@@ -144,7 +141,6 @@ function App() {
           border: '2px solid var(--shardeum-blue)',
           borderRadius: '10px',
           color: 'white',
-          
         }}
       >
         Sync Courses
@@ -160,7 +156,7 @@ function App() {
           alignItems: 'center',
         }}
       >
-         <div
+        <div
           style={{
             margin: '10px',
             display: 'flex',
@@ -169,29 +165,50 @@ function App() {
           }}
         >
           {courses.map((course) => (
-          
-              <DataCard
-                title={course.title.slice(0, 20) + (course.title.length > 20 ? '...': '')}
-                data={course.description.slice(0, 200) + (course.description.length > 200 ? '...' : '')}
-                onClick={() => handleCourseClick(course)}
-                key={course._id}
-              />
-      
+            <DataCard
+              title={
+                course.title.slice(0, 20) +
+                (course.title.length > 20 ? '...' : '')
+              }
+              data={
+                course.description.slice(0, 200) +
+                (course.description.length > 200 ? '...' : '')
+              }
+              onClick={() => handleCourseClick(course)}
+              key={course._id}
+            />
           ))}
         </div>
         <div
           style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
         >
           <PieChart
-            series={[{ data: pieChartData }]}
-            width={600}
-            height={200}
+            series={[
+              {
+                data: pieChartData,
+                innerRadius: 28,
+                outerRadius: 100,
+                paddingAngle: 2,
+                cornerRadius: 10,
+                startAngle: -90,
+                endAngle: 180,
+                highlightScope: { faded: 'global', highlighted: 'item' },
+                faded: {
+                  innerRadius: 30,
+                  additionalRadius: -30,
+                  color: 'gray',
+                },
+              },
+            ]}
+            
+            height={300}
             labelRenderer={labelRenderer}
           />
+
+
         </div>
       </div>
     </div>
-   
   );
 }
 

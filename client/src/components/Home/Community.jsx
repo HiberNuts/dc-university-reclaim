@@ -109,14 +109,14 @@ export default function Community() {
         <p className="text-center items-center flex justify-center align-middle text-[64px] font-[700] font-helvetica-neue">
           Be a part of an Active Community 🌟
         </p>
-        <span className="w-full items-center font-light text-[18px] text-center">
+        <span className="w-full items-center font-light text-[18px] text-center font-helvetica-neue text-slate-700">
           Connect with like-minded developers on our social platforms. Dive into discussions, share insights, and
           explore the world of Web3 together. Let's learn, create, and evolve together!
         </span>
 
         <div className="flex flex-wrap mt-[32px] gap-8 justify-evenly align-middle">
           <Link to="https://discord.gg/shardeum" target="_blank">
-            <div className="w-[260px] cursor-pointer hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-2 border-shardeumBlue align-middle justify-evenly">
+            <div className="w-[260px] shadow-[6px_6px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-none cursor-pointer hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-[3px] border-shardeumBlue align-middle justify-evenly">
               <FontAwesomeIcon
                 className="flex flex-col justify-center  align-middle w-[30px] h-[30px]"
                 color="#3A4CFF"
@@ -126,7 +126,7 @@ export default function Community() {
             </div>
           </Link>
           <Link to="https://twitter.com/shardeum" target="_blank">
-            <div className="w-[260px] cursor-pointer hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-2 border-shardeumBlue align-middle justify-evenly">
+            <div className="w-[260px] cursor-pointer shadow-[6px_6px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-none hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-[3px] border-shardeumBlue align-middle justify-evenly">
               <FontAwesomeIcon
                 className="flex flex-col justify-center  align-middle w-[30px] h-[30px]"
                 color="#3A4CFF"
@@ -137,7 +137,7 @@ export default function Community() {
           </Link>
           <Link to="https://github.com/Shardeum" target="_blank">
             {" "}
-            <div className="w-[260px] cursor-pointer hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-2 border-shardeumBlue align-middle justify-evenly">
+            <div className="w-[260px] cursor-pointer shadow-[6px_6px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-none hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-[3px] border-shardeumBlue align-middle justify-evenly">
               <FontAwesomeIcon
                 className="flex flex-col justify-center  align-middle w-[30px] h-[30px]"
                 color="#3A4CFF"

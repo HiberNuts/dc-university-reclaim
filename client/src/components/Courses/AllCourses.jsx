@@ -92,7 +92,7 @@ export default function AllCourses() {
                   }
                 })
                 ?.map((course, index) => {
-                  return course.softDelete != true ? <CourseCard key={index} props={course} /> : "";
+                  return course.softDelete != true ? <CourseCard key={index} props={course}/> : "";
                 })}
           </div>
         )}

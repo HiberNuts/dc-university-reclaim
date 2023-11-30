@@ -24,6 +24,7 @@ module.exports = {
         shardeumWhite: "rgba(252, 250, 239, 1)",
         shardeumPink: "#FFDFCD",
         shardeumTeelGreen: "rgba(202, 255, 239, 1)",
+        shardeumRed: "#FF4C0F",
         dimgray: "#666",
         gray: "#fafafa",
         aliceblue: "#eff2f7",

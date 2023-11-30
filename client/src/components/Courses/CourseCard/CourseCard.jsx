@@ -12,7 +12,7 @@ const CourseCard = ({ props }) => {
 
   const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
   return (
-    <Link to={`/course/${props?.title.split(" ").join("-")}`}>
+    <Link className="z-10" to={`/course/${props?.title.split(" ").join("-")}`}>
       <motion.div
         ref={scrollRef}
         style={{

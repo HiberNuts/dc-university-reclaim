@@ -31,16 +31,15 @@ const CourseAbout = ({ props }) => {
   });
   return (
     <div
-      style={{ backgroundImage: `url(${grid})`, backgroundPosition: "center" }}
-      className="w-full transition ease-in-out delay-150  py-20 flex justify-center items-center align-middle text-white bg-shardeumBlue"
+      className="w-full transition ease-in-out delay-150 md:px-[100px] md:py-[80px]  px-[60px] py-[60px]  flex justify-start items-center align-middle text-white bg-shardeumBlue"
     >
-      <div className="flex gap-10 md:flex-row flex-col  md:w-[80%] w-[95%]">
-        <div className="md:w-[20%] flex flex-col font-[700] text-[48px]">
-          <span>About</span>
-          <span>Course</span>
+      <div className="flex gap-10 md:flex-row flex-col  ">
+        <div className=" flex flex-col font-[700] text-[64px] ">
+          <span className="font-helvetica-neue">About</span>
+          <span className="font-helvetica-neue">Course</span>
         </div>
-        <div className="md:w-[80%] transition ease-in-out delay-150">
-          <p ref={ref} className={`font-[500] text-[18px] break-words  ${!isShowingMore && "line-clamp-4"}`}>
+        <div className=" transition ease-in-out delay-150">
+          <p ref={ref}  className={`font-[100] text-[18px] break-words font-helvetica-neue  ${!isShowingMore && "line-clamp-4"}`}>
             {props ? props : ""}
           </p>
           {isTruncated && (
