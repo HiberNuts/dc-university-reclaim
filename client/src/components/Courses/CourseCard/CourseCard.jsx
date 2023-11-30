@@ -3,11 +3,9 @@ import "./CourseCard.css";
 import timeIcon from "../../../assets/timeIcon.svg";
 import profileIcon from "../../../assets/profileIcon.svg";
 import levelIcon from "../../../assets/levelIcon.svg";
-import OrangeButton from "../../button/OrangeButton";
 import { motion, useScroll } from "framer-motion";
 import { Link } from "react-router-dom";
 import GreenButton from "../../button/GreenButton";
-import avatar from "../../../assets/navlogoBlack.png"
 
 const CourseCard = ({ props }) => {
   const scrollRef = useRef(null);
@@ -30,7 +28,9 @@ const CourseCard = ({ props }) => {
           </div>
           <div className="description-section flex flex-col justify-center align-middle">
             <p className="text-[32px] font-helvetica-neue font-bold">{props?.title}</p>
-            <p className="text-[16px] text-slategray font-helvetica-neue font-thin">{props?.description.slice(0, 180) + (props?.description.length > 180 ? "..." : '') }</p>
+            <p className="text-[16px] text-slategray font-helvetica-neue font-thin">
+              {props?.description.slice(0, 180) + (props?.description.length > 180 ? "..." : "")}
+            </p>
           </div>
           <div className="description-section flex flex-col w-full">
             <div className="flex ">
@@ -60,9 +60,9 @@ const CourseCard = ({ props }) => {
             </div>
           </div>
           <div className="">
-            <GreenButton text={"Start Learning"} />
+            <GreenButton isHoveredReq={true} text={"Start Learning"} />
           </div>
-          {/* <OrangeButton title={"Start Learning"} style={"w-full h-[40px]"} /> */}
+  
         </div>
       </motion.div>
     </Link>

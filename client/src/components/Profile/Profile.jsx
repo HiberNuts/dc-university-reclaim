@@ -44,7 +44,8 @@ const Profile = ({ isOpen, closeModal }) => {
           setFormData({ ...formData, name: "", email: "" });
           setisEditing(true);
         } else {
-          setloggedInUserData(response.data);
+          // setUserData(response.data);
+          setloggedInUserData({ ...response.data, accessToken: loggedInUserData.accessToken });
           setFormData({ ...response.data, name: response.data.username });
         }
       } catch (error) {
@@ -64,6 +65,7 @@ const Profile = ({ isOpen, closeModal }) => {
       setError(null);
     }
   };
+  console.log(loggedInUserData);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -74,9 +76,6 @@ const Profile = ({ isOpen, closeModal }) => {
       toast.error("Please select a designation"); // Show toast message
       return; // Stop submission if designation is not selected
     } else {
-      if (loggedInUserData.email === "default") {
-        handleResendVerificationEmail();
-      }
       // Clear error message before attempting to submit
       setError(null);
       setisEditing(false);
@@ -89,7 +88,10 @@ const Profile = ({ isOpen, closeModal }) => {
             username: formData.name,
           }
         );
-        setloggedInUserData(response.data);
+        if (loggedInUserData.email === "default") {
+          handleResendVerificationEmail();
+        }
+        setloggedInUserData({ ...response.data, accessToken: loggedInUserData.accessToken });
         // setuserDataIsUpdated(!userDataIsUpdated);
       } catch (error) {
         console.error("Error while updating user data:", error);
@@ -117,7 +119,7 @@ const Profile = ({ isOpen, closeModal }) => {
   };
 
   return (
-    <div className="w-full  h-full flex justify-between align-middle">
+    <div className="w-full font-helvetica-neue  h-full flex justify-between align-middle">
       <Toaster />
       <Suspense
         fallback={
@@ -133,11 +135,7 @@ const Profile = ({ isOpen, closeModal }) => {
               src={`https://api.dicebear.com/7.x/notionists/svg?seed=${loggedInUserData?.username}`}
               alt="user avatar"
             />
-            {isEditing === false && (
-              <p style={{ fontFamily: "satoshiVariable" }} className="text-center text-[22px] font-[700] mt-2 ">
-                {formData.name}
-              </p>
-            )}
+            {isEditing === false && <p className="text-center text-[22px] font-[700] mt-2 ">{formData.name}</p>}
           </div>
           {isEditing ? (
             <div className="w-full mt-8">

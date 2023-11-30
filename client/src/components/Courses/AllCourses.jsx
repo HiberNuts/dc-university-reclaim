@@ -21,83 +21,81 @@ export default function AllCourses() {
   }, []);
   const [Query, setQuery] = useState("");
 
-  const BGlogoSVG = ({ props }) => {
+  const LogoSvg = () => {
     return (
-      <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 269 274" fill="none">
-        <g opacity="0.15">
+      <svg width="430" height="456" viewBox="0 0 430 456" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.3">
           <path
             fill-rule="evenodd"
             clip-rule="evenodd"
-            d="M111.194 249.226L48.1334 101.459L94.9448 107.544L139.477 211.888L111.194 249.226ZM158.005 255.309L139.471 211.896L207.442 122.164L254.252 128.248L158.005 255.309ZM76.4123 64.1274L94.9478 107.541L207.452 122.152L235.735 84.8125L76.4123 64.1274ZM162.735 127.086C151.457 118.543 135.461 120.666 127.005 131.828C118.55 142.99 120.839 158.963 132.117 167.507C143.396 176.05 159.392 173.927 167.847 162.765C176.302 151.603 174.014 135.63 162.735 127.086Z"
-            fill="url(#paint0_linear_383_992)"
+            d="M29.1628 351.963L-29.4131 454.501H369.353L310.777 351.963H29.1628Z"
+            stroke="black"
+            stroke-width="2"
+          />
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M111.416 3L-88 351.962H29.1804L169.992 105.542L111.416 3Z"
+            stroke="black"
+            stroke-width="2"
+          />
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M228.591 3L170.016 105.542L310.823 351.962H428.007L228.591 3Z"
+            stroke="black"
+            stroke-width="2"
+          />
+          <path
+            d="M169.974 206.161C205.005 206.161 233.401 234.853 233.401 270.249C233.401 305.645 205.005 334.337 169.974 334.337C134.943 334.337 106.547 305.645 106.547 270.249C106.547 234.853 134.943 206.161 169.974 206.161"
+            stroke="black"
+            stroke-width="2"
           />
         </g>
-        <defs>
-          <linearGradient
-            id="paint0_linear_383_992"
-            x1="124.906"
-            y1="137.584"
-            x2="186.086"
-            y2="163.607"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="#3A4CFF" />
-            <stop offset="1" stop-color="#3A4CFF" stop-opacity="0.36" />
-          </linearGradient>
-        </defs>
       </svg>
     );
   };
 
   return (
-    <div className="flex justify-center w-full items-center align-middle">
-      <div className="absolute md:rotate-0 rotate-45  lg:opacity-100 opacity-30 z-50 top-16 md:left-0 md:top-16 left-[10%] w-80  ">
-        <BGlogoSVG props={""} />
+    <div className=" bg-shardeumWhite md:py-[64px] md:px-[100px] py-[34px] px-[60px] justify-center w-full items-center align-middle">
+      <div className="sm:absolute sm:block hidden z-0 left-0">
+        <LogoSvg />
       </div>
-      <div className="w-[90%] mt-[72px] ">
-        <div className="corse_header gap-[32px] w-full items-center flex flex-col justify-center align-middle">
-          <p className="font-satoshi text-[48px]  font-extrabold items-center text-center  ">
-            Explore right <span className="BlueGradientFade">Courses for you</span>
-          </p>
-          <p className="font-[500] text-center text-[18px]">Learn how to build on Shardeum and Join the Community</p>
-          <div className="w-[80%] h-[48px] text-center items-center flex justify-center align-middle">
-            <input
-              className="w-full border-2 border-shardeumBlue align-middle h-full items-center pl-5 focus:border-2 focus:outline-none focus:border-shardeumGreen focus:ring-shardeumGreen active:border-shardeumGreen"
-              style={{
-                borderRadius: "10px",
-                fontSize: "20px",
-                boxShadow: "6px 6px 0px 0px rgba(0, 0, 0, 0.15)",
-              }}
-              placeholder=" &#128270; Search course by title"
-              onChange={(event) => setQuery(event.target.value)}
-            />
+      <div className="corse_header z-10 gap-[32px] md:mb-[72px] mb-[42px] w-full items-center flex flex-col justify-center align-middle">
+        <p className="font-helvetica-neue text-[64px] font-extrabold items-center text-center  ">Explore Our Courses</p>
+        <p className="font-[500] text-center text-[18px]">Learn how to build on Shardeum and Join the Community</p>
+        <div className="md:w-[80%] h-[48px] text-center items-center flex justify-center align-middle">
+          <input
+            className="w-full z-30 border-2 border-shardeumBlue align-middle h-full items-center pl-5 focus:border-2 focus:outline-none focus:border-shardeumGreen focus:ring-shardeumGreen active:border-shardeumGreen"
+            style={{
+              borderRadius: "10px",
+              fontSize: "20px",
+              boxShadow: "6px 6px 0px 0px rgba(0, 0, 0, 0.15)",
+            }}
+            placeholder=" &#128270; Search course"
+            onChange={(event) => setQuery(event.target.value)}
+          />
+        </div>
+      </div>
+      <div className="all-course w-full flex justify-start align-middle">
+        {loading ? (
+          <SkeletonLoader />
+        ) : (
+          <div className="flex flex-wrap w-full justify-evenly gap-x-[10px] gap-y-[64px]">
+            {allCourseInfo &&
+              allCourseInfo
+                ?.filter((course) => {
+                  if (Query == "") {
+                    return course;
+                  } else if (course.title.toLowerCase().includes(Query.toLowerCase())) {
+                    return course;
+                  }
+                })
+                ?.map((course, index) => {
+                  return course.softDelete != true ? <CourseCard key={index} props={course} /> : "";
+                })}
           </div>
-        </div>
-        <div className="all-course mt-[72px] mb-[72px] w-full items-center flex justify-center align-middle">
-          {loading ? (
-            <SkeletonLoader />
-          ) : (
-            
-            <div className="flex flex-wrap w-full justify-evenly gap-y-[72px]">
-              
-              {allCourseInfo &&
-                allCourseInfo
-                  ?.filter((course) => {
-                    if (Query == "") {
-                      return course;
-                    } else if (course.title.toLowerCase().includes(Query.toLowerCase())) {
-                      return course;
-                    }
-                  })
-                  ?.map((course, index) => {
-                    return course.softDelete !=true ? <CourseCard key={index} props={course} /> : "" ;
-                  })}
-            </div>
-          )}
-        </div>
-      </div>
-      <div className="absolute sm:visible sm:flex overflow-hidden hidden lg:opacity-100 opacity-30 z-50 top-16 right-5 rotate-90 w-80 ">
-        <BGlogoSVG props={""} />
+        )}
       </div>
     </div>
   );

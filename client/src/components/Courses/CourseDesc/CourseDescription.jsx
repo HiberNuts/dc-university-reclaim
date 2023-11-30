@@ -25,7 +25,7 @@ const CourseDescription = () => {
   }, [params]);
 
   return (
-    <div className="w-full justify-center items-center gap-[100px] align-middle flex flex-col">
+    <div className="w-full bg-shardeumWhite justify-center items-center gap-[100px] align-middle flex flex-col">
       <CourseHeader props={courseData ? courseData : {}} />
       <CourseAbout props={courseData?.aboutCourse} />
       <CourseSkills props={courseData?.skills} />

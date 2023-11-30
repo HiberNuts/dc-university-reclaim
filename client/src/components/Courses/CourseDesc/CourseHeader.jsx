@@ -3,14 +3,13 @@ import timeIcon from "../../../assets/timeIcon.svg";
 import profileIcon from "../../../assets/profileIcon.svg";
 import levelIcon from "../../../assets/levelIcon.svg";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import OrangeButton from "../../button/OrangeButton";
 import { useNavigate } from "react-router-dom";
 import { generateSlug } from "../../../utils/generateSlug";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { courseProgressAPI, enrollCourseAPI } from "../../../utils/api/CourseAPI";
 import { useAccount } from "wagmi";
 import { toast, Toaster } from "react-hot-toast";
-
+import GreenButton from "../../button/GreenButton";
 const CourseHeader = ({ props }) => {
   const { loggedInUserData } = useContext(ParentContext);
   const navigate = useNavigate();
@@ -86,9 +85,9 @@ const CourseHeader = ({ props }) => {
   }, [loggedInUserData, props, isCourseEnrolled]);
 
   return (
-    <div className="flex  mt-[66px] flex-wrap sm:w-[80%] w-[90%] justify-between gap-8 align-middle">
+    <div className="flex flex-wrap w-full px-[100px] py-[80px] justify-between gap-8 align-middle">
       <Toaster position="top-center" reverseOrder={false} />
-      <div className="description-div lg:flex-1 flex-wrap flex flex-col gap-3  justify-between">
+      <div className="description-div lg:flex-1 flex-wrap flex flex-col gap-[32px]  justify-between">
         <div className="header-div">
           <div
             className=" text-blue  md:text-[80px]  text-[60px]"
@@ -137,29 +136,32 @@ const CourseHeader = ({ props }) => {
           </div>
         </div>
         {isCourseEnrolled ? (
-          <OrangeButton
-            onClick={() => {
-              if (isConnected) {
-                navigate(`/workplace/${generateSlug(props?.title)}`);
-              } else {
-                toast("Login to continue!", {
-                  icon: "🌟",
-                });
-              }
-            }}
-            style={"w-52 h-12 "}
-            title={"Continue"}
-            iconRight={faAngleRight}
-          />
+          <div>
+            <GreenButton
+              onClick={() => {
+                if (isConnected) {
+                  navigate(`/workplace/${generateSlug(props?.title)}`);
+                } else {
+                  toast("Login to continue!", {
+                    icon: "🌟",
+                  });
+                }
+              }}
+              text={"Continue"}
+              iconRight={faAngleRight}
+            />
+          </div>
         ) : (
-          <OrangeButton onClick={enrollCourse} style={"w-52 h-12 "} title={"Start Course"} iconRight={faAngleRight} />
+          <div>
+            <GreenButton onClick={enrollCourse} text={"Start Course"} iconRight={faAngleRight} />
+          </div>
         )}
       </div>
       <div className="banner-div rounded-xl lg:flex-1 flex w-full justify-center align-middle">
         {/* <div className=""> */}
         <img
           style={{ borderRadius: "200px !important" }}
-          className="max-w-[600px] w-auto h-auto max-h-[400px] object-contain rounded-[12px]"
+          className="w-[600px] h-[400px] object-contain rounded-[12px]"
           src={props?.banner}
         />
         {/* </div> */}

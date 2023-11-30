@@ -9,7 +9,10 @@ const ProfileDropDown = ({ account, openAccountModal, toggleNavbar, loggedInUser
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="flex w-[170px] h-11 align-middle text-center items-center justify-evenly rounded-md  font-bold">
-            <GreenButton text={loggedInUserData?.username == "default" ? "Anon" : loggedInUserData?.username} />
+            <GreenButton
+              isHoveredReq={true}
+              text={loggedInUserData?.username == "default" ? "Anon" : loggedInUserData?.username}
+            />
           </Menu.Button>
         </div>
         <Transition

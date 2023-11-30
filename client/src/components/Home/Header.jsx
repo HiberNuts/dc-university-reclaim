@@ -17,7 +17,7 @@ export default function Header() {
   const [homeRoute, sethomeRoute] = useState(true);
   const { address, isConnected } = useAccount();
 
-  const { loggedInUserData, setloggedInUserData, setuserDataIsUpdated, userDataIsUpdated } = useContext(ParentContext);
+  const { loggedInUserData, setloggedInUserData } = useContext(ParentContext);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -56,11 +56,11 @@ export default function Header() {
     }
   }, [address]);
 
-  const styleNavEl = `before:bg-white before:left-0 ${
-    homeRoute ? "hover:text-white text-white" : "hover:text-black text-black hover:before:bg-shardeumBlue "
+  const styleNavEl = ` font-helvetica-neue before:bg-white before:left-0 ${
+    homeRoute ? "hover:text-white text-white" : "hover:text-black text-black hover:before:bg-black "
   }  before:transition-transform hover:before:scale-x-100 before:scale-x-0  before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full `;
-  const activeNavEl = ` before:left-0 ${
-    homeRoute ? "text-white before:bg-white " : ". before:bg-shardeumBlue text-shardeumBlue"
+  const activeNavEl = `font-helvetica-neue before:left-0 ${
+    homeRoute ? "text-white before:bg-white " : ". before:bg-black text-black"
   }   before:transition-transform  before:scale-x-100 before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full`;
 
   const styleMobileNavBox =
@@ -70,91 +70,88 @@ export default function Header() {
 
   return (
     <header
-      className={`header border-b- z-50 border-gray w-full  ${homeRoute ? "bg-shardeumBlue" : "bg-white"} ${
-        location.pathname.includes("/workplace") ? "fixed" : ""
-      } `}
+      className={`header font-helvetica-neue flex justify-center align-middle flex-col z-50 border-gray w-full  ${
+        homeRoute ? "bg-shardeumBlue" : "bg-shardeumWhite"
+      } ${location.pathname.includes("/workplace") ? "fixed" : ""} `}
     >
-      <Suspense fallback={<div className="header border-b- z-50 border-gray w-full bg-shardeumBlue"></div>}>
-        <nav className="p-6 lg:mx-48 md:mx-8 items-center text-center h-full ">
-          <div className="">
-            <div className="flex items-center justify-between">
-              <Link to="/">
-                <div className="flex items-center flex-row w-full gap-2">
-                  <img src={`${homeRoute ? navLogoWhite : navLogoBlack} `} alt="Logo" className="w-[150px]" />
-                  <p className={`${homeRoute ? "text-white" : "text-black"} italic text-[28px] font-[500] `}>
-                    University
-                  </p>
-                </div>
-              </Link>
-              <ul className="hidden lg:flex items-center xl:gap-9 lg:gap-6 ">
-                <li className={targetLinks[0] === "/" && targetLinks[1] === "" ? activeNavEl : styleNavEl}>
-                  <Link to="/">Home</Link>
-                </li>
-                <li className={targetLinks[2] === "courses" ? activeNavEl : styleNavEl}>
-                  <Link to="/courses">Courses</Link>
-                </li>
-                <li>
-                  <ConnectButton.Custom>
-                    {({
-                      account,
-                      chain,
-                      openAccountModal,
-                      openChainModal,
-                      openConnectModal,
-                      authenticationStatus,
-                      mounted,
-                    }) => {
-                      // Note: If your app doesn't use authentication, you
-                      // can remove all 'authenticationStatus' checks
-                      const ready = mounted && authenticationStatus !== "loading";
-                      const connected =
-                        ready &&
-                        account &&
-                        chain &&
-                        (!authenticationStatus || authenticationStatus === "authenticated");
+      <Suspense fallback={<div className="header  z-50 border-gray w-full bg-shardeumBlue"></div>}>
+        <nav className="sm:px-[100px] px-[8px] items-center text-center h-full ">
+          <div className="flex items-center h-full justify-between">
+            <Link to="/">
+              <div className="flex items-center flex-row w-full gap-2">
+                <img src={`${homeRoute ? navLogoWhite : navLogoBlack} `} alt="Logo" className="w-[150px]" />
+                <p className={`${homeRoute ? "text-white" : "text-black"} italic text-[28px] font-[500] `}>
+                  University
+                </p>
+              </div>
+            </Link>
+            <ul className="hidden lg:flex items-center xl:gap-9 lg:gap-6 ">
+              <li className={targetLinks[0] === "/" && targetLinks[1] === "" ? activeNavEl : styleNavEl}>
+                <Link to="/">Home</Link>
+              </li>
+              <li className={targetLinks[2] === "courses" ? activeNavEl : styleNavEl}>
+                <Link to="/courses">Courses</Link>
+              </li>
+              <li>
+                <ConnectButton.Custom>
+                  {({
+                    account,
+                    chain,
+                    openAccountModal,
+                    openChainModal,
+                    openConnectModal,
+                    authenticationStatus,
+                    mounted,
+                  }) => {
+                    // Note: If your app doesn't use authentication, you
+                    // can remove all 'authenticationStatus' checks
+                    const ready = mounted && authenticationStatus !== "loading";
+                    const connected =
+                      ready && account && chain && (!authenticationStatus || authenticationStatus === "authenticated");
 
-                      return (
-                        <div
-                          {...(!ready && {
-                            "aria-hidden": true,
-                            style: {
-                              opacity: 0,
-                              pointerEvents: "none",
-                              userSelect: "none",
-                            },
-                          })}
-                        >
-                          {(() => {
-                            if (!connected) {
-                              return <GreenButton onClick={openConnectModal} text={"Login"} />;
-                            }
-                            return (
-                              <div style={{ display: "flex", gap: 12 }}>
-                                <ProfileDropDown
-                                  loggedInUserData={loggedInUserData}
-                                  account={account.displayName}
-                                  chain={chain}
-                                  openChainModal={openChainModal}
-                                  openAccountModal={openAccountModal}
-                                />
-                              </div>
-                            );
-                          })()}
-                        </div>
-                      );
-                    }}
-                  </ConnectButton.Custom>
-                </li>
-                {/* <ConnectButton chainStatus={"none"} label="Login" showBalance={"false"} /> */}
-              </ul>
+                    return (
+                      <div
+                        className="mr-6"
+                        {...(!ready && {
+                          "aria-hidden": true,
+                          style: {
+                            opacity: 0,
+                            pointerEvents: "none",
+                            userSelect: "none",
+                          },
+                        })}
+                      >
+                        {(() => {
+                          if (!connected) {
+                            return <GreenButton isHoveredReq={true} onClick={openConnectModal} text={"Login"} />;
+                          }
+                          return (
+                            <div style={{ display: "flex", gap: 12 }}>
+                              <ProfileDropDown
+                                loggedInUserData={loggedInUserData}
+                                account={account.displayName}
+                                chain={chain}
+                                openChainModal={openChainModal}
+                                openAccountModal={openAccountModal}
+                              />
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    );
+                  }}
+                </ConnectButton.Custom>
+              </li>
+              {/* <ConnectButton chainStatus={"none"} label="Login" showBalance={"false"} /> */}
+            </ul>
 
-              <div className="lg:hidden flex items-center z-60">
-                <div className="focus:outline-none" onClick={toggleNavbar}>
-                  <Burger isOpen={isOpen} setIsOpen={setIsOpen} />
-                </div>
+            <div className="lg:hidden flex items-center z-60">
+              <div className="focus:outline-none" onClick={toggleNavbar}>
+                <Burger isOpen={isOpen} setIsOpen={setIsOpen} />
               </div>
             </div>
           </div>
+
           <div
             className={`bg-white  z-50 w-full p-2 flex items-center justify-center align-middle  border-4 border-shardeumGreen rounded-lg ${
               isOpen ? activeMobileNavBox : styleMobileNavBox
@@ -238,7 +235,6 @@ export default function Header() {
                           return (
                             <button
                               onClick={openConnectModal}
-                              style={{ fontFamily: "satoshiVariable" }}
                               className={`bg-shardeumOrange flex justify-center align-middle hover:bg-[#fc7d34] rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[18px] w-[150px] h-[40px]`}
                             >
                               Login

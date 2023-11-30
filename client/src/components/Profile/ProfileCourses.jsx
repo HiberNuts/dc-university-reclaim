@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import FeatureCourses from "../Home/FeatureCourses";
 import SkeletonLoader from "../Courses/SkeletonLoader";
 import { getCoursebyIdAPI } from "../../utils/api/CourseAPI";
-import CourseCard from "../Courses/CourseCard/CourseCard";
 import ProfileCourseCard from "./ProfileCourseCard";
 
 const ProfileCourses = ({ loggedInUserData }) => {

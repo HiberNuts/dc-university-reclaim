@@ -1,16 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
-import OrangeButton from "../button/OrangeButton";
-import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faX } from "@fortawesome/free-solid-svg-icons";
-import orangeShardeum from "../../assets/orangeShardeum.png";
-import { useScroll } from "framer-motion";
+// import { useScroll } from "framer-motion";
 import { motion } from "framer-motion";
 const Unique = () => {
-  const scrollRef = useRef(null);
-  const { scrollYProgress } = useScroll({ container: scrollRef });
-  const [isImageVisible, setImageVisible] = useState(false);
-  const [animation, setAnimation] = useState(false);
+  // const scrollRef = useRef(null);
+  // const { scrollYProgress } = useScroll({ container: scrollRef });
+  // const [isImageVisible, setImageVisible] = useState(false);
+  // const [animation, setAnimation] = useState(false);
 
   const [imageUrl, setimageUrl] = useState(
     "https://img.freepik.com/free-vector/vector-illustration-mountain-landscape_1441-72.jpg?size=626&ext=jpg&ga=GA1.1.1016455232.1698944705&semt=sph"

@@ -1,11 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Home.css";
-import OrangeButton from "../button/OrangeButton";
 import { faDiscord, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faX } from "@fortawesome/free-solid-svg-icons";
-import orangeShardeum from "../../assets/orangeShardeum.png";
 import { useScroll } from "framer-motion";
-import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
@@ -118,7 +115,7 @@ export default function Community() {
         </span>
 
         <div className="flex flex-wrap mt-[32px] gap-8 justify-evenly align-middle">
-          <Link to="">
+          <Link to="https://discord.gg/shardeum" target="_blank">
             <div className="w-[260px] cursor-pointer hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-2 border-shardeumBlue align-middle justify-evenly">
               <FontAwesomeIcon
                 className="flex flex-col justify-center  align-middle w-[30px] h-[30px]"
@@ -128,7 +125,7 @@ export default function Community() {
               <p className="text-[18px] font-bold text-shardeumBlue">Join Our Dsicord</p>
             </div>
           </Link>
-          <Link to="">
+          <Link to="https://twitter.com/shardeum" target="_blank">
             <div className="w-[260px] cursor-pointer hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-2 border-shardeumBlue align-middle justify-evenly">
               <FontAwesomeIcon
                 className="flex flex-col justify-center  align-middle w-[30px] h-[30px]"
@@ -138,7 +135,7 @@ export default function Community() {
               <p className="text-[18px] font-bold text-shardeumBlue">Join Our Twitter</p>
             </div>
           </Link>
-          <Link to="">
+          <Link to="https://github.com/Shardeum" target="_blank">
             {" "}
             <div className="w-[260px] cursor-pointer hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-2 border-shardeumBlue align-middle justify-evenly">
               <FontAwesomeIcon

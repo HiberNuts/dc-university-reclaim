@@ -7,7 +7,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @font-face {
   font-family: "helvetica-neue";
   src: url("./assets/HelveticaNeue.otf");
@@ -37,7 +36,7 @@
 body {
   margin: 0;
   font-family: "Poppins", sans-serif, "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif,
-    "Satoshi", "DM Sans", "satoshiVariable", "helvetica-neue-lt-pro-2";
+    "DM Sans", "helvetica-neue-lt-pro-2";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: white;
