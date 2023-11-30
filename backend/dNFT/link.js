@@ -1,20 +1,17 @@
 const { ThirdwebSDK } = require("@thirdweb-dev/sdk");
-// const { sharde } = require("@thirdweb-dev/chains");
 const abi = require("./abi.json");
 
-// exports.MintPOLNft = async ({ walletAddress, contractAddress }) => {
-const main = async () => {
+exports.MintPOLNft = async ({ walletAddress, contractAddress }) => {
   const CLIENT_ID = process.env.CLIENT_ID;
   const SECRET_KEY = process.env.SECRET_KEY;
   // const PRIVATE_KEY = process.env.PRIVATE_KEY;
   const PRIVATE_KEY = "f9c365bb92079cb504d156960da24697ba9c4345f855fb2b143850e4eebe22fd";
-  // console.log("Contract", contractAddress);
+  console.log("Contract", contractAddress);
 
-  // const toAddress = walletAddress;
-  const CONTRACT_ADDRESS = "0x7Bd639B51A5C5EFDfc7CA5309005F3e01CD8563F";
+  const toAddress = walletAddress;
+  // const CONTRACT_ADDRESS = "0x7Bd639B51A5C5EFDfc7CA5309005F3e01CD8563F";
 
-  const toAddress = "0x53EC7AaB4dbEC2b0912577E549758615A08cb172";
-  const _uri = "ipfs://QmdwaiAzpZP3cDZHCqcs9A6yAHMtP67KdfMeYEdEDBBrho";
+  // const toAddress = "0x53EC7AaB4dbEC2b0912577E549758615A08cb172";
 
   const sdk = ThirdwebSDK.fromPrivateKey(
     PRIVATE_KEY,
@@ -41,7 +38,7 @@ const main = async () => {
   token_abi = abi;
 
   const contract = await sdk.getContract(
-    CONTRACT_ADDRESS, // The address of your smart contract
+    contractAddress, // The address of your smart contract
     token_abi // The ABI of your smart contract
   );
 
@@ -52,8 +49,6 @@ const main = async () => {
       toAddress, // e.g. Argument 2
     ]
   );
-  console.log(result);
+  // console.log(result);
   return result;
 };
-
-main();
