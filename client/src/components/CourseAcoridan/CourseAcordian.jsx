@@ -173,6 +173,7 @@ const CourseAcordian = ({
                         checkModuleCoursesStatus({ module });
                         setcurrentModule(module);
                         setisModuleChanged(!isModuleChanged);
+                        window.scroll(0,0)
                       }}
                     >
                       <div className="flex items-center pt-2  mr-4">

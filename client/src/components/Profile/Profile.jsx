@@ -361,7 +361,7 @@ const Profile = ({ isOpen, closeModal }) => {
                 Let's jump right into learning!
               </span>
             </div>
-            <ProfileCourses loggedInUserData={loggedInUserData} />
+            <ProfileCourses userData={userData} loggedInUserData={loggedInUserData} />
           </div>
         </div>
       </Suspense>

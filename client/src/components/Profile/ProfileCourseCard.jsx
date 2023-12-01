@@ -8,11 +8,11 @@ import { Link } from "react-router-dom";
 import { getUserCourseProgressPercentage } from "../../utils/api/CourseAPI";
 import { generateSlug } from "../../utils/generateSlug";
 
-const ProfileCourseCard = ({ props, loggedInUserData }) => {
+const ProfileCourseCard = ({ props, loggedInUserData,userData }) => {
 
   const scrollRef = useRef(null);
 
-  const [currentCourseProgress, setcurrentCourseProgress] = useState({});
+  const [currentCourseProgress, setcurrentCourseProgress] = useState({chapterCompletionPercentage: 0,moduleCompletionPercentage:0,overallCompletionPercentage : 0,quizCompletionPercentage: 0});
 
   const getProgressPercentage = async () => {
     const data = await getUserCourseProgressPercentage({
@@ -20,12 +20,13 @@ const ProfileCourseCard = ({ props, loggedInUserData }) => {
       userId: loggedInUserData?._id,
       accessToken: loggedInUserData?.accessToken,
     });
+    console.log(data);
     setcurrentCourseProgress(data);
   };
 
   useEffect(() => {
     getProgressPercentage();
-  }, [loggedInUserData]);
+  }, [loggedInUserData,userData]);
 
   const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
 
