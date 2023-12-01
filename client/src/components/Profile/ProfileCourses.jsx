@@ -5,7 +5,7 @@ import { getCoursebyIdAPI } from "../../utils/api/CourseAPI";
 import ProfileCourseCard from "./ProfileCourseCard";
 import GetStarted from "./GetStarted";
 
-const ProfileCourses = ({ loggedInUserData,userData }) => {
+const ProfileCourses = ({ loggedInUserData, userData }) => {
   const [profileCoursesID, setprofileCoursesID] = useState([]);
   const [loading, setloading] = useState(false);
   const [profileCoursesData, setprofileCoursesData] = useState([]);
@@ -29,10 +29,9 @@ const ProfileCourses = ({ loggedInUserData,userData }) => {
 
   useEffect(() => {
     getCourseById();
-  }, [userData,loggedInUserData]);
+  }, [userData, loggedInUserData]);
 
   console.log(userData?.enrolledCourses);
-  
 
   return (
     <div>
@@ -43,10 +42,15 @@ const ProfileCourses = ({ loggedInUserData,userData }) => {
           <p className="font-helvetica-neue mt-[-50px] text-[48px] font-extrabold items-center text-center  ">
             Resume your course
           </p>
-          <div className="flex flex-wrap w-full justify-evenly">
-            {profileCoursesData?.map((course, index) => (
-              <ProfileCourseCard userData={userData} loggedInUserData={loggedInUserData} key={index} props={course} />
-            ))}
+          <div className="flex flex-wrap w-full gap-10 mb-10 justify-evenly">
+            {profileCoursesData?.map((course, index) => {
+              return course.softDelete != true ? (
+                <ProfileCourseCard userData={userData} loggedInUserData={loggedInUserData} key={index} props={course} />
+              ) : (
+                ""
+              );
+            })}
+            
           </div>
         </div>
       ) : (

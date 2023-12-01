@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import CourseAcordian from "../CourseAcoridan/CourseAcordian";
-import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import CourseAcordian from "../CourseAcoridan/CourseAcordian.jsx";
 
 import { useParams } from "react-router-dom";
 import { courseProgressAPI, getCoursebyName, updateCourseProgressAPI } from "../../utils/api/CourseAPI";
@@ -195,7 +194,7 @@ export default function WorkPlace() {
         <div className="">
           <div>
             <img
-              className="rounded-lg"
+              className="rounded-lg "
               src={
                 courseContent?.banner
                   ? courseContent?.banner
@@ -204,7 +203,7 @@ export default function WorkPlace() {
               alt=""
             />
           </div>
-          <p className="text-white text-[24px] text-center mt-2">{courseContent?.title}</p>
+          <p className="text-white text-[24px] font-bold text-center mt-2">{courseContent?.title}</p>
           <div className="mt-10">
             {moduleContent?.map((module, index) => (
               <div key={index}>
@@ -237,52 +236,50 @@ export default function WorkPlace() {
           <button
             disabled={currentCourseProgress?.overallCompletionPercentage === 100 ? false : true}
             onClick={() => setnftModalIsOpen(true)}
-            className="text-white text-[24px] w-full text-center mt-2"
+            className={`${
+              currentCourseProgress?.overallCompletionPercentage === 100
+                ? "bg-shardeumWhite text-black  hover:scale-105"
+                : "text-white border-2 border-shardeumGreen"
+            }   rounded-[10px] font-semibold h-[48px] flex justify-center  px-[32px] py-[22px]  transition ease-in-out items-center  align-middle   text-[20px] w-full text-center mt-2`}
           >
-            Claim your reward
+            Claim your reward 🔥
           </button>
         </div>
       </div>
-      <div className="ml-[25%] w-[80%] flex flex-col justify-center items-center">
+      <div className="ml-[25%]  bg-shardeumWhite w-full flex flex-col justify-center items-center">
         <div
           style={{
+            width: "100%",
             display: "flex",
-            width: "80%",
-            padding: "20px 24px",
             flexDirection: "column",
             alignItems: "flex-start",
-            gap: "12px",
-            borderRadius: "16px",
-            border: "2px solid #C3C8FF",
-            background: "var(--Primary, #FFF)",
-            boxShadow: "0px 4px 10px 0px rgba(195, 200, 255, 0.40)",
+            borderBottom: "2px solid black",
+            padding: "20px 56px 20px 56px",
           }}
         >
           <p className="text-black text-[24px] text-center mt-2">{courseContent?.title}</p>
           {currentCourseProgress && (
-            <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
-              <div className="bg-gray-200 relative h-6 w-full rounded-2xl">
+            <div className="w-full  rounded-full h-4 mb-6">
+              <div className="relative  border-2 border-black h-4 w-full rounded-2xl">
                 <div
                   style={{
                     width: `${parseInt(currentCourseProgress?.overallCompletionPercentage)}%`,
                   }}
                   className={`bg-shardeumOrange h-full absolute z-0 top-0 left-0 flex items-center justify-center rounded-2xl text-sm font-semibold text-white`}
-                >
-                  {parseInt(currentCourseProgress?.overallCompletionPercentage)}%
-                </div>
+                ></div>
               </div>
 
-              <div style={{ gap: "12px" }}>
+              <div className="mt-2">
                 Course {parseInt(currentCourseProgress?.overallCompletionPercentage)}% Completed{" "}
               </div>
             </div>
-          )}{" "}
+          )}
         </div>
 
         {/* <CourseProgress title={courseContent?.title} currentCourseProgress={currentCourseProgress} /> */}
-        <div className="flex w-full bg- my-10 justify-center items-center align-middle">
+        <div className="flex w-full my-10 m-0 justify-center items-center align-middle">
           {isQuizSelected ? (
-            <div className="flex text-[20px] w-[70%] courseContent justify-center align-middle  flex-col ">
+            <div className="flex w-full text-[20px] md:px-[120px] px-[80px] courseContent justify-center align-middle  flex-col ">
               <Quiz
                 courseId={courseContent?._id}
                 userId={loggedInUserData?._id}

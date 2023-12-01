@@ -4,7 +4,7 @@ import { CustomFigure } from "./customCourseElement";
 import { updateCourseProgressAPI } from "../../../utils/api/CourseAPI";
 import whiteExpand from "../../../assets/whiteArrow.svg";
 import toast, { Toaster } from "react-hot-toast";
-
+import LongArrow from "../../../assets/LongArrow.svg";
 const DisplayChapter = ({
   currentModule,
   currentChapter,
@@ -84,7 +84,7 @@ const DisplayChapter = ({
   };
 
   return (
-    <div className="flex text-[20px] w-[70%] courseContent justify-center align-middle  flex-col ">
+    <div className="flex text-[20px] md:px-[120px] px-[80px] courseContent justify-center align-middle  flex-col ">
       <Toaster />
       {currentModule?.chapter
         .filter((chapter) => chapter._id === currentChapter._id)
@@ -96,8 +96,19 @@ const DisplayChapter = ({
                 figure: (props) => <CustomFigure {...props} />,
               }}
             />
+            <div className="flex w-full mt-10 justify-end">
+              <button
+                disabled={currentChapterStatus == "full" ? true : false}
+                onClick={() => handleCompleteChapter({ chapter })}
+                className={`bg-shardeumRed rounded-[10px] h-[48px] flex justify-center  px-[32px] py-[22px]  transition ease-in-out items-center font-semibold align-middle text-center text-white text-[16px] `}
+              >
+                <span className="items-center text-center ">
+                  {currentChapterStatus == "full" ? "Completed" : "Mark as complete"}
+                </span>
+              </button>
+            </div>
 
-            <div className="w-full mt-10 flex justify-evenly align-middle items-center">
+            <div className="w-full mt-10 flex justify-between align-middle items-center">
               {currentModule?.chapter.findIndex((c) => c._id == chapter._id) == 0 ? (
                 <div></div>
               ) : (
@@ -105,29 +116,20 @@ const DisplayChapter = ({
                   onClick={() => {
                     handlePrevChapterClick({ chapter });
                   }}
-                  className={`bg-shardeumOrange flex justify-evenly align-middle  hover:bg-[#ff7a2e] rounded-[10px] w-auto px-4 py-3  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
+                  className={`bg-shardeumRed h-[58px] w-[58px] flex justify-center align-middle  hover:bg-shardeumGreen rounded-[10px]  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
                 >
-                  <img className={`w-6 h-6 rotate-90 mr-2 items-center  fill-white `} src={whiteExpand} />
-                  <span className="items-center text-center ">Previous</span>
+                  <img className="rotate-180" src={LongArrow} />
                 </button>
               )}
 
-              <button
-                disabled={currentChapterStatus == "full" ? true : false}
-                onClick={() => handleCompleteChapter({ chapter })}
-                className={`bg-shardeumOrange  hover:bg-[#ff7a2e] rounded-[10px] w-auto px-4 py-3  transition ease-in-out items-center font-semibold align-middle text-center text-white text-[18px] `}
-              >
-                <span className="items-center text-center ">Mark as complete</span>
-              </button>
               {currentChapterStatus == "full" && (
                 <button
                   onClick={() => {
                     handleNextChapterClick({ chapter });
                   }}
-                  className={`bg-shardeumOrange flex justify-evenly align-middle  hover:bg-[#ff7a2e] rounded-[10px] w-auto px-4 py-3  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
+                  className={`bg-shardeumRed h-[58px] w-[58px] flex justify-center align-middle  hover:bg-shardeumGreen rounded-[10px]  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
                 >
-                  <span className="items-center text-center ">Next</span>
-                  <img className={`w-6 h-6 -rotate-90 ml-2 items-center  fill-white `} src={whiteExpand} />
+                  <img className={``} src={LongArrow} />
                 </button>
               )}
             </div>

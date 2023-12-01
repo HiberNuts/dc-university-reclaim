@@ -27,7 +27,7 @@ export default function FeatureCourses() {
         <div className="flex w-full my-5 justify-center flex-wrap gap-5">
           {allCourseInfo &&
             allCourseInfo?.map((course, index) => {
-              return <CourseCard key={index} props={course} />;
+              return course.softDelete != true ? <CourseCard key={index} props={course} /> : "";
             })}
         </div>
       </div>

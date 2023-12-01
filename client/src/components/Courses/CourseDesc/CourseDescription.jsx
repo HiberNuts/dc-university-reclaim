@@ -30,7 +30,7 @@ const CourseDescription = () => {
       <CourseAbout props={courseData?.aboutCourse} />
       <CourseSkills props={courseData?.skills} />
       <CourseLearn props={courseData?.whatYouLearn} />
-      <CourseCertificate props={courseData?.nftImage} />
+      <CourseCertificate props={courseData?.nftImage} courseId={courseData._id} />
       <CourseFAQ props={courseData?.faq} />
     </div>
   );

@@ -46,6 +46,7 @@ const Quiz = ({
   }
 
   const handleQuizUpdateToBackend = async () => {
+    setModalIsOpen(true);
     const updatedModules = userCourseProgress?.modules?.map((module) => {
       if (module?._id === currentModule?._id) {
         // Update quizStatus to true for the entire module
@@ -69,7 +70,6 @@ const Quiz = ({
       userId: userId,
       accessToken: accessToken,
     });
-    setModalIsOpen(true);
     setuserCourseProgress(updatedUserProgress.updatedProgress);
     if (updatedUserProgress.updatedUserProgress) {
       setcurrentQuizCompleted(true);
