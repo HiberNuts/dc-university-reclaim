@@ -179,7 +179,7 @@ export default function WorkPlace() {
   }
 
   return (
-    <div className="w-full mt-[10vh] h-full flex justify-between align-middle">
+    <div className="w-full  mt-[10vh] h-full flex justify-between align-middle">
       <ScrollToTop />
       <NftModal
         userCourseProgress={userCourseProgress}
@@ -240,13 +240,13 @@ export default function WorkPlace() {
               currentCourseProgress?.overallCompletionPercentage === 100
                 ? "bg-shardeumWhite text-black  hover:scale-105"
                 : "text-white border-2 border-shardeumGreen"
-            }   rounded-[10px] font-semibold h-[48px] flex justify-center  px-[32px] py-[22px]  transition ease-in-out items-center  align-middle   text-[20px] w-full text-center mt-2`}
+            }   rounded-[10px] font-semibold h-[50px] flex justify-center  px-[32px] py-[22px]  transition ease-in-out items-center  align-middle   text-[18px] w-full text-center mt-2`}
           >
             Claim your reward 🔥
           </button>
         </div>
       </div>
-      <div className="ml-[25%]  bg-shardeumWhite w-full flex flex-col justify-center items-center">
+      <div className="ml-[25%]   w-full flex flex-col justify-center items-center">
         <div
           style={{
             width: "100%",
@@ -277,7 +277,7 @@ export default function WorkPlace() {
         </div>
 
         {/* <CourseProgress title={courseContent?.title} currentCourseProgress={currentCourseProgress} /> */}
-        <div className="flex w-full my-10 m-0 justify-center items-center align-middle">
+        <div className="flex w-full  my-10 m-0 justify-center items-center align-middle">
           {isQuizSelected ? (
             <div className="flex w-full text-[20px] md:px-[120px] px-[80px] courseContent justify-center align-middle  flex-col ">
               <Quiz
