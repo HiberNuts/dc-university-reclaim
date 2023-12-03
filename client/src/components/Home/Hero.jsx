@@ -13,14 +13,14 @@ const Hero = () => {
         }
       >
         <div className="relative mt-[40px] heroSection  md:flex min-h-full  z-10 flex flex-col w-full justify-between align-middle text-white bg-shardeumBlue sm:rounded-b-[100px]">
-          <div className="items-center flex justify-center align-middle w-full text-white heroText">
-            <p className="text-center md:w-[70%] w-[90%] lg:text-[80px] md:text-[50px] sm:text-[50px] text-[50px] font-helvetica-neue items-center ">
+          <div className="items-center  font-extrabold flex justify-center align-middle w-full text-white heroText">
+            <p className="text-center md:w-[70%] w-[90%] lg:text-[80px] md:text-[50px] sm:text-[50px] text-[50px] font-helvetica-neue-bold items-center ">
               Your One-Stop
-              <span className="ml-3 mr-3 text-center md:w-[70%] w-[90%] lg:text-[80px] md:text-[50px] sm:text-[50px] font-helvetica-neue items-center  text-shardeumGreen">
+              <span className="ml-3 font-helvetica-neue-bold mr-3  text-center md:w-[70%] w-[90%] lg:text-[80px] md:text-[50px] sm:text-[50px] font-helvetica-neue items-center  text-shardeumGreen">
                 Gateway
               </span>
               to Becoming
-              <span className="ml-3 mr-3 text-center md:w-[70%] w-[90%] lg:text-[80px] md:text-[50px] sm:text-[50px] font-helvetica-neue items-center  text-shardeumGreen">
+              <span className="ml-3 font-helvetica-neue-bold mr-3 text-center md:w-[70%] w-[90%] lg:text-[80px] md:text-[50px] sm:text-[50px] font-helvetica-neue items-center  text-shardeumGreen">
                 Top-Notch
               </span>
               Web3 Developer
@@ -28,14 +28,13 @@ const Hero = () => {
             {/* <p className="text-center items-center flex justify-center align-middle"></p> */}
           </div>
           <div className="subHeading mt-4 text-center w-full flex justify-center align-middle leading-[36px] items-center text-white md:text-[24px] sm:[24px] text-[20px]">
-            <span className="text-white  text-[24px] md:w-[70%] w-[90%] font-helvetica ">
+            <span className="text-white  text-[24px] md:w-[70%] w-[90%] font-helvetica-neue-roman ">
               Stay ahead in the future of the internet with best web3 content.
             </span>
           </div>
           <motion.div className="w-full flex justify-center align-middle my-[40px]">
             <Link to="/courses">
               <GreenButton isHoveredReq={true} text={"Explore Courses"} />
-             
             </Link>
           </motion.div>
           <div className="w-full mt-2  flex flex-col items-center justify-center align-middle">

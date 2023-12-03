@@ -1,16 +1,27 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200&display=swap");
-@import url("https://fonts.cdnfonts.com/css/helvetica-neue-lt-pro-2");
+@import url("https://fonts.cdnfonts.com/css/helvetica-neue-lt-pro-2"); */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @font-face {
-  font-family: "helvetica-neue";
-  src: url("./assets/HelveticaNeue.otf");
+  font-family: "helvetica-neue-bold";
+  src: url("./assets/HelveticaNeueLTProBdCn.otf");
 }
+
+@font-face {
+  font-family: "helvetica-neue-md";
+  src: url("./assets/HelveticaNeueLTProMd.otf");
+}
+
+@font-face {
+  font-family: "helvetica-neue-roman";
+  src: url("./assets/HelveticaNeueLTProRoman.otf");
+}
+
 .animate-scale {
   animation: scale 1s infinite alternate;
   transform-origin: center;
@@ -36,7 +47,7 @@
 body {
   margin: 0;
   font-family: "Poppins", sans-serif, "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif,
-    "DM Sans", "helvetica-neue-lt-pro-2";
+    "DM Sans", "helvetica-neue-lt-pro-2", "helvetica-neue-bold", "helvetica-neue-roman", "helvetica-neue-md";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: white;

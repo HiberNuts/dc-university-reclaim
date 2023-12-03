@@ -49,7 +49,10 @@ module.exports = {
         SpaceGrotesk: "Space Grotesk",
         satoshi: "Satoshi",
         mdsans: "DM Sans",
-        "helvetica-neue": ["helvetica-neue"],
+        "helvetica-neue-bold": ["helvetica-neue-bold"],
+        "helvetica-neue-md": ["helvetica-neue-md"],
+        "helvetica-neue-roman": ["helvetica-neue-roman"],
+
       },
       borderRadius: {
         xl: "20px",

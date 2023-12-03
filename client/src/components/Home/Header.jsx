@@ -70,7 +70,7 @@ export default function Header() {
 
   return (
     <header
-      className={`header font-helvetica-neue flex justify-center align-middle flex-col z-50  w-full  ${
+      className={`header sticky font-helvetica-neue flex justify-center align-middle flex-col z-50  w-full  ${
         homeRoute ? "bg-shardeumBlue" : "bg-shardeumWhite border-b-[1px] border-b-black"
       } ${location.pathname.includes("/workplace") ? "fixed" : ""} `}
     >
