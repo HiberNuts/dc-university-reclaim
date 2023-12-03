@@ -1,4 +1,4 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
 import { DataCard } from './Components/DataCard/DataCard';
 import { Button, IconButton, Switch } from '@mui/material';
@@ -6,11 +6,13 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 
+
 function CourseDetailsPage() {
   const location = useLocation();
   const { state } = location;
   const params = useParams();
   const { course, userData } = state;
+  const navigate = useNavigate();
 
   const [userDetails, setUserDetails] = useState(userData);
   const [softDeleteStatus, setSoftDeleteStatus] = useState(course.softDelete);
@@ -48,6 +50,18 @@ function CourseDetailsPage() {
   };
 
   // ...
+
+  const hardDelete = async () => {
+    try {
+      const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/cose/getCourse?id=${params.courseId}`)
+
+      const result = await response.json();
+      toast("course Deleted")
+      navigate(-1)
+    } catch (error) {
+      toast.error(`Error while deleting course`);
+    }
+  }
 
   const softDelete = async () => {
     try {
@@ -97,13 +111,13 @@ function CourseDetailsPage() {
         </IconButton>
       ),
     },
-    
-];
+
+  ];
 
   useEffect(() => {
-    setUserDetails(userData); 
+    setUserDetails(userData);
     console.log(userData)
-    
+
   }, [userData]);
 
   return (
@@ -160,7 +174,7 @@ function CourseDetailsPage() {
             gap: '20px',
           }}
         >
-          <Button variant="contained" color="error">
+          <Button onClick={hardDelete} variant="contained" color="error">
             Hard Delete
           </Button>
           <Button variant="outlined" color="error" onClick={softDelete}>
@@ -207,7 +221,7 @@ function CourseDetailsPage() {
         <h2>User Details</h2>
       </div>
 
-      <div style={{height: '400px', width: '100%', overflow: 'auto' }} className="tablediv">
+      <div style={{ height: '400px', width: '100%', overflow: 'auto' }} className="tablediv">
         <DataGrid
           sx={{
             backgroundColor: 'white',

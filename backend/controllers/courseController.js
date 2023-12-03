@@ -79,7 +79,9 @@ exports.syncData = async (req, res) => {
       };
       const existingCourse = await Course.findOne({ strapiId: courseData.id });
 
+
       if (existingCourse) {
+
         // Update existing modules, chapters, quizzes
         for (const moduleItem of courseDetails.module) {
           const existingModule = existingCourse.module.find(m => m.strapiId === moduleItem.id);
@@ -100,12 +102,12 @@ exports.syncData = async (req, res) => {
               const existingQuiz = existingModule.quizzes.find(q => q.strapiId === quizItem.id);
               if (existingQuiz) {
                 // Update existing quiz fields
-                existingQuiz.quizTitle=quizItem.quizTitle;
-                existingQuiz.a= quizItem.a;
-                existingQuiz.b=quizItem.b;
-                existingQuiz.c= quizItem.c;
-                existingQuiz.d= quizItem.d;
-                existingQuiz.answer= quizItem.answer;
+                existingQuiz.quizTitle = quizItem.quizTitle;
+                existingQuiz.a = quizItem.a;
+                existingQuiz.b = quizItem.b;
+                existingQuiz.c = quizItem.c;
+                existingQuiz.d = quizItem.d;
+                existingQuiz.answer = quizItem.answer;
               } else {
                 existingModule.quizzes.push({ ...quizItem }); // Add new quiz
               }
@@ -119,9 +121,30 @@ exports.syncData = async (req, res) => {
         await existingCourse.save();
         console.log("course updated:", existingCourse._id);
       } else {
+        courseDetails.module = courseData.attributes.module.map((moduleItem) => ({
+          moduleTitle: moduleItem.moduleTitle,
+          chapter: moduleItem.chapter.map((chapterItem) => ({
+            title: chapterItem.title,
+            content: chapterItem.content,
+            strapiId: chapterItem.id,
+          })),
+          quizzes: moduleItem.quizes.map((quizItem) => ({
+            quizTitle: quizItem.quizTitle,
+            a: quizItem.a,
+            b: quizItem.b,
+            c: quizItem.c,
+            d: quizItem.d,
+            answer: quizItem.answer,
+            strapiId: quizItem.id,
+          })),
+          strapiId: moduleItem.id,
+        }))
+
         // Create a new Course document
         const course = new Course(courseDetails);
-        await course.save();
+        console.log(course);
+        const res = await course.save();
+        console.log(res);
       }
     }
 
@@ -183,7 +206,7 @@ exports.syncData = async (req, res) => {
     // }
     res.status(200).send({ message: "course data synchronized successfully" });
   } catch (error) {
-    // console.error(error);
+    console.error(error);
     res.status(500).send({ message: error.message || "Internal Server Error", error });
   }
 };

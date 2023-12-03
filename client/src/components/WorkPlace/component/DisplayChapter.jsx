@@ -84,7 +84,7 @@ const DisplayChapter = ({
   };
 
   return (
-    <div className="flex text-[20px] md:px-[120px] px-[80px] courseContent justify-center align-middle  flex-col ">
+    <div className=" w-full bg-shardeumWhite text-[20px] md:px-[120px] px-[80px] courseContent justify-center align-middle  flex-col ">
       <Toaster />
       {currentModule?.chapter
         .filter((chapter) => chapter._id === currentChapter._id)
