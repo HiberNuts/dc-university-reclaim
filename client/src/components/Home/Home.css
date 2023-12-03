@@ -75,8 +75,8 @@ img.vert-move {
   text-align: center;
   font-feature-settings: "clig" off, "liga" off;
   font-style: normal;
-  font-weight: 700;
-  line-height: 76.5px;
+  /* font-weight: 700; */
+  /* line-height: 76.5px; */
   background-image: url("/client/public/statsbg.png");
   background-position: center;
   background-size: cover;

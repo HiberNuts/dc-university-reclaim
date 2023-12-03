@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext, lazy, Suspense } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import navLogoBlack from "../../assets/navlogoBlack.png";
-import navLogoWhite from "../../assets/navlogoWhite.png";
+import navLogoBlack from "../../assets/navlogoBlack.svg";
+import navLogoWhite from "../../assets/navlogoWhite.svg";
 import "./Home.css";
 const Burger = lazy(() => import("./Burger"));
 import ProfileDropDown from "./ProfileDropdown";
@@ -56,21 +56,23 @@ export default function Header() {
     }
   }, [address]);
 
-  const styleNavEl = ` font-helvetica-neue before:bg-white before:left-0 ${
-    homeRoute ? "hover:text-white text-white" : "hover:text-black text-black hover:before:bg-black "
+  const styleNavEl = `text-[18px] font-helvetica-neue-md before:bg-white before:left-0 ${
+    homeRoute
+      ? "hover:text-white text-white font-helvetica-neue-md"
+      : "hover:text-black text-black hover:before:bg-black "
   }  before:transition-transform hover:before:scale-x-100 before:scale-x-0  before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full `;
-  const activeNavEl = `font-helvetica-neue before:left-0 ${
+  const activeNavEl = `text-[18px] font-helvetica-neue-md before:left-0 ${
     homeRoute ? "text-white before:bg-white " : ". before:bg-black text-black"
   }   before:transition-transform  before:scale-x-100 before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full`;
 
   const styleMobileNavBox =
-    "opacity-0 z-[60]  relative lg:hidden mt-2 pb-4 flex flex-col items-center transition-all duration-1000 flex shadow-sm flex-col gap-0 items-center -top-[26rem] bg-white -z-20";
+    "opacity-0 z-[60] font-helvetica-neue-md relative lg:hidden mt-2 pb-4 flex flex-col items-center transition-all duration-1000 flex shadow-sm flex-col gap-0 items-center -top-[26rem] bg-white -z-20";
   const activeMobileNavBox =
-    "z-[60] relative lg:hidden mt-2 pb-4 flex flex-col items-center transition-all duration-500 flex flex-col gap-2 items-center  absolute top-0 bg-gray-100 pb-5 sm:shadow-none shadow-md shadow-gray-700";
+    "z-[60] relative  font-helvetica-neue-md lg:hidden mt-2 pb-4 flex flex-col items-center transition-all duration-500 flex flex-col gap-2 items-center  absolute top-0 bg-gray-100 pb-5 sm:shadow-none shadow-md shadow-gray-700";
 
   return (
     <header
-      className={`header sticky font-helvetica-neue flex justify-center align-middle flex-col z-50  w-full  ${
+      className={`header sticky font-helvetica-neue-md flex justify-center align-middle flex-col z-50  w-full  ${
         homeRoute ? "bg-shardeumBlue" : "bg-shardeumWhite border-b-[1px] border-b-black"
       } ${location.pathname.includes("/workplace") ? "fixed" : ""} `}
     >
@@ -78,14 +80,11 @@ export default function Header() {
         <nav className="sm:px-[100px] px-[8px] items-center text-center h-full ">
           <div className="flex items-center h-full justify-between">
             <Link to="/">
-              <div className="flex items-center flex-row w-full gap-2">
-                <img src={`${homeRoute ? navLogoWhite : navLogoBlack} `} alt="Logo" className="w-[150px]" />
-                <p className={`${homeRoute ? "text-white" : "text-black"} italic text-[28px] font-[500] `}>
-                  University
-                </p>
+              <div className="flex items-center flex-row w-full h-full gap-2">
+                <img src={`${homeRoute ? navLogoWhite : navLogoBlack} `} alt="Logo" className="w-[280px] h-[28px]" />
               </div>
             </Link>
-            <ul className="hidden lg:flex items-center xl:gap-9 lg:gap-6 ">
+            <ul className="hidden font-helvetica-neue-md lg:flex items-center xl:gap-9 lg:gap-6 ">
               <li className={targetLinks[0] === "/" && targetLinks[1] === "" ? activeNavEl : styleNavEl}>
                 <Link to="/">Home</Link>
               </li>
@@ -111,7 +110,7 @@ export default function Header() {
 
                     return (
                       <div
-                        className="mr-6"
+                        className="md:mr-6 -mt-2"
                         {...(!ready && {
                           "aria-hidden": true,
                           style: {

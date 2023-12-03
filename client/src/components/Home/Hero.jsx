@@ -14,20 +14,21 @@ const Hero = () => {
       >
         <div className="relative mt-[40px] heroSection  md:flex min-h-full  z-10 flex flex-col w-full justify-between align-middle text-white bg-shardeumBlue sm:rounded-b-[100px]">
           <div className="items-center  font-extrabold flex justify-center align-middle w-full text-white heroText">
-            <p className="text-center md:w-[70%] w-[90%] lg:text-[80px] md:text-[50px] sm:text-[50px] text-[50px] font-helvetica-neue-bold items-center ">
-              Your One-Stop
-              <span className="ml-3 font-helvetica-neue-bold mr-3  text-center md:w-[70%] w-[90%] lg:text-[80px] md:text-[50px] sm:text-[50px] font-helvetica-neue items-center  text-shardeumGreen">
-                Gateway
+            <p className="text-center leading-[120px]  md:w-[70%] w-[90%] lg:text-[120px] md:text-[50px] sm:text-[50px] text-[50px] font-helvetica-neue-bold items-center ">
+              Become a
+              <span className="ml-3 font-helvetica-neue-bold mr-3  text-center md:w-[70%] w-[90%] lg:text-[120px] md:text-[50px] sm:text-[50px] font-helvetica-neue items-center  text-shardeumGreen">
+                Next-Gen
               </span>
-              to Becoming
-              <span className="ml-3 font-helvetica-neue-bold mr-3 text-center md:w-[70%] w-[90%] lg:text-[80px] md:text-[50px] sm:text-[50px] font-helvetica-neue items-center  text-shardeumGreen">
+              <br />
+              {/* to Becoming */}
+              {/* <span className="ml-3 font-helvetica-neue-bold mr-3 text-center md:w-[70%] w-[90%] lg:text-[80px] md:text-[50px] sm:text-[50px] font-helvetica-neue items-center  text-shardeumGreen">
                 Top-Notch
-              </span>
-              Web3 Developer
+              </span> */}
+              Web 3.0 Developer
             </p>
             {/* <p className="text-center items-center flex justify-center align-middle"></p> */}
           </div>
-          <div className="subHeading mt-4 text-center w-full flex justify-center align-middle leading-[36px] items-center text-white md:text-[24px] sm:[24px] text-[20px]">
+          <div className="subHeading mt-6 text-center w-full flex justify-center align-middle leading-[36px] items-center text-white md:text-[24px] sm:[24px] text-[20px]">
             <span className="text-white  text-[24px] md:w-[70%] w-[90%] font-helvetica-neue-roman ">
               Stay ahead in the future of the internet with best web3 content.
             </span>

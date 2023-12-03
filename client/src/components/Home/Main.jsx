@@ -9,9 +9,7 @@ import Unique from "./Unique";
 export default function Main() {
   return (
     <Suspense
-      fallback={
-        <div className="w-screen bg-[#FCFAEF] h-screen items-center flex justify-center align-middle">SHARDEUM</div>
-      }
+      fallback={<div className="w-screen bg-[#FCFAEF] h-screen items-center flex justify-center align-middle"></div>}
     >
       <main className="w-full bg-shardeumWhite">
         <Hero />
