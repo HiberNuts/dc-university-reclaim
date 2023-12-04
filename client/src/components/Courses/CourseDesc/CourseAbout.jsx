@@ -30,21 +30,22 @@ const CourseAbout = ({ props }) => {
     ref,
   });
   return (
-    <div
-      className="w-full transition ease-in-out delay-150 md:px-[100px] md:py-[80px]  px-[60px] py-[60px]  flex justify-start items-center align-middle text-white bg-shardeumBlue"
-    >
+    <div className="w-full transition ease-in-out delay-150 md:px-[100px] md:py-[80px]  px-[60px] py-[60px]  flex justify-start items-center align-middle text-white bg-shardeumBlue">
       <div className="flex gap-10 md:flex-row flex-col  ">
         <div className=" flex flex-col font-[700] text-[64px] ">
-          <span className="font-helvetica-neue">About</span>
-          <span className="font-helvetica-neue">Course</span>
+          <span className="font-helvetica-neue-bold">About</span>
+          <span className="font-helvetica-neue-bold">Course</span>
         </div>
         <div className=" transition ease-in-out delay-150">
-          <p ref={ref}  className={`font-[100] text-[18px] break-words font-helvetica-neue  ${!isShowingMore && "line-clamp-4"}`}>
+          <p
+            ref={ref}
+            className={` text-[18px] break-words font-helvetica-neue-roman  ${!isShowingMore && "line-clamp-4"}`}
+          >
             {props ? props : ""}
           </p>
           {isTruncated && (
             <button
-              className="font-bold text-[20px] mt-4 bg-shardeumOrange rounded-md w-44 h-10"
+              className="font-helvetica-neue-md text-[20px] mt-4 bg-shardeumOrange rounded-md w-44 h-10"
               onClick={toggleIsShowingMore}
             >
               {isShowingMore ? "Show less" : "Show more"}

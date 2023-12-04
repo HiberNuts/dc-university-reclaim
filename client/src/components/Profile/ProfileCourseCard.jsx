@@ -8,11 +8,15 @@ import { Link } from "react-router-dom";
 import { getUserCourseProgressPercentage } from "../../utils/api/CourseAPI";
 import { generateSlug } from "../../utils/generateSlug";
 
-const ProfileCourseCard = ({ props, loggedInUserData,userData }) => {
-
+const ProfileCourseCard = ({ props, loggedInUserData, userData }) => {
   const scrollRef = useRef(null);
 
-  const [currentCourseProgress, setcurrentCourseProgress] = useState({chapterCompletionPercentage: 0,moduleCompletionPercentage:0,overallCompletionPercentage : 0,quizCompletionPercentage: 0});
+  const [currentCourseProgress, setcurrentCourseProgress] = useState({
+    chapterCompletionPercentage: 0,
+    moduleCompletionPercentage: 0,
+    overallCompletionPercentage: 0,
+    quizCompletionPercentage: 0,
+  });
 
   const getProgressPercentage = async () => {
     const data = await getUserCourseProgressPercentage({
@@ -26,7 +30,7 @@ const ProfileCourseCard = ({ props, loggedInUserData,userData }) => {
 
   useEffect(() => {
     getProgressPercentage();
-  }, [loggedInUserData,userData]);
+  }, [loggedInUserData, userData]);
 
   const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
 
@@ -42,16 +46,18 @@ const ProfileCourseCard = ({ props, loggedInUserData,userData }) => {
         className="flex card-container font-helvetica-neue h-[600px] bg-white border-[3px] shadow flex-col justify-center align-middle w-[400px] rounded-[16px]"
       >
         <div className="image-section h-full flex flex-col justify-between  p-[20px]">
-          <div className="flex justify-center align-middle items-center">
+          <div className="flex justify-center  align-middle items-center">
             <img className="w-[360px] h-[230px] rounded-[16px]" src={props?.banner} />
           </div>
-          <div className="description-section flex flex-col justify-center align-middle">
-            <p className="text-[32px] font-helvetica-neue font-bold">{props?.title}</p>
-            <p className="text-[16px] text-slategray font-helvetica-neue font-thin">
+          <div className="description-section  flex flex-col justify-center align-middle">
+            <div className="title-container h-[4rem] overflow-hidden">
+              <p className="text-[2vh] text-overflow-ellipsis font-helvetica-neue-bold font-bold">{props?.title}</p>
+            </div>
+            <p className="text-[16px] text-slategray font-helvetica-neue-roman font-thin">
               {props?.description.slice(0, 180) + (props?.description.length > 180 ? "..." : "")}
             </p>
           </div>
-          <div className="description-section flex flex-col w-full">
+          <div className="description-section flex  flex-col w-full">
             <div className="flex ">
               <img
                 class="inline-block h-6 w-6 rounded-full ring-2 ring-white mt-1"
@@ -62,7 +68,7 @@ const ProfileCourseCard = ({ props, loggedInUserData,userData }) => {
             </div>
             <div className="flex justify-evenly align-middle w-full"></div>
           </div>
-          <div className="flex w-full justify-evenly align-middle ">
+          <div className="flex w-full  justify-evenly align-middle ">
             <div className="flex gap-2 ">
               <img className="w-5 h-5 mt-1 " src={timeIcon} />
               <span className="font-helvetica-neue">{props?.duration} hrs</span>

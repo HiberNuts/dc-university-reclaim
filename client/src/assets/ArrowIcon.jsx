@@ -1,20 +1,14 @@
 export const ArrowIcon = ({ color, width, height, styles }) => {
   return (
     <div className={styles}>
-      <svg
-        width={width}
-        height={height}
-        xmlns="http://www.w3.org/2000/svg"
-        data-name="Layer 1"
-        viewBox="0 0 32 32"
-        id="Downarrow"
-        className="-rotate-90"
-      >
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="10" fill="#A4FF00" />
         <path
-          d="M16 22a2 2 0 0 1-1.41-.59l-10-10a2 2 0 0 1 2.82-2.82L16 17.17l8.59-8.58a2 2 0 0 1 2.82 2.82l-10 10A2 2 0 0 1 16 22Z"
-          fill={color}
-          class="colorffffff svgShape"
-        ></path>
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M17.4975 28.3L25.9998 19.5L17.4975 10.7L15 13.2859L21.0038 19.5L15 25.7142L17.4975 28.3Z"
+          fill="#3042FB"
+        />
       </svg>
     </div>
   );

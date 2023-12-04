@@ -78,7 +78,7 @@ function AccordionHeader({ text }) {
       onClick={() => onChangeIndex(index)}
     >
       <div className="flex w-full justify-between align-middle h-full">
-        <span className="font-[500] text-[18px]">{text}</span>
+        <span className="font-helvetica-neue-roman text-[18px]">{text}</span>
         <img
           className={` sm:w-[25px] h-[25px]  mt-3  sm:mt-0 transition-transform duration-300 ${
             isActive ? "rotate-0" : "rotate-180"
@@ -103,7 +103,9 @@ function AccordionPanel({ children }) {
           exit={{ height: 0 }}
           transition={{ type: "spring", duration: 0.4, bounce: 0 }}
         >
-          <div className="AccordionPanel mt-2 bg-shardeumBlue text-white">{children}</div>
+          <div className="AccordionPanel mt-2 bg-shardeumBlue text-white font-helvetica-neue-roman text-[16px]">
+            {children}
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
@@ -233,11 +235,11 @@ const CourseAcordian = ({
 
                         <label
                           htmlFor="red-checkbox"
-                          className={`ml-2 text-[16px] items-start text-start ${
+                          className={`ml-2 font-helvetica-neue-md text-[16px] items-start text-start ${
                             isQuizSelected
                               ? "text-white"
                               : chapter._id == currentChapter._id
-                              ? "text-shardeumOrange  font-bold"
+                              ? "border-b-2 border-shardeumGreen"
                               : `${
                                   userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status !== "full" ||
                                   userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status !== "none"

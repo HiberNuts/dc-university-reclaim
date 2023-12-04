@@ -89,7 +89,7 @@ const DisplayChapter = ({
       {currentModule?.chapter
         .filter((chapter) => chapter._id === currentChapter._id)
         .map((chapter) => (
-          <div className="w-full items-center">
+          <div className="w-full font-helvetica-neue-roman font-extralight items-center">
             <HTMLRenderer
               html={chapter?.content}
               components={{

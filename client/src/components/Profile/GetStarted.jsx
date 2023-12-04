@@ -23,7 +23,7 @@ export default function GetStarted() {
     <>
       <div className='flex justify-between border-b-2 border-b-dimgray pb-4'>
         <div>
-          <p className="font-helvetica-neue text-[48px] font-[900]">
+          <p className="font-helvetica-neue-bold text-[32px]">
             Get Started With our Courses
           </p>
         </div>
@@ -37,7 +37,7 @@ export default function GetStarted() {
         </div>
       </div>
       <div className="flex flex-col w-full ">
-        <div className="flex w-full justify-center flex-wrap gap-5">
+        <div className="flex w-full justify-center flex-wrap gap-5 mb-20">
           {allCourseInfo &&
             allCourseInfo?.map((course, index) => {
               return <CourseCard key={index} props={course} />;

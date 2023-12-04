@@ -49,10 +49,10 @@ const CourseCertificate = ({ props }) => {
 
   return (
     <motion.div className="w-full transition ease-in-out delay-150 flex-wrap  flex justify-center items-center align-middle text-white bg-shardeumBlue">
-      <div className="flex gap-6 flex-col px-10 py-12 md:w-[65%] ">
-        <div className=" flex  flex-col font-[700] text-[64px] font-helvetica-neue">Earn Your Certificate</div>
+      <div className="flex gap-6 flex-col px-10 py-12 md:w-[65%]">
+        <div className=" flex  flex-col text-[64px] font-helvetica-neue-bold">Earn Your Certificate</div>
         <div className="md:w-[80%] flex flex-col gap-6  transition ease-in-out delay-150">
-          <p ref={ref} className={`font-[500] text-[18px] break-words font-helvetica-neue`}>
+          <p ref={ref} className={`text-[18px] break-words font-helvetica-neue-md  `}>
             Complete the Ethereum Developer Bootcamp to ear an NFT Certificate. Complete the Ethereum Developer Bootcamp
             to ear an NFT Certificate. Complete the Ethereum Developer Bootcamp to ear an
           </p>

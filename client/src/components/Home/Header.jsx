@@ -72,8 +72,8 @@ export default function Header() {
 
   return (
     <header
-      className={`header sticky font-helvetica-neue-md flex justify-center align-middle flex-col z-50  w-full  ${
-        homeRoute ? "bg-shardeumBlue" : "bg-shardeumWhite border-b-[1px] border-b-black"
+      className={`header  font-helvetica-neue-md flex justify-center align-middle flex-col z-50  w-full  ${
+        homeRoute ? "bg-shardeumBlue sticky" : "bg-shardeumWhite border-b-[1px] border-b-black"
       } ${location.pathname.includes("/workplace") ? "fixed" : ""} `}
     >
       <Suspense fallback={<div className="header  z-50 border-gray w-full bg-shardeumBlue"></div>}>

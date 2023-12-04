@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { ArrowIcon } from "../../assets/ArrowIcon";
 
-const GreenButton = ({ text, onClick, isHoveredReq }) => {
+const GreenButton = ({ text, onClick, isHoveredReq, boxShadow }) => {
   const [isHovered, setisHovered] = useState(false);
   return (
     <button
       onClick={onClick ? onClick : null}
       style={{
-        boxShadow: `${isHovered ? "" : "rgba(0, 0, 0, 0.15) 10px 10px 0px 0px"}`,
+        boxShadow: `${boxShadow? isHovered ? "" : "rgba(0, 0, 0, 0.15) 10px 10px 0px 0px":""}`,
         transition: "box-shadow 0.3s ease-in-out",
       }}
       onMouseOver={() => setisHovered(true)}
@@ -30,14 +30,14 @@ const GreenButton = ({ text, onClick, isHoveredReq }) => {
         style={{ boxShadow: `${isHoveredReq && isHovered ? "rgba(0, 0, 0, 0.15) 8px 8px 0px 0px" : ""}` }}
         className={`flex transition-all ease-in-out  flex-col  bg-white ${
           isHoveredReq && isHovered
-            ? "rounded-full min-h-[64px] max-h-[66px] w-[66px] transition-all flex justify-center align-middle ease-in-out items-center "
+            ? "rounded-full min-h-[64px] max-h-[66px] w-[66px] transition-all flex justify-center border-2 align-middle ease-in-out border-shardeumBlue items-center "
             : "rounded-r-[16px] min-h-[64px] max-h-[66px] transition-all ease-in-out pr-[12px]"
         } justify-center align-middle h-full items-center`}
       >
         <ArrowIcon
           styles={`bg-shardeumGreen flex justify-center align-middle items-center ${
             isHoveredReq && isHovered
-              ? "rounded-full p-1 items-center  border-2 border-shardeumBlue items-center"
+              ? "rounded-full p-1 items-center  items-center"
               : "rounded-[10px] w-[45px] h-[45px] "
           } `}
           width={"35"}

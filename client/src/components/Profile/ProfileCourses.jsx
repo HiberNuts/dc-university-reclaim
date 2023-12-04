@@ -38,10 +38,13 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
       {loading ? (
         <SkeletonLoader />
       ) : userData?.enrolledCourses?.length > 0 ? (
-        <div className="flex w-full flex-wrap h-auto gap-5">
-          <p className="font-helvetica-neue mt-[-50px] text-[48px] font-extrabold items-center text-center  ">
+        <div className="flex w-full mt-24 flex-wrap h-auto gap-5 ">
+          <div className="border-b-2 border-b-dimgray w-full flex pb-4 mb-10">
+
+          <p className="font-helvetica-neue-bold mt-[-50px] text-[32px] items-center text-center  ">
             Resume your course
           </p>
+          </div>
           <div className="flex flex-wrap w-full gap-10 mb-10 justify-evenly">
             {profileCoursesData?.map((course, index) => {
               return course.softDelete != true ? (

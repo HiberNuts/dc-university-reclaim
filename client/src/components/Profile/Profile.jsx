@@ -289,11 +289,11 @@ const Profile = ({ isOpen, closeModal }) => {
                 )}
               </div>
 
-              <p className="font-helvetica-neue text-[56px] font-extrabold items-start mt-10 ">
+              <p className="font-helvetica-neue-bold text-[56px] items-start mt-10 ">
                 Welcome, {formData.name}
               </p>
 
-              <span className="font-helvetica-neue text-[18px] font-[500]">
+              <span className="font-helvetica-neue-roman text-[18px] font-[500]">
                 What a wonderful day it is to explore new knowledge. Today brims with possibilities and fresh knowledge
                 waiting to be discovered. Let's jump right into learning!
               </span>

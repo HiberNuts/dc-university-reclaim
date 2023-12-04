@@ -8,7 +8,7 @@ const ProfileDropDown = ({ account, openAccountModal, toggleNavbar, loggedInUser
     <div className=" z-50 w-56 text-right">
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          <Menu.Button className="flex w-[170px] h-11 align-middle text-center items-center justify-evenly rounded-md  font-bold">
+          <Menu.Button className="flex w-[170px] h-11 align-middle text-center items-center justify-evenly rounded-md  ">
             <GreenButton
               isHoveredReq={true}
               text={loggedInUserData?.username == "default" ? "Anon" : loggedInUserData?.username}
@@ -32,7 +32,7 @@ const ProfileDropDown = ({ account, openAccountModal, toggleNavbar, loggedInUser
                     onClick={toggleNavbar}
                     className={`${
                       active ? "bg-shardeumBlue text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    } group font-helvetica-neue-roman flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     {active ? (
                       <AccountActiveIcon className="mr-2 h-5 w-5" aria-hidden="true" />
@@ -50,7 +50,7 @@ const ProfileDropDown = ({ account, openAccountModal, toggleNavbar, loggedInUser
                     to="/profile"
                     className={`${
                       active ? "bg-shardeumBlue text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    } group font-helvetica-neue-roman flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     {active ? (
                       <ProfileActiveIcon className="mr-2 h-5 w-5" aria-hidden="true" />
@@ -74,7 +74,7 @@ const ProfileDropDown = ({ account, openAccountModal, toggleNavbar, loggedInUser
                     }}
                     className={`${
                       active ? "bg-shardeumBlue text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    } group font-helvetica-neue-roman flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     {active ? (
                       <LogoutActiveIcon className="mr-2 h-5 w-5" aria-hidden="true" />

@@ -76,14 +76,14 @@ const Unique = () => {
     setimageUrl(returnImageUrl(imageIndex));
   }, [imageIndex]);
   return (
-    <div className=" md:flex font-helvetica-neue  items-center flex flex-col w-full sm:py-[60px] py-[20px] justify-center align-middle text-white bg-shardeumBlue">
+    <div className=" md:flex font-helvetica-neue gap-8 items-center flex flex-col w-full sm:py-[60px] py-[20px] justify-center align-middle text-white bg-shardeumBlue">
       <div className="items-center  sm:w-[80%] text-white lg:text-[64px] md:mt-10 md:text-[64px] sm:text-[36px] text-[36px]">
-        <p className="text-center items-center flex justify-center align-middle font-helvetica-neue font-extrabold ">
+        <p className="text-center items-center leading-none flex justify-center align-middle font-helvetica-neue-bold font-extrabold ">
           Become the Next Big Web3 Developer with Shardeum University
         </p>
       </div>
-      <div className="subHeading sm:w-[80%] text-center  flex justify-center align-middle leading-[36px] items-center text-white md:text-[18px] sm:[18px] text-[18px]">
-        <span className="text-white sm:w-[70%] w-[80%] font-helvetica-neue ">
+      <div className="subHeading sm:w-[80%] text-center  flex justify-center align-middle  items-center text-white md:text-[18px] sm:[18px] text-[18px]">
+        <span className="text-white leading-relaxed font-helvetica-neue-md text-[18px]">
           Unlike Web2, becoming a Web3 developer or even a founder is within your reach with just an internet
           connection, a laptop, and mobility. At Shardeum University, we're dedicated to preparing you for success
           through innovative programs like Reverse Day Demos, Founder’s Bootcamps, and Interactive Coding Workshops
@@ -101,13 +101,13 @@ const Unique = () => {
               } flex-col gap-4 active:bg-shardeumPurple hover:bg-shardeumPurple border-2 border-black hover:text-black transition-all ease-linear duration-100 items-start px-[24px] py-[20px] md:w-[600px] w-[90%] relative text-black rounded-[16px] overflow-hidden`}
               onClick={() => handleBlockClick(1)}
             >
-              <div className="flex items-center gap-[32px] relative self-stretch w-full flex-[0_0_auto]">
+              <div className="flex items-center gap-[10px] relative self-stretch w-full flex-[0_0_auto]">
                 <TickSvg />
-                <div className="relative w-fit mt-[-1.00px] font-[800]  text-[20px]  leading-[30px] font-helvetica-neue">
+                <div className="relative w-fit mt-[-1.00px] text-[28px]  leading-[30px] font-helvetica-neue-bold">
                   Choose your Skill Stream(s)
                 </div>
               </div>
-              <p className="font-helvetica-neue text-[16px] font-extralight text-slate-700">
+              <p className="font-helvetica-neue-roman leading-normal text-[16px] font-extralight text-slate-700">
                 Select from a diverse array of resources, that includes both beginner friendly and advanced materials,
                 to carve out a path that truly resonates with your passion and ambitions.
               </p>
@@ -121,13 +121,13 @@ const Unique = () => {
               } flex-col gap-4 active:bg-shardeumPurple hover:bg-shardeumPurple border-2 border-black hover:text-black transition-all ease-linear duration-100 md:w-[600px] items-start  px-[24px] py-[20px] w-[90%] relative text-black rounded-[16px] overflow-hidden`}
               onClick={() => handleBlockClick(2)}
             >
-              <div className="flex items-center gap-[32px] relative self-stretch w-full flex-[0_0_auto]">
+              <div className="flex items-center gap-[10px] relative self-stretch w-full flex-[0_0_auto]">
                 <TickSvg />
-                <div className="relative w-fit mt-[-1.00px] font-bold  text-[20px]  leading-[30px] font-helvetica-neue">
+                <div className="relative w-fit mt-[-1.00px] text-[28px]  leading-[30px] font-helvetica-neue-bold">
                   Engage & Innovate
                 </div>
               </div>
-              <p className="font-helvetica-neue text-[16px] font-extralight text-slate-700">
+              <p className="font-helvetica-neue-roman leading-normal text-[16px] font-extralight text-slate-700">
                 Connect with a vibrant community of Web3 enthusiasts and experts. Participate in full stack courses and
                 technical deep dives to apply your knowledge and innovate in the real world.
               </p>
@@ -141,13 +141,13 @@ const Unique = () => {
               } flex-col gap-4 active:bg-shardeumPurple border-2 border-black hover:bg-shardeumPurple  hover:text-black transition-all ease-linear duration-100 md:w-[600px] items-start  px-[24px] py-[20px] w-[90%] relative text-black rounded-[16px] overflow-hidden`}
               onClick={() => handleBlockClick(3)}
             >
-              <div className="flex items-center gap-[32px] relative self-stretch w-full flex-[0_0_auto]">
+              <div className="flex items-center gap-[10px] relative self-stretch w-full flex-[0_0_auto]">
                 <TickSvg />
-                <div className="relative w-fit mt-[-1.00px] font-bold  text-[20px]  leading-[30px] font-helvetica-neue">
+                <div className="relative w-fit mt-[-1.00px] text-[28px]  leading-[30px] font-helvetica-neue-bold">
                   Mentorship & Guidance
                 </div>
               </div>
-              <p className="font-helvetica-neue text-[16px] font-extralight text-slate-700">
+              <p className="font-helvetica-neue-roman text-[16px] leading-normal font-extralight text-slate-700">
                 Gain insights from seasoned Web3 professionals and mentors across Shardeum and other projects. Benefit
                 from personalized guidance, industry wisdom, and support to navigate the complexities of a dynamic
                 blockchain ecosystem.
@@ -159,7 +159,7 @@ const Unique = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="relative md:w-[600px] w-[90%] md:h-[518px] h-[300px]  rounded-[16px] mt-8"
+          className="relative md:w-[600px] w-[90%] sm:h-full boder-2   rounded-[16px] mt-8"
           style={{ boxShadow: "8px 8px 0px 0px rgba(0, 0, 0, 0.15)" }}
         >
           <motion.img
@@ -168,7 +168,7 @@ const Unique = () => {
             transition={{ duration: 0.9 }}
             src={imageUrl}
             alt="Description of the image"
-            className="object-fill w-full h-full rounded-[16px]"
+            className="object-fill border-2 border-black w-full h-full rounded-[16px]"
           />
         </motion.div>
       </div>

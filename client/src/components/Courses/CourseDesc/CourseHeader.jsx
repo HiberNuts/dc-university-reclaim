@@ -82,7 +82,7 @@ const CourseHeader = ({ props }) => {
 
   useEffect(() => {
     getuserProgress();
-  }, [loggedInUserData,props, isCourseEnrolled]);
+  }, [loggedInUserData, props, isCourseEnrolled]);
 
   return (
     <div className="flex flex-wrap w-full md:px-[100px] md:pb-[80px] md:pt-[50px]  px-[60px] pb-[64px] justify-between gap-8 align-middle">
@@ -92,15 +92,14 @@ const CourseHeader = ({ props }) => {
           <div
             className=" text-shardeumBlue  md:text-[80px]"
             style={{
-              lineHeight: "80px",
-              fontFamily: "helvetica-neue",
+              lineHeight: "70px",
               fontSize: "64px",
               fontWeight: 700,
             }}
           >
-            <p className="font-helvetica-neue">{props?.title}</p>
+            <p className="font-helvetica-neue-bold">{props?.title}</p>
           </div>
-          <p className="text-[18px] mt-6 font-[500] font-helvetica-neue">{props?.description}</p>
+          <p className="text-[18px] mt-6  font-helvetica-neue-roman">{props?.description}</p>
         </div>
         <div className="author-div flex ">
           <div className="flex ">

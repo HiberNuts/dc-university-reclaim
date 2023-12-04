@@ -171,8 +171,8 @@ export default function WorkPlace() {
     return (
       <div className="flex justify-center items-center h-screen">
         <div className="text-center p-4">
-          <h1 className="text-xl font-bold text-shardeumBlue">Better Experience on Desktop</h1>
-          <p>Please open this website on a desktop for a better experience.</p>
+          <h1 className=" font-bold text-shardeumBlue font-helvetica-neue-bold text-[48px]">Better Experience on Desktop</h1>
+          <p className="font-helvetica-neue-roman fon-[30px]">Please open this website on a desktop for a better experience.</p>
         </div>
       </div>
     );
@@ -203,7 +203,7 @@ export default function WorkPlace() {
               alt=""
             />
           </div>
-          <p className="text-white text-[24px] font-bold text-center mt-2">{courseContent?.title}</p>
+          <p className="text-white text-[24px] font-helvetica-neue-bold text-center mt-2">{courseContent?.title}</p>
           <div className="mt-10">
             {moduleContent?.map((module, index) => (
               <div key={index}>
@@ -265,11 +265,11 @@ export default function WorkPlace() {
                   style={{
                     width: `${parseInt(currentCourseProgress?.overallCompletionPercentage)}%`,
                   }}
-                  className={`bg-shardeumOrange h-full absolute z-0 top-0 left-0 flex items-center justify-center rounded-2xl text-sm font-semibold text-white`}
+                  className={`bg-shardeumRed h-full absolute z-0 top-0 left-0 flex items-center justify-center rounded-2xl text-sm font-semibold text-white`}
                 ></div>
               </div>
 
-              <div className="mt-2">
+              <div className="mt-2 font-helvetica-neue-roman">
                 Course {parseInt(currentCourseProgress?.overallCompletionPercentage)}% Completed{" "}
               </div>
             </div>

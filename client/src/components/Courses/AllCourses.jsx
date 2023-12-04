@@ -62,8 +62,10 @@ export default function AllCourses() {
         <LogoSvg />
       </div>
       <div className="corse_header z-10 gap-[32px] md:mb-[72px] mb-[42px] w-full items-center flex flex-col justify-center align-middle">
-        <p className="font-helvetica-neue text-[64px] font-extrabold items-center text-center  ">Explore Our Courses</p>
-        <p className="font-[500] text-center text-[18px]">Learn how to build on Shardeum and Join the Community</p>
+        <p className="font-helvetica-neue-bold text-[64px] items-center text-center  ">Explore Our Courses</p>
+        <p className=" font-helvetica-neue-roman text-center text-[18px]">
+          Learn how to build on Shardeum and Join the Community
+        </p>
         <div className="md:w-[80%] h-[48px] text-center items-center flex justify-center align-middle">
           <input
             className="w-full z-30 border-2 border-shardeumBlue align-middle h-full items-center pl-5 focus:border-2 focus:outline-none focus:border-shardeumGreen focus:ring-shardeumGreen active:border-shardeumGreen"
@@ -92,7 +94,7 @@ export default function AllCourses() {
                   }
                 })
                 ?.map((course, index) => {
-                  return course.softDelete != true ? <CourseCard key={index} props={course}/> : "";
+                  return course.softDelete != true ? <CourseCard key={index} props={course} /> : "";
                 })}
           </div>
         )}

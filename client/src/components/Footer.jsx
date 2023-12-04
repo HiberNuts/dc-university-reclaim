@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import nav_logo from "../assets/nav-logo.png";
-import navLogoWhite from "../assets/navlogoWhite.png";
+import navLogoWhite from "../assets/navlogoWhite.svg";
 
 import discord from "../assets/discord.svg";
 
@@ -29,11 +29,12 @@ export default function Footer() {
           <div className="mb-6 md:mb-0">
             <div className="flex items-center">
               <img src={navLogoWhite} className="m-1 h-8" alt="Shardeum Logo" />
-              <span className="self-center text-2xl italic text-white whitespace-nowra">University</span>
             </div>
 
             <div className="flex flex-col gap-4">
-              <span className="text-white font-helvetica-neue">The web3 development platform</span>
+              <span className="text-white font-helvetica-neue">
+                Stay ahead in the future of the internet with best web3 content.
+              </span>
               <div className="flex gap-4">
                 <Link to="https://discord.gg/shardeum" target="_blank">
                   <img
@@ -61,12 +62,10 @@ export default function Footer() {
           </div>
           <div className="flex flex-col gap-2">
             <div>
-              <span className="font-helvetica-neue text-[20px] text-white font-semibold">
-                Subscribe to Our Newsletter
-              </span>
+              <span className="font-helvetica-neue-md text-[20px] text-white ">Subscribe to Our Newsletter</span>
             </div>
             <div className=" text-white ">
-              <span className="text-[16px] text-white">
+              <span className="text-[16px] font-helvetica-neue-roman text-white">
                 The latest news, articles, and resources, sent to your inbox weekly.
               </span>
             </div>
@@ -86,7 +85,7 @@ export default function Footer() {
             </a>
             . All Rights Reserved.
           </span>
-          <div className="text-white flex mt-4 space-x-6 sm:justify-center sm:mt-0">
+          <div className="text-white font-helvetica-neue-roman text-[20px] flex mt-4 space-x-6 sm:justify-center sm:mt-0">
             <Link target="_blank" to="https://Decentraclasses.com">
               <span>
                 Made with{" "}

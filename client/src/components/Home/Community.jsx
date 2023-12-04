@@ -106,44 +106,44 @@ export default function Community() {
         style={{ boxShadow: "8px 8px 0px 0px rgba(0, 0, 0, 0.15)" }}
         className="w-[80%] z-20 border-2 border-black flex flex-col justify-center  rounded-[16px] px-[20px]  sm:px-[100px] py-[50px] bg-shardeumTeelGreen"
       >
-        <p className="text-center items-center flex justify-center align-middle text-[64px] font-[700] font-helvetica-neue">
-          Be a part of an Active Community 🌟
+        <p className="text-center items-center flex justify-center align-middle text-[64px] font-helvetica-neue-bold">
+          Be a part of an Active Community
         </p>
-        <span className="w-full items-center font-light text-[18px] text-center font-helvetica-neue text-slate-700">
+        <span className="md:px-[90px] leading-relaxed items-center font-light text-[18px] text-center font-helvetica-neue-roman text-slate-700">
           Connect with like-minded developers on our social platforms. Dive into discussions, share insights, and
           explore the world of Web3 together. Let's learn, create, and evolve together!
         </span>
 
         <div className="flex flex-wrap mt-[32px] gap-8 justify-evenly align-middle">
           <Link to="https://discord.gg/shardeum" target="_blank">
-            <div className="w-[260px] shadow-[6px_6px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-none cursor-pointer hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-[3px] border-shardeumBlue align-middle justify-evenly">
+            <div className="w-[260px] shadow-[6px_6px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-none cursor-pointer hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-[2px] border-shardeumBlue align-middle justify-evenly">
               <FontAwesomeIcon
                 className="flex flex-col justify-center  align-middle w-[30px] h-[30px]"
                 color="#3A4CFF"
                 icon={faDiscord}
               />
-              <p className="text-[18px] font-bold text-shardeumBlue">Join Our Dsicord</p>
+              <p className="text-[18px] font-helvetica-neue-md text-shardeumBlue">Join Our Dsicord</p>
             </div>
           </Link>
           <Link to="https://twitter.com/shardeum" target="_blank">
-            <div className="w-[260px] cursor-pointer shadow-[6px_6px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-none hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-[3px] border-shardeumBlue align-middle justify-evenly">
+            <div className="w-[260px] cursor-pointer shadow-[6px_6px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-none hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-[2px] border-shardeumBlue align-middle justify-evenly">
               <FontAwesomeIcon
                 className="flex flex-col justify-center  align-middle w-[30px] h-[30px]"
-                color="#3A4CFF"
+                color=""
                 icon={faX}
               />
-              <p className="text-[18px] font-bold text-shardeumBlue">Join Our Twitter</p>
+              <p className="text-[18px] font-helvetica-neue-md text-shardeumBlue">Join Our Twitter</p>
             </div>
           </Link>
           <Link to="https://github.com/Shardeum" target="_blank">
             {" "}
-            <div className="w-[260px] cursor-pointer shadow-[6px_6px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-none hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-[3px] border-shardeumBlue align-middle justify-evenly">
+            <div className="w-[260px] cursor-pointer shadow-[6px_6px_0px_0px_rgba(0,0,0,0.3)] hover:shadow-none hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-[2px] border-shardeumBlue align-middle justify-evenly">
               <FontAwesomeIcon
                 className="flex flex-col justify-center  align-middle w-[30px] h-[30px]"
                 color="#3A4CFF"
                 icon={faGithub}
               />
-              <p className="text-[18px] font-bold text-shardeumBlue">Join Our GitHub</p>
+              <p className="text-[18px] font-helvetica-neue-md text-shardeumBlue">Join Our GitHub</p>
             </div>
           </Link>
         </div>

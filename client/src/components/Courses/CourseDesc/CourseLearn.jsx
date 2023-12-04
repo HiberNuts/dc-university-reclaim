@@ -7,13 +7,7 @@ const TickSvg = () => {
       <g id="tick">
         <rect x="1" y="1" width="32" height="32" rx="16" fill="#A4FF00" />
         <rect x="1" y="1" width="32" height="32" rx="16" stroke="black" strokeWidth="2" />
-        <path
-          id="Vector"
-          d="M23 13.3L14.75 21.7L11 17.8818"
-          stroke="black"
-          strokeWidth="2.4"
-          strokeLinecap="square"
-        />
+        <path id="Vector" d="M23 13.3L14.75 21.7L11 17.8818" stroke="black" strokeWidth="2.4" strokeLinecap="square" />
       </g>
     </svg>
   );
@@ -25,26 +19,22 @@ export const LearnCard = ({ text }) => {
       <span className="align-middle  flex-col justify-center flex">
         <TickSvg />
       </span>
-      <p className="font-[500] text-[18px] text-start font-helvetica-neue">{text}</p>
+      <p className="text-[18px] h-full flex-col flex justify-center text-start font-helvetica-neue-roman">{text}</p>
     </div>
   );
 };
-
-
 
 const CourseLearn = ({ props }) => {
   console.log(props);
   return (
     <div className="w-full md:px-[100px] md:pb-[80px] pb-[80px]  flex justify-center items-center align-middle">
       <div className=" flex flex-col ">
-        <p className="font-helvetica-neue text-[64px] font-extrabold items-center text-center  ">
+        <p className="font-helvetica-neue-bold text-[64px] font-extrabold items-center text-center  ">
           What You'll Learn
         </p>
         <div className="w-full flex justify-center align-middle items-center">
           <div className="learn-div grid md:grid-cols-2  justify-between  mt-6 gap-10">
-         
             {props?.map((prop, index) => (
-              
               <LearnCard key={index} text={prop} />
             ))}
           </div>
