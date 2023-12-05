@@ -1,9 +1,6 @@
 import React from "react";
-import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import "./Acordian.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDownAZ, faExpand, faExpandArrowsAlt, faGreaterThan } from "@fortawesome/free-solid-svg-icons";
 import expand from "../../assets/expand.png";
 
 const AccordionContext = React.createContext({});

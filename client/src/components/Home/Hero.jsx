@@ -3,6 +3,7 @@ import "./Home.css";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import GreenButton from "../button/GreenButton";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Hero = () => {
   return (
@@ -13,17 +14,13 @@ const Hero = () => {
         }
       >
         <div className="relative mt-[40px] heroSection  md:flex min-h-full  z-10 flex flex-col w-full justify-between align-middle text-white bg-shardeumBlue sm:rounded-b-[100px]">
-          <div className="items-center  font-extrabold flex justify-center align-middle w-full text-white heroText">
-            <p className="text-center leading-[120px]  md:w-[70%] w-[90%] lg:text-[120px] md:text-[50px] sm:text-[50px] text-[50px] font-helvetica-neue-bold items-center ">
+          <div className="items-center px-4 md:px-0 font-extrabold flex justify-center align-middle w-full text-white heroText">
+            <p className="text-center leading-[100px] lg:leading-[120px]  lg:text-[120px] md:text-[80px] sm:text-[60px] text-[60px] font-helvetica-neue-bold items-center ">
               Become a
-              <span className="ml-3 font-helvetica-neue-bold mr-3  text-center md:w-[70%] w-[90%] lg:text-[120px] md:text-[50px] sm:text-[50px] font-helvetica-neue items-center  text-shardeumGreen">
+              <span className="ml-3 font-helvetica-neue-bold mr-3  text-center  lg:text-[120px] md:text-[80px] sm:text-[60px] font-helvetica-neue items-center  text-shardeumGreen">
                 Next-Gen
               </span>
               <br />
-              {/* to Becoming */}
-              {/* <span className="ml-3 font-helvetica-neue-bold mr-3 text-center md:w-[70%] w-[90%] lg:text-[80px] md:text-[50px] sm:text-[50px] font-helvetica-neue items-center  text-shardeumGreen">
-                Top-Notch
-              </span> */}
               Web 3.0 Developer
             </p>
             {/* <p className="text-center items-center flex justify-center align-middle"></p> */}
@@ -40,12 +37,21 @@ const Hero = () => {
           </motion.div>
           <div className="w-full mt-2  flex flex-col items-center justify-center align-middle">
             <div className="bg-shardeumWhite sm:px-[200px] sm:pt-[100px] sm:w-auto w-full pt-[100px] items-center flex justify-center align-middle rounded-t-full">
-              <img
+              <LazyLoadImage
+                className="w-[240px] heroLogo h-[220px] items-center text-center"
+                alt=""
+                height="220px"
+                src={
+                  "https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/d3cb5a74a108bb525a92133954dd3221.png"
+                } // use normal <img> attributes as props
+                width="240px"
+              />
+              {/* <img
                 className="w-[240px] heroLogo h-[220px] items-center text-center"
                 src={
                   "https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/d3cb5a74a108bb525a92133954dd3221.png"
                 }
-              />
+              /> */}
             </div>
           </div>
         </div>

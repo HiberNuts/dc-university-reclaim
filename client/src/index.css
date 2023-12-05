@@ -10,16 +10,19 @@
 @font-face {
   font-family: "helvetica-neue-bold";
   src: url("./assets/HelveticaNeueLTProBdCn.otf");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "helvetica-neue-md";
   src: url("./assets/HelveticaNeueLTProMd.otf");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "helvetica-neue-roman";
   src: url("./assets/HelveticaNeueLTProRoman.otf");
+  font-display: swap;
 }
 
 .animate-scale {

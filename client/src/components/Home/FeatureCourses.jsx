@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
 import CourseCard from "../Courses/CourseCard/CourseCard";
 import shortRightArrow from "../../assets/shortRightArrow.svg";
-import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { Link } from "react-router-dom";
-import { ParentContext } from "../../contexts/ParentContext";
+
 import { getAllCourse } from "../../utils/api/CourseAPI";
 
 export default function FeatureCourses() {

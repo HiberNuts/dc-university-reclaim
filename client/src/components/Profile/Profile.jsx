@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext, lazy, Suspense } from "react";
-import { faCheck, faCaretSquareDown, faHandPointRight, faRepeat } from "@fortawesome/free-solid-svg-icons";
+import { faCaretSquareDown, faHandPointRight, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import mailSVG from "./mailSVG.svg";
 import workSVG from "./workSVG.svg";
-import pencil from "./pencilSVG.svg";
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import axios from "axios";
@@ -181,9 +180,8 @@ const Profile = ({ isOpen, closeModal }) => {
                       <Listbox.Button className="relative w-full flex-row cursor-default rounded-lg bg-gray-50 py-2 text-left border border-gray-300 text-gray-900 text-sm focus:ring-shardeumOrange focus:border-shardeumOrange shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 bg-white">
                         <div className="px-2 flex justify-between align-middle h-full w-full">
                           <span className="block truncate">{formData.designation || "Web3 Beginner"}</span>
-                          {/* <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"> */}
+
                           <FontAwesomeIcon icon={faCaretSquareDown} color="black" />
-                          {/* </span> */}
                         </div>
                       </Listbox.Button>
                       <Transition
@@ -246,7 +244,6 @@ const Profile = ({ isOpen, closeModal }) => {
                 <ProfileLinks img={workSVG} title={formData.designation} />
               </div>
               <div className="w-[100%] justify-center align-middle flex">
-
                 <ProfileButton onClick={() => setisEditing(true)} text={"Edit Profile"} />
               </div>
             </div>
@@ -289,9 +286,7 @@ const Profile = ({ isOpen, closeModal }) => {
                 )}
               </div>
 
-              <p className="font-helvetica-neue-bold text-[56px] items-start mt-10 ">
-                Welcome, {formData.name}
-              </p>
+              <p className="font-helvetica-neue-bold text-[56px] items-start mt-10 ">Welcome, {formData.name}</p>
 
               <span className="font-helvetica-neue-roman text-[18px] font-[500]">
                 What a wonderful day it is to explore new knowledge. Today brims with possibilities and fresh knowledge

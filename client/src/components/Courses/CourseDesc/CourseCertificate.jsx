@@ -1,9 +1,6 @@
 import React, { useLayoutEffect, useState } from "react";
-import grid from "../../../assets/Grid.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { motion, useMotionValue, useTransform } from "framer-motion";
-import GreenButton from "../../button/GreenButton";
+
 
 const useTruncatedElement = ({ ref }) => {
   const [isTruncated, setIsTruncated] = useState(false);
