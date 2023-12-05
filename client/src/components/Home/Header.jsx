@@ -10,6 +10,7 @@ import axios from "axios";
 import { useAccount } from "wagmi";
 import { ParentContext } from "../../contexts/ParentContext";
 import GreenButton from "../button/GreenButton";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -81,7 +82,7 @@ export default function Header() {
           <div className="flex items-center h-full justify-between">
             <Link to="/">
               <div className="flex items-center flex-row w-full h-full gap-2">
-                <img src={`${homeRoute ? navLogoWhite : navLogoBlack} `} alt="Logo" className="w-[280px] h-[28px]" />
+                <LazyLoadImage alt="" height="28px" src={`${homeRoute ? navLogoWhite : navLogoBlack} `} width="280px" />
               </div>
             </Link>
             <ul className="hidden font-helvetica-neue-md lg:flex items-center xl:gap-9 lg:gap-6 ">

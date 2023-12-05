@@ -18,7 +18,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { ParentProvider } from "./contexts/ParentContext";
 import ScrollToTop from "./ScrollToTop";
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
+const { chains, publicClient } = configureChains(
   [mainnet, goerli, polygonMumbai, polygon, shardeumSphinx],
   [alchemyProvider({ apiKey: "7wSu45FYTMHUO4HJkHjQwX4HFkb7k9Ui" }), publicProvider()]
 );
