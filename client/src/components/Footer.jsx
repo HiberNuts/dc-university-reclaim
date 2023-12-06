@@ -9,6 +9,7 @@ import github from "../assets/github.svg";
 import OrangeButton from "./button/OrangeButton";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export default function Footer() {
   const location = useLocation();
@@ -28,7 +29,13 @@ export default function Footer() {
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
             <div className="flex items-center">
-              <img src={navLogoWhite} className="m-1 h-8" alt="Shardeum Logo" />
+              <LazyLoadImage
+                style={{ width: "280px", height: "28px" }}
+                alt=""
+                height="28px"
+                src={navLogoWhite}
+                width="280px"
+              />
             </div>
 
             <div className="flex flex-col gap-4">

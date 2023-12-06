@@ -46,8 +46,6 @@ module.exports = {
         "font-awesome-5-free": "'Font Awesome 5 Free'",
         "source-sans-pro": "'Source Sans Pro'",
         // helvetica: "Helvetica",
-        SpaceGrotesk: "Space Grotesk",
-        satoshi: "Satoshi",
         mdsans: "DM Sans",
         "helvetica-neue-bold": ["helvetica-neue-bold"],
         "helvetica-neue-md": ["helvetica-neue-md"],

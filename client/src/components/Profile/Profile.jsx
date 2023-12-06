@@ -9,7 +9,7 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { ParentContext } from "../../contexts/ParentContext";
 const ProfileCourses = lazy(() => import("./ProfileCourses"));
-import logo from "../../assets/navlogoBlack.png";
+import logo from "../../assets/navlogoBlack.svg";
 import ProfileButton from "../button/ProfileButton";
 
 const ProfileLinks = ({ img, title }) => {
@@ -56,10 +56,6 @@ const Profile = ({ isOpen, closeModal }) => {
     fetchUserData();
   }, [loggedInUserData]);
 
-  // useEffect(() => {
-  //   setloggedInUserData({ ...userData, accessToken: loggedInUserData.accessToken })
-
-  // }, [userData])
 
   const handleChange = (e) => {
     const { name, value } = e.target;

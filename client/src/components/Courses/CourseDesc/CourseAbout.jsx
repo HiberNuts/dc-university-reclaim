@@ -1,5 +1,4 @@
 import React, { useLayoutEffect, useState } from "react";
-import grid from "../../../assets/Grid.png";
 
 const useTruncatedElement = ({ ref }) => {
   const [isTruncated, setIsTruncated] = useState(false);

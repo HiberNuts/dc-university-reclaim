@@ -3,8 +3,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import "./Acordian.scss";
 import whiteExpand from "../../assets/whiteArrow.svg";
-import lock from "../../assets/lock.svg";
-import tick from "../../assets/tick.svg";
+
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
