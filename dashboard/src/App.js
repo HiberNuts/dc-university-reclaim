@@ -3,7 +3,6 @@ import { DataCard } from './Components/DataCard/DataCard';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { PieChart } from '@mui/x-charts/PieChart';
-import { BarChart } from '@mui/x-charts/BarChart';
 import { Button } from '@mui/material';
 import './App.css';
 
@@ -15,13 +14,6 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const columns = [
-    { field: 'username', headerName: 'Username', flex: 0.2 },
-    { field: 'email', headerName: 'Email', flex: 0.2 },
-    { field: 'walletAddress', headerName: 'Wallet Address', flex: 0.2 },
-    { field: 'designation', headerName: 'Designation', flex: 0.2 },
-    { field: 'portfolio', headerName: 'Portfolio', flex: 0.2 },
-  ];
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');

@@ -76,18 +76,15 @@ const Unique = () => {
     setimageUrl(returnImageUrl(imageIndex));
   }, [imageIndex]);
   return (
-    <div className=" md:flex font-helvetica-neue gap-8 items-center flex flex-col w-full sm:py-[60px] py-[20px] justify-center align-middle text-white bg-shardeumBlue">
+    <div className="px-[20px]  sm:px-[0px] md:flex font-helvetica-neue gap-8 items-center flex flex-col w-full sm:py-[60px] py-[40px] justify-center align-middle text-white bg-shardeumBlue">
       <div className="items-center  sm:w-[80%] text-white lg:text-[64px] md:mt-10 md:text-[64px] sm:text-[36px] text-[36px]">
         <p className="text-center items-center leading-none flex justify-center align-middle font-helvetica-neue-bold font-extrabold ">
-          Become the Next Big Web3 Developer with Shardeum University
+          Become the Next Leading Web3 Developer
         </p>
       </div>
       <div className="subHeading sm:w-[80%] text-center  flex justify-center align-middle  items-center text-white md:text-[18px] sm:[18px] text-[18px]">
         <span className="text-white leading-relaxed font-helvetica-neue-md text-[18px]">
-          Unlike Web2, becoming a Web3 developer or even a founder is within your reach with just an internet
-          connection, a laptop, and mobility. At Shardeum University, we're dedicated to preparing you for success
-          through innovative programs like Reverse Day Demos, Founder’s Bootcamps, and Interactive Coding Workshops
-          based on our own real word experiences.
+          Transform into a Web3 developer with Shardeum's real-world programs
         </span>
       </div>
 
@@ -104,7 +101,7 @@ const Unique = () => {
               <div className="flex items-center gap-[10px] relative self-stretch w-full flex-[0_0_auto]">
                 <TickSvg />
                 <div className="relative w-fit mt-[-1.00px] text-[28px]  leading-[30px] font-helvetica-neue-bold">
-                  Choose your Skill Stream(s)
+                  Choose your Favorite Courses
                 </div>
               </div>
               <p className="font-helvetica-neue-roman leading-normal text-[16px] font-extralight text-slate-700">
@@ -148,9 +145,8 @@ const Unique = () => {
                 </div>
               </div>
               <p className="font-helvetica-neue-roman text-[16px] leading-normal font-extralight text-slate-700">
-                Gain insights from seasoned Web3 professionals and mentors across Shardeum and other projects. Benefit
-                from personalized guidance, industry wisdom, and support to navigate the complexities of a dynamic
-                blockchain ecosystem.
+                Benefit from personalized guidance, industry wisdom, and support from seasoned experts across Shardeum
+                and its partner projects to navigate the complexities of a dynamic blockchain ecosystem.
               </p>
             </div>
           </div>

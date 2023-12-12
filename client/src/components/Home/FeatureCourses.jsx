@@ -20,12 +20,12 @@ export default function FeatureCourses() {
   }, []);
 
   return (
-    <div className="w-full flex flex-col bg-shardeumPink p-[80px] text-black items-center  justify-center align-middle">
+    <div className="w-full flex flex-col bg-shardeumPink p-[40px] sm:p-[80px] text-black items-center  justify-center align-middle">
       <div className="flex flex-col w-full ">
         <p className="font-helvetica-neue-bold text-[64px]  items-center text-center  ">Explore Our Courses</p>
         <div className="flex w-full my-10 justify-center flex-wrap gap-5">
           {allCourseInfo &&
-            allCourseInfo?.map((course, index) => {
+            allCourseInfo?.slice(0, 3)?.map((course, index) => {
               return course.softDelete != true ? <CourseCard key={index} props={course} /> : "";
             })}
         </div>

@@ -132,6 +132,7 @@ const CourseHeader = ({ props }) => {
         {isCourseEnrolled ? (
           <div>
             <GreenButton
+              boxShadow={true}
               onClick={() => {
                 if (isConnected) {
                   navigate(`/workplace/${generateSlug(props?.title)}`);

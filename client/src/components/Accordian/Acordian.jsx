@@ -2,6 +2,7 @@ import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import "./Acordian.css";
 import expand from "../../assets/expand.png";
+import faq from "../../assets/faq.svg";
 
 const AccordionContext = React.createContext({});
 const useAccordion = () => React.useContext(AccordionContext);
@@ -32,9 +33,7 @@ function Accordion({ children, multiple, defaultIndex }) {
 
 function AccordionItem({ children }) {
   return (
-    <div className="AccordionItem font-helvetica-neue text-[18px] font-[100px] border-2 shadow-[5px_5px_0px_0px_rgba(0,0,0,0.2)] border-black">
-      {children}
-    </div>
+    <div className="AccordionItem font-helvetica-neue text-[18px] font-[100px] border-2  border-black">{children}</div>
   );
 }
 
@@ -47,7 +46,11 @@ function AccordionHeader({ text }) {
       onClick={() => onChangeIndex(index)}
     >
       <div className="flex w-full justify-between align-middle h-full ">
-        <span className=" text-[20px] font-helvetica-neue-md">{text}</span>
+        <div className="flex items-start justify-start align-top w-full h-full">
+          <img src={faq} className="mr-3 mt-1 flex-col flex  " />
+          <span className=" text-[20px] font-helvetica-neue-md">{text}</span>
+        </div>
+
         <img
           className={`w-6 sm:w-6 h-6 mt-3 ml-2 sm:mt-0 sm:ml-0 transition-transform duration-300 ${
             isActive ? "rotate-0" : "rotate-180"

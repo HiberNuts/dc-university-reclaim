@@ -25,21 +25,20 @@ export default function Footer() {
 
   return (
     <footer className={`p-4 bg-shardeumBlue sm:p-6 ${location.pathname.includes("/workplace") ? "hidden" : "block"}`}>
-      <div className={`mx-auto  max-w-screen-xl`}>
-        <div className="md:flex md:justify-between">
-          <div className="mb-6 md:mb-0">
-            <div className="flex items-center">
-              <LazyLoadImage
-                style={{ width: "280px", height: "28px" }}
-                alt=""
-                height="28px"
-                src={navLogoWhite}
-                width="280px"
-              />
-            </div>
+      <div className={`w-full py-[40px] md:py-0 md:px-[100px]`}>
+        <div className="flex-col md:flex-row flex gap-10 ms:gap-5 md:justify-between">
+          <div className="flex flex-col justify-between gap-6 md:gap-0">
+            <LazyLoadImage
+              className="-ml-4"
+              style={{ width: "280px", height: "28px" }}
+              alt=""
+              height="28px"
+              src={navLogoWhite}
+              width="280px"
+            />
 
             <div className="flex flex-col gap-4">
-              <span className="text-white font-helvetica-neue">
+              <span className="text-white text-[16px] font-helvetica-neue">
                 Stay ahead in the future of the internet with best web3 content.
               </span>
               <div className="flex gap-4">
@@ -67,7 +66,7 @@ export default function Footer() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-6">
             <div>
               <span className="font-helvetica-neue-md text-[20px] text-white ">Subscribe to Our Newsletter</span>
             </div>
@@ -76,8 +75,8 @@ export default function Footer() {
                 The latest news, articles, and resources, sent to your inbox weekly.
               </span>
             </div>
-            <div className="flex gap-2">
-              <input type="email" placeholder="Enter your email" className="rounded-[10px]" />
+            <div className="flex flex-wrap gap-4">
+              <input type="email" placeholder="Enter your email" className="rounded-[10px] p-2 " />
               <OrangeButton title={"Subscribe"} style={"py-[12px] px-[22px] text-[16px]"} />
             </div>
           </div>
@@ -92,7 +91,7 @@ export default function Footer() {
             </a>
             . All Rights Reserved.
           </span>
-          <div className="text-white font-helvetica-neue-roman text-[20px] flex mt-4 space-x-6 sm:justify-center sm:mt-0">
+          <div className="text-white font-helvetica-neue-roman text-18px] flex mt-4 space-x-6 sm:justify-center sm:mt-0">
             <Link target="_blank" to="https://Decentraclasses.com">
               <span>
                 Made with{" "}

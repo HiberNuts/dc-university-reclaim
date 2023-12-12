@@ -5,12 +5,9 @@ import App from './App';
 import {
   createBrowserRouter,
   RouterProvider,
-  useLocation,
 } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
-import { SideNav } from './Components/SideNav/SideNav';
-import { TopBar } from './Components/TopBar/TopBar';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import CourseDetailsPage from './CourseDetailsPage';
 import Login from './Components/Login/Login';
 import Layout from './Components/Layout/Layout';

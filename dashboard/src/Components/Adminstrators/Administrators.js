@@ -66,8 +66,6 @@ const Administrators = () => {
         setTimeout(async () => {
           toast.success('Registration successful!', { id: toastId });
 
-          const result = await response.json();
-
           setEmail('');
           setPassword('');
           setOpenModal(false);

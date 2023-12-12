@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import logo from '../../assets/university.svg';
-import { RiLoginBoxFill } from "react-icons/ri";
 
 import './Login.css';
 

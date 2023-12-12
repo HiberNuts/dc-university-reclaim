@@ -1,6 +1,5 @@
 import React from "react";
 import "./SideNav.css";
-import { ImStatsDots } from "react-icons/im";
 import { RiAdminFill } from "react-icons/ri";
 import { GiWhiteBook } from "react-icons/gi";
 import logo from '../../assets/nav.png'

@@ -3,11 +3,12 @@ import Acordian from "../Accordian/Acordian";
 
 const FaqHome = () => {
   return (
-    <div className="w-full font-helvetica-neue my-[80px] flex flex-col items-center justify-center align-middle gap-4">
-      <p className="text-center items-center flex justify-center align-middle text-[64px] font-[700] font-helvetica-neue-bold">
+    <div className="w-full px-[20px] font-helvetica-neue my-[80px] flex flex-col items-center justify-center align-middle gap-4">
+      <p className="text-center items-center flex justify-center align-middle sm:text-[64px] text-[45px] font-[700] font-helvetica-neue-bold">
         Frequently Asked Questions
       </p>
-      <div className="w-[80%] md:mt-10 gap-4 grid">
+
+      <div className="learn-div md:px-[100px]  items-start grid md:grid-cols-2  flex-wrap  justify-start  w-full mt-6 gap-10">
         <Acordian
           title={"Why Are You Launching Shardeum University Now?"}
           desc={
@@ -47,7 +48,7 @@ const FaqHome = () => {
         <Acordian
           title={"How can I mint my NFT certificates?"}
           desc={
-            "Upon 100% completion of a course, you will be able to mint your NFT certificates. These will be your on-chain credential for potential future employees, for your memories to look back to."
+            "Once you achieve 100% completion of a course, you'll have the opportunity to mint your own NFT certificates. These will serve as verifiable on-chain credentials. Keep in mind, these NFTs aren't just symbols of achievement; they hold future potential, such as, enhancing your appeal to employers, empowering you with the skills needed for successful entrepreneurship, and showcasing your commitment to innovation and continuous learning in today's technology-driven world."
           }
         />
       </div>
