@@ -53,11 +53,12 @@ function CourseDetailsPage() {
 
   const hardDelete = async () => {
     try {
-      const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/cose/getCourse?id=${params.courseId}`)
+      const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/course/getCourse?id=${params.courseId}`)
+      if (response.status == 200) {
+        toast("course Deleted")
+        navigate(-1)
+      }
 
-      const result = await response.json();
-      toast("course Deleted")
-      navigate(-1)
     } catch (error) {
       toast.error(`Error while deleting course`);
     }

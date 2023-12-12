@@ -31,7 +31,7 @@ const Answer = ({ choice, text, onSelectAnswer, index, isCorrect, currentQuizCom
 
   return (
     <div className="w-[100%]">
-      <label className={`${answerStyle.label} ${answerStyle.correct} ${answerStyle.incorrect} ${answerStyle.disable}`}>
+      <label className={`${answerStyle.label} font-helvetica-neue-roman ${answerStyle.correct} ${answerStyle.incorrect} ${answerStyle.disable}`}>
         <div className={answerStyle.customRadio}>{INT_TO_ABC_MAP[index].toUpperCase()}</div>
         <input
           type="radio"

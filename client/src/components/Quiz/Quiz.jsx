@@ -238,7 +238,7 @@ const Quiz = ({
         <>
           {moduleQuiz.slice(0, moduleQuiz?.length).map((question, index) => (
             <div key={index}>
-              <span className="text-[18px] text-shardeumBlue font-satoshi font-[700]">Question {index + 1}</span>
+              <span className="text-[18px] font-helvetica-neue-roman text-shardeumBlue font-satoshi font-[700]">Question {index + 1}</span>
               <Question currentQuiz={question} />
               <AnswerList
                 currentQuizCompleted={currentQuizCompleted}

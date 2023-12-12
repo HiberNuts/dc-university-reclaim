@@ -39,6 +39,7 @@ exports.deleteCourseById = async (req, res) => {
     const course = await Course.findByIdAndDelete({ _id: req.query.id });
     res.status(200).send({ message: "Successfully Deleted", course });
   } catch (error) {
+    console.log("error in deleting course", error);
     res.status(500).send({ message: error.message || "Internal Server Error", error });
   }
 };

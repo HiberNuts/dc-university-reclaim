@@ -10,7 +10,7 @@ import {
   // talismanWallet,
   metaMaskWallet,
 } from "@rainbow-me/rainbowkit/wallets";
-import { WagmiConfig, configureChains, createConfig, createStorage } from "wagmi";
+import { WagmiConfig, configureChains, createConfig } from "wagmi";
 import { mainnet, polygon, polygonMumbai, goerli, shardeumSphinx } from "wagmi/chains";
 import { RainbowKitProvider, connectorsForWallets, darkTheme } from "@rainbow-me/rainbowkit";
 import { alchemyProvider } from "wagmi/providers/alchemy";

@@ -165,35 +165,7 @@ exports.courseEnrolled = async (req, res) => {
       // console.log(user.enrolledCourses[enrolledCourseIndex].modules.length, "check user2");
       // await user.save();
 
-      sendSmtpEmail.subject = "{{params.subject}}";
-      // sendSmtpEmail.htmlContent =
-      //   "<html><body><h1>Common: This is my first transactional email {{params.parameter}}</h1></body></html>";
-      sendSmtpEmail.sender = {
-        name: "Shardeum Academy",
-        email: "no-reply@shardeum.com",
-      };
-      sendSmtpEmail.to = [{ email: user.email, name: user.name }];
-      sendSmtpEmail.replyTo = { email: config.EMAILID, name: "sample-name" };
-      // sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };
-      sendSmtpEmail.templateId = 3;
-      sendSmtpEmail.params = {
-        // parameter: "My param value",
-        subject: `Thanks for enrolling to ${newCourse.title}`,
-        link: config.FRONT_END_URL,
-        courseTitle: newCourse?.title,
-        courseDescription: newCourse?.description,
-      };
 
-      await apiInstance.sendTransacEmail(sendSmtpEmail).then(
-        function (data) {
-          console.log("API called successfully. Returned data: " + JSON.stringify(data));
-        },
-        function (error) {
-          console.error(error);
-        }
-      );
-
-      console.log("successfully sent email");
 
       if (!newCourse.usersEnrolled.some((userId) => userId.equals(user._id))) {
         newCourse.usersEnrolled.push(user._id);
@@ -214,6 +186,36 @@ exports.courseEnrolled = async (req, res) => {
       course.usersEnrolled.push(user._id);
       await course.save();
       console.log("User added to the course's usersEnrolled array");
+
+      sendSmtpEmail.subject = "{{params.subject}}";
+      // sendSmtpEmail.htmlContent =
+      //   "<html><body><h1>Common: This is my first transactional email {{params.parameter}}</h1></body></html>";
+      sendSmtpEmail.sender = {
+        name: "Shardeum Academy",
+        email: "no-reply@shardeum.com",
+      };
+      sendSmtpEmail.to = [{ email: user.email, name: user.username }];
+      sendSmtpEmail.replyTo = { email: config.EMAILID, name: "sample-name" };
+      // sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };
+      sendSmtpEmail.templateId = 3;
+      sendSmtpEmail.params = {
+        // parameter: "My param value",
+        subject: `Thanks for enrolling to ${course.title}`,
+        link: config.FRONT_END_URL,
+        courseTitle: course?.title,
+        courseDescription: course?.description,
+      };
+
+      await apiInstance.sendTransacEmail(sendSmtpEmail).then(
+        function (data) {
+          console.log("API called successfully. Returned data: " + JSON.stringify(data));
+        },
+        function (error) {
+          console.error("Error while enroll course mail", error);
+        }
+      );
+
+      console.log("successfully sent email");
     } else {
       console.log("User already added in the course's usersEnrolled array");
     }
@@ -245,7 +247,7 @@ exports.courseEnrolled = async (req, res) => {
       courseId: courseId,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error while login", error);
     res.status(500).send({ message: error.message || "Internal Server Error" });
   }
 };
@@ -269,7 +271,7 @@ exports.userProgress = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error(error);
+    console.error("Error while fetching user progress", error);
     res.status(500).send({ message: error.message || "Internal Server Error" });
   }
 };
@@ -295,7 +297,7 @@ exports.updateCourseProgress = async (req, res) => {
       res.status(404).send({ message: "Enrolled course not found" });
     }
   } catch (error) {
-    console.error(error);
+    console.error("Error while updating user progress", error);
     res.status(500).send({ message: error.message || "Internal Server Error" });
   }
 };
@@ -364,7 +366,7 @@ exports.userCourseProgressPercentage = async (req, res) => {
       res.status(404).send({ message: "Enrolled course not found" });
     }
   } catch (error) {
-    console.error(error);
+    console.error("Error while fetching user course progress", error);
     res.status(500).send({ message: error.message || "Internal Server Error" });
   }
 };
