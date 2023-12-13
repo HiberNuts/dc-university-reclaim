@@ -80,25 +80,36 @@ exports.syncData = async (req, res) => {
       };
       const existingCourse = await Course.findOne({ strapiId: courseData.id });
 
-
       if (existingCourse) {
-
+        arrModuleId = []
         // Update existing modules, chapters, quizzes
         for (const moduleItem of courseDetails.module) {
           const existingModule = existingCourse.module.find(m => m.strapiId === moduleItem.id);
           if (existingModule) {
+            console.log("inside existing");
             existingModule.moduleTitle = moduleItem.moduleTitle;
             // Update chapters
+            arrChapterId = []
+
             for (const chapterItem of moduleItem.chapter) {
               const existingChapter = existingModule.chapter.find(c => c.strapiId === chapterItem.id);
               if (existingChapter) {
                 existingChapter.title = chapterItem.title;
                 existingChapter.content = chapterItem.content;
               } else {
-                existingModule.chapter.push({ ...chapterItem }); // Add new chapter
+                let resChapter = { ...chapterItem };
+                resChapter.strapiId = resChapter.id;
+                delete resChapter.id;
+                existingModule.chapter.push(resChapter); // Add new chapter
               }
+              arrChapterId.push(chapterItem.id)
             }
+            // delete chapters
+    
+            existingModule.chapter =  existingModule.chapter.filter(c => (arrChapterId.includes(c.strapiId)))
             // Update quizzes
+            arrQuizId = []
+
             for (const quizItem of moduleItem.quizes) {
               const existingQuiz = existingModule.quizzes.find(q => q.strapiId === quizItem.id);
               if (existingQuiz) {
@@ -110,13 +121,41 @@ exports.syncData = async (req, res) => {
                 existingQuiz.d = quizItem.d;
                 existingQuiz.answer = quizItem.answer;
               } else {
-                existingModule.quizzes.push({ ...quizItem }); // Add new quiz
+                let resQuiz = { ...quizItem };
+                resQuiz.strapiId = resQuiz.id;
+                delete resQuiz.id;
+                existingModule.quizzes.push(resQuiz); // Add new quiz
               }
+              arrQuizId.push(quizItem.id)
             }
+            // delete quizzes
+            existingModule.quizzes = existingModule.quizzes.filter(q => (arrQuizId.includes(q.strapiId)))
+            
           } else {
-            existingCourse.module.push({ ...moduleItem }); // Add new module
+            console.log('lesgoo new module')
+            let resModule = { ...moduleItem };
+            resModule.strapiId = resModule.id;
+            delete resModule.id;
+
+            for (let key in resModule) {
+              console.log(key, resModule[key])
+              if (key == 'chapter' || key == 'quizes') {
+                console.log(key, resModule[key])
+                for (let i = 0; i < resModule[key].length; i++) {
+                  resModule[key][i].strapiId = resModule[key][i].id;
+                  delete resModule[key][i].id
+                }
+
+              }
+              console.log("after", resModule[key])
+
+            }
+            existingCourse.module.push(resModule); // Add new module
           }
+          arrModuleId.push(moduleItem.id)
         }
+        existingCourse.module = existingCourse.module.filter(m => arrModuleId.includes(m.strapiId))
+
 
         // Save updated course
         await existingCourse.save();
