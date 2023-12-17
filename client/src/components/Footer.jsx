@@ -98,8 +98,7 @@ export default function Footer() {
                 <span className="animate-scale" role="img" aria-label="heart">
                   ❤️
                 </span>{" "}
-                by Decentraclasses.com
-              </span>
+                by Decentraclasses.com              </span>
             </Link>
           </div>
         </div>

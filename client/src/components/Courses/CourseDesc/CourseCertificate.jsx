@@ -1,7 +1,6 @@
 import React, { useLayoutEffect, useState } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
-
 const useTruncatedElement = ({ ref }) => {
   const [isTruncated, setIsTruncated] = useState(false);
   const [isShowingMore, setIsShowingMore] = useState(false);
@@ -47,9 +46,9 @@ const CourseCertificate = ({ props }) => {
   return (
     <motion.div className="w-full transition ease-in-out delay-150 flex-wrap  flex justify-center items-center align-middle text-white bg-shardeumBlue">
       <div className="flex gap-6 flex-col px-10 py-12 md:w-[65%]">
-        <div className=" flex  flex-col text-[64px] font-helvetica-neue-bold">Earn Your Certificate</div>
+        <div className=" flex  flex-col sm:text-[64px] text-[45px] font-helvetica-neue-bold">Earn Your Certificate</div>
         <div className="md:w-[80%] flex flex-col gap-6  transition ease-in-out delay-150">
-          <p ref={ref} className={`text-[18px] break-words font-helvetica-neue-md  `}>
+          <p ref={ref} className={`sm:text-[18px] text-[16px] break-words font-helvetica-neue-roman  `}>
             Complete the Ethereum Developer Bootcamp to ear an NFT Certificate. Complete the Ethereum Developer Bootcamp
             to ear an NFT Certificate. Complete the Ethereum Developer Bootcamp to ear an
           </p>

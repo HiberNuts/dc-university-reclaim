@@ -7,7 +7,7 @@ import "./WorkPlace.scss";
 import Quiz from "../Quiz/Quiz";
 import { ParentContext } from "../../contexts/ParentContext";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import ScrollToTop from "../../ScrollToTop";
 import NftModal from "./component/NftModal";
 import { getUserCourseProgressPercentage } from "../../utils/api/CourseAPI";
@@ -171,8 +171,12 @@ export default function WorkPlace() {
     return (
       <div className="flex justify-center items-center h-screen">
         <div className="text-center p-4">
-          <h1 className=" font-bold text-shardeumBlue font-helvetica-neue-bold text-[48px]">Better Experience on Desktop</h1>
-          <p className="font-helvetica-neue-roman fon-[30px]">Please open this website on a desktop for a better experience.</p>
+          <h1 className=" font-bold text-shardeumBlue font-helvetica-neue-bold text-[48px]">
+            Better Experience on Desktop
+          </h1>
+          <p className="font-helvetica-neue-roman fon-[30px]">
+            Please open this website on a desktop for a better experience.
+          </p>
         </div>
       </div>
     );
@@ -180,10 +184,13 @@ export default function WorkPlace() {
 
   return (
     <div className="w-full  mt-[10vh] h-full flex justify-between align-middle">
+      <Toaster />
       <ScrollToTop />
       <NftModal
+        toast={toast}
         userCourseProgress={userCourseProgress}
         courseId={courseContent?._id}
+        courseName={courseContent?.title}
         userId={loggedInUserData?._id}
         accessToken={loggedInUserData?.accessToken}
         loggedInUserData={loggedInUserData}

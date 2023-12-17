@@ -228,7 +228,7 @@ const Quiz = ({
   const checkAnswer = () => isCorrect && setScore(score + 1);
   //   console.log(answerArray);
   return (
-    <div className=" w-full ">
+    <div className=" w-full font-helvetica-neue-roman">
       <Toaster />
 
       {console.log(moduleQuiz)}
@@ -238,7 +238,7 @@ const Quiz = ({
         <>
           {moduleQuiz.slice(0, moduleQuiz?.length).map((question, index) => (
             <div key={index}>
-              <span className="text-[18px] font-helvetica-neue-roman text-shardeumBlue font-satoshi font-[700]">Question {index + 1}</span>
+              <span className="text-[18px] font-helvetica-neue-roman text-shardeumBlue ">Question {index + 1}</span>
               <Question currentQuiz={question} />
               <AnswerList
                 currentQuizCompleted={currentQuizCompleted}
@@ -263,7 +263,7 @@ const Quiz = ({
         <ResultPage score={score} quizzes={moduleQuiz} onClickTry={handleClickTry} answerArray={answerArray} />
       )}
       {console.log(answerArray.length)}
-      { <SuccessModal isOpen={modalIsOpen} setIsOpen={setModalIsOpen} />}
+      {<SuccessModal currentModule={currentModule} isOpen={modalIsOpen} setIsOpen={setModalIsOpen} />}
     </div>
   );
 };

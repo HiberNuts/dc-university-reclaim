@@ -101,7 +101,7 @@ const Unique = () => {
               <div className="flex items-center gap-[10px] relative self-stretch w-full flex-[0_0_auto]">
                 <TickSvg />
                 <div className="relative w-fit mt-[-1.00px] text-[28px]  leading-[30px] font-helvetica-neue-bold">
-                  Choose your Favorite Courses
+                  Choose Your Favorite Courses
                 </div>
               </div>
               <p className="font-helvetica-neue-roman leading-normal text-[16px] font-extralight text-slate-700">

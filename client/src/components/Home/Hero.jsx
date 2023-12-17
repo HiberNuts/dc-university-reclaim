@@ -16,18 +16,18 @@ const Hero = () => {
         <div className="relative sm:mt-[40px] heroSection  md:flex min-h-full  z-10 flex flex-col w-full justify-between align-middle text-white bg-shardeumBlue sm:rounded-b-[100px]">
           <div className="items-center px-4 md:px-0 font-extrabold flex justify-center align-middle w-full text-white heroText">
             <p className="text-center leading-[80px] lg:leading-[120px]  lg:text-[120px] md:text-[80px] sm:text-[60px] text-[60px] font-helvetica-neue-bold items-center ">
-              Your One-Stop
+              Your
               <span className="ml-3 font-helvetica-neue-bold mr-3  text-center  lg:text-[120px] md:text-[80px] sm:text-[60px] font-helvetica-neue items-center  text-shardeumGreen">
-                Gateway
+                One-Stop Gateway
               </span>
               <br />
-              to master Web3
+              to Master Web3
             </p>
             {/* <p className="text-center items-center flex justify-center align-middle"></p> */}
           </div>
           <div className="subHeading mt-6 text-center w-full flex justify-center align-middle leading-[36px] items-center text-white md:text-[24px] sm:[24px] text-[20px]">
             <span className="text-white  text-[24px] md:w-[70%] w-[90%] font-helvetica-neue-roman ">
-              Stay ahead in the future of the internet with Shardeum University
+              Stay ahead in the future of the internet with Shardeum University!
             </span>
           </div>
           <motion.div className="w-full flex justify-center align-middle my-[40px]">

@@ -62,7 +62,9 @@ export default function AllCourses() {
         <LogoSvg />
       </div>
       <div className="corse_header z-10 gap-[32px] md:mb-[72px] mb-[42px] w-full items-center flex flex-col justify-center align-middle">
-        <p className="font-helvetica-neue-bold text-[64px] items-center text-center  ">Explore Our Courses</p>
+        <p className="font-helvetica-neue-bold sm:text-[64px] text-[42px] items-center text-center  ">
+          Explore Our Courses
+        </p>
         <p className=" font-helvetica-neue-roman text-center text-[18px]">
           Learn how to build on Shardeum and Join the Community
         </p>

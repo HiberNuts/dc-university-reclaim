@@ -23,7 +23,8 @@ const { chains, publicClient } = configureChains(
   [alchemyProvider({ apiKey: "7wSu45FYTMHUO4HJkHjQwX4HFkb7k9Ui" }), publicProvider()]
 );
 
-const projectId = "b2024bb978e05dbfcd98d3ca8318ee07";
+// const projectId = "b2024bb978e05dbfcd98d3ca8318ee07";
+const projectId = "5158325ee44f36fbacaa99525e8c0ab8";
 
 const connectors = connectorsForWallets([
   {

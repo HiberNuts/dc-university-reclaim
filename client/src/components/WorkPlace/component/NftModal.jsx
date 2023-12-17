@@ -1,33 +1,35 @@
 import React, { Fragment, useState, useEffect } from "react";
-
 import { Dialog, Transition } from "@headlessui/react";
 import { MintUserNftAPI } from "../../../utils/api/CourseAPI";
-import toast, { Toaster } from "react-hot-toast";
+import twitter from "../../../assets/twitter.svg";
 
-const NftModal = ({ isOpen, setIsOpen, loggedInUserData, courseId, userCourseProgress }) => {
+const NftModal = ({ toast, isOpen, setIsOpen, courseName, loggedInUserData, courseId, userCourseProgress }) => {
   const [walletAddress, setwalletAddress] = useState(loggedInUserData?.walletAddress);
   const [loading, setloading] = useState(false);
   const [nftMinted, setnftMinted] = useState(false);
   const [TxHash, setTxHash] = useState("dssdsd");
 
   const MintUsreNft = async ({}) => {
-    setloading(true);
-
-    if (walletAddress.length == 0) {
-      toast.error("Please provide wallet address");
-    } else {
-      const result = await MintUserNftAPI({
-        courseId: courseId,
-        accessToken: loggedInUserData?.accessToken,
-        walletAddress: loggedInUserData?.walletAddress,
-      });
-      if (result?.minted == true) {
-        setTxHash(result.TxHash);
-        setnftMinted(true);
-        setloading(false);
+    try {
+      setloading(true);
+      if (walletAddress.length == 0) {
+        toast.error("Please provide wallet address");
+      } else {
+        const result = await MintUserNftAPI({
+          courseId: courseId,
+          accessToken: loggedInUserData?.accessToken,
+          walletAddress: loggedInUserData?.walletAddress,
+        });
+        if (result?.minted == true) {
+          setTxHash(result.TxHash);
+          setnftMinted(true);
+          setloading(false);
+        }
       }
+      setloading(false);
+    } catch (error) {
+      toast.error("Something went Wrong");
     }
-    setloading(false);
   };
 
   const getNFTData = async () => {
@@ -43,7 +45,7 @@ const NftModal = ({ isOpen, setIsOpen, loggedInUserData, courseId, userCoursePro
   return (
     <Transition appear show={isOpen} as={Fragment}>
       {/* <Toaster /> */}
-      <Dialog as="div" className="relative z-10" onClose={() => setIsOpen(false)}>
+      <Dialog as="div" className="relative z-10 font-helvetica-neue-roman" onClose={() => setIsOpen(false)}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -69,12 +71,13 @@ const NftModal = ({ isOpen, setIsOpen, loggedInUserData, courseId, userCoursePro
             >
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title as="h3" className="text-xl font-medium leading-6 text-gray-900">
-                  🎉 Yayyy! Your have completed the course
+                  Kudos on finishing work {courseName}! 🎓
                 </Dialog.Title>
                 <div className="mt-2">
-                  <p className="text-md text-gray-500">Give yourself a pat, you are a blockchain developer now 😎😎</p>
                   <p className="text-md text-gray-500">
-                    We have an epic NFT just for you, provide in your wallet address and we will mint it just for you
+                    Claim your NFT for completing this course here. It's your on-chain proof of expertise in{" "}
+                    {courseName}, valuable asset in today's tech-driven world. Ready for more? Advance your journey in
+                    blockchain and Web3 by enrolling in our next course.
                   </p>
                 </div>
                 <input
@@ -126,6 +129,15 @@ const NftModal = ({ isOpen, setIsOpen, loggedInUserData, courseId, userCoursePro
                     )}
                   </button>
                 </div>
+                <a
+                  target="_blank"
+                  href={`http://twitter.com/intent/tweet?text=Just%20aced%20${courseName}%20at%20%23ShardeumUniversity!%20%F0%9F%8E%93%20Gained%20amazing%20insights%20into%20%23Web3.%20Ready%20to%20put%20these%20blockchain%20skills%20to%20use!%20Check%20out%20their%20courses%20for%20top-notch%20learning.%20%F0%9F%9A%80%20%40Shardeum`}
+                >
+                  <div className="mt-4 flex ">
+                    <span className="mr-2">Share your success on twitter ✨</span>
+                    <img src={twitter} />
+                  </div>
+                </a>
               </Dialog.Panel>
             </Transition.Child>
           </div>

@@ -2,11 +2,11 @@ import React, { Fragment, useState, useEffect } from "react";
 
 import { Dialog, Transition } from "@headlessui/react";
 
-const SuccessModal = ({ isOpen, setIsOpen }) => {
+const SuccessModal = ({ isOpen, setIsOpen, currentModule }) => {
   const handleCloseAndReopen = () => {
     setIsOpen(false);
   };
-
+  console.log(currentModule);
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={() => setIsOpen(false)}>
@@ -33,13 +33,16 @@ const SuccessModal = ({ isOpen, setIsOpen }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full font-helvetica-neue-roman max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title as="h3" className="text-xl font-medium leading-6 text-gray-900">
-                  🎉 Congrats
+                  Congratulations on successfully passing the {currentModule?.moduleTitle} assessment at Shardeum
+                  University!
                 </Dialog.Title>
                 <div className="mt-2">
-                  <p className="text-md text-gray-500">You have successfully completed this module 😎😎</p>
-                  <p className="text-md text-gray-500">Now you can proceed with the next module</p>
+                  <p className="text-md text-gray-500">
+                    Your commitment to excellence is evident. Advance to your next chapter and give your resume an extra
+                    competitive edge.
+                  </p>
                 </div>
 
                 <div className="mt-4">

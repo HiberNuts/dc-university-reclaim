@@ -85,7 +85,7 @@ const CourseHeader = ({ props }) => {
   }, [loggedInUserData, props, isCourseEnrolled]);
 
   return (
-    <div className="flex flex-wrap w-full md:px-[100px] md:pb-[80px] md:pt-[50px]  px-[60px] pb-[64px] justify-between gap-8 align-middle">
+    <div className="flex flex-wrap w-full md:px-[100px]  py-[80px]  sm:px-[60px] px-[30px] justify-between gap-8 align-middle">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="description-div lg:flex-1 flex-wrap flex flex-col gap-[32px]  justify-between">
         <div className="header-div">
@@ -156,7 +156,7 @@ const CourseHeader = ({ props }) => {
         {/* <div className=""> */}
         <img
           style={{ borderRadius: "200px !important" }}
-          className="w-[600px] h-[400px] object-contain rounded-[12px]"
+          className="w-[600px] sm:h-[400px] h-auto object-contain rounded-[12px]"
           src={props?.banner}
         />
         {/* </div> */}

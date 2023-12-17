@@ -39,7 +39,7 @@ module.exports = {
         deepskyblue: "#03a9f4",
       },
       fontFamily: {
-        body: "'satoshi'",
+        body: "helvetica-neue-roman",
         // heading: "helvetica",
         "futura-hv-bt": "'Futura Hv BT'",
         roboto: "Roboto",

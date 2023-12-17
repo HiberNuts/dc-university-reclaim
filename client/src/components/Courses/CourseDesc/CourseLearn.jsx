@@ -27,9 +27,9 @@ export const LearnCard = ({ text }) => {
 const CourseLearn = ({ props }) => {
   console.log(props);
   return (
-    <div className="w-full md:px-[100px] md:pb-[80px] pb-[80px]  flex justify-center items-center align-middle">
+    <div className="w-full md:px-[60px] md:py-[60px] mb-[20px]  px-[40px] py-[40px]  flex justify-center items-center align-middle">
       <div className=" flex flex-col ">
-        <p className="font-helvetica-neue-bold text-[64px] font-extrabold items-center text-center  ">
+        <p className="font-helvetica-neue-bold sm:text-[64px] text-[45px] font-extrabold items-center text-center  ">
           What You'll Learn
         </p>
         <div className="w-full flex justify-center align-middle items-center">

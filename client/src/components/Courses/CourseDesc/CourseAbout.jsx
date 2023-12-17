@@ -29,9 +29,9 @@ const CourseAbout = ({ props }) => {
     ref,
   });
   return (
-    <div className="w-full transition ease-in-out delay-150 md:px-[100px] md:py-[80px]  px-[60px] py-[60px]  flex justify-start items-center align-middle text-white bg-shardeumBlue">
-      <div className="flex gap-10 md:flex-row flex-col  ">
-        <div className=" flex flex-col font-[700] text-[64px] ">
+    <div className="w-full transition ease-in-out delay-150 md:px-[100px] md:py-[80px]  px-[40px] py-[40px]  flex justify-start items-center align-middle text-white bg-shardeumBlue">
+      <div className="flex ms:gap-10 gap-5 md:flex-row flex-col  ">
+        <div className=" flex flex-col  sm:text-[64px] text-[45px] ">
           <span className="font-helvetica-neue-bold">About</span>
           <span className="font-helvetica-neue-bold">Course</span>
         </div>
