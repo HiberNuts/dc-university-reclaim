@@ -16,24 +16,45 @@ exports.MintPOLNft = async ({ walletAddress, contractAddress }) => {
   const sdk = ThirdwebSDK.fromPrivateKey(
     PRIVATE_KEY,
     {
-      chainId: 8081, // Chain ID of the network
-      rpc: ["https://dapps.shardeum.org"],
+      chainId: 8082, // Chain ID of the network
+      rpc: ["https://sphinx.shardeum.org"],
 
       nativeCurrency: {
         decimals: 18,
         name: "Shardeum SHM",
         symbol: "SHM",
       },
-      shortName: "shardeum-sphinx-dapp", // Display value shown in the wallet UI
-      slug: "shardeum-sphinx-dapp", // Display value shown in the wallet UI
+      shortName: "Shardeum-sphinx-validator", // Display value shown in the wallet UI
+      slug: "Shardeum-sphinx-validator", // Display value shown in the wallet UI
       testnet: true, // Boolean indicating whether the chain is a testnet or mainnet
-      chain: "	Shardeum Sphinx Dapp 1.X", // Name of the network
-      name: "	Shardeum Sphinx Dapp 1.X", // Name of the network
+      chain: "Shardeum Sphinx Validator 1.X", // Name of the network
+      name: "Shardeum Sphinx Validator 1.X", // Name of the network
     },
     {
       secretKey: SECRET_KEY, // Use secret key if using on the server, get it from dashboard settings
     }
   );
+  // const sdk = ThirdwebSDK.fromPrivateKey(
+  //   PRIVATE_KEY,
+  //   {
+  //     chainId: 8081, // Chain ID of the network
+  //     rpc: ["https://dapps.shardeum.org"],
+
+  //     nativeCurrency: {
+  //       decimals: 18,
+  //       name: "Shardeum SHM",
+  //       symbol: "SHM",
+  //     },
+  //     shortName: "shardeum-sphinx-dapp", // Display value shown in the wallet UI
+  //     slug: "shardeum-sphinx-dapp", // Display value shown in the wallet UI
+  //     testnet: true, // Boolean indicating whether the chain is a testnet or mainnet
+  //     chain: "	Shardeum Sphinx Dapp 1.X", // Name of the network
+  //     name: "	Shardeum Sphinx Dapp 1.X", // Name of the network
+  //   },
+  //   {
+  //     secretKey: SECRET_KEY, // Use secret key if using on the server, get it from dashboard settings
+  //   }
+  // );
 
   token_abi = abi;
 

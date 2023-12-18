@@ -277,8 +277,9 @@ exports.confirmation = async (req, res) => {
 exports.resend = async (req, res) => {
   try {
     const userIdQuery = req.query.userId;
+    console.log(userIdQuery);
     const user = await User.findOne({ _id: userIdQuery });
-
+    console.log(user);
     let token = await Token.findOne({ __userId: user._id });
     if (!token) {
       token = new Token({
@@ -296,15 +297,13 @@ exports.resend = async (req, res) => {
       name: "Shardeum Academy",
       email: "no-reply@shardeum.com",
     };
-    sendSmtpEmail.to = [{ email: user.email, name: user.name }];
-    sendSmtpEmail.replyTo = { email: config.EMAILID, name: "sample-name" };
-    // sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };
-    sendSmtpEmail.templateId = 2;
+    sendSmtpEmail.to = [{ email: "raghavjindal0212@gmail.com", name: "raghav" }];
+    sendSmtpEmail.replyTo = { email: "shardeum@gmail.com", name: "sample-name" };
+    sendSmtpEmail.templateId = 284;
     sendSmtpEmail.params = {
-      // parameter: "My param value",
       subject: "Email Verification",
-      link: `http://${req.headers.host}/api/auth/confirmation?token=${token.token}`,
-      name: user.name,
+      emailVerification: `http://${req.headers.host}/api/auth/confirmation?token=${token.token}`,
+      username: "raghav",
     };
 
     apiInstance.sendTransacEmail(sendSmtpEmail).then(
@@ -312,14 +311,17 @@ exports.resend = async (req, res) => {
         console.log(
           "API called successfully. Returned data: " + JSON.stringify(data)
         );
+        res.status(200).send({ message: "Sent verification mail again" });
       },
       function (error) {
-        console.error(error);
+        console.log("Error while sending verification email",userIdQuery)
+        res.status(500).send({ message: "Error while sending verification email" });
       }
     );
 
-    res.status(200).send({ message: "Sent verification mail again" });
+
   } catch (error) {
+    console.error(error)
     res
       .status(500)
       .send({ message: error.message || "Internal Server Error", error });

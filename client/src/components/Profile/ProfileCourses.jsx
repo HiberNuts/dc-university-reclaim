@@ -47,7 +47,7 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
           </div>
           <div className="flex flex-wrap w-full gap-10 mb-10 justify-evenly">
             {profileCoursesData?.map((course, index) => {
-              return course.softDelete != true ? (
+              return course?.softDelete != true ? (
                 <ProfileCourseCard userData={userData} loggedInUserData={loggedInUserData} key={index} props={course} />
               ) : (
                 ""

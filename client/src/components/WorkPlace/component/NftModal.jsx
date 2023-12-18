@@ -87,8 +87,11 @@ const NftModal = ({ toast, isOpen, setIsOpen, courseName, loggedInUserData, cour
                 />
                 {TxHash.length > 0 && (
                   <div className="mt-2 h-fit w-full">
-                    <a href={`https://mumbai.polygonscan.com/tx/${TxHash}`} className="text-md text-gray-500">
-                      https://mumbai.polygonscan.com/tx/{TxHash}
+                    <a
+                      href={`https://explorer-sphinx.shardeum.org/transaction/${TxHash}`}
+                      className="text-md text-gray-500"
+                    >
+                      https://explorer-sphinx.shardeum.org/transaction/{TxHash}
                     </a>
                   </div>
                 )}
