@@ -15,6 +15,8 @@ let apiKey = defaultClient.authentications["api-key"];
 apiKey.apiKey = config.BREVO_API_KEY;
 
 let apiInstance = new brevo.TransactionalEmailsApi();
+let apiContactsInstance = new brevo.ContactsApi();
+let createContact = new brevo.CreateContact();
 let sendSmtpEmail = new brevo.SendSmtpEmail();
 
 exports.allAccess = (req, res) => {
@@ -32,6 +34,27 @@ exports.adminBoard = (req, res) => {
 exports.moderatorBoard = (req, res) => {
   res.status(200).send("Moderator Content.");
 };
+
+exports.joinNewsLetter = (req, res) => {
+  try {
+    const email = req.query.email;
+    createContact.email = email;
+    createContact.listIds = [183];
+
+    apiContactsInstance.createContact(createContact).then(function (data) {
+      console.log('API called successfully. user added to news Letter ' + JSON.stringify(data));
+      res.status(200).send({ message: "Your email has been successfully added to our newsletter subscription list – welcome to the Shardeum community!" })
+    }, function (error) {
+      if (JSON.parse(error?.response?.text).code === "duplicate_parameter") {
+        res.status(400).json({ message: "Looks like you're already subscribed – thanks for staying connected with Shardeum!" })
+      } else {
+        res.status(400).json(JSON.parse(error.response.text))
+      }
+    });
+  } catch (error) {
+    res.status(400).json({ message: "Something went wrong" })
+  }
+}
 
 exports.courseEnrolled = async (req, res) => {
   const { courseId } = req.body;
