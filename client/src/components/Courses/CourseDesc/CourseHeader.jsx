@@ -43,7 +43,7 @@ const CourseHeader = ({ props }) => {
                   <p className=" rounded-full ">🌟</p>
                 </div>
                 <div className="ml-3 flex-1">
-                  <p className="font-satoshi text-md font-medium text-gray-900">
+                  <p className=" text-md font-medium text-gray-900">
                     Please verify your email before proceeding!
                   </p>
                 </div>
@@ -52,7 +52,7 @@ const CourseHeader = ({ props }) => {
             <div className="flex border-l border-gray-200">
               <button
                 onClick={() => navigate("/profile")}
-                className="font-satoshi w-full border border-transparent rounded-none rounded-r-lg ml-2  flex items-center justify-center text-sm font-medium text-shardeumBlue hover:text-shardeumOrange focus:outline-none"
+                className=" w-full border border-transparent rounded-none rounded-r-lg ml-2  flex items-center justify-center text-sm font-medium text-shardeumBlue hover:text-shardeumOrange focus:outline-none"
               >
                 Click here
               </button>

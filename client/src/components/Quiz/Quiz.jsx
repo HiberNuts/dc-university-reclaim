@@ -101,16 +101,16 @@ const Quiz = ({
                 <p className="h-10 w-10 rounded-full ">😭</p>
               </div>
               <div className="ml-3 flex-1">
-                <p className="font-satoshi text-md font-medium text-gray-900">
+                <p className=" text-md font-medium text-gray-900">
                   Please answer all questions before submitting.
                 </p>
               </div>
             </div>
-          </div>
+          </div>s
           <div className="flex border-l border-gray-200">
             <button
               onClick={() => toast.dismiss(t.id)}
-              className="font-satoshi w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-shardeumBlue hover:text-shardeumOrange focus:outline-none"
+              className=" w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-shardeumBlue hover:text-shardeumOrange focus:outline-none"
             >
               Close
             </button>

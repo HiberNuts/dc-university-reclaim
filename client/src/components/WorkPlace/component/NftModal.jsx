@@ -9,7 +9,7 @@ const NftModal = ({ toast, isOpen, setIsOpen, courseName, loggedInUserData, cour
   const [nftMinted, setnftMinted] = useState(false);
   const [TxHash, setTxHash] = useState("dssdsd");
 
-  const MintUsreNft = async ({}) => {
+  const MintUsreNft = async ({ }) => {
     try {
       setloading(true);
       if (walletAddress.length == 0) {
@@ -28,7 +28,7 @@ const NftModal = ({ toast, isOpen, setIsOpen, courseName, loggedInUserData, cour
       }
       setloading(false);
     } catch (error) {
-      toast.error("Something went Wrong");
+      toast.error("Something went Wrong!");
     }
   };
 
@@ -81,15 +81,16 @@ const NftModal = ({ toast, isOpen, setIsOpen, courseName, loggedInUserData, cour
                   </p>
                 </div>
                 <input
-                  className="bg-gray-50 text-black border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
+                  className="bg-gray-50 mt-4 text-black border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
                   value={walletAddress}
                   onChange={(e) => setwalletAddress(e.target.value)}
                 />
                 {TxHash.length > 0 && (
-                  <div className="mt-2 h-fit w-full">
-                    <a
+                  <div className="mt-4">
+                    <a target="_blank"
                       href={`https://explorer-sphinx.shardeum.org/transaction/${TxHash}`}
                       className="text-md text-gray-500"
+                      style={{ wordWrap: 'break-word', overflow: 'hidden' }}
                     >
                       https://explorer-sphinx.shardeum.org/transaction/{TxHash}
                     </a>
