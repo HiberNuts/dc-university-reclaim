@@ -277,7 +277,6 @@ exports.confirmation = async (req, res) => {
 exports.resend = async (req, res) => {
   try {
     const userIdQuery = req.query.userId;
-    console.log(userIdQuery);
     const user = await User.findOne({ _id: userIdQuery });
     console.log(user);
     let token = await Token.findOne({ __userId: user._id });
@@ -288,22 +287,19 @@ exports.resend = async (req, res) => {
       });
       await token.save();
     }
-    console.log(user.email);
 
-    sendSmtpEmail.subject = "{{params.subject}}";
-    // sendSmtpEmail.htmlContent =
-    //   "<html><body><h1>Common: This is my first transactional email {{params.parameter}}</h1></body></html>";
+    // sendSmtpEmail.subject = "{{params.subject}}";
     sendSmtpEmail.sender = {
-      name: "Shardeum Academy",
-      email: "no-reply@shardeum.com",
+      name: "Shardeum University",
+      email: "university@shardeum.org",
     };
-    sendSmtpEmail.to = [{ email: "raghavjindal0212@gmail.com", name: "raghav" }];
-    sendSmtpEmail.replyTo = { email: "shardeum@gmail.com", name: "sample-name" };
+    sendSmtpEmail.to = [{ email: user.email, name: user.username }];
+    sendSmtpEmail.replyTo = { email: "university@shardeum.org", name: "Shardeum University" };
     sendSmtpEmail.templateId = 284;
     sendSmtpEmail.params = {
-      subject: "Email Verification",
+      // subject: "Email Verification",
       emailVerification: `http://${req.headers.host}/api/auth/confirmation?token=${token.token}`,
-      username: "raghav",
+      username: user.username,
     };
 
     apiInstance.sendTransacEmail(sendSmtpEmail).then(
@@ -314,7 +310,7 @@ exports.resend = async (req, res) => {
         res.status(200).send({ message: "Sent verification mail again" });
       },
       function (error) {
-        console.log("Error while sending verification email",userIdQuery)
+        console.log("Error while sending verification email", userIdQuery)
         res.status(500).send({ message: "Error while sending verification email" });
       }
     );

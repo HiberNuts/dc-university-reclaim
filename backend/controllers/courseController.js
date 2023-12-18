@@ -86,7 +86,7 @@ exports.syncData = async (req, res) => {
         for (const moduleItem of courseDetails.module) {
           const existingModule = existingCourse.module.find(m => m.strapiId === moduleItem.id);
           if (existingModule) {
-            console.log("inside existing");
+           
             existingModule.moduleTitle = moduleItem.moduleTitle;
             // Update chapters
             arrChapterId = []
@@ -105,8 +105,8 @@ exports.syncData = async (req, res) => {
               arrChapterId.push(chapterItem.id)
             }
             // delete chapters
-    
-            existingModule.chapter =  existingModule.chapter.filter(c => (arrChapterId.includes(c.strapiId)))
+
+            existingModule.chapter = existingModule.chapter.filter(c => (arrChapterId.includes(c.strapiId)))
             // Update quizzes
             arrQuizId = []
 
@@ -130,15 +130,14 @@ exports.syncData = async (req, res) => {
             }
             // delete quizzes
             existingModule.quizzes = existingModule.quizzes.filter(q => (arrQuizId.includes(q.strapiId)))
-            
+
           } else {
-            console.log('lesgoo new module')
             let resModule = { ...moduleItem };
             resModule.strapiId = resModule.id;
             delete resModule.id;
 
             for (let key in resModule) {
-              console.log(key, resModule[key])
+              // console.log(key, resModule[key])
               if (key == 'chapter' || key == 'quizes') {
                 console.log(key, resModule[key])
                 for (let i = 0; i < resModule[key].length; i++) {
@@ -147,7 +146,7 @@ exports.syncData = async (req, res) => {
                 }
 
               }
-              console.log("after", resModule[key])
+             
 
             }
             existingCourse.module.push(resModule); // Add new module
@@ -155,10 +154,15 @@ exports.syncData = async (req, res) => {
           arrModuleId.push(moduleItem.id)
         }
         existingCourse.module = existingCourse.module.filter(m => arrModuleId.includes(m.strapiId))
-
+        courseDetails.module = existingCourse.module.filter(m => arrModuleId.includes(m.strapiId))
 
         // Save updated course
-        await existingCourse.save();
+        const updatedCourse = await Course.findOneAndUpdate(
+          { strapiId: courseData.id },
+          { $set: courseDetails },
+          // { new: true }
+        );
+        console.log("course updated:", updatedCourse._id);
         console.log("course updated:", existingCourse._id);
       } else {
         courseDetails.module = courseData.attributes.module.map((moduleItem) => ({

@@ -187,35 +187,37 @@ exports.courseEnrolled = async (req, res) => {
       await course.save();
       console.log("User added to the course's usersEnrolled array");
 
-      sendSmtpEmail.subject = "{{params.subject}}";
-      // sendSmtpEmail.htmlContent =
-      //   "<html><body><h1>Common: This is my first transactional email {{params.parameter}}</h1></body></html>";
-      sendSmtpEmail.sender = {
-        name: "Shardeum Academy",
-        email: "no-reply@shardeum.com",
-      };
-      sendSmtpEmail.to = [{ email: user.email, name: user.username }];
-      sendSmtpEmail.replyTo = { email: config.EMAILID, name: "sample-name" };
-      // sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };
-      sendSmtpEmail.templateId = 3;
-      sendSmtpEmail.params = {
-        // parameter: "My param value",
-        subject: `Thanks for enrolling to ${course.title}`,
-        link: config.FRONT_END_URL,
-        courseTitle: course?.title,
-        courseDescription: course?.description,
-      };
 
-      await apiInstance.sendTransacEmail(sendSmtpEmail).then(
-        function (data) {
-          console.log("API called successfully. Returned data: " + JSON.stringify(data));
-        },
-        function (error) {
-          console.error("Error while enroll course mail", error);
-        }
-      );
 
-      console.log("successfully sent email");
+      // sendSmtpEmail.subject = "{{params.subject}}";
+      // // sendSmtpEmail.htmlContent =
+      // //   "<html><body><h1>Common: This is my first transactional email {{params.parameter}}</h1></body></html>";
+      // sendSmtpEmail.sender = {
+      //   name: "Shardeum Academy",
+      //   email: "no-reply@shardeum.com",
+      // };
+      // sendSmtpEmail.to = [{ email: user.email, name: user.username }];
+      // sendSmtpEmail.replyTo = { email: config.EMAILID, name: "sample-name" };
+      // // sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };
+      // sendSmtpEmail.templateId = 3;
+      // sendSmtpEmail.params = {
+      //   // parameter: "My param value",
+      //   subject: `Thanks for enrolling to ${course.title}`,
+      //   link: config.FRONT_END_URL,
+      //   courseTitle: course?.title,
+      //   courseDescription: course?.description,
+      // };
+
+      // await apiInstance.sendTransacEmail(sendSmtpEmail).then(
+      //   function (data) {
+      //     console.log("API called successfully. Returned data: " + JSON.stringify(data));
+      //   },
+      //   function (error) {
+      //     console.error("Error while enroll course mail", error);
+      //   }
+      // );
+
+      // console.log("successfully sent email");
     } else {
       console.log("User already added in the course's usersEnrolled array");
     }
@@ -236,9 +238,7 @@ exports.courseEnrolled = async (req, res) => {
       });
       return res;
     });
-    // console.log(userEnrolledCourse.modules);
 
-    // // Enroll the user in the course
     user.enrolledCourses.push(userEnrolledCourse);
     await user.save();
 
@@ -443,7 +443,7 @@ exports.mintNft = async (req, res) => {
     const userId = req.userId;
     const courseId = req.body.courseId;
     const walletAddress = req.body.walletAddress;
-    const { contractAddress } = await Course.findOne({ _id: courseId }, { contractAddress: 1, _id: 0 });
+    const { contractAddress, title } = await Course.findOne({ _id: courseId }, { contractAddress: 1, title: 1, _id: 0 });
     // console.log(contractAddress);
 
     const userProgressPercentage = await checkifUserCompletedCourse({ courseId: courseId, userId: userId });
@@ -464,6 +464,32 @@ exports.mintNft = async (req, res) => {
           user.enrolledCourses[enrolledCourseIndex].nftStatus = true;
           user.enrolledCourses[enrolledCourseIndex].nftTxHash = result.receipt.transactionHash;
           await user.save();
+
+          sendSmtpEmail.sender = {
+            name: "Shardeum University",
+            email: "university@shardeum.org",
+          };
+          sendSmtpEmail.to = [{ email: user.email, name: user.username }];
+          sendSmtpEmail.replyTo = { email: "university@shardeum.org", name: "Shardeum University" };
+          sendSmtpEmail.templateId = 282;
+          sendSmtpEmail.params = {
+            // subject: "🎉Well Done on Your Course Completion at Shardeum University! Next Steps Await...",
+            username: user.username,
+            coursename: title
+
+          };
+
+          await apiInstance.sendTransacEmail(sendSmtpEmail).then(
+            function (data) {
+              console.log("API called successfully. Returned data: " + JSON.stringify(data));
+              console.log("successfully sent email");
+            },
+            function (error) {
+              console.error("Error completing course email", error);
+            }
+          );
+
+
 
           res
             .status(200)
