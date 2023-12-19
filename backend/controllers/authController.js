@@ -297,8 +297,7 @@ exports.resend = async (req, res) => {
     sendSmtpEmail.replyTo = { email: "university@shardeum.org", name: "Shardeum University" };
     sendSmtpEmail.templateId = 284;
     sendSmtpEmail.params = {
-      // subject: "Email Verification",
-      emailVerification: `http://${req.headers.host}/api/auth/confirmation?token=${token.token}`,
+      emailverification: `http://${req.headers.host}/api/auth/confirmation?token=${token.token}`,
       username: user.username,
     };
 
