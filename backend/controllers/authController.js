@@ -278,7 +278,6 @@ exports.resend = async (req, res) => {
   try {
     const userIdQuery = req.query.userId;
     const user = await User.findOne({ _id: userIdQuery });
-    console.log(user);
     let token = await Token.findOne({ __userId: user._id });
     if (!token) {
       token = new Token({
