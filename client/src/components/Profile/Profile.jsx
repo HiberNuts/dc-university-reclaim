@@ -52,6 +52,7 @@ const Profile = ({ isOpen, closeModal }) => {
         // toast.error("Error while fetching user data");
       }
     };
+    
 
     fetchUserData();
   }, [loggedInUserData]);
@@ -66,7 +67,7 @@ const Profile = ({ isOpen, closeModal }) => {
       setError(null);
     }
   };
-  console.log(loggedInUserData);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -164,6 +165,7 @@ const Profile = ({ isOpen, closeModal }) => {
                     className="bg-shardeumWhite text-shardeumBlue font-helvetica-neue border-2 shadow-[6px_6px_0px_0px_rgba(0,0,0,0.3)] border-slate-800 text-gray-900 text-sm rounded-[9px] transition-all focus:rounded-[15px] block w-full p-2.5 focus:ring-none focus:border-black"
                     placeholder="Email"
                     required
+                    readOnly={loggedInUserData.isVerified}
                   />
                 </div>
                 <div className="mb-6">
@@ -172,9 +174,9 @@ const Profile = ({ isOpen, closeModal }) => {
                     value={formData.designation}
                     onChange={(value) => handleChange({ target: { name: "designation", value } })}
                   >
-                    <div className="relative mt-1 ">
-                      <Listbox.Button className="relative w-full flex-row cursor-default rounded-lg bg-gray-50 py-2 text-left border border-gray-300 text-gray-900 text-sm focus:ring-shardeumOrange focus:border-shardeumOrange shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 bg-white">
-                        <div className="px-2 flex justify-between align-middle h-full w-full">
+                    <div className="relative mt-1 shadow-[6px_6px_0px_0px_rgba(0,0,0,0.3)] rounded-[9px]">
+                      <Listbox.Button className="relative w-full flex-row cursor-default  rounded-lg bg-gray-50 py-2 text-left border-2 border-black text-sm shadow-md focus:outline-none text-shardeumBlue bg-white">
+                        <div className="px-2 flex justify-between align-middle h-full w-full ">
                           <span className="block truncate">{formData.designation || "Web3 Beginner"}</span>
 
                           <FontAwesomeIcon icon={faCaretSquareDown} color="black" />
@@ -199,7 +201,7 @@ const Profile = ({ isOpen, closeModal }) => {
                               key={index}
                               className={({ active }) =>
                                 `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                                  active ? "bg-shardeumOrange text-white" : "text-gray-900"
+                                  active ? "bg-shardeumGreen text-white" : "text-gray-900"
                                 }`
                               }
                               value={designation}
