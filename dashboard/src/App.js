@@ -192,7 +192,7 @@ function App() {
                 },
               },
             ]}
-            
+
             height={300}
             labelRenderer={labelRenderer}
           />

@@ -70,7 +70,7 @@ export default function AllCourses() {
         </p>
         <div className="md:w-[80%] h-[48px] text-center items-center flex justify-center align-middle">
           <input
-            className="w-full z-30 border-2 border-shardeumBlue align-middle h-full items-center pl-5 focus:border-2 focus:outline-none focus:border-shardeumGreen focus:ring-shardeumGreen active:border-shardeumGreen"
+            className="w-full z-30 border-2 border-shardeumBlue align-middle h-[56px] items-center pl-5 focus:border-2 focus:outline-none focus:border-shardeumGreen focus:ring-shardeumGreen active:border-shardeumGreen"
             style={{
               borderRadius: "10px",
               fontSize: "20px",

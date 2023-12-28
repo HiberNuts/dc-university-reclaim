@@ -5,7 +5,7 @@ const FaqHome = () => {
   return (
     <div className="w-full px-[20px] font-helvetica-neue my-[80px] flex flex-col items-center justify-center align-middle gap-4">
       <p className="text-center items-center flex justify-center align-middle sm:text-[64px] text-[45px] font-[700] font-helvetica-neue-bold">
-        Frequently Asked Questionss
+        Frequently Asked Questions
       </p>
 
       <div className="learn-div md:px-[100px]  items-start grid md:grid-cols-2  flex-wrap  justify-start  w-full mt-6 gap-10">

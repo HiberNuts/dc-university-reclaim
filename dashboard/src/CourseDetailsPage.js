@@ -1,7 +1,7 @@
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { DataCard } from './Components/DataCard/DataCard';
-import { Button, IconButton, Switch } from '@mui/material';
+import { Box, Button, IconButton, Switch } from '@mui/material';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -63,6 +63,26 @@ function CourseDetailsPage() {
       toast.error(`Error while deleting course`);
     }
   }
+  //  const getUserCourseProgressPercentage = async ({ courseId, userId, accessToken }) => {
+  //   try {
+  //     const { data } = await axios.post(
+  //       `${import.meta.env.VITE_BACKEND_URL}/user/progressPercentage`,
+  //       {
+  //         courseId,
+  //         userId,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       }
+  //     );
+  //     return data;
+  //   } catch (error) {
+  //     // toast.error("Something went wrong!");
+  //     return error;
+  //   }
+  // };
 
   const softDelete = async () => {
     try {
@@ -90,13 +110,24 @@ function CourseDetailsPage() {
   const columns = [
     { field: 'username', headerName: 'Username', flex: 0.2 },
     { field: 'email', headerName: 'Email', flex: 0.2 },
+    { field: 'isVerified', headerName: 'IsVerified', flex: 0.1 },
     { field: 'walletAddress', headerName: 'Wallet Address', flex: 0.2 },
-    { field: 'designation', headerName: 'Designation', flex: 0.2 },
+    { field: 'designation', headerName: 'Designation', flex: 0.15 },
     { field: 'portfolio', headerName: 'Portfolio', flex: 0.2 },
+    {
+      field: 'NFTstatus', headerName: 'NFT status', flex: 0.1, renderCell: (params) => {
+        const i = params?.row?.enrolledCourses?.findIndex(x => x.courseId === course._id)
+        return <div>
+          {params?.row?.enrolledCourses[i]?.nftStatus.toString() || "Not found"}
+        </div>
+      }
+
+
+    },
     {
       field: 'blockStatus',
       headerName: 'Block/Unblock',
-      flex: 0.2,
+      flex: 0.15,
       renderCell: (params) => (
         <IconButton
           onClick={() =>
@@ -112,6 +143,7 @@ function CourseDetailsPage() {
         </IconButton>
       ),
     },
+    { field: 'isBlocked', headerName: 'Blocked', flex: 0.2 },
 
   ];
 
@@ -122,7 +154,7 @@ function CourseDetailsPage() {
   }, [userData]);
 
   return (
-    <div style={{ textAlign: 'center' }}>
+    <div style={{ textAlign: 'center', marginBottom: "100px" }}>
       <Toaster position="top-right" reverseOrder={false} />
       <div style={{ marginTop: '30px', marginBottom: '20px', }}>
         <h2>COURSE DETAILS</h2>
@@ -222,7 +254,8 @@ function CourseDetailsPage() {
         <h2>User Details</h2>
       </div>
 
-      <div style={{ height: '400px', width: '100%', overflow: 'auto' }} className="tablediv">
+      {/* <div style={{ height: '400px', width: '100%', overflow: 'auto' }} className="tablediv"> */}
+      <Box sx={{ width: '100%', overflow: "scroll" }}>
         <DataGrid
           sx={{
             backgroundColor: 'white',
@@ -236,15 +269,17 @@ function CourseDetailsPage() {
           rows={userData}
           columns={columns}
           pageSize={5}
-          rowHeight={80}
-          rowsPerPageOptions={[5]}
-          hideFooter={true}
+          rowHeight={60}
           getRowId={(row) => row.id}
           onRowClick={(row) => {
             console.log(row);
           }}
+
+          slots={{ toolbar: GridToolbar }}
         />
-      </div>
+      </Box>
+
+      {/* </div> */}
     </div>
   );
 }
