@@ -57,14 +57,12 @@ export default function Header() {
     }
   }, [address]);
 
-  const styleNavEl = `text-[18px] font-helvetica-neue-md before:bg-white before:left-0 ${
-    homeRoute
+  const styleNavEl = `text-[18px] font-helvetica-neue-md before:bg-white before:left-0 ${homeRoute
       ? "hover:text-white text-white font-helvetica-neue-md"
       : "hover:text-black text-black hover:before:bg-black "
-  }  before:transition-transform hover:before:scale-x-100 before:scale-x-0  before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full `;
-  const activeNavEl = `text-[18px] font-helvetica-neue-md before:left-0 ${
-    homeRoute ? "text-white before:bg-white " : ". before:bg-black text-black"
-  }   before:transition-transform  before:scale-x-100 before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full`;
+    }  before:transition-transform hover:before:scale-x-100 before:scale-x-0  before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full `;
+  const activeNavEl = `text-[18px] font-helvetica-neue-md before:left-0 ${homeRoute ? "text-white before:bg-white " : ". before:bg-black text-black"
+    }   before:transition-transform  before:scale-x-100 before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full`;
 
   const styleMobileNavBox =
     "opacity-0 z-[60] font-helvetica-neue-md relative lg:hidden mt-2 pb-4 flex flex-col items-center transition-all duration-1000 flex shadow-sm flex-col gap-0 items-center -top-[26rem] bg-white -z-20";
@@ -73,9 +71,8 @@ export default function Header() {
 
   return (
     <header
-      className={`header  font-helvetica-neue-md flex justify-center align-middle flex-col z-50  w-full  ${
-        homeRoute ? "bg-shardeumBlue sticky" : "bg-shardeumWhite border-b-[1px] border-b-black"
-      } ${location.pathname.includes("/workplace") ? "fixed" : ""} `}
+      className={`header  font-helvetica-neue-md flex justify-center align-middle flex-col z-50  w-full  ${homeRoute ? "bg-shardeumBlue sticky" : "bg-shardeumWhite border-b-[1px] border-b-black"
+        } ${location.pathname.includes("/workplace") ? "fixed" : ""} ${location.pathname.includes("/previewworkplace") ? "fixed" : ""} `}
     >
       <Suspense fallback={<div className="header  z-50 border-gray w-full bg-shardeumBlue"></div>}>
         <nav className="sm:px-[100px] px-[8px] items-center text-center h-full ">
@@ -159,9 +156,8 @@ export default function Header() {
           </div>
 
           <div
-            className={`bg-white  z-50 w-full p-2 flex items-center justify-center align-middle  border-4 border-shardeumGreen rounded-lg ${
-              isOpen ? activeMobileNavBox : styleMobileNavBox
-            }`}
+            className={`bg-white  z-50 w-full p-2 flex items-center justify-center align-middle  border-4 border-shardeumGreen rounded-lg ${isOpen ? activeMobileNavBox : styleMobileNavBox
+              }`}
           >
             <div
               className={

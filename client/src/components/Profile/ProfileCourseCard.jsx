@@ -61,7 +61,7 @@ const ProfileCourseCard = ({ props, loggedInUserData, userData }) => {
             <div className="flex ">
               <img
                 class="inline-block h-6 w-6 rounded-full ring-2 ring-white mt-1"
-                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                src="https://pbs.twimg.com/profile_images/1660782439340576768/9rIZjmMt_400x400.jpg"
                 alt=""
               />
               <p className="text-[18px] items-center text-center font-semibold ml-2">Shardeum</p>
@@ -127,7 +127,7 @@ const ProfileCourseCard = ({ props, loggedInUserData, userData }) => {
     //         <div className="flex ">
     //           <img
     //             class="inline-block h-6 w-6 rounded-full ring-2 ring-white mt-1"
-    //             src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+    //             src="https://pbs.twimg.com/profile_images/1660782439340576768/9rIZjmMt_400x400.jpg"
     //             alt=""
     //           />
     //           <p className="text-[18px] items-center text-center font-semibold ml-2">Shardeum</p>

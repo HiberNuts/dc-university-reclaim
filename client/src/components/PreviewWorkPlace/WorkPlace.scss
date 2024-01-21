@@ -1,0 +1,133 @@
+.courseContent {
+  font-family: "Source Sans Pro" !important;
+  h1 {
+    font-size: 2.15rem !important;
+  }
+  h2 {
+    font-size: 1.875rem !important;
+  }
+
+  h3 {
+    font-size: 1.5rem !important;
+  }
+  h4 {
+    font-size: 1.25rem !important;
+  }
+  a {
+    color: #ff8743 !important;
+    text-decoration: underline !important;
+  }
+  hr {
+    /* border: 2px solid rgb(158, 155, 155); */
+    margin: 10px 0px !important;
+  }
+  blockquote {
+    border-left: 4px solid grey !important;
+    padding: 15px !important;
+  }
+
+  mark {
+    background-color: #fc9b63;
+  }
+
+  figcaption {
+    font-size: 16px;
+    font-style: italic;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .courseContent {
+    h1 {
+      font-size: 1.5rem !important;
+    }
+
+    h2 {
+      font-size: 1.125rem !important;
+    }
+
+    h3 {
+      font-size: 1.125rem !important;
+    }
+    h4 {
+      font-size: 1.25rem !important;
+    }
+  }
+}
+
+code{
+  display: block;
+  color: white;
+  padding: 1rem;
+  background: #282a36;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #282a36;
+}
+
+.hljs-built_in,
+.hljs-selector-tag,
+.hljs-section,
+.hljs-link {
+  color: #8be9fd;
+}
+
+.hljs-keyword {
+  color: #ff79c6;
+}
+
+.hljs,
+.hljs-subst {
+  color: #f8f8f2;
+}
+
+.hljs-title,
+.hljs-attr,
+.hljs-meta-keyword {
+  font-style: italic;
+  color: #50fa7b;
+}
+
+.hljs-string,
+.hljs-meta,
+.hljs-name,
+.hljs-type,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition,
+.hljs-variable,
+.hljs-template-tag,
+.hljs-template-variable {
+  color: #f1fa8c;
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-deletion {
+  color: #6272a4;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-title,
+.hljs-section,
+.hljs-doctag,
+.hljs-type,
+.hljs-name,
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-literal,
+.hljs-number {
+  color: #bd93f9;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}

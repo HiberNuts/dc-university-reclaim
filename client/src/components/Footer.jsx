@@ -48,7 +48,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className={`p-4 bg-shardeumBlue sm:p-6 ${location.pathname.includes("/workplace") ? "hidden" : "block"}`}>
+    <footer className={`p-4 bg-shardeumBlue sm:p-6 ${location.pathname.includes("/workplace") ? "hidden" : "block"} ${location.pathname.includes("/previewworkplace") ? "hidden" : "block"}`}>
       <Toaster />
       <div className={`w-full py-[40px] md:py-0 md:px-[100px]`}>
         <div className="flex-col md:flex-row flex gap-10 ms:gap-5 md:justify-between">
