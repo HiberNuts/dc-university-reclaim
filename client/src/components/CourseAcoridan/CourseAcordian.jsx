@@ -38,7 +38,7 @@ function Accordion({ children, multiple, defaultIndex }) {
 
 const LockIcon = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
       <rect x="0.7" y="0.70061" width="22.6006" height="22.6006" rx="11.3003" fill="white" />
       <rect x="0.7" y="0.70061" width="22.6006" height="22.6006" rx="11.3003" stroke="black" stroke-width="1.4" />
       <path
@@ -51,7 +51,7 @@ const LockIcon = () => {
 
 const TickIcon = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
       <rect x="0.7" y="0.7" width="22.6" height="22.6" rx="11.3" fill="#A4FF00" />
       <rect x="0.7" y="0.7" width="22.6" height="22.6" rx="11.3" stroke="black" stroke-width="1.4" />
       <path

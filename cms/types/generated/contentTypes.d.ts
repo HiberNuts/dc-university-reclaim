@@ -392,7 +392,7 @@ export interface ApiCourseCourse extends Schema.CollectionType {
           'HTML',
           'CSS',
           'reactjs',
-          'Raghav',
+          'Web3',
           ''
         ]
       >;

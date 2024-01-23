@@ -82,7 +82,7 @@ const DisplayChapter = ({
     checkChapterStatus({ chapter });
     await checkModuleCoursesStatus({ currentModule });
   };
-
+  console.log(currentModule);
   return (
     <div className=" w-full bg-shardeumWhite text-[20px] md:px-[120px] px-[80px] courseContent justify-center align-middle  flex-col ">
       <Toaster />
@@ -94,6 +94,11 @@ const DisplayChapter = ({
               html={chapter?.content}
               components={{
                 figure: (props) => <CustomFigure {...props} />,
+                strong: (props) => <p className="font-bold">{props?.children}</p>,
+                h1: (props) => <h1>{props?.children}</h1>,
+                h2: (props) => <h2>{props?.children}</h2>,
+                h3: (props) => <h3>{props?.children}</h3>,
+                h4: (props) => <h4>{props?.children}</h4>
               }}
             />
             <div className="flex w-full mt-10 justify-end">

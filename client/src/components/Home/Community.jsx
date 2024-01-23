@@ -118,7 +118,7 @@ export default function Community() {
           <Link to="https://discord.gg/shardeum" target="_blank">
             <div className="w-[290px]  hover:shadow-none cursor-pointer hover:scale-110 transition-all ease-in-out 0.3s rounded-[12px] px-[32px] py-[14px] flex bg-white border-[2px] border-shardeumBlue align-middle justify-evenly">
               <img className="flex flex-col justify-center  align-middle w-[30px] h-[30px]" src={discord} />
-              <p className="text-[18px] font-helvetica-neue-md text-shardeumBlue">Join Our Dsicord</p>
+              <p className="text-[18px] font-helvetica-neue-md text-shardeumBlue">Join Our Discord</p>
             </div>
           </Link>
           <Link to="https://twitter.com/shardeum" target="_blank">

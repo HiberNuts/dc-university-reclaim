@@ -13,7 +13,7 @@ export default function Main() {
     >
       <main className="w-full bg-shardeumWhite">
         <Hero />
-        <Stats />
+        {/* <Stats /> */}
         <FeatureCourses />
         <Unique />
 

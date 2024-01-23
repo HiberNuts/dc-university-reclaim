@@ -40,7 +40,10 @@ export default function GetStarted() {
         <div className="flex w-full justify-center flex-wrap gap-5 mb-20">
           {allCourseInfo &&
             allCourseInfo?.map((course, index) => {
-              return <CourseCard key={index} props={course} />;
+              if (course.softDelete != true) {
+
+                return <CourseCard key={index} props={course} />;
+              }
             })}
         </div>
       </div>
