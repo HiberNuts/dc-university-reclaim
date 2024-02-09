@@ -9,11 +9,12 @@
 
 pragma solidity ^0.8.19;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+// import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol";
 
 contract dNFT is ERC721 {
     // TODO: add BASE URI FOR NFT, refer above for uri format
-    string s_base_URI = "ipfs://QmdwaiAzpZP3cDZHCqcs9A6yAHMtP67KdfMeYEdEDBBrho";
+    string s_base_URI = "ipfs://QmTJmnqcDgC74LeHDZbtaF3NK2jpEQnPUUG1vTd738Nsz2";
 
     address public s_owner;
 
@@ -93,12 +94,15 @@ contract dNFT is ERC721 {
         address to,
         uint256 tokenId,
         address zero
-    ) internal virtual override(ERC721) returns (address) {
+    ) internal virtual override returns (address) {
         require(
-            !_exists(tokenId),
+            // !_exists(tokenId),
+            // "This NFT is Non-transferable and Non-burnable"
+            msg.sender == address(0),
             "This NFT is Non-transferable and Non-burnable"
         );
         super._update(to, tokenId, zero);
+        return address(msg.sender);
     }
 
     function tokenURI(
