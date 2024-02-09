@@ -24,7 +24,7 @@ const useTruncatedElement = ({ ref }) => {
   };
 };
 
-const CourseCertificate = ({ props }) => {
+const CourseCertificate = ({ props, title }) => {
   const ref = React.useRef(null);
   const { isTruncated, isShowingMore, toggleIsShowingMore } = useTruncatedElement({
     ref,
@@ -49,8 +49,7 @@ const CourseCertificate = ({ props }) => {
         <div className=" flex  flex-col sm:text-[64px] text-[45px] font-helvetica-neue-bold">Earn Your Certificate</div>
         <div className="md:w-[80%] flex flex-col gap-6  transition ease-in-out delay-150">
           <p ref={ref} className={`sm:text-[18px] text-[16px] break-words font-helvetica-neue-roman  `}>
-            Complete the Ethereum Developer Bootcamp to ear an NFT Certificate. Complete the Ethereum Developer Bootcamp
-            to ear an NFT Certificate. Complete the Ethereum Developer Bootcamp to ear an
+            Complete the {title} to ear an NFT Certificate.
           </p>
         </div>
       </div>
