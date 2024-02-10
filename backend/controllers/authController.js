@@ -279,7 +279,7 @@ exports.confirmation = async (req, res) => {
 
 exports.resend = async (req, res) => {
   try {
-    const userIdQuery = req.query.userId;
+    const userIdQuery = req.userId;
     const user = await User.findOne({ _id: userIdQuery });
     let token = await Token.findOne({ __userId: user._id });
     if (!token) {

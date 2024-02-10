@@ -54,7 +54,7 @@ const ProfileCourseCard = ({ props, loggedInUserData, userData }) => {
               <p className="text-[2vh] text-overflow-ellipsis font-helvetica-neue-bold font-bold">{props?.title}</p>
             </div>
             <p className="text-[16px] text-slategray font-helvetica-neue-roman font-thin">
-              {props?.description.slice(0, 180) + (props?.description.length > 180 ? "..." : "")}
+              {props?.description?.slice(0, 180) + (props?.description?.length > 180 ? "..." : "")}
             </p>
           </div>
           <div className="description-section flex  flex-col w-full">

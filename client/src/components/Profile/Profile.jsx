@@ -123,6 +123,13 @@ const Profile = ({ isOpen, closeModal }) => {
         `${import.meta.env.VITE_BACKEND_URL}/auth/resend?userId=${loggedInUserData._id}`,
         {
           userid: loggedInUserData._id,
+        },
+        {
+
+          headers: {
+            Authorization: `Bearer ${loggedInUserData?.accessToken}`,
+
+          }
         }
       );
       if (response.status === 200) {

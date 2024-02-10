@@ -9,7 +9,7 @@ const Course = db.course;
 
 exports.getAllCourses = async (req, res) => {
   try {
-    const courses = await Course.find({});
+    const courses = await Course.find({}, { contractAddress: 0 });
     res.status(200).send({ message: "retrieved successfully", courses });
   } catch (error) {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
@@ -18,7 +18,9 @@ exports.getAllCourses = async (req, res) => {
 
 exports.getCourseById = async (req, res) => {
   try {
-    const course = await Course.findOne({ _id: req.query.courseId });
+    const course = await Course.findOne({ _id: req.query.courseId }, {
+      contractAddress: 0
+    })
     res.status(200).send({ message: "retrieved successfully", course });
   } catch (error) {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
@@ -27,7 +29,9 @@ exports.getCourseById = async (req, res) => {
 
 exports.getCourseByName = async (req, res) => {
   try {
-    const course = await Course.findOne({ title: req.params.title });
+    const course = await Course.findOne({ title: req.params.title }, {
+      contractAddress: 0
+    });
     res.status(200).send({ message: "retrieved successfully", course });
   } catch (error) {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
@@ -86,7 +90,7 @@ exports.syncData = async (req, res) => {
         for (const moduleItem of courseDetails.module) {
           const existingModule = existingCourse.module.find(m => m.strapiId === moduleItem.id);
           if (existingModule) {
-           
+
             existingModule.moduleTitle = moduleItem.moduleTitle;
             // Update chapters
             arrChapterId = []
@@ -146,7 +150,7 @@ exports.syncData = async (req, res) => {
                 }
 
               }
-             
+
 
             }
             existingCourse.module.push(resModule); // Add new module
