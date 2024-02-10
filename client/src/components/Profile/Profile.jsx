@@ -37,7 +37,13 @@ const Profile = ({ isOpen, closeModal }) => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/auth/getUserData?userid=${loggedInUserData._id}`
+          `${import.meta.env.VITE_BACKEND_URL}/auth/getUserData?userid=${loggedInUserData._id}`, {
+
+          headers: {
+            Authorization: `Bearer ${loggedInUserData?.accessToken}`,
+
+          }
+        }
         );
 
         if (response?.data?.email == "default") {
@@ -52,7 +58,7 @@ const Profile = ({ isOpen, closeModal }) => {
         // toast.error("Error while fetching user data");
       }
     };
-    
+
 
     fetchUserData();
   }, [loggedInUserData]);
@@ -67,7 +73,7 @@ const Profile = ({ isOpen, closeModal }) => {
       setError(null);
     }
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -88,6 +94,13 @@ const Profile = ({ isOpen, closeModal }) => {
           {
             ...formData,
             username: formData.name,
+          },
+          {
+
+            headers: {
+              Authorization: `Bearer ${loggedInUserData?.accessToken}`,
+
+            }
           }
         );
         if (loggedInUserData.email === "default") {
@@ -200,8 +213,7 @@ const Profile = ({ isOpen, closeModal }) => {
                             <Listbox.Option
                               key={index}
                               className={({ active }) =>
-                                `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                                  active ? "bg-shardeumGreen text-white" : "text-gray-900"
+                                `relative cursor-pointer select-none py-2 pl-10 pr-4 ${active ? "bg-shardeumGreen text-white" : "text-gray-900"
                                 }`
                               }
                               value={designation}

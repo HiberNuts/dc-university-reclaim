@@ -144,7 +144,8 @@ exports.signin = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    const userIdQuery = req.query.userid;
+    // const userIdQuery = req.query.userid;
+    const userIdQuery = req.userId;
     let user = await User.findOne({ _id: userIdQuery }).populate(
       "roles",
       "-__v"
@@ -181,7 +182,8 @@ exports.update = async (req, res) => {
 
 exports.getUserData = async (req, res) => {
   try {
-    const userIdQuery = req.query.userid;
+
+    const userIdQuery = req.userId;
     const user = await User.findOne({ _id: userIdQuery }).populate(
       "roles",
       "-__v"
@@ -200,6 +202,7 @@ exports.getUserData = async (req, res) => {
       ...user._doc,
     });
   } catch (error) {
+    console.log(error);
     res
       .status(500)
       .send({ message: error.message || "Internal Server Error", error });
