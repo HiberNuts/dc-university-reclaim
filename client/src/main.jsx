@@ -19,7 +19,8 @@ import { ParentProvider } from "./contexts/ParentContext";
 import ScrollToTop from "./ScrollToTop";
 
 const { chains, publicClient } = configureChains(
-  [mainnet, goerli, polygonMumbai, polygon, shardeumSphinx],
+  // [mainnet, goerli, polygonMumbai, polygon, shardeumSphinx],
+  [shardeumSphinx],
   [alchemyProvider({ apiKey: "7wSu45FYTMHUO4HJkHjQwX4HFkb7k9Ui" }), publicProvider()]
 );
 
