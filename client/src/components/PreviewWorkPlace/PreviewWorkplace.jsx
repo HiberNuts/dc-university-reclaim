@@ -1,16 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import CourseAcordian from "../CourseAcoridan/CourseAcordian.jsx";
-
 import { useParams } from "react-router-dom";
-import { courseProgressAPI, getCoursebyName, updateCourseProgressAPI } from "../../utils/api/CourseAPI.jsx";
 import "./WorkPlace.scss";
-import Quiz from "../Quiz/Quiz.jsx";
 import { ParentContext } from "../../contexts/ParentContext.jsx";
 import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
 import ScrollToTop from "../../ScrollToTop.jsx";
-import NftModal from "./component/NftModal.jsx";
-import { getUserCourseProgressPercentage } from "../../utils/api/CourseAPI.jsx";
 import DisplayChapter from "./component/DisplayChapter.jsx";
 import axios from "axios";
 import PreviewCourseAcc from "../PreviewCourseAcoridan/PreviewCourseAcordian.jsx";
@@ -38,38 +31,10 @@ export default function PreviewWorkplace() {
 
   const isMobile = screenWidth < 768;
 
-  // const getUserProgress = async () => {
-  //   const data = await courseProgressAPI({
-  //     courseId: courseContent?._id,
-  //     accessToken: loggedInUserData?.accessToken,
-  //     userId: loggedInUserData?._id,
-  //   });
-
-  //   setuserCourseProgress(data?.enrolledCourse);
-  // };
-
-  // const getProgressPercentage = async () => {
-  //   try {
-  //     const data = await getUserCourseProgressPercentage({
-  //       courseId: courseContent?._id,
-  //       userId: loggedInUserData?._id,
-  //       accessToken: loggedInUserData?.accessToken,
-  //     });
-  //     setcurrentCourseProgress(data);
-  //   } catch (error) {
-  //     console.error("Error fetching course progress:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getProgressPercentage();
-  // }, [courseContent, userCourseProgress]);
-
 
   useEffect(() => {
     const getCourseInfo = async () => {
       const { data } = await axios.get(`https://cms.university.shardeum.org/api/courses/${params.id}?publicationState=preview&filters[publishedAt][$null]=true&populate=deep`)
-      console.log(data);
       setcourseContent(data.data.attributes);
       setModuleContent(data?.data.attributes.module ? data?.data.attributes.module : []);
       setCurrentChapter(data?.data.attributes.module[0]?.chapter[0]);
@@ -78,110 +43,11 @@ export default function PreviewWorkplace() {
     };
     getCourseInfo();
   }, [params]);
-  console.log(courseContent);
-  console.log(moduleContent);
 
-  // const getCourseInfo = async () => {
-  //   // const data = await getCoursebyName(params?.id);
-  //   const data =
-  //   if (data) {
-  //     setcourseContent(data ? data : {});
-  //     setModuleContent(data?.module ? data?.module : []);
-  //     setCurrentChapter(data?.module[0]?.chapter[0]);
-  //     setcurrentModule(data?.module[0]);
-  //     setisCourseDataChanged(!isCourseDataChanged);
-  //     await checkModuleCoursesStatus({ module: data?.module[0] });
-
-  //     if (loggedInUserData?._id && !data?.usersEnrolled.includes(loggedInUserData._id)) {
-  //       toast("Please enroll course before proceeding", {
-  //         icon: "🌟",
-  //       });
-  //       navigate(-1);
-  //     }
-  //     await getUserProgress();
-  //     await checkChapterStatus({ chapter: data?.module[0]?.chapter[0] });
-  //   }
-  // };
-
+  
   const handleChapterClick = async (chapter) => {
     setCurrentChapter(chapter._id === currentChapter._id ? currentChapter : chapter);
   };
-
-  // const handleCompleteChapter = async ({ chapter }) => {
-  //   const updatedProgress = userCourseProgress.modules.map((progressModule) => {
-  //     const updatedChapters = progressModule.chapters.map((progressChapter) => {
-  //       if (progressChapter._id === chapter._id) {
-  //         // Update the chapter status
-  //         return { ...progressChapter, status: "full" };
-  //       }
-  //       return progressChapter;
-  //     });
-  //     // Check if all chapters are full in the updated module
-  //     const isChapterFull = updatedChapters.every((c) => c.status === "full");
-
-  //     const updatedModule = {
-  //       ...progressModule,
-  //       chapters: updatedChapters,
-  //       chapterStatus: isChapterFull ? "full" : progressModule.chapterStatus,
-  //     };
-
-  //     return updatedModule;
-  //   });
-
-  //   // setuserCourseProgress({ ...userCourseProgress, modules: updatedProgress });
-  //   const updatesUserPorgress = {
-  //     ...userCourseProgress,
-  //     modules: updatedProgress,
-  //   };
-
-  //   const updatedUserProgress = await updateCourseProgressAPI({
-  //     updatesUserPorgress,
-  //     courseId: courseContent?._id,
-  //     userId: loggedInUserData?._id,
-  //     accessToken: loggedInUserData?.accessToken,
-  //   });
-  //   setuserCourseProgress(updatedUserProgress.updatedProgress);
-
-  //   checkChapterStatus({ chapter });
-  //   await checkModuleCoursesStatus({ currentModule });
-  // };
-
-  // const checkChapterStatus = async ({ chapter }) => {
-  //   await userCourseProgress?.modules?.map((progressModule) => {
-  //     progressModule?.chapters?.map((progressChapter) => {
-  //       if (progressChapter?._id === chapter._id) {
-  //         setcurrentChapterStatus(progressChapter.status);
-  //       }
-  //     });
-  //   });
-  // };
-
-  // const checkModuleCoursesStatus = async ({ module }) => {
-  //   const data = await userCourseProgress?.modules?.map((progressModule) => {
-  //     if (progressModule?._id == module?._id) {
-  //       if (progressModule?.chapterStatus == "full") {
-  //         return true;
-  //       }
-  //     }
-  //   });
-  //   return data;
-
-  // useEffect(() => {
-  //   checkChapterStatus({ chapter: currentChapter });
-  //   checkModuleCoursesStatus({ module: moduleContent[0] });
-  // }, [userCourseProgress, currentChapter]);
-
-  // useEffect(() => {
-  //   getCourseInfo();
-  //   const handleResize = () => {
-  //     setScreenWidth(window.innerWidth);
-  //   };
-
-  //   window.addEventListener("resize", handleResize);
-
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, []);
-
 
   if (isMobile) {
     return (

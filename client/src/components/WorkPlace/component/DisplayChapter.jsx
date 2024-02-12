@@ -82,7 +82,6 @@ const DisplayChapter = ({
     checkChapterStatus({ chapter });
     await checkModuleCoursesStatus({ currentModule });
   };
-  console.log(currentModule);
   return (
     <div className=" w-full bg-shardeumWhite text-[20px] md:px-[120px] px-[80px] courseContent justify-center align-middle  flex-col ">
       <Toaster />

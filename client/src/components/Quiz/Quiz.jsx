@@ -81,8 +81,7 @@ const Quiz = ({
     updatedChoices[questionIndex] = answer;
     setChoices(updatedChoices);
   };
-  console.log(choices);
-  console.log(score);
+
 
   const handleSubmit = () => {
     if (choices.includes(undefined) == false && choices.length === moduleQuiz.length) {
@@ -171,7 +170,7 @@ const Quiz = ({
     setQuizNo(0);
     setIsSubmitted(false);
     setChoices([]);
-    console.log(choices);
+
   };
 
   useEffect(() => {
@@ -200,7 +199,7 @@ const Quiz = ({
     if (currentQuizCompleted == true) {
       let finalAnswers = [];
       moduleQuiz.forEach((m) => {
-        console.log(m.answer);
+
         finalAnswers.push(ABC_TO_INT_MAP[m.answer]);
       });
       setChoices(finalAnswers);
@@ -211,7 +210,7 @@ const Quiz = ({
     if (currentQuizCompleted == true) {
       let finalAnswers = [];
       moduleQuiz.forEach((m) => {
-        console.log(m.answer);
+    
         finalAnswers.push(ABC_TO_INT_MAP[m.answer]);
       });
       setChoices(finalAnswers);
@@ -226,12 +225,12 @@ const Quiz = ({
   const isCorrect = correctAnswer === INT_TO_ABC_MAP[choice];
 
   const checkAnswer = () => isCorrect && setScore(score + 1);
-  //   console.log(answerArray);
+ 
   return (
     <div className=" w-full font-helvetica-neue-roman">
       <Toaster />
 
-      {console.log(moduleQuiz)}
+  
       {moduleQuiz?.length === 0 || isloading ? (
         <p>Loading</p>
       ) : (
@@ -262,7 +261,6 @@ const Quiz = ({
       {!currentQuizCompleted && isSubmitted && (
         <ResultPage score={score} quizzes={moduleQuiz} onClickTry={handleClickTry} answerArray={answerArray} />
       )}
-      {console.log(answerArray.length)}
       {<SuccessModal currentModule={currentModule} isOpen={modalIsOpen} setIsOpen={setModalIsOpen} />}
     </div>
   );

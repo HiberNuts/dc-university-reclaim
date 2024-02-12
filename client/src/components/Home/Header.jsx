@@ -44,7 +44,7 @@ export default function Header() {
         navigate("/profile");
       }
     } catch (error) {
-      console.log(error);
+    
     }
   };
 

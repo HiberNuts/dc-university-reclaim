@@ -147,13 +147,13 @@ const PreviewCourseAcc = ({
         ...progressModule,
         chapters: updatedChapters,
       };
-      // console.log(updatedModule);
+   
       return updatedModule;
     });
 
     setuserCourseProgress({ ...userCourseProgress, modules: updatedProgress });
   };
-  console.log(module);
+
 
   return (
     <div className="courseAcc">

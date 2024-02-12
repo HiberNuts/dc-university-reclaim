@@ -19,7 +19,7 @@ export default function PreviewAllCourses() {
   useEffect(() => {
     getAllCourseInfo();
   }, []);
-  console.log(allCourseInfo);
+
   const [Query, setQuery] = useState("");
 
   const LogoSvg = () => {

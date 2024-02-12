@@ -25,7 +25,6 @@ export const LearnCard = ({ text }) => {
 };
 
 const CourseLearn = ({ props }) => {
-  console.log(props);
   return (
     <div className="w-full md:px-[60px] md:py-[60px] mb-[20px]  px-[40px] py-[40px]  flex justify-center items-center align-middle">
       <div className=" flex flex-col ">
