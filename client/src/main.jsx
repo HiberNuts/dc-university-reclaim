@@ -19,12 +19,12 @@ import { ParentProvider } from "./contexts/ParentContext";
 import ScrollToTop from "./ScrollToTop";
 
 const { chains, publicClient } = configureChains(
-  [mainnet, goerli, polygonMumbai, polygon, shardeumSphinx],
-  [alchemyProvider({ apiKey: "7wSu45FYTMHUO4HJkHjQwX4HFkb7k9Ui" }), publicProvider()]
+  // [mainnet, goerli, polygonMumbai, polygon, shardeumSphinx],
+  [shardeumSphinx],
+  [alchemyProvider({ apiKey: import.meta.env.VITE_ALCHEMY_URL }), publicProvider()]
 );
 
-// const projectId = "b2024bb978e05dbfcd98d3ca8318ee07";
-const projectId = "5158325ee44f36fbacaa99525e8c0ab8";
+const projectId = import.meta.env.VITE_PROJECT_URL;
 
 const connectors = connectorsForWallets([
   {
