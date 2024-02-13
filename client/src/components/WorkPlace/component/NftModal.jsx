@@ -11,6 +11,7 @@ const NftModal = ({
   loggedInUserData,
   courseId,
   userCourseProgress,
+  nftImage
 }) => {
   const [walletAddress, setwalletAddress] = useState(
     loggedInUserData?.walletAddress
@@ -19,7 +20,7 @@ const NftModal = ({
   const [nftMinted, setnftMinted] = useState(false);
   const [TxHash, setTxHash] = useState('dssdsd');
 
-  const MintUsreNft = async ({}) => {
+  const MintUsreNft = async ({ }) => {
     try {
       setloading(true);
       if (walletAddress.length == 0) {
@@ -87,7 +88,7 @@ const NftModal = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
                   className="text-xl font-medium leading-6 text-gray-900"
@@ -102,12 +103,14 @@ const NftModal = ({
                     journey in blockchain and Web3 by enrolling in our next
                     course.
                   </p>
+                  <a target='_blank' href={nftImage} className='text-shardeumOrange cursor-pointer'>This is how it looks 🤌!</a>
                 </div>
                 <input
                   className="bg-gray-50 mt-4 text-black border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
                   value={walletAddress}
                   onChange={(e) => setwalletAddress(e.target.value)}
                 />
+
                 {TxHash.length > 0 && (
                   <div className="mt-4">
                     <a
@@ -118,6 +121,7 @@ const NftModal = ({
                     >
                       https://explorer-sphinx.shardeum.org/transaction/{TxHash}
                     </a>
+
                   </div>
                 )}
 
@@ -131,9 +135,9 @@ const NftModal = ({
                   >
                     {loading ? (
                       <div role="status " className="gap-2 items-center">
-                       
-                        
-                       <i className="c-inline-spinner"></i>
+
+
+                        <i className="c-inline-spinner"></i>
                         <p>Do not close this window</p>
                       </div>
                     ) : nftMinted ? (

@@ -393,7 +393,8 @@ export interface ApiCourseCourse extends Schema.CollectionType {
           'CSS',
           'reactjs',
           'Web3',
-          ''
+          'Shardeum',
+          'Blockchain'
         ]
       >;
     whatYouLearn: Attribute.Component<
