@@ -97,7 +97,12 @@ const DisplayChapter = ({
                 h1: (props) => <h1>{props?.children}</h1>,
                 h2: (props) => <h2>{props?.children}</h2>,
                 h3: (props) => <h3>{props?.children}</h3>,
-                h4: (props) => <h4>{props?.children}</h4>
+                h4: (props) => <h4>{props?.children}</h4>,
+                span: (props) => <>{props?.children}</>,
+                li: (props) => <li className="">{props?.children}</li>,
+                ol: (props) => <ol className="list-decimal p-[0px] m-[0px]">{props?.children}</ol>,
+                ul: (props) => <ul className="list-disc p-[0px] m-[0px]">{props?.children}</ul>,
+                
               }}
             />
             <div className="flex w-full mt-10 justify-end">
