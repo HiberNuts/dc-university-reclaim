@@ -15,7 +15,7 @@ const NftModal = ({
   const [walletAddress, setwalletAddress] = useState(
     loggedInUserData?.walletAddress
   );
-  const [loading, setloading] = useState(true);
+  const [loading, setloading] = useState(false);
   const [nftMinted, setnftMinted] = useState(false);
   const [TxHash, setTxHash] = useState('dssdsd');
 
