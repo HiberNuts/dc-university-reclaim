@@ -79,9 +79,8 @@ function AccordionHeader({ text }) {
       <div className="flex w-full justify-between align-middle h-full">
         <span className="font-helvetica-neue-roman text-[18px]">{text}</span>
         <img
-          className={` sm:w-[25px] h-[25px]  mt-3  sm:mt-0 transition-transform duration-300 ${
-            isActive ? "rotate-0" : "rotate-180"
-          }`}
+          className={` sm:w-[25px] h-[25px]  mt-3  sm:mt-0 transition-transform duration-300 ${isActive ? "rotate-0" : "rotate-180"
+            }`}
           src={whiteExpand}
           alt="Expand"
         />
@@ -148,13 +147,13 @@ const CourseAcordian = ({
         ...progressModule,
         chapters: updatedChapters,
       };
-      // console.log(updatedModule);
+
       return updatedModule;
     });
 
     setuserCourseProgress({ ...userCourseProgress, modules: updatedProgress });
   };
-  // console.log(userCourseProgress);
+
   if (userCourseProgress?.modules) {
     return (
       <div className="courseAcc">
@@ -208,13 +207,12 @@ const CourseAcordian = ({
                           </div>
                         ) : userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status === "partial" ? (
                           <div
-                            className={`rounded-full ${
-                              isQuizSelected
+                            className={`rounded-full ${isQuizSelected
                                 ? "text-white border-2 border-white"
                                 : chapter._id == currentChapter._id
-                                ? "border-2 bg-white border-black"
-                                : "border-2 bg-white border-black"
-                            } bg-shardeumBlue  w-[30px] h-[30px]`}
+                                  ? "border-2 bg-white border-black"
+                                  : "border-2 bg-white border-black"
+                              } bg-shardeumBlue  w-[30px] h-[30px]`}
                           ></div>
                         ) : userCourseProgress?.modules[moduleIndex]?.chapters[i - 1]?.status !== "full" ? (
                           <div className="rounded-full items-center w-[30px] h-[30px]">
@@ -222,30 +220,27 @@ const CourseAcordian = ({
                           </div>
                         ) : (
                           <div
-                            className={`rounded-full ${
-                              isQuizSelected
+                            className={`rounded-full ${isQuizSelected
                                 ? "text-white border-2 border-white"
                                 : chapter._id == currentChapter._id
-                                ? "border-2 bg-white border-black"
-                                : "border-2 bg-white border-black"
-                            }   w-[30px] h-[30px]`}
+                                  ? "border-2 bg-white border-black"
+                                  : "border-2 bg-white border-black"
+                              }   w-[30px] h-[30px]`}
                           ></div>
                         )}
 
                         <label
                           htmlFor="red-checkbox"
-                          className={`ml-2 font-helvetica-neue-md text-[16px] items-start text-start ${
-                            isQuizSelected
+                          className={`ml-2 font-helvetica-neue-md text-[16px] items-start text-start ${isQuizSelected
                               ? "text-white"
                               : chapter._id == currentChapter._id
-                              ? "border-b-2 border-shardeumGreen"
-                              : `${
-                                  userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status !== "full" ||
+                                ? "border-b-2 border-shardeumGreen"
+                                : `${userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status !== "full" ||
                                   userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status !== "none"
-                                    ? "text-white"
-                                    : "text-white "
+                                  ? "text-white"
+                                  : "text-white "
                                 }`
-                          } cursor-pointer   `}
+                            } cursor-pointer   `}
                         >
                           {chapter?.title}
                         </label>
@@ -293,7 +288,7 @@ const RenderQuiz = ({
   // const [currentModuleStatus, setcurrentModuleStatus] = useState("");
 
   const [quizStatus, setquizStatus] = useState("");
-  const handleQuizClick = (module) => {};
+  const handleQuizClick = (module) => { };
 
   const [currentChaptersStatus, setcurrentChaptersStatus] = useState("none");
 
@@ -332,23 +327,21 @@ const RenderQuiz = ({
             </div>
           ) : (
             <div
-              className={`rounded-full ${
-                isQuizSelected &&
-                currentModule?.quizzes[0]?._id == currentQuiz[0]?._id &&
-                module._id == currentModule._id
+              className={`rounded-full ${isQuizSelected &&
+                  currentModule?.quizzes[0]?._id == currentQuiz[0]?._id &&
+                  module._id == currentModule._id
                   ? "border-2 border-black bg-white"
                   : "border-2 border-black bg-white "
-              } bg-shardeumBlue  w-[30px] h-[30px]`}
+                } bg-shardeumBlue  w-[30px] h-[30px]`}
             ></div>
           )}
 
           <label
             htmlFor="red-checkbox"
-            className={`ml-2 text-[16px] items-start text-start ${
-              isQuizSelected && currentModule?.quizzes[0]?._id == currentQuiz[0]?._id && module._id == currentModule._id
+            className={`ml-2 text-[16px] items-start text-start ${isQuizSelected && currentModule?.quizzes[0]?._id == currentQuiz[0]?._id && module._id == currentModule._id
                 ? "text-shardeumOrange font-bold"
                 : "text-white"
-            }    cursor-pointer`}
+              }    cursor-pointer`}
           >
             Quiz
           </label>

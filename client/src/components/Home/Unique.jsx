@@ -9,7 +9,7 @@ const Unique = () => {
   // const [animation, setAnimation] = useState(false);
 
   const [imageUrl, setimageUrl] = useState(
-    "https://img.freepik.com/free-vector/vector-illustration-mountain-landscape_1441-72.jpg?size=626&ext=jpg&ga=GA1.1.1016455232.1698944705&semt=sph"
+    "https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/f0f7cd4635a169f02ca5bdc4b84578d9.jpg"
   );
 
   const [imageIndex, setimageIndex] = useState(1);
@@ -20,16 +20,16 @@ const Unique = () => {
 
   const returnImageUrl = (index) => {
     if (index === 1) {
-      return "https://img.freepik.com/free-vector/vector-illustration-mountain-landscape_1441-72.jpg?size=626&ext=jpg&ga=GA1.1.1016455232.1698944705&semt=sph";
+      return "https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/f0f7cd4635a169f02ca5bdc4b84578d9.jpg";
     }
     if (index === 2) {
-      return "https://img.freepik.com/free-vector/nature-scene-rural-land-agriculture-grassland-abtract-silhouette-asian-farmers-working-rice-field-illustration_1150-37317.jpg?size=626&ext=jpg&ga=GA1.1.1016455232.1698944705&semt=sph";
+      return "https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/4212f9a5ddc7682521fdb8b00ba6733b.jpg";
     }
     if (index === 3) {
-      return "https://img.freepik.com/free-vector/landscape-man-canoe-river_24877-76260.jpg?size=626&ext=jpg&ga=GA1.1.1016455232.1698944705&semt=sph";
+      return "https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/fd68d63b08d7cbfe2e3ea7fcaee0e05f.jpg";
     }
     if (index === undefined) {
-      return "https://img.freepik.com/free-vector/vector-illustration-mountain-landscape_1441-72.jpg?size=626&ext=jpg&ga=GA1.1.1016455232.1698944705&semt=sph";
+      return "https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/f0f7cd4635a169f02ca5bdc4b84578d9.jpg";
     }
   };
 
@@ -93,9 +93,8 @@ const Unique = () => {
           <div className="relative flex w-full justify-center align-middle  cursor-pointer">
             <div
               style={{ boxShadow: "8px 8px 0px 0px rgba(0, 0, 0, 0.15)" }}
-              className={`flex  ${
-                imageIndex === 1 ? "bg-shardeumPink text-black" : "bg-white border-2 border-black"
-              } flex-col gap-4 active:bg-shardeumPurple hover:bg-shardeumPurple border-2 border-black hover:text-black transition-all ease-linear duration-100 items-start px-[24px] py-[20px] md:w-[600px] w-[90%] relative text-black rounded-[16px] overflow-hidden`}
+              className={`flex  ${imageIndex === 1 ? "bg-shardeumPink text-black" : "bg-white border-2 border-black"
+                } flex-col gap-4 active:bg-shardeumPurple hover:bg-shardeumPurple border-2 border-black hover:text-black transition-all ease-linear duration-100 items-start px-[24px] py-[20px] md:w-[600px] w-[90%] relative text-black rounded-[16px] overflow-hidden`}
               onClick={() => handleBlockClick(1)}
             >
               <div className="flex items-center gap-[10px] relative self-stretch w-full flex-[0_0_auto]">
@@ -113,9 +112,8 @@ const Unique = () => {
           <div className="relative flex w-full justify-center align-middle cursor-pointer">
             <div
               style={{ boxShadow: "8px 8px 0px 0px rgba(0, 0, 0, 0.15)" }}
-              className={`flex ${
-                imageIndex === 2 ? "bg-shardeumPink text-black" : "bg-white border-2 border-black"
-              } flex-col gap-4 active:bg-shardeumPurple hover:bg-shardeumPurple border-2 border-black hover:text-black transition-all ease-linear duration-100 md:w-[600px] items-start  px-[24px] py-[20px] w-[90%] relative text-black rounded-[16px] overflow-hidden`}
+              className={`flex ${imageIndex === 2 ? "bg-shardeumPink text-black" : "bg-white border-2 border-black"
+                } flex-col gap-4 active:bg-shardeumPurple hover:bg-shardeumPurple border-2 border-black hover:text-black transition-all ease-linear duration-100 md:w-[600px] items-start  px-[24px] py-[20px] w-[90%] relative text-black rounded-[16px] overflow-hidden`}
               onClick={() => handleBlockClick(2)}
             >
               <div className="flex items-center gap-[10px] relative self-stretch w-full flex-[0_0_auto]">
@@ -133,9 +131,8 @@ const Unique = () => {
           <div className="relative flex w-full justify-center align-middle cursor-pointer">
             <div
               style={{ boxShadow: "8px 8px 0px 0px rgba(0, 0, 0, 0.15)" }}
-              className={`flex ${
-                imageIndex === 3 ? "bg-shardeumPink text-black" : "bg-white border-2 border-black"
-              } flex-col gap-4 active:bg-shardeumPurple border-2 border-black hover:bg-shardeumPurple  hover:text-black transition-all ease-linear duration-100 md:w-[600px] items-start  px-[24px] py-[20px] w-[90%] relative text-black rounded-[16px] overflow-hidden`}
+              className={`flex ${imageIndex === 3 ? "bg-shardeumPink text-black" : "bg-white border-2 border-black"
+                } flex-col gap-4 active:bg-shardeumPurple border-2 border-black hover:bg-shardeumPurple  hover:text-black transition-all ease-linear duration-100 md:w-[600px] items-start  px-[24px] py-[20px] w-[90%] relative text-black rounded-[16px] overflow-hidden`}
               onClick={() => handleBlockClick(3)}
             >
               <div className="flex items-center gap-[10px] relative self-stretch w-full flex-[0_0_auto]">
