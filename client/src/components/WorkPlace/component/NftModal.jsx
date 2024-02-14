@@ -103,7 +103,8 @@ const NftModal = ({
                     journey in blockchain and Web3 by enrolling in our next
                     course.
                   </p>
-                  <a target='_blank' href={nftImage} className='text-shardeumOrange cursor-pointer'>This is how it looks 🤌!</a>
+
+                  {/* <a target='_blank' href={nftImage} className='text-shardeumOrange cursor-pointer'>This is how it looks 🤌!</a> */}
                 </div>
                 <input
                   className="bg-gray-50 mt-4 text-black border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
