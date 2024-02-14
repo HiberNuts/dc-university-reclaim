@@ -188,6 +188,7 @@ export default function WorkPlace() {
       <ScrollToTop />
       <NftModal
         toast={toast}
+        nftImage={courseContent?.nftImage}
         userCourseProgress={userCourseProgress}
         courseId={courseContent?._id}
         courseName={courseContent?.title}
