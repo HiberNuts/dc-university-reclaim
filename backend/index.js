@@ -5,8 +5,6 @@ const cc = require("node-console-colors");
 const fs = require('fs')
 const stream = fs.createReadStream('does-not-exist.txt')
 
-
-
 process.on('uncaughtException', function (error) {
   console.log(cc.set("fg_yellow", "Crashable UnHandled Exception", error.stack));
 });
