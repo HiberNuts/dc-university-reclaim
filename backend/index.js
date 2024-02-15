@@ -4,21 +4,21 @@ const compression = require("compression");
 
 const app = express();
 
-// const allowedOrigins = [process.env.ORIGIN, "http://localhost:5173", "https://shardeum-academy.vercel.app", "https://university.shardeum.org", "http://university.shardeum.org", "https://dash.university.shardeum.org", "http://dash.university.shardeum.org"];
+const allowedOrigins = [process.env.ORIGIN, "http://localhost:5173", "https://shardeum-academy.vercel.app", "https://university.shardeum.org", "http://university.shardeum.org", "https://dash.university.shardeum.org", "http://dash.university.shardeum.org", "https://cms.university.shardeum.org", "http://cms.university.shardeum.org"];
 
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     if (!origin || allowedOrigins.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-// };
-
-var corsOptions = {
-  origin: "*",
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
 };
+
+// var corsOptions = {
+//   origin: "*",
+// };
 app.use(cors(corsOptions));
 app.use(compression());
 
