@@ -150,7 +150,8 @@ const NftModal = ({
                 </div>
                 <a
                   target="_blank"
-                  href={`http://twitter.com/intent/tweet?text=Just%20aced%20${courseName}%20at%20%23ShardeumUniversity!%20%F0%9F%8E%93%20Gained%20amazing%20insights%20into%20%23Web3.%20Ready%20to%20put%20these%20blockchain%20skills%20to%20use!%20Check%20out%20their%20courses%20for%20top-notch%20learning.%20%F0%9F%9A%80%20%40Shardeum`}
+                  // href={`http://twitter.com/intent/tweet?text=Just%20aced%20${courseName}%20at%20%23ShardeumUniversity!%20%F0%9F%8E%93%20Gained%20amazing%20insights%20into%20%23Web3.%20Ready%20to%20put%20these%20blockchain%20skills%20to%20use!%20Check%20out%20their%20courses%20for%20top-notch%20learning.%20%F0%9F%9A%80%20%40Shardeum`}
+                  href={`https://twitter.com/intent/tweet?text=I'm%20a%20Shardeum%20University%20graduate%20%F0%9F%8E%93%0A%0AExcited%20to%20share%20that%20I've%20completed%20a%20course%20on%20${courseName}%20from%20Shardeum%20University%20%26%20received%20an%20NFT%20certificate%20%F0%9F%98%84%0A%0AExplore%20all%20their%20available%20courses%20%F0%9F%91%87&url=https%3A%2F%2Funiversity.shardeum.org%2F`}
                 >
                   <div className="mt-4 flex ">
                     <span className="mr-2">
