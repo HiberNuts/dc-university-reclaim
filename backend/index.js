@@ -2,9 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const compression = require("compression");
 const cc = require("node-console-colors");
-const fs = require('fs')
-const stream = fs.createReadStream('does-not-exist.txt')
 
+//EXCEPTION HANDLING MIDDLEWARES
 process.on('uncaughtException', function (error) {
   console.log(cc.set("fg_yellow", "Crashable UnHandled Exception", error.stack));
 });
@@ -12,6 +11,7 @@ process.on('unhandledRejection', (reason, promise) => {
   console.log(cc.set("fg_yellow", 'Crashable UnHandled Rejection', reason.stack || reason));
   // Recommended: send the information to sentry.io
 })
+
 const app = express();
 
 const allowedOrigins = [process.env.ORIGIN, "http://localhost:5173", "https://shardeum-academy.vercel.app", "https://university.shardeum.org", "http://university.shardeum.org", "https://dash.university.shardeum.org", "http://dash.university.shardeum.org", "https://cms.university.shardeum.org", "http://cms.university.shardeum.org"];
