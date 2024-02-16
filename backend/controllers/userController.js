@@ -35,6 +35,11 @@ exports.moderatorBoard = (req, res) => {
   res.status(200).send("Moderator Content.");
 };
 
+exports.getAllUser = async (req, res) => {
+  const user = await User.find({})
+  res.send(user)
+};
+
 exports.joinNewsLetter = (req, res) => {
   try {
     const email = req.query.email;

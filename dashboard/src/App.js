@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { Button } from '@mui/material';
 import './App.css';
+import AllUSerDetails from './AllUserDetails';
 
 function App() {
   const [courses, setCourses] = useState([]);
@@ -172,7 +173,7 @@ function App() {
           ))}
         </div>
         <div
-          style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+          style={{ width: '100%', display: 'flex', justifyContent: 'center', flexDirection: "column" }}
         >
           <PieChart
             series={[
@@ -197,7 +198,7 @@ function App() {
             labelRenderer={labelRenderer}
           />
 
-
+          <AllUSerDetails />
         </div>
       </div>
     </div>

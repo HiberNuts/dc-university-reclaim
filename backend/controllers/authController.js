@@ -13,6 +13,9 @@ let defaultClient = brevo.ApiClient.instance;
 let apiKey = defaultClient.authentications["api-key"];
 apiKey.apiKey = config.BREVO_API_KEY;
 
+let apiContactsInstance = new brevo.ContactsApi();
+let createContact = new brevo.CreateContact();
+
 let apiInstance = new brevo.TransactionalEmailsApi();
 let sendSmtpEmail = new brevo.SendSmtpEmail();
 
@@ -25,15 +28,15 @@ let sendSmtpEmail = new brevo.SendSmtpEmail();
 //   },
 // });
 
-let transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: "ramakrishnanrahul003@gmail.com",
-    pass: config.BREVO_KEY,
-  },
-});
+// let transporter = nodemailer.createTransport({
+//   host: "smtp-relay.brevo.com",
+//   port: 587,
+//   secure: false,
+//   auth: {
+//     user: "ramakrishnanrahul003@gmail.com",
+//     pass: config.BREVO_KEY,
+//   },
+// });
 
 exports.signup = async (req, res) => {
   try {
@@ -144,6 +147,12 @@ exports.signin = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
+
+    //JOIN NEWSLETTER CONFIG 
+    const email = req.body.email;
+    createContact.email = email;
+    createContact.listIds = [183];
+
     // const userIdQuery = req.query.userid;
     const userIdQuery = req.userId;
     let user = await User.findOne({ _id: userIdQuery }).populate(
@@ -162,6 +171,16 @@ exports.update = async (req, res) => {
         }
       }
     }
+
+    apiContactsInstance.createContact(createContact).then(function (data) {
+      console.log('API called successfully. user added to news Letter ' + JSON.stringify(data));
+    }, function (error) {
+      if (JSON.parse(error?.response?.text).code === "duplicate_parameter") {
+      } else {
+        console.log('Error in sedning mail');
+
+      }
+    });
 
     await user.save();
 
