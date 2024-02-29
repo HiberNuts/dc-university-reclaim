@@ -7,6 +7,7 @@ module.exports = function (app) {
   });
 
   app.get("/api/course/allCourses", controller.getAllCourses);
+  app.get("/api/course/allCoursesDash", controller.getAllCoursesDash);
   app.get("/api/course/syncData", controller.syncData);
   app.get("/api/course/getCourse", controller.getCourseById);
   app.get("/api/course/getCourse/:title", controller.getCourseByName);

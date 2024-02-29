@@ -119,7 +119,7 @@ const CourseHeader = ({ props }) => {
             <p>|</p>
             <div className="flex gap-2">
               <img className="w-5 h-5 mt-1" src={profileIcon} />
-              <span className="font-helvetica-neue font-normal">{props?.usersEnrolled?.length} Students</span>
+              <span className="font-helvetica-neue font-normal">{props?.__v} Students</span>
             </div>
             <p>|</p>
             <div className="flex gap-2">

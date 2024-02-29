@@ -36,8 +36,18 @@ exports.moderatorBoard = (req, res) => {
 };
 
 exports.getAllUser = async (req, res) => {
-  const user = await User.find({})
-  res.send(user)
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
+  const startIndex = (page - 1) * limit; // Starting index for slicing
+  const endIndex = page * limit;
+
+  const totalUsers = await User.countDocuments({});
+  const totalPages = Math.ceil(totalUsers / limit);
+
+  const user = await User.find({}).limit(limit).skip(startIndex)
+
+  res.json({ user, totalPages, currentPage: page, hasNextPage: endIndex < totalUsers })
 };
 
 exports.joinNewsLetter = (req, res) => {
@@ -137,12 +147,10 @@ exports.courseEnrolled = async (req, res) => {
             const isNewQuiz = !existingModule.quizzes.some(
               (quiz) => String(quiz.strapiId) === String(existingQuiz.strapiId)
             );
-            // console.log(`Chapter ${existingQuiz._id} is new: ${isNewQuiz}`);
+
 
             if (isNewQuiz) {
-              // Handle addition of new chapter
-              // ...
-              // console.log(isNewChapter)
+
               existingModule.quizzes.push({
                 _id: existingQuiz._id,
                 strapiId: existingQuiz.strapiId,
@@ -150,12 +158,7 @@ exports.courseEnrolled = async (req, res) => {
               });
             }
           });
-
-          // console.log((existingModule.quizzes).length, newModule.quizzes.length);
-
-          // console.log(existingModule.status, existingModule.strapiId);
         } else {
-          // console.log(existingModule.status);
 
           existingCourseProgress.modules = existingCourseProgress.modules.filter(
             (module) => String(module.strapiId) !== String(existingModule.strapiId)
@@ -168,12 +171,10 @@ exports.courseEnrolled = async (req, res) => {
           (existingModule) => String(existingModule.strapiId) === String(newModule.strapiId)
         );
         if (!isModuleAlreadyExists) {
-          // Handle new module addition
-          // ...
+
           let res = {};
           res._id = newModule._id;
           res.strapiId = newModule.strapiId;
-          // res.status =
           res.chapters = newModule.chapter.map((chapter) => {
             return { _id: chapter._id, strapiId: chapter.strapiId };
           });
@@ -188,12 +189,6 @@ exports.courseEnrolled = async (req, res) => {
           existingCourseProgress.modules.push(res);
         }
       });
-      // console.log((existingCourseProgress.modules).length, "len2")
-
-      // console.log(user.enrolledCourses[enrolledCourseIndex].modules.length, "check user2");
-      // await user.save();
-
-
 
       if (!newCourse.usersEnrolled.some((userId) => userId.equals(user._id))) {
         newCourse.usersEnrolled.push(user._id);
@@ -214,38 +209,6 @@ exports.courseEnrolled = async (req, res) => {
       course.usersEnrolled.push(user._id);
       await course.save();
       console.log("User added to the course's usersEnrolled array");
-
-
-
-      // sendSmtpEmail.subject = "{{params.subject}}";
-      // // sendSmtpEmail.htmlContent =
-      // //   "<html><body><h1>Common: This is my first transactional email {{params.parameter}}</h1></body></html>";
-      // sendSmtpEmail.sender = {
-      //   name: "Shardeum Academy",
-      //   email: "no-reply@shardeum.com",
-      // };
-      // sendSmtpEmail.to = [{ email: user.email, name: user.username }];
-      // sendSmtpEmail.replyTo = { email: config.EMAILID, name: "sample-name" };
-      // // sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };
-      // sendSmtpEmail.templateId = 3;
-      // sendSmtpEmail.params = {
-      //   // parameter: "My param value",
-      //   subject: `Thanks for enrolling to ${course.title}`,
-      //   link: config.FRONT_END_URL,
-      //   courseTitle: course?.title,
-      //   courseDescription: course?.description,
-      // };
-
-      // await apiInstance.sendTransacEmail(sendSmtpEmail).then(
-      //   function (data) {
-      //     console.log("API called successfully. Returned data: " + JSON.stringify(data));
-      //   },
-      //   function (error) {
-      //     console.error("Error while enroll course mail", error);
-      //   }
-      // );
-
-      // console.log("successfully sent email");
     } else {
       console.log("User already added in the course's usersEnrolled array");
     }
@@ -257,7 +220,7 @@ exports.courseEnrolled = async (req, res) => {
       let res = {};
       res._id = module._id;
       res.strapiId = module.strapiId;
-      // res.status =
+
       res.chapters = module.chapter.map((chapter) => {
         return { _id: chapter._id, strapiId: chapter.strapiId };
       });
@@ -472,7 +435,7 @@ exports.mintNft = async (req, res) => {
     const courseId = req.body.courseId;
     const walletAddress = req.body.walletAddress;
     const { contractAddress, title } = await Course.findOne({ _id: courseId }, { contractAddress: 1, title: 1, _id: 0 });
-    // console.log(contractAddress);
+
 
     const userProgressPercentage = await checkifUserCompletedCourse({ courseId: courseId, userId: userId });
     const user = await User.findOne({ _id: userId });
@@ -501,7 +464,6 @@ exports.mintNft = async (req, res) => {
           sendSmtpEmail.replyTo = { email: "university@shardeum.org", name: "Shardeum University" };
           sendSmtpEmail.templateId = 282;
           sendSmtpEmail.params = {
-            // subject: "🎉Well Done on Your Course Completion at Shardeum University! Next Steps Await...",
             username: user.username,
             coursename: title
 

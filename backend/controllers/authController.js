@@ -102,13 +102,11 @@ exports.signin = async (req, res) => {
     let msg_type = "normal-login";
     if (!user) {
       await exports.signup(req, res);
-      console.log("new user");
       msg_type = "new-user";
       return;
     }
 
     if (user.isBlocked) {
-      console.log("user is blocked");
       return res.status(401).send({
         type: "user-blocked",
         message: "user is blocked, cannot sign in",
@@ -120,7 +118,6 @@ exports.signin = async (req, res) => {
       let token = await Token.findOne({ _userId: user._id });
       msg_type = "not-verified";
       if (!token) {
-        console.log("token expired");
         msg_type = "token-expired";
         // return res.status(401).send({ type: "token-expired", message: "Ask for sending verification mail again", user });
       }
@@ -151,7 +148,7 @@ exports.update = async (req, res) => {
     //JOIN NEWSLETTER CONFIG 
     const email = req.body.email;
     createContact.email = email;
-    createContact.listIds = [183];
+    createContact.listIds = [346];
 
     // const userIdQuery = req.query.userid;
     const userIdQuery = req.userId;

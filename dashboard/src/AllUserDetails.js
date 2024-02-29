@@ -5,24 +5,31 @@ import { Box, Button, IconButton, Switch } from '@mui/material';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-
+import { saveAs } from 'file-saver';
 
 function AllUSerDetails() {
     const location = useLocation();
     const { state } = location;
     const params = useParams();
     const navigate = useNavigate();
+    const [pagination, setPagination] = useState({ page: 1, limit: 10, totalPages: 1 }); // Initial pagination values
 
     const [loader, setloader] = useState(false)
+
+    const [csvLoading, setcsvLoading] = useState(false)
 
     const [userDetails, setUserDetails] = useState([]);
 
     const getUserData = async () => {
         setloader(true)
         try {
-            const data = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/user/allxyz`)
+            const data = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/user/allxyz`, { params: pagination })
             console.log(data);
-            setUserDetails(data?.data)
+            setUserDetails(data?.data.user)
+            setPagination(prevPagination => ({
+                ...prevPagination,
+                totalPages: data.data.totalPages // Update totalPages from the response
+            }));
             setloader(false)
         } catch (error) {
             setloader(false)
@@ -94,13 +101,56 @@ function AllUSerDetails() {
     useEffect(() => {
         getUserData()
 
-    }, []);
+    }, [pagination.page]);
+
+    const handlePageChange = (newPage) => {
+        setPagination({ ...pagination, page: newPage });
+    };
+
+    const handlePrevPage = () => {
+        if (pagination.page > 1) {
+            handlePageChange(pagination.page - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (pagination.page < pagination.totalPages) {
+            handlePageChange(pagination.page + 1);
+        }
+    };
+
+
+    const handleExportCSV = async () => {
+        try {
+            setcsvLoading(true)
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/user/allxyz`, {
+                params: { page: 1, limit: pagination.totalPages * pagination.limit } // Fetch all data without pagination
+            });
+            // Convert data to CSV format
+            const headerRow = 'Username,Email,IsVerified,Wallet Address,Designation,Portfolio,IsBlocked';
+            const csvData = response.data.user.map(user => {
+                return `${user.username},${user.email},${user.isVerified},${user.walletAddress},${user.designation},${user.portfolio},${user.isBlocked}`;
+            }).join('\n');
+
+            // Save CSV file
+            const csvContent = `${headerRow}\n${csvData}`;
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            saveAs(blob, 'user_data.csv');
+            setcsvLoading(false)
+        } catch (error) {
+            console.error('Error exporting data:', error);
+        }
+    };
 
     return (
         <div style={{ textAlign: 'center', marginBottom: "100px" }}>
             <span style={{ fontSize: "15px" }}>All User Data
             </span>
             {loader ? "loading" : <Box sx={{ width: '100%', overflow: "scroll" }}>
+                <div>
+                    <Button disabled={csvLoading} variant='contained' className='text-lg' onClick={handleExportCSV}>{csvLoading ? "Generating your file please wait" : "Export as CSV"} </Button>
+                </div>
                 <DataGrid
                     sx={{
                         backgroundColor: 'white',
@@ -116,12 +166,15 @@ function AllUSerDetails() {
                     pageSize={10}
                     rowHeight={60}
                     getRowId={(row) => row._id}
-                    onRowClick={(row) => {
-                        console.log(row);
-                    }}
 
+                    onPaginationModelChange={handlePageChange}
                     slots={{ toolbar: GridToolbar }}
                 />
+                <div>
+                    <Button disabled={pagination.page === 1} onClick={handlePrevPage}>Previous Page</Button>
+                    <span>Page {pagination.page} of {pagination.totalPages}</span>
+                    <Button disabled={pagination.page === pagination.totalPages} onClick={handleNextPage}>Next Page</Button>
+                </div>
             </Box>}
         </div>
     );

@@ -57,7 +57,7 @@ const CourseCard = ({ props }) => {
               <div className="flex gap-2">
                 <img className="w-5  flex h-full flex-col justify-center " src={profileIcon} />
                 <span className="font-helvetica-neue-roman  flex h-full flex-col justify-center">
-                  {props?.usersEnrolled?.length} Students
+                  {props?.__v} Students
                 </span>
               </div>
               <p>|</p>

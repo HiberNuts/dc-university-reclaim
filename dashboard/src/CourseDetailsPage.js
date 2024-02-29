@@ -1,21 +1,32 @@
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, useGridApiRef } from '@mui/x-data-grid';
 import { DataCard } from './Components/DataCard/DataCard';
 import { Box, Button, IconButton, Switch } from '@mui/material';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import { saveAs } from 'file-saver';
 
 
 function CourseDetailsPage() {
   const location = useLocation();
   const { state } = location;
   const params = useParams();
-  const { course, userData } = state;
+  const { course } = state;
   const navigate = useNavigate();
 
+  const gridRef = useGridApiRef();
+  const [userData, setuserData] = useState([])
   const [userDetails, setUserDetails] = useState(userData);
   const [softDeleteStatus, setSoftDeleteStatus] = useState(course.softDelete);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [csvLoading, setcsvLoading] = useState(false)
+
+  // const [usersEnrolled, setUsersEnrolled] = useState(course?.usersEnrolled.slice(0, pageSize)); // Initial set of user IDs to load
+
+  const [pagination, setPagination] = useState({ page: 1, limit: 10, totalPages: course?.usersEnrolled.length / 10 }); // Initial pagination values
+
 
   const [blockStatuses, setBlockStatuses] = useState(() => {
     const storedBlockStatuses = JSON.parse(
@@ -147,11 +158,77 @@ function CourseDetailsPage() {
 
   ];
 
-  useEffect(() => {
-    setUserDetails(userData);
-    console.log(userData)
 
-  }, [userData]);
+  const handleExportCSV = async () => {
+    try {
+      setcsvLoading(true)
+      // const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/user/allxyz`, {
+      //   params: { page: 1, limit: pagination.totalPages * pagination.limit } // Fetch all data without pagination
+      // });
+      const csvUserData = await Promise.all(
+        course?.usersEnrolled.map(async (userId) => {
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/user?userId=${userId}`);
+          const userResult = await response.json();
+          return { id: userId, ...userResult };
+        })
+      );
+      // Convert data to CSV format
+      const headerRow = 'Username,Email,IsVerified,Wallet Address,Designation,Portfolio,IsBlocked,Nft Status';
+      const csvData = csvUserData.map(user => {
+        return `${user.username},${user.email},${user.isVerified},${user.walletAddress},${user.designation},${user.portfolio},${user.isBlocked}`;
+      }).join('\n');
+
+      // Save CSV file
+      const csvContent = `${headerRow}\n${csvData}`;
+
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      saveAs(blob, 'user_data.csv');
+      setcsvLoading(false)
+    } catch (error) {
+      console.error('Error exporting data:', error);
+    }
+  };
+
+
+  const getUserData = async ({ page }) => {
+    setIsLoading(true);
+
+    // Calculate the next set of user IDs to fetch
+    const nextPageUserIds = course?.usersEnrolled.slice((page - 1) * pagination.limit, page * pagination.limit);
+    const newUsers = await Promise.all(
+      nextPageUserIds.map(async (userId) => {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/user?userId=${userId}`);
+        const userResult = await response.json();
+        return { id: userId, ...userResult };
+      })
+    );
+
+    setuserData(newUsers);
+    setIsLoading(false);
+
+  }
+
+
+  const handlePageChange = (newPage) => {
+    setPagination({ ...pagination, page: newPage });
+    getUserData({ newPage })
+  };
+
+  const handlePrevPage = () => {
+    if (pagination.page > 1) {
+      handlePageChange(pagination.page - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (pagination.page < pagination.totalPages) {
+      handlePageChange(pagination.page + 1);
+    }
+  };
+
+  useEffect(() => {
+    getUserData({ page: pagination.page })
+  }, [pagination.page]);
 
   return (
     <div style={{ textAlign: 'center', marginBottom: "100px" }}>
@@ -253,10 +330,13 @@ function CourseDetailsPage() {
       <div style={{ marginTop: '30px', marginBottom: '20px' }}>
         <h2>User Details</h2>
       </div>
-
+      <div>
+        <Button disabled={csvLoading} variant='contained' className='text-lg' onClick={handleExportCSV}>{csvLoading ? "Generating your file please wait" : "Export as CSV"} </Button>
+      </div>
       {/* <div style={{ height: '400px', width: '100%', overflow: 'auto' }} className="tablediv"> */}
       <Box sx={{ width: '100%', overflow: "scroll" }}>
         <DataGrid
+          // pagination
           sx={{
             backgroundColor: 'white',
             boxShadow: 2,
@@ -266,18 +346,19 @@ function CourseDetailsPage() {
               color: 'primary.main',
             },
           }}
+          key={Date}
           rows={userData}
           columns={columns}
-          pageSize={5}
           rowHeight={60}
-          getRowId={(row) => row.id}
-          onRowClick={(row) => {
-            console.log(row);
-          }}
-
+          pageSize={10}
           slots={{ toolbar: GridToolbar }}
         />
       </Box>
+      <div>
+        <Button disabled={pagination.page === 1} onClick={handlePrevPage}>Previous Page</Button>
+        <span>Page {pagination.page} of {pagination.totalPages}</span>
+        <Button disabled={pagination.page === pagination.totalPages} onClick={handleNextPage}>Next Page</Button>
+      </div>
 
       {/* </div> */}
     </div>

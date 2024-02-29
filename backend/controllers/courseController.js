@@ -9,18 +9,29 @@ const Course = db.course;
 
 exports.getAllCourses = async (req, res) => {
   try {
-    const courses = await Course.find({}, { contractAddress: 0 });
+    const courses = await Course.find({}, { contractAddress: 0, usersEnrolled: 0 });
     res.status(200).send({ message: "retrieved successfully", courses });
   } catch (error) {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
   }
 };
 
+exports.getAllCoursesDash = async (req, res) => {
+  try {
+    const courses = await Course.find({});
+    res.status(200).send({ message: "retrieved successfully", courses });
+  } catch (error) {
+    res.status(500).send({ message: error.message || "Internal Server Error", error });
+  }
+};
+
+
 exports.getCourseById = async (req, res) => {
   try {
     const course = await Course.findOne({ _id: req.query.courseId }, {
       contractAddress: 0
     })
+
     res.status(200).send({ message: "retrieved successfully", course });
   } catch (error) {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
@@ -30,8 +41,9 @@ exports.getCourseById = async (req, res) => {
 exports.getCourseByName = async (req, res) => {
   try {
     const course = await Course.findOne({ title: req.params.title }, {
-      contractAddress: 0
-    });
+      contractAddress: 0, usersEnrolled: 0
+    })
+
     res.status(200).send({ message: "retrieved successfully", course });
   } catch (error) {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
@@ -196,62 +208,6 @@ exports.syncData = async (req, res) => {
       }
     }
 
-    // for (const courseData of coursesData) {
-    //   // Extract course details from courseData.attributes
-
-    //   const existingCourse = await Course.findOne({ strapiId: courseData.id });
-    //   const courseDetails = {
-    //     strapiId: courseData.id,
-    //     title: courseData.attributes.title,
-    //     description: courseData.attributes.description,
-    //     aboutCourse: courseData.attributes.aboutCourse,
-    //     duration: courseData.attributes.duration,
-    //     level: courseData.attributes.level,
-    //     skills: courseData.attributes.skills,
-    //     nftImage: courseData.attributes.nftImage.data?.attributes?.url,
-    //     banner: courseData.attributes.banner.data[0]?.attributes?.url,
-    //     whatYouLearn: courseData.attributes.whatYouLearn.map((item) => item.title),
-    //     // Transform faq data
-    //     contractAddress: courseData.attributes.contractAddress,
-    //     faq: courseData.attributes.faq.map((faqItem) => ({
-    //       faqTitle: faqItem.faqTitle,
-    //       faqAnswer: faqItem.faqAnswer,
-    //     })),
-    //     // Transform module data
-    //     module: courseData.attributes.module.map((moduleItem) => ({
-    //       moduleTitle: moduleItem.moduleTitle,
-    //       chapter: moduleItem.chapter.map((chapterItem) => ({
-    //         title: chapterItem.title,
-    //         content: chapterItem.content,
-    //         strapiId: chapterItem.id,
-    //       })),
-    //       quizzes: moduleItem.quizes.map((quizItem) => ({
-    //         quizTitle: quizItem.quizTitle,
-    //         a: quizItem.a,
-    //         b: quizItem.b,
-    //         c: quizItem.c,
-    //         d: quizItem.d,
-    //         answer: quizItem.answer,
-    //         strapiId: quizItem.id,
-    //       })),
-    //       strapiId: moduleItem.id,
-    //     })),
-    //   };
-
-    //   if (existingCourse) {
-    //     const updatedCourse = await Course.findOneAndUpdate(
-    //       { strapiId: courseData.id },
-    //       { $set: courseDetails },
-    //       // { new: true }
-    //     );
-    //     console.log("course updated:", updatedCourse._id);
-    //     continue;
-    //   }
-
-    //   // Create a new Course document and save it to MongoDB
-    //   const course = new Course(courseDetails);
-    //   await course.save();
-    // }
     res.status(200).send({ message: "course data synchronized successfully" });
   } catch (error) {
     console.error(error);

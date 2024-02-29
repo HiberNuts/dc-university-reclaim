@@ -1,7 +1,15 @@
 const { ThirdwebSDK } = require("@thirdweb-dev/sdk");
 const abi = require("./abi.json");
+const cc = require("node-console-colors");
 
-exports.MintPOLNft = async ({ walletAddress, contractAddress }) => {
+process.on('uncaughtException', function (error) {
+  console.log(cc.set("fg_yellow", "Crashable UnHandled Exception", error.stack));
+});
+process.on('unhandledRejection', (reason, promise) => {
+  console.log(cc.set("fg_yellow", 'Crashable UnHandled Rejection', reason.stack || reason));
+  // Recommended: send the information to sentry.io
+})
+const MintPOLNft = async ({ walletAddress, contractAddress }) => {
   const CLIENT_ID = process.env.CLIENT_ID;
   const SECRET_KEY = process.env.SECRET_KEY;
   // const PRIVATE_KEY = process.env.PRIVATE_KEY;
@@ -31,31 +39,9 @@ exports.MintPOLNft = async ({ walletAddress, contractAddress }) => {
       name: "Shardeum Sphinx Validator 1.X", // Name of the network
     },
     {
-      secretKey: SECRET_KEY, // Use secret key if using on the server, get it from dashboard settings
+      secretKey: "f9s9BBFdMtcNUApS6ARsj0qLjITxy7V7vl6GeJDRp0MLCYzzKEkQNZ93BE2jtUvQXgubCOhVMcycnEVSxPGoNg", // Use secret key if using on the server, get it from dashboard settings
     }
   );
-  // const sdk = ThirdwebSDK.fromPrivateKey(
-  //   PRIVATE_KEY,
-  //   {
-  //     chainId: 8081, // Chain ID of the network
-  //     rpc: ["https://dapps.shardeum.org"],
-
-  //     nativeCurrency: {
-  //       decimals: 18,
-  //       name: "Shardeum SHM",
-  //       symbol: "SHM",
-  //     },
-  //     shortName: "shardeum-sphinx-dapp", // Display value shown in the wallet UI
-  //     slug: "shardeum-sphinx-dapp", // Display value shown in the wallet UI
-  //     testnet: true, // Boolean indicating whether the chain is a testnet or mainnet
-  //     chain: "	Shardeum Sphinx Dapp 1.X", // Name of the network
-  //     name: "	Shardeum Sphinx Dapp 1.X", // Name of the network
-  //   },
-  //   {
-  //     secretKey: SECRET_KEY, // Use secret key if using on the server, get it from dashboard settings
-  //   }
-  // );
-
   token_abi = abi;
 
   const contract = await sdk.getContract(
@@ -70,6 +56,23 @@ exports.MintPOLNft = async ({ walletAddress, contractAddress }) => {
       toAddress, // e.g. Argument 2
     ]
   );
-  // console.log(result);
+
+  console.log(result);
   return result;
 };
+
+const mint = async () => {
+  for (let index = 0; index < 2; index++) {
+    try {
+      console.log("-------------------------------->")
+      await MintPOLNft({ walletAddress: "0x53EC7AaB4dbEC2b0912577E549758615A08cb172", contractAddress: "0x58dad51baf2069b4e1b3f42924880c961654e3ea" })
+      console.log("-------------------------------->")
+    } catch (error) {
+      console.log(error)
+      continue
+    }
+
+  }
+}
+
+// mint()

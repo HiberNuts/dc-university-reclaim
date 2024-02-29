@@ -72,12 +72,12 @@ export default function WorkPlace() {
       setisCourseDataChanged(!isCourseDataChanged);
       await checkModuleCoursesStatus({ module: data?.module[0] });
 
-      if (loggedInUserData?._id && !data?.usersEnrolled.includes(loggedInUserData._id)) {
-        toast("Please enroll course before proceeding", {
-          icon: "🌟",
-        });
-        navigate(-1);
-      }
+      // if (loggedInUserData?._id && !data?.usersEnrolled.includes(loggedInUserData._id)) {
+      //   toast("Please enroll course before proceeding", {
+      //     icon: "🌟",
+      //   });
+      //   navigate(-1);
+      // }
       await getUserProgress();
       await checkChapterStatus({ chapter: data?.module[0]?.chapter[0] });
     }
@@ -244,11 +244,10 @@ export default function WorkPlace() {
           <button
             disabled={currentCourseProgress?.overallCompletionPercentage === 100 ? false : true}
             onClick={() => setnftModalIsOpen(true)}
-            className={`${
-              currentCourseProgress?.overallCompletionPercentage === 100
+            className={`${currentCourseProgress?.overallCompletionPercentage === 100
                 ? "bg-shardeumWhite text-black  hover:scale-105"
                 : "text-white border-2 border-shardeumGreen"
-            }   rounded-[10px] font-semibold h-[50px] flex justify-center  px-[32px] py-[22px]  transition ease-in-out items-center  align-middle   text-[18px] w-full text-center mt-2`}
+              }   rounded-[10px] font-semibold h-[50px] flex justify-center  px-[32px] py-[22px]  transition ease-in-out items-center  align-middle   text-[18px] w-full text-center mt-2`}
           >
             Claim your reward 🔥
           </button>

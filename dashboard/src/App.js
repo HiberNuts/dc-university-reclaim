@@ -30,7 +30,7 @@ function App() {
   const getCourseData = async () => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/course/allCourses`
+        `${process.env.REACT_APP_BACKEND_URL}/api/course/allCoursesDash`
       );
       const result = await response.json();
       setCourses(result.courses);
@@ -65,23 +65,23 @@ function App() {
 
   const handleCourseClick = async (course) => {
     setSelectedCourse(course);
-    const usersEnrolled = course.usersEnrolled || [];
-    const userData = await Promise.all(
-      usersEnrolled.map(async (userId) => {
-        const userResponse = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/api/auth/user?userId=${userId}`
-        );
-        const userResult = await userResponse.json();
-        return {
-          id: userId,
-          ...userResult,
-        };
-      })
-    );
+    // const usersEnrolled = course.usersEnrolled || [];
+    // const userData = await Promise.all(
+    //   usersEnrolled.map(async (userId) => {
+    //     const userResponse = await fetch(
+    //       `${process.env.REACT_APP_BACKEND_URL}/api/auth/user?userId=${userId}`
+    //     );
+    //     const userResult = await userResponse.json();
+    //     return {
+    //       id: userId,
+    //       ...userResult,
+    //     };
+    //   })
+    // );
 
     // Navigate to a new page with course and user details
     navigate(`/course-details/${course._id}`, {
-      state: { course, userData },
+      state: { course },
     });
   };
 
