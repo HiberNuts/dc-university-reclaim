@@ -516,9 +516,6 @@ exports.mintNft = async (req, res) => {
               console.error("Error completing course email", error);
             }
           );
-
-
-
           res
             .status(200)
             .send({ message: "Nft successfully Minted", minted: true, TxHash: result.receipt.transactionHash });
@@ -531,5 +528,6 @@ exports.mintNft = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    // res.status(400).send({ message: "Error while minting NFT", minted: false });
   }
 };

@@ -151,7 +151,7 @@ exports.update = async (req, res) => {
     //JOIN NEWSLETTER CONFIG 
     const email = req.body.email;
     createContact.email = email;
-    createContact.listIds = [183];
+    createContact.listIds = [346];
 
     // const userIdQuery = req.query.userid;
     const userIdQuery = req.userId;
