@@ -12,7 +12,7 @@ const FaqHome = () => {
         <Acordian
           title={"Why Are You Launching Shardeum University Now?"}
           desc={
-            "Shardeum University is being launched in response to the significant growth and potential of the blockchain and Web3 ecosystem. Its aim is to address the scalability trilemma (scalability, security, decentralization) in blockchain, a key challenge that has limited Web3's capabilities compared to Web2. With Shardeum's innovative technology potentially overcoming these scalability issues, there's an urgent need to prepare the next generation for a rapidly evolving, decentralized ecosystem. Shardeum University will equip young professionals with essential Web3 knowledge and skills, positioning them to lead and innovate in this transformative industry."
+            "Shardeum University is being launched in response to the significant growth and potential of the blockchain and Web3 ecosystem. Shardeum University will equip young professionals with essential Web3 knowledge and skills, positioning them to lead and innovate in this transformative industry."
           }
         />
         <Acordian
