@@ -9,6 +9,7 @@ import axios from "axios";
 import PreviewCourseAcc from "../PreviewCourseAcoridan/PreviewCourseAcordian.jsx";
 import PreviewQuiz from "../PreviewQuiz/PreviewQuiz.jsx";
 
+
 export default function PreviewWorkplace() {
   const params = useParams();
   const navigate = useNavigate();
@@ -66,7 +67,6 @@ export default function PreviewWorkplace() {
 
   return (
     <div className="w-full  mt-[10vh] h-full flex justify-between align-middle">
-      <Toaster />
       <ScrollToTop />
       {/* <NftModal
         toast={toast}
