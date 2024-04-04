@@ -5,6 +5,9 @@ import { updateCourseProgressAPI } from "../../../utils/api/CourseAPI";
 import whiteExpand from "../../../assets/whiteArrow.svg";
 import toast, { Toaster } from "react-hot-toast";
 import LongArrow from "../../../assets/LongArrow.svg";
+import { CopyBlock, dracula } from "react-code-blocks";
+
+
 const DisplayChapter = ({
   currentModule,
   currentChapter,
@@ -82,8 +85,9 @@ const DisplayChapter = ({
     checkChapterStatus({ chapter });
     await checkModuleCoursesStatus({ currentModule });
   };
+
   return (
-    <div className=" w-full bg-shardeumWhite text-[20px] md:px-[120px] px-[80px] courseContent justify-center align-middle  flex-col ">
+    <div className=" w-full bg-shardeumWhite text-[20px] md:px-[100px] px-[60px] courseContent justify-center align-middle  flex-col ">
       <Toaster />
       {currentModule?.chapter
         .filter((chapter) => chapter._id === currentChapter._id)
@@ -102,7 +106,23 @@ const DisplayChapter = ({
                 li: (props) => <li className="">{props?.children}</li>,
                 ol: (props) => <ol className="list-decimal p-[0px] m-[0px]">{props?.children}</ol>,
                 ul: (props) => <ul className="list-disc p-[0px] m-[0px]">{props?.children}</ul>,
-                
+                pre: (props) => <pre className="overflow-scroll ">{props.children}</pre>,
+                // pre: (props) => <CodeBlock
+                //   text={props.children}
+                //   language="javascript"
+
+                // />
+                code: (props) => <CopyBlock
+                  className="-z-10"
+                  text={props.children}
+                  language="jsx"
+                  wrapLongLines
+                  theme={dracula}
+                  wrapLines
+                  codeBlock
+
+                />
+
               }}
             />
             <div className="flex w-full mt-10 justify-end">

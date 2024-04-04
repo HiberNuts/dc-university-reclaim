@@ -198,6 +198,7 @@ export default function WorkPlace() {
         isOpen={nftModalIsOpen}
         setIsOpen={setnftModalIsOpen}
       />
+
       <div className="bg-shardeumBlue px-[15px] py-[48px] lg:w-[25%] md:w-[30%] sm:w-[30%] fixed h-[90vh] left-0 flex flex-col align-middle items-center scroll-m-0 overflow-y-auto">
         <div className="">
           <div>
@@ -257,7 +258,7 @@ export default function WorkPlace() {
           </button>
         </div>
       </div>
-      <div className="ml-[25%]   w-full flex flex-col justify-center items-center">
+      <div className="ml-[25%] overflow-x-hidden   w-full flex flex-col justify-center items-center">
         <div
           style={{
             width: "100%",
