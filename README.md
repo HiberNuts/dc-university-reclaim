@@ -1,5 +1,5 @@
 # Shardeum University 🧑‍🎓
-
+<!-- eb change check -->
 Dedicated education platform for shardeum ecosystem
 
 ## Getting Started
