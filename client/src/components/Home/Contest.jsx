@@ -10,7 +10,7 @@ export default function Contest(){
   const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
   let contentDescription="Ensure rapid development and build powerful Linearly Scalable Dapps with Shardeum Ensure rapid development and build powerful Linearly rapid development and build powerful Linearly";
    return(
-    <div className="w-full mt-4 flex flex-col bg-shardeumWhite p-[40px] sm:p-[80px] text-black items-center  justify-center align-middle">
+    <div className="w-full mt-4 flex flex-col bg-shardeumWhite p-[12px] sm:p-[80px] text-black items-center  justify-center align-middle">
         <div className="flex flex-col w-full space-y-12">
            <p className="font-helvetica-neue-bold text-[64px]  items-center text-center  ">Upcoming Contest</p>
            <div className="flex justify-center items-center">
@@ -21,7 +21,7 @@ export default function Contest(){
             opacity: scrollYProgress,
             boxShadow: "0px 4px 20px 0px rgba(195, 200, 255, 0.30)",
             }}
-            className="flex card-container  h-[320px] bg-white border-[2px] shadow flex-row justify-center align-middle w-[300px] sm:w-[1200px] rounded-[16px] "
+            className="flex card-container lg:h-[320px] bg-white border-[2px] shadow flex-col sm:flex-row justify-center align-middle w-full sm:w-[1200px] rounded-[16px] "
             >
                    <div className="flex-[2]">
                         <LazyLoadImage
@@ -29,7 +29,7 @@ export default function Contest(){
                          src={CONTEST_IMG}   
                         />
                    </div>                    
-                   <div className="flex-[3] p-8">
+                   <div className="flex-[3] p-4 sm:p-8">
                         <div className="title-container">
                             <p className="text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold font-bold">
                                 How do you clone a smart contract?

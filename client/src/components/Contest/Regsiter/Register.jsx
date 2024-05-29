@@ -10,9 +10,9 @@ export default function ContestRegsiter(){
         "topics related to both Web2 and Web3. SMALL CHALLENGES is designed for individual developers and will pop up every 3 hours for  all participants to challenge themselves and be ranked in the list to win instant awards for each small challenge, and win medals for the final ranking list at the end of events."
        ]
       return (
-            <div className="bg-white border-2 px-20">
-                   <div className="contest-header grid grid-cols-2 py-3">
-                         <div className='pr-2'>
+            <div className="bg-white border-2 px-5 md:px-20">
+                   <div className="contest-header grid grid-cols-1 md:grid-cols-2 py-3">
+                         <div className='order-2 md:order-1 pr-2'>
                              <p className='my-2 text-[40px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold text-shardeumBlue'>Contest Name</p>
                              <p className='my-2 text-[15px] text-slategray font-helvetica-neue-roman leading-[25px] '>{contentDescription}</p>
                              <p className='my-2 text-[15px]'>
@@ -35,14 +35,14 @@ export default function ContestRegsiter(){
                                  <GreenButton text={"Start Now"}/>
                              </div>
                          </div>
-                         <div className='flex justify-center items-center'>
+                         <div className='order-1 md:order-2 flex justify-center items-center'>
                             <LazyLoadImage
                             className="h-[320px] px-10 py-10 rounded-[16px]"
                             src={CONTEST_IMG}   
                             />
                          </div>
                    </div>
-                   <div className="contest-details py-5 grid grid-cols-3">
+                   <div className="contest-details py-5 grid grid-cols-2 lg:grid-cols-3">
                          <div className='col-span-2'>
                             <div className='contest-details-title'>
                                 <p className='my-2 text-[40px]  leading-tight text-overflow-ellipsis font-helvetica-neue-bold'>
