@@ -67,7 +67,10 @@ export default function ContestRegsiter(){
                                 <p className='text-[15px] font-semibold'>Winnings:</p>
                                 <ul className='mx-1'>
                                     {rules.map(s=>
-                                    <li className='py-1'>
+                     
+                     
+                     
+                     <li className='py-1'>
                                         <span className="w-2 h-2 bg-[#605d5d] rounded-full inline-block mr-2"></span>
                                         <span className='text-[15px]  text-slategray font-helvetica-neue-roman leading-[25px]'>{s}</span>
                                     </li>
