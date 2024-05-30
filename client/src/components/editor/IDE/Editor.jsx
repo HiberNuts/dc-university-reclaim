@@ -36,7 +36,10 @@ export default function editor() {
         direction="horizontal"
         cursor="col-resize"
       >
+        <div className="h-screen overflow-scroll">
         <Problem />
+        </div>
+        
         <IDE/>
       </Split>
     </div>

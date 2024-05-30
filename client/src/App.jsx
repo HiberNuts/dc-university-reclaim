@@ -15,7 +15,7 @@ import PreviewCourseDesc from "./components/Courses/CourseDesc/PreviewCourseDesc
 import PreviewWorkplace from "./components/PreviewWorkPlace/PreviewWorkplace";
 import ContestRegsiter from "./components/Contest/Regsiter/Register";
 import ContestList from "./components/Contest/List/ContestList";
-
+import Editor from "./components/editor/IDE/Editor";
 
 function App() {
   const RedirectAs404 = ({ location }) => <Navigate to={Object.assign({}, location, { state: { is404: true } })} />;
@@ -34,6 +34,7 @@ function App() {
         <Route path="/emailverification" element={<EmailVerification />} />
         <Route path="/contest/:id" element={<ContestRegsiter/>}/>
         <Route path="/contest/list" element={<ContestList/>}/>
+        <Route path="/editor" element={<Editor/>}/>
         {/* hello */}
         {/*Main Routes*/}
         {/*Private route section*/}
