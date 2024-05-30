@@ -54,7 +54,7 @@ export default function IDE() {
 							fontFamily: 'Menlo',
 							fontSize: 12,
 							value:"nasim",
-							
+				
 					});
 	}
 	const loadsolc = async () => {
