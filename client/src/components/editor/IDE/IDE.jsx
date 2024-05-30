@@ -1,11 +1,16 @@
 import Editor from "@monaco-editor/react";
-import { useEffect,useRef } from "react";
+import { useEffect,useRef, useState } from "react";
 import { solidityLanguageConfig,solidityTokensProvider } from './EditorConfig'
 import * as monaco from "monaco-editor"
 import solcjs from 'solc-js'
+import { FaCode } from "react-icons/fa6";
+import { IoIosAdd } from "react-icons/io";
+import { FiMinus } from "react-icons/fi";
+
 export default function IDE() {
 	let compiler=useRef()
 	const editor=useRef(null)
+	const [fontSize,setFontSize]=useState(16)
 	function setupMonaco() {
 		monaco.languages.register({ id: 'solidity' })
 		monaco.languages.setLanguageConfiguration(
@@ -14,7 +19,7 @@ export default function IDE() {
 		)
 		monaco.languages.setMonarchTokensProvider('solidity', solidityTokensProvider);
 		monaco.editor.defineTheme('mylang-theme', {
-			base: 'vs-dark',
+			base: 'vs',
 			inherit: true,
 			rules: [
 			  { token: 'keyword', foreground: '#FF6600', fontStyle: 'bold' },
@@ -24,10 +29,10 @@ export default function IDE() {
 			],
 			colors: {
 				'editor.foreground': '#000000', 
-				'editor.background': '#1E1E1E', 
+				'editor.background': '#FFFFFF', 
 				'editorCursor.foreground': '#A7A7A7', 
-				'editor.lineHighlightBackground': '#1E1E1E', 
-				'editorLineNumber.foreground': '#858585', 
+				'editor.lineHighlightBackground': '#FFFFFF', 
+				'editorLineNumber.foreground': '#FFFFFF', 
 				'editor.selectionBackground': '#88000030',
 				'editor.inactiveSelectionBackground': '#88000015' 
 			  }
@@ -52,7 +57,7 @@ export default function IDE() {
 							theme: 'mylang-theme',
 							language: 'solidity',
 							fontFamily: 'Menlo',
-							fontSize: 12,
+							fontSize,
 							value:"nasim",
 				
 					});
@@ -73,18 +78,31 @@ export default function IDE() {
     setCode(value);
   }
   return (
-    <div className="h-screen">
+    <div className="h-screen w-full">
       {/* <Editor
         height="70vh"
         defaultLanguage="javascript"
         defaultValue="// some comment"          
         onChange={handleEditorChange}
       /> */}
+	  <div className="w-full  bg-black py-1 px-2 flex items-center justify-between">
+		<div className="flex items-center">
+		<FaCode className=" text-white mr-3"/>
+		<p className="text-white">Code Editor</p>
+		</div>
+		{/* <div className="flex items-center">
+		<IoIosAdd className="text-white mr-3" />
+		<FiMinus className="text-white"/>
+		</div> */}
+	  	
+      </div>
       <div id="container" className="h-[50%]">
 				
       </div>
       <div className="w-full p-3 bg-black">
             <button className="bg-transparent border border-white rounded text-white p-2" onClick={execute}>Compile</button>
+			<button className="bg-transparent border border-white rounded text-white p-2" onClick={execute}>Submit</button>
+
       </div>
       <div>
 

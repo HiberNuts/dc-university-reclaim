@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+  box-sizing: border-box;
+}
+
 @font-face {
   font-family: "helvetica-neue-bold";
   src: url("./assets/HelveticaNeueLTProBdCn.otf");

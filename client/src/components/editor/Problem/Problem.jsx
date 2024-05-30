@@ -1,6 +1,6 @@
 export default function Problem() {
   return (
-    <div>
+    <div className="p-3">
       <p className="text-3xl font-bold">Simple Counter</p>
       <p className="text-lg leading-[2rem] mt-5">
         In a quaint town, a central bulletin board is the heart of community

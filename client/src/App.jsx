@@ -21,7 +21,7 @@ function App() {
   const RedirectAs404 = ({ location }) => <Navigate to={Object.assign({}, location, { state: { is404: true } })} />;
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Routes>
         {/* Auth Pages */}
         <Route exact path="/" element={<Home />} />
@@ -45,7 +45,7 @@ function App() {
         <Route component={RedirectAs404}></Route>
       </Routes>
 
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
