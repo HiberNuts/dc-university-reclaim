@@ -3,10 +3,11 @@ import solcjs from "solc-js";
 import Problem from "../Problem/Problem";
 import Split from "react-split";
 import IDE from "./IDE";
-
+import { Resizable, ResizableBox } from 'react-resizable';
 export default function editor() {
   const [code, setCode] = useState("");
   const [compiler, setCompiler] = useState(null);
+  const [darkTheme,setDarkTheme]=useState(true)
   // const loadsolc = async () => {
 
   // 	setCompiler(() => solidityCompiler)
@@ -23,12 +24,13 @@ export default function editor() {
     console.log(output);
   };
   return (
-    <div className="w-full h-screen">
+    <div className={`w-full h-screen ${darkTheme && "bg-black text-white"} transition-all duration-200 ease-linear`}>
+      
       <Split
         className="flex"
         sizes={[50, 50]}
         minSize={100}
-        expandToMin={false}
+        expandToMin={true}
         gutterSize={10}
         gutterAlign="center"
         snapOffset={30}
@@ -36,11 +38,14 @@ export default function editor() {
         direction="horizontal"
         cursor="col-resize"
       >
-        <div className="h-screen overflow-scroll">
-        <Problem />
-        </div>
         
-        <IDE/>
+            <div className="h-screen overflow-scroll flex-1">
+            <Problem darkTheme={darkTheme} toggleTheme={()=>setDarkTheme(theme=>!theme)}/>
+            </div>
+        {/* <ResizableBox width={200} height={200}
+        minConstraints={[100, 100]} maxConstraints={[300, 300]}> */}
+        <IDE  darkTheme={darkTheme}/>
+        {/* </ResizableBox> */}
       </Split>
     </div>
   );
