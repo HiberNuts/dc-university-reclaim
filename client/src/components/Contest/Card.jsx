@@ -1,16 +1,20 @@
 import React,{ useRef } from "react"
 import { motion, useScroll } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import CONTEST_IMG from '../../assets/contest.png';
 import GreenButton from "../button/GreenButton";
 
 export default function ContestCard()
 {
+    const navigate=useNavigate();
     const scrollRef = useRef(null);
     const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
     let contentDescription="Ensure rapid development and build powerful Linearly Scalable Dapps with Shardeum Ensure rapid development and build powerful Linearly rapid development and build powerful Linearly";
-    
+    const handleClick=()=>{
+      navigate("/contest/register/123");
+    }
 return(
     <motion.div
     ref={scrollRef}
@@ -19,15 +23,15 @@ return(
     opacity: scrollYProgress,
     boxShadow: "0px 4px 20px 0px rgba(195, 200, 255, 0.30)",
     }}
-    className="flex card-container lg:h-[320px] bg-white border-[2px] shadow flex-col sm:flex-row justify-center align-middle w-full sm:w-[1200px] rounded-[16px] "
+    className="flex gap-[40px] card-container lg:h-[364px] bg-white border-[2px] shadow flex-col sm:flex-row justify-center align-middle w-full sm:w-[1240px] rounded-[16px] p-[32px]"
     >
            <div className="flex-[2]">
                 <LazyLoadImage
-                 className="w-full px-10 pt-7 rounded-[16px]"
+                 className="w-full rounded-[16px]"
                  src={CONTEST_IMG}   
                 />
            </div>                    
-           <div className="flex-[3] p-4 sm:p-8">
+           <div className="flex-[3]">
                 <div className="title-container">
                     <p className="text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold font-bold">
                         How do you clone a smart contract?
@@ -77,9 +81,14 @@ return(
                          </div>
                     </div> */}
                 </div>
-                <div className="button-container">
+                <div className="h-[68px]">
+
+                </div>
+                <div className="button-container mt-30">
                        <GreenButton
                          text={"Register Now"}
+                         height="56px"
+                         onClick={handleClick}
                        />
                 </div>
            </div>                    
