@@ -68,7 +68,7 @@ export default function ContestList()
                     <span className="mx-4 text-[40px] leading-tight font-helvetica-neue-bold text-shardeumBlack">Past Contests</span>
                     <div className="flex-grow border-t border-gray-300"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 md:grid-cols-3"> 
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"> 
                     {
                         PAST_CONTESTS.map((single)=>
                        <motion.div

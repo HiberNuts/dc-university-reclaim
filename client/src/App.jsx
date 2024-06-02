@@ -15,13 +15,14 @@ import PreviewCourseDesc from "./components/Courses/CourseDesc/PreviewCourseDesc
 import PreviewWorkplace from "./components/PreviewWorkPlace/PreviewWorkplace";
 import ContestRegsiter from "./components/Contest/Regsiter/Register";
 import ContestList from "./components/Contest/List/ContestList";
+import Leaderboard from "./components/Contest/Leaderboard/Leaderboard";
 import Editor from "./components/editor/IDE/Editor";
 
 function App() {
   const RedirectAs404 = ({ location }) => <Navigate to={Object.assign({}, location, { state: { is404: true } })} />;
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <Routes>
         {/* Auth Pages */}
         <Route exact path="/" element={<Home />} />
@@ -32,7 +33,8 @@ function App() {
         <Route path="/previewworkplace/:id" element={<PreviewWorkplace />} />
         <Route path="/course/:id" element={<CourseDescription />} />
         <Route path="/emailverification" element={<EmailVerification />} />
-        <Route path="/contest/:id" element={<ContestRegsiter/>}/>
+        <Route path="/contest/register/:constestid" element={<ContestRegsiter/>}/>
+        <Route path="/contest/leaderboard/:contestid" element={<Leaderboard/>}/>
         <Route path="/contest/list" element={<ContestList/>}/>
         <Route path="/editor" element={<Editor/>}/>
         {/* hello */}
@@ -45,7 +47,7 @@ function App() {
         <Route component={RedirectAs404}></Route>
       </Routes>
 
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }
