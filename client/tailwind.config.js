@@ -50,7 +50,7 @@ module.exports = {
         "helvetica-neue-bold": ["helvetica-neue-bold"],
         "helvetica-neue-md": ["helvetica-neue-md"],
         "helvetica-neue-roman": ["helvetica-neue-roman"],
-
+        'helvetica-neue-LT': ['Helvetica Neue LT Pro', 'sans-serif'],
       },
       borderRadius: {
         xl: "20px",

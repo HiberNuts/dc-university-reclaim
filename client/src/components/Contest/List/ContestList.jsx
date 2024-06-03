@@ -53,7 +53,7 @@ export default function ContestList()
         // Add more slide components as needed
     ];
       const scrollRef = useRef(null);
-      const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
+      const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 2"] });
      
     return(
         <div>
@@ -62,10 +62,10 @@ export default function ContestList()
                     <Carousel slides={slides}/>
                 </div>
             </div>
-            <div className="past-contents-container bg-[#CAFFEF] min-h-[300px] pt-5 md:pt-20 px-5 md:px-40">
+            <div className="past-contents-container bg-[#CAFFEF] min-h-[300px] pt-5 md:pt-20 px-5 md:px-28">
                 <div className="flex items-center my-2">
                     <div className="flex-grow border-t border-gray-300"></div>
-                    <span className="mx-4 text-[40px] leading-tight font-helvetica-neue-bold text-shardeumBlack">Past Contests</span>
+                    <span className="mx-4 text-[64px] leading-tight font-helvetica-neue-bold text-shardeumBlack">Past Contests</span>
                     <div className="flex-grow border-t border-gray-300"></div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"> 
@@ -78,7 +78,7 @@ export default function ContestList()
                         opacity: scrollYProgress,
                         boxShadow: "0px 4px 20px 0px rgba(195, 200, 255, 0.30)",
                         }}
-                        className="flex flex-col card-container space-y-3 border-2 rounded-lg bg-white py-3 px-5 my-10 mx-5 shadow rounded-[20px] "
+                        className="flex flex-col card-container space-y-3 border-2  bg-white p-5 my-10 mx-5 shadow rounded-[20px] "
                         >
                                <div className="">
                                      <LazyLoadImage
@@ -92,27 +92,26 @@ export default function ContestList()
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-[16px] mt-2 text-slategray font-helvetica-neue-roman leading-[25px]">
+                                    <p className="text-[16px] mt-2 text-black font-helvetica-neue-roman leading-[25px] opacity-[70%]">
                                       {single.description}
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-[15px]">
-                                        <span className="pr-2">
-                                          <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">
-                                            {/* <LazyLoadImage
-                                                className="w-full  rounded-[16px]"
-                                                src={CALENDER}   height={"5px"} width={5}
-                                                /> */}
-                                          </span>
-                                          <span className="text-[14px]">
+                                    <p className="text-[14px] ">
+                                        <span className="flex gap-x-1 pr-2">
+                                          <div className="pt-[2px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold">
+                                             <LazyLoadImage
+                                                src={CALENDER}
+                                                />
+                                          </div>
+                                          <div className="">
                                              May 21, 2024 7:30AM (GMT+5:30)
-                                          </span> 
+                                          </div> 
                                         </span>
                                     </p>
                                 </div>
-                                <div>
-                                     <GreenButton text={"View Solution"}/>
+                                <div className="pt-3">
+                                     <GreenButton text={"View Solution"} isHoveredReq={true}/>
                                 </div>
                       </motion.div> 
                 )

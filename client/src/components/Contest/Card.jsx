@@ -23,7 +23,7 @@ return(
     opacity: scrollYProgress,
     boxShadow: "0px 4px 20px 0px rgba(195, 200, 255, 0.30)",
     }}
-    className="flex gap-[40px] card-container lg:h-[364px] bg-white border-[2px] shadow flex-col sm:flex-row justify-center align-middle w-full sm:w-[1240px] rounded-[16px] p-[32px]"
+    className="flex gap-[40px] card-container lg:h-[364px] bg-white border-[2px] shadow flex-col lg:flex-row justify-center align-middle w-full sm:w-[1240px] rounded-[16px] p-[32px]"
     >
            <div className="flex-[2]">
                 <LazyLoadImage
@@ -31,63 +31,75 @@ return(
                  src={CONTEST_IMG}   
                 />
            </div>                    
-           <div className="flex-[3]">
-                <div className="title-container">
-                    <p className="text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold font-bold">
-                        How do you clone a smart contract?
-                    </p>
-                </div>
-                <div className="description-container">
-                    <p className="text-[16px] mt-2 text-slategray font-helvetica-neue-roman leading-[25px]">
-                        {contentDescription.slice(0, 140) + (contentDescription.length > 140 ? "..." : "")}
-                    </p>
-                </div>
-                <div className="details-container my-3">
-                    <div className="my-1">
-                         <div className="">
-                             <p className="text-[15px]">
-                                <span className="pr-2 border-r-2 border-r-[#C3C8FF]">
-                                  <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Difficulty Level:</span><span className="text-[14px]">  Easy</span> 
-                                </span>
-                                <span className="px-2">
-                                  <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Participants:</span> <span className="text-[14px]">  100</span> 
-                                </span>
-                            </p>
-                         </div>
-                    </div>
-                    <div className="my-1">
-                         <div className="">
-                             <p className="text-[15px]">
-                                <span className="pr-2 border-r-2  border-r-[#C3C8FF]">
-                                  <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Start:</span><span className="text-[14px]">  May 21, 2024 7:30AM (GMT+5:30)</span>
-                                </span>
-                                <span className="px-2">
-                                  <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">End:</span><span className="text-[14px]">  May 21, 2024 7:30AM (GMT+5:30)</span>
-                                </span>
-                            </p>
-                         </div>
-                    </div>
-                    {/* When the contest is live  */}
-                    {/* <div className="my-1">
-                         <div className="">
-                             <p className="text-[15px]">
-                               <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Ending in:</span>
-                             </p>
-                         </div>
-                         <div>
-                              <p className="text-[14px]">
-                                <span className="text-red-500">2d : 11h :59m :22s</span>
+           <div className="flex-[3] flex flex-col justify-between">
+              <div className="">  
+                  <div className="title-container">
+                      <p className="text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold font-bold">
+                          How do you clone a smart contract?
+                      </p>
+                  </div>
+                  <div className="description-container">
+                      <p className="text-[16px] mt-2 text-black font-helvetica-neue-roman leading-[25px] opacity-[70%]">
+                          {contentDescription.slice(0, 140) + (contentDescription.length > 140 ? "..." : "")}
+                      </p>
+                  </div>
+                  <div className="details-container my-5">
+                      <div className="my-3">
+                          <div className="">
+                              <p className="text-[15px]">
+                                  <span className="pr-2 border-r-2 border-r-[#C3C8FF]">
+                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Difficulty Level:</span><span className="text-[14px]">  Easy</span> 
+                                  </span>
+                                  <span className="px-2">
+                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Participants:</span> <span className="text-[14px]">  100</span> 
+                                  </span>
                               </p>
-                         </div>
-                    </div> */}
-                </div>
-                <div className="h-[68px]">
-
-                </div>
-                <div className="button-container mt-30">
+                          </div>
+                      </div>
+                      <div className="hidden md:block my-3">
+                          <div className="">
+                              <p className="text-[15px]">
+                                  <span className="pr-2 border-r-2  border-r-[#C3C8FF]">
+                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Start:</span><span className="text-[14px]">  May 21, 2024 7:30AM (GMT+5:30)</span>
+                                  </span>
+                                  <span className="px-2">
+                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">End:</span><span className="text-[14px]">  May 21, 2024 7:30AM (GMT+5:30)</span>
+                                  </span>
+                              </p>
+                          </div>
+                      </div>
+                      <div className="block md:hidden my-3">
+                          <div className="">
+                              <p className="text-[15px] flex flex-col">
+                                  <span className="pr-2">
+                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Start:</span><span className="text-[14px]">  May 21, 2024 7:30AM (GMT+5:30)</span>
+                                  </span>
+                                  <span className="mt-2">
+                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">End:</span><span className="text-[14px]">  May 21, 2024 7:30AM (GMT+5:30)</span>
+                                  </span>
+                              </p>
+                          </div>
+                      </div>
+                      {/* When the contest is live  */}
+                      {/* <div className="my-1">
+                          <div className="">
+                              <p className="text-[15px]">
+                                <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Ending in:</span>
+                              </p>
+                          </div>
+                          <div>
+                                <p className="text-[14px]">
+                                  <span className="text-red-500">2d : 11h :59m :22s</span>
+                                </p>
+                          </div>
+                      </div> */}
+                  </div>
+              </div>
+                <div className="button-container">
                        <GreenButton
                          text={"Register Now"}
                          height="56px"
+                         isHoveredReq={true}
                          onClick={handleClick}
                        />
                 </div>

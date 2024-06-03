@@ -98,20 +98,20 @@ export default function Leaderboard({className})
     <div className="">
          <div className="bg-shardeumBlue px-2 sm:px-[100px]">
                   <div className="contest_name pt-28 pb-10">
-                        <p className="mx-4 text-[50px] leading-tight font-helvetica-neue-bold  text-shardeumWhite">Contest Name - Leaderboard</p>
+                        <p className="mx-4 text-[64px] leading-[80px] font-helvetica-neue-bold  text-shardeumWhite">Contest Name - Leaderboard</p>
                   </div>
          </div>
          <div className="bg-shardeumWhite px-10 sm:px-[120px] py-[50px]">
-            <div className="overflow-hidden rounded-lg border-2">
+            <div className="overflow-hidden rounded-[16px] border-2">
                   <table className="contest_leaderboard min-w-full">
                         <thead>
                             <tr className="text-white bg-black">
                                 {columns.map((column) => (
-                                    <th className="px-4 py-8 text-[22px] leading-tight font-helvetica-neue-semibold" key={column}>{column.toUpperCase()}</th>
+                                    <th className={`px-4 py-8 text-[22px] leading-tight font-helvetica-neue-semibold ${column=="Id"?'text-left':''}`} key={column}>{column.toUpperCase()}</th>
                                 ))}
                             </tr>
                         </thead>
-                        <tbody className="text-[25px]">
+                        <tbody className="text-[20px]">
                             {LEADERBOARD.map((item, index) => (
                                index<3?
                                         <tr className="text-center bg-shardeumGreen border-b-[0.5px]" key={index}>
@@ -129,7 +129,7 @@ export default function Leaderboard({className})
                                                         <a className="text-shardeumBlue underline" href={item[column]}>View Submission</a>
                                                     </td>
                                                     :
-                                                    <td className="px-4 py-5" key={column}>{item[column]}</td>
+                                                    <td className={`px-4 py-5 ${column=="Id"?'text-left':''}  ${column=="Rank"?'font-bold':''}`} key={column}>{item[column]}</td>
                                             ))}
                                         </tr>
                                         : 
@@ -148,7 +148,7 @@ export default function Leaderboard({className})
                                                         <a className="text-shardeumBlue underline" href={item[column]}>View Submission</a>
                                                     </td>
                                                     :
-                                                    <td className="px-4 py-5" key={column}>{item[column]}</td>
+                                                    <td className={`px-4 py-5 ${column=="Id"?'text-left':''} ${column=="Rank"?'font-bold':''}`} key={column}>{item[column]}</td>
                                             ))}
                                         </tr>
                             ))}
