@@ -67,8 +67,14 @@ export default function IDE(props) {
 	}
   const execute = async () => {
     // console.log(editor.current.getValue())
-    const compilerOutput=await compiler.current(editor.current.getValue())
-    setOutput(compilerOutput)
+	try{
+		const compilerOutput=await compiler.current(editor.current.getValue())
+		setOutput(compilerOutput)
+	}
+	catch(er){
+		setOutput(er)
+	}
+    
   }
 	useEffect(() => {
 		setupMonaco()
@@ -113,12 +119,11 @@ export default function IDE(props) {
 			<p className="text-lg">
 				byte code:
 			</p>
-			<p className="mt-4 whitespace-pre-line overflow-clip">
-			{output[0].binary.bytecodes.bytecode}
+			<p className="mt-4 whitespace-pre-line ">
+			{output[0].binary && output[0].binary.bytecodes.bytecode}
+			{output[0].type=="ParserError" && output[0].formattedMessage}
 			</p>
-
 		</div>
-		
 		}
 
       </div>
