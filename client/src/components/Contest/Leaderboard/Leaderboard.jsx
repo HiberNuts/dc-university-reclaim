@@ -4,7 +4,10 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 
 
 import AVATAR from "../../../assets/userdp1.png";
-
+import TRI from "../../../assets/leaderboard_triangle.png";
+import ARROW1 from "../../../assets/leaderboard_arrow1.png";
+import ARROW2 from "../../../assets/leaderboard_arrow2.png";
+import CONFETTI from "../../../assets/svgconfetti.svg"
 const LEADERBOARD=[
  {
       "Rank":1,
@@ -96,16 +99,19 @@ export default function Leaderboard({className})
     },[])
    return(
     <div className="">
-         <div className="bg-shardeumBlue px-2 sm:px-[100px]">
+         <div className="bg-shardeumBlue px-2 sm:px-[100px] leaderboard_title relative">
                   <div className="contest_name pt-28 pb-10">
                         <p className="mx-4 text-[64px] leading-[80px] font-helvetica-neue-bold  text-shardeumWhite">Contest Name - Leaderboard</p>
                   </div>
+                  <img className="absolute right-[7rem] top-2" src={TRI}/>
+                  <img className="absolute left-[20rem] top-1" src={ARROW1}/>
+                  <img className="absolute left-0 bottom-0" src={ARROW2}/>
          </div>
          <div className="bg-shardeumWhite px-10 sm:px-[120px] py-[50px]">
             <div className="overflow-hidden rounded-[16px] border-2">
                   <table className="contest_leaderboard min-w-full">
                         <thead>
-                            <tr className="text-white bg-black">
+                            <tr className="text-white bg-black table_head">
                                 {columns.map((column) => (
                                     <th className={`px-4 py-8 text-[22px] leading-tight font-helvetica-neue-semibold ${column=="Id"?'text-left':''}`} key={column}>{column.toUpperCase()}</th>
                                 ))}
@@ -114,7 +120,7 @@ export default function Leaderboard({className})
                         <tbody className="text-[20px]">
                             {LEADERBOARD.map((item, index) => (
                                index<3?
-                                        <tr className="text-center bg-shardeumGreen border-b-[0.5px]" key={index}>
+                                        <tr className="text-center bg-shardeumGreen border-b-[0.5px] top_3" key={index}>
                                             {columns.map((column) => (
                                                 column=="Avatar"?
                                                     <td className="px-4 py-5 flex justify-center" key={column}>

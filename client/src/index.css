@@ -98,3 +98,14 @@ body::-webkit-scrollbar-thumb:hover {
   background: #555; /* Customize scrollbar thumb color on hover */
 }
 
+.leaderboard_title{
+  background-image: url('../src/assets/backdrop_heading.png');
+}
+.table_head{
+  background-image: url("../src/assets/table_head.png");
+}
+.top_3{
+  background-image: url('../src/assets/confetti.png');
+  background-repeat: no-repeat; 
+  background-size: cover;
+}
