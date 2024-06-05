@@ -6,6 +6,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import CONTEST_IMG from '../../assets/contest.png';
 import GreenButton from "../button/GreenButton";
 
+import { formatTimestamp } from "../../utils/time";
+
 export default function ContestCard(props)
 {
     console.log(props)
@@ -28,7 +30,7 @@ return(
     >
            <div className="flex-[2]">
                 <LazyLoadImage
-                 className="w-full rounded-[16px]"
+                 className="w-full h-full rounded-[16px]"
                  src={props.image.data.attributes.url}   
                 />
            </div>                    
@@ -61,10 +63,10 @@ return(
                           <div className="">
                               <p className="text-[15px]">
                                   <span className="pr-2 border-r-2  border-r-[#C3C8FF]">
-                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Start:</span><span className="text-[14px]"> {props.startDate}</span>
+                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Start:</span><span className="text-[14px]"> {formatTimestamp(props.startDate)}</span>
                                   </span>
                                   <span className="px-2">
-                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">End:</span><span className="text-[14px]">  {props.endDate}</span>
+                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">End:</span><span className="text-[14px]">  {formatTimestamp(props.endDate)}</span>
                                   </span>
                               </p>
                           </div>
@@ -73,10 +75,10 @@ return(
                           <div className="">
                               <p className="text-[15px] flex flex-col">
                                   <span className="pr-2">
-                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Start:</span><span className="text-[14px]">  May 21, 2024 7:30AM (GMT+5:30)</span>
+                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Start:</span><span className="text-[14px]"> {formatTimestamp(props.startDate)}</span>
                                   </span>
                                   <span className="mt-2">
-                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">End:</span><span className="text-[14px]">  May 21, 2024 7:30AM (GMT+5:30)</span>
+                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">End:</span><span className="text-[14px]">   {formatTimestamp(props.endDate)}</span>
                                   </span>
                               </p>
                           </div>

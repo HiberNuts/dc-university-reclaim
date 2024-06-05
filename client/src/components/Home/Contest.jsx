@@ -11,7 +11,7 @@ export default function Contest(){
         <div className="flex flex-col w-full space-y-12">
            <p className="font-helvetica-neue-bold text-[64px]  items-center text-center  ">Upcoming Contest</p>
            <div className="flex justify-center items-center">
-                {latestContest?<ContestCard id={latestContest.id} {...latestContest.attributes}/>:<p>loading</p>}
+                {latestContest?<ContestCard id={latestContest.id} {...latestContest.attributes}/>:<p className="px-5 text-center text-[30px] font-bold">...</p>}
            </div>
         </div>
     </div>

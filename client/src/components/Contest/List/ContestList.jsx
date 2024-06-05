@@ -6,52 +6,18 @@ import ContestCard from '../Card';
 import GreenButton from "../../button/GreenButton";
 import CONTEST_IMG from '../../../assets/contest.png';
 import CALENDER from '../../../assets/calendar_month.png';
-import { getLatestContests } from "../../../utils/api/ContestAPI";
-const PAST_CONTESTS=[
-    {
-        img:CONTEST_IMG,
-        title:"Contest Name",
-        description:"Ensure rapid development and build powerful Linearly Scalable Dapps with Shardeum Ensure",
-        endDate:"May 21, 2024 7:30AM (GMT+5:30)"
-    },
-    {
-        img:CONTEST_IMG,
-        title:"Contest Name",
-        description:"Ensure rapid development and build powerful Linearly Scalable Dapps with Shardeum Ensure",
-        endDate:"May 21, 2024 7:30AM (GMT+5:30)"
-    },
-    {
-        img:CONTEST_IMG,
-        title:"Contest Name",
-        description:"Ensure rapid development and build powerful Linearly Scalable Dapps with Shardeum Ensure",
-        endDate:"May 21, 2024 7:30AM (GMT+5:30)"
-    },
-    {
-        img:CONTEST_IMG,
-        title:"Contest Name",
-        description:"Ensure rapid development and build powerful Linearly Scalable Dapps with Shardeum Ensure",
-        endDate:"May 21, 2024 7:30AM (GMT+5:30)"
-    },
-    {
-        img:CONTEST_IMG,
-        title:"Contest Name",
-        description:"Ensure rapid development and build powerful Linearly Scalable Dapps with Shardeum Ensure",
-        endDate:"May 21, 2024 7:30AM (GMT+5:30)"
-    },
-    {
-        img:CONTEST_IMG,
-        title:"Contest Name",
-        description:"Ensure rapid development and build powerful Linearly Scalable Dapps with Shardeum Ensure",
-        endDate:"May 21, 2024 7:30AM (GMT+5:30)"
-    }
-]
+import { getLatestContests,getPastContests } from "../../../utils/api/ContestAPI";
+import { formatTimestamp } from "../../../utils/time";
+
 export default function ContestList()
 {
-    const [latestContests,setLatestContests]=useState([])
+    const [latestContests,setLatestContests]=useState([]);
+    const [pastContests,setPastContest]=useState([]);
     useEffect(()=>{
         getLatestContests().then((data)=>setLatestContests(data.data.map((contest,index)=>{
             return <ContestCard key={index} id={contest.id} {...contest.attributes}/>
         })))
+        getPastContests().then((data)=>setPastContest(data.data.map((contest,index)=>contest.attributes)))
     },[])
     const slides = [
         <ContestCard key={0} />,
@@ -77,7 +43,7 @@ export default function ContestList()
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"> 
                     {
-                        PAST_CONTESTS.map((single)=>
+                        pastContests.map((single)=>
                        <motion.div
                         ref={scrollRef}
                         style={{
@@ -89,8 +55,8 @@ export default function ContestList()
                         >
                                <div className="">
                                      <LazyLoadImage
-                                        className="w-full  rounded-[16px]"
-                                        src={single.img}   
+                                        className="w-full h-[300px]  rounded-[16px]"
+                                        src={single.image.data.attributes.url}   
                                         />
                                 </div>
                                 <div>
@@ -100,7 +66,7 @@ export default function ContestList()
                                 </div>
                                 <div>
                                     <p className="text-[16px] mt-2 text-black font-helvetica-neue-roman leading-[25px] opacity-[70%]">
-                                      {single.description}
+                                      {single.description.slice(0, 170) + (single.description.length > 170 ? "..." : "")}
                                     </p>
                                 </div>
                                 <div>
@@ -112,7 +78,7 @@ export default function ContestList()
                                                 />
                                           </div>
                                           <div className="">
-                                             May 21, 2024 7:30AM (GMT+5:30)
+                                             {formatTimestamp(single.endDate)}
                                           </div> 
                                         </span>
                                     </p>
