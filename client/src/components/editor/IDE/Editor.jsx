@@ -42,10 +42,10 @@ export default function editor() {
             <div className="h-screen overflow-scroll flex-1">
             <Problem darkTheme={darkTheme} toggleTheme={()=>setDarkTheme(theme=>!theme)}/>
             </div>
-        {/* <ResizableBox width={200} height={200}
-        minConstraints={[100, 100]} maxConstraints={[300, 300]}> */}
+        <ResizableBox width={800} height={800}
+        minConstraints={[100, 100]} maxConstraints={[300, 300]}>
         <IDE  darkTheme={darkTheme}/>
-        {/* </ResizableBox> */}
+        </ResizableBox>
       </Split>
     </div>
   );

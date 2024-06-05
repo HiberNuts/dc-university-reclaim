@@ -2,14 +2,13 @@ import { IoSunny } from "react-icons/io5";
 import { IoMoon } from "react-icons/io5";
 export default function Problem(props) {
   return (
-    <div className="p-3">
+    <div className="px-[80px] py-[64px] relative">
       <div className="flex justify-between items-center">
 
       <p className={`text-3xl font-bold text-[26px] ${props.darkTheme && "text-[#CAFFEF]"}`}>2. Set Intersection size at least Two</p>
-      {props.darkTheme?<IoSunny className="text-white text-lg cursor-pointer" onClick={props.toggleTheme}/>
-		:<IoMoon className=" text-lg cursor-pointer" onClick={props.toggleTheme}/>
+      {props.darkTheme?<IoSunny className="text-white text-lg cursor-pointer absolute top-5 right-5" onClick={props.toggleTheme}/>
+		:<IoMoon className=" text-lg cursor-pointer absolute top-5 right-5" onClick={props.toggleTheme}/>
 		}
-
       </div>
       <div className="rounded-[40px] border-[1px] py-[14px] px-[16px] w-[192px] mt-4">
             <span className="font-bold text-[16px]">Difficulty level:</span>

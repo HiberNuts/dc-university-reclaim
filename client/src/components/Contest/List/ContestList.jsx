@@ -1,11 +1,12 @@
 import { motion, useScroll } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useRef } from "react";
+import { useRef,useContext,useEffect, useState } from "react";
 import Carousel from "../../Carousel/Carousel"
 import ContestCard from '../Card';
 import GreenButton from "../../button/GreenButton";
 import CONTEST_IMG from '../../../assets/contest.png';
 import CALENDER from '../../../assets/calendar_month.png';
+import { getLatestContests } from "../../../utils/api/ContestAPI";
 const PAST_CONTESTS=[
     {
         img:CONTEST_IMG,
@@ -46,6 +47,12 @@ const PAST_CONTESTS=[
 ]
 export default function ContestList()
 {
+    const [latestContests,setLatestContests]=useState([])
+    useEffect(()=>{
+        getLatestContests().then((data)=>setLatestContests(data.data.map((contest,index)=>{
+            return <ContestCard key={index} id={contest.id} {...contest.attributes}/>
+        })))
+    },[])
     const slides = [
         <ContestCard key={0} />,
         <ContestCard key={1} />,
@@ -59,7 +66,7 @@ export default function ContestList()
         <div>
             <div className="corousel-container bg-shardeumBlue min-h-[500px] py-10 sm:py-0 flex justify-center items-center">
                 <div className="h-[100%] w-full">
-                    <Carousel slides={slides}/>
+                    <Carousel slides={latestContests}/>
                 </div>
             </div>
             <div className="past-contents-container bg-[#CAFFEF] min-h-[300px] pt-5 md:pt-20 px-5 md:px-28">

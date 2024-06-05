@@ -1,6 +1,5 @@
 import { createContext, useState } from "react";
 import { getAllCourse } from "../utils/api/CourseAPI";
-
 export const ParentContext = createContext("");
 
 export const ParentProvider = ({ children }) => {
@@ -8,7 +7,7 @@ export const ParentProvider = ({ children }) => {
   const [loggedInUserData, setloggedInUserData] = useState({});
   const [userDataIsUpdated, setuserDataIsUpdated] = useState(false);
   const [courseLoading, setcourseLoading] = useState(false);
-
+  const [contests,setContests]=useState([])
   const getAllCourseMetaInfo = async () => {
     setcourseLoading(true);
     const data = await getAllCourse();
@@ -25,7 +24,9 @@ export const ParentProvider = ({ children }) => {
         userDataIsUpdated,
         setuserDataIsUpdated,
         courseLoading,
-        setcourseLoading
+        setcourseLoading,
+        contests,
+        setContests
       }}
     >
       {children}
