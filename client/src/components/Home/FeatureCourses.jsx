@@ -25,7 +25,7 @@ export default function FeatureCourses() {
         <p className="font-helvetica-neue-bold text-[64px]  items-center text-center  ">Explore Our Courses</p>
         <div className="flex w-full my-10 justify-center flex-wrap gap-5">
           {allCourseInfo &&
-            allCourseInfo?.slice(0, 3)?.map((course, index) => {
+            allCourseInfo?.reverse()?.slice(0, 4)?.map((course, index) => {
               return course.softDelete != true ? <CourseCard key={index} props={course} /> : "";
             })}
         </div>
