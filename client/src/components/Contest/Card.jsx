@@ -7,6 +7,7 @@ import CONTEST_IMG from '../../assets/contest.png';
 import GreenButton from "../button/GreenButton";
 
 import { formatTimestamp } from "../../utils/time";
+import { generateSlug } from "../../utils/generateSlug";
 
 export default function ContestCard(props)
 {
@@ -16,7 +17,7 @@ export default function ContestCard(props)
     const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
     let contentDescription="Ensure rapid development and build powerful Linearly Scalable Dapps with Shardeum Ensure rapid development and build powerful Linearly rapid development and build powerful Linearly";
     const handleClick=()=>{
-      navigate(`/contest/register/${props.id}`);
+      navigate(`/contest/register/${generateSlug(props.title)}`);
     }
 return(
     <motion.div

@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 import { formatTimestamp } from "../../../utils/time";
 import { getContests } from "../../../utils/api/ContestAPI";
 export default function ContestRegsiter() {
-  const { constestid } = useParams("constestid");
+  const { title } = useParams("title");
   const [contest, setContest] = useState(null);
   useEffect(() => {
-    getContests(constestid).then((res) => setContest(res.data.attributes));
+    getContests(title).then((res) => setContest(res.data[0].attributes));
   }, []);
 
   return contest ? (
@@ -92,6 +92,8 @@ export default function ContestRegsiter() {
     </div>
 </div>
   ) : (
-    "loading"
+    <div className="py-40 text-[25px] flex justify-center items-center">
+        <p>Loading...</p>
+    </div>
   );
 }

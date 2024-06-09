@@ -1,14 +1,15 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { getCurrentDate } from "../time";
-export const getContests = async (id = null) => {
+import { destructureSlug } from "../generateSlug";
+
+export const getContests = async (title = null) => {
   try {
     let endpoint = "/contests?populate=*";
-    if (id) endpoint = `/contests/${id}?populate=*`;
+    if (title) endpoint = `/contests?populate=*&filters[title][$eq]=${destructureSlug(title)}`;
     const { data } = await axios.get(
       `${import.meta.env.VITE_CMS_URL}${endpoint}`
     );
-
     return data;
   } catch (error) {
     return error;

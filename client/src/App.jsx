@@ -33,8 +33,8 @@ function App() {
         <Route path="/previewworkplace/:id" element={<PreviewWorkplace />} />
         <Route path="/course/:id" element={<CourseDescription />} />
         <Route path="/emailverification" element={<EmailVerification />} />
-        <Route path="/contest/register/:constestid" element={<ContestRegsiter/>}/>
-        <Route path="/contest/leaderboard/:contestid" element={<Leaderboard/>}/>
+        <Route path="/contest/register/:title" element={<ContestRegsiter/>}/>
+        <Route path="/contest/leaderboard/:title" element={<Leaderboard/>}/>
         <Route path="/contest/list" element={<ContestList/>}/>
         <Route path="/editor" element={<Editor/>}/>
         {/* hello */}
