@@ -36,7 +36,7 @@ function App() {
         <Route path="/contest/register/:title" element={<ContestRegsiter/>}/>
         <Route path="/contest/leaderboard/:title" element={<Leaderboard/>}/>
         <Route path="/contest/list" element={<ContestList/>}/>
-        <Route path="/editor" element={<Editor/>}/>
+        <Route path="/editor/:title" element={<Editor/>}/>
         {/* hello */}
         {/*Main Routes*/}
         {/*Private route section*/}

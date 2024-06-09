@@ -11,7 +11,7 @@ import { generateSlug } from "../../utils/generateSlug";
 
 export default function ContestCard(props)
 {
-    console.log(props)
+    // console.log(props)
     const navigate=useNavigate();
     const scrollRef = useRef(null);
     const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });

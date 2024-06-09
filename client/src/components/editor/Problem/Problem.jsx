@@ -2,7 +2,7 @@ import { IoSunny } from "react-icons/io5";
 import { IoMoon } from "react-icons/io5";
 export default function Problem(props) {
   return (
-    <div className="px-[80px] py-[64px] relative">
+    <div className={`px-[40px] py-[64px] relative ${props.className}`}>
       <div className="flex justify-between items-center">
 
       <p className={`text-3xl font-bold text-[26px] ${props.darkTheme && "text-[#CAFFEF]"}`}>2. Set Intersection size at least Two</p>

@@ -1,17 +1,21 @@
 import CONTEST_IMG from "../../../assets/contest.png";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import GreenButton from "../../button/GreenButton";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { formatTimestamp } from "../../../utils/time";
 import { getContests } from "../../../utils/api/ContestAPI";
 export default function ContestRegsiter() {
   const { title } = useParams("title");
+  const navigate=useNavigate();
   const [contest, setContest] = useState(null);
   useEffect(() => {
     getContests(title).then((res) => setContest(res.data[0].attributes));
   }, []);
 
+  const handleRegister=async()=>{
+       navigate(`/editor/${title}`);
+  }
   return contest ? (
     <div className="bg-white pb-10">
     <div className="contest-header grid grid-cols-1 md:grid-cols-2 px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[50px]">
@@ -40,7 +44,7 @@ export default function ContestRegsiter() {
                   <GreenButton 
                    text={"Start Now"}
                    isHoveredReq={true}
-                  //  onClick={handleRegister}
+                   onClick={handleRegister}
                    />
               </div>
           </div>

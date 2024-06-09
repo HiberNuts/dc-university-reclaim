@@ -4,6 +4,7 @@ import Problem from "../Problem/Problem";
 import Split from "react-split";
 import IDE from "./IDE";
 import { Resizable, ResizableBox } from 'react-resizable';
+import 'react-resizable/css/styles.css';
 export default function editor() {
   const [code, setCode] = useState("");
   const [compiler, setCompiler] = useState(null);
@@ -36,16 +37,23 @@ export default function editor() {
         snapOffset={30}
         dragInterval={1}
         direction="horizontal"
-        cursor="col-resize"
+        gutter={(index, direction) => {
+          const gutterElement = document.createElement('div');
+          gutterElement.className = `bg-gray-500 cursor-col-resize w-10 h-screen flex items-center justify-center hover:bg-gray-400   z-10`;
+          return gutterElement;
+        }}
       >
-        
-            <div className="h-screen overflow-scroll flex-1">
-            <Problem darkTheme={darkTheme} toggleTheme={()=>setDarkTheme(theme=>!theme)}/>
+            
+            <div className="h-screen overflow-scroll flex-1 relative">
+            <div
+            />
+              <Problem darkTheme={darkTheme} toggleTheme={()=>setDarkTheme(theme=>!theme)}/>
             </div>
-        <ResizableBox width={800} height={800}
-        minConstraints={[100, 100]} maxConstraints={[300, 300]}>
-        <IDE  darkTheme={darkTheme}/>
-        </ResizableBox>
+            <ResizableBox width={800} height={800}
+            minConstraints={[100, 100]} maxConstraints={[300, 300]}>
+              
+                <IDE  darkTheme={darkTheme}/>
+            </ResizableBox>
       </Split>
     </div>
   );
