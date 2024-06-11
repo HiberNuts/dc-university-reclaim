@@ -6,6 +6,8 @@ import solcjs from "solc-js";
 import { FaCode } from "react-icons/fa6";
 import { IoIosAdd } from "react-icons/io";
 import { FiMinus } from "react-icons/fi";
+import { compile } from "../../../utils/api/ContestAPI";
+
 import axios from "axios";
 
 // import { Editor } from "@monaco-editor/react";
@@ -14,7 +16,8 @@ export default function IDE(props) {
   const editor = useRef(null);
   const [fontSize, setFontSize] = useState(16);
   const [input,setInput]=useState("");
-  const [output, setOutput] = useState(null);
+  const [output, setOutput] = useState("");
+  const [compileError,setCompileError]=useState(false);
   function setupMonaco(monaco) {
     monaco.languages.register({ id: "solidity" });
     monaco.languages.setLanguageConfiguration(
@@ -72,15 +75,18 @@ export default function IDE(props) {
     compiler.current = await solcjs("v0.5.1-stable-2018.12.03");
   };
   const execute = async () => {
-    console.log(input)
-    // alert("112")
     try {
-      // const compilerOutput = await compiler.current(editor.current.getValue());
-      axios.post("http://localhost:8080/api/compile",{content:input})
-      .then(res=>console.log)
-      // setOutput(compilerOutput);
+      await compile(input).then((response)=>{
+          if(response.error==true) 
+              setCompileError(true);
+          setOutput(response.message)
+          setTimeout(() => {
+              setOutput("")
+              setCompileError(false);
+          },20000);
+        })
     } catch (er) {
-      setOutput(er);
+        setOutput(er.message);
     }
   };
   // useEffect(() => {
@@ -88,7 +94,6 @@ export default function IDE(props) {
   // 	// loadsolc()
   // }, [props.darkTheme])
   function handleEditorChange(value, event) {
-    console.log(value);
     setInput(value);
   }
   const handleEditorWillMount = (monaco) => {
@@ -132,7 +137,7 @@ export default function IDE(props) {
 
       <div className="w-full py-3 px-8 h-[10%]">
         <button
-          className="bg-transparent border  rounded  p-2 mr-5 hover:bg-red-500"
+          className="bg-transparent border  rounded  p-2 mr-5 hover:bg-green-500"
           onClick={()=>execute()}
         >
           Compile
@@ -145,7 +150,7 @@ export default function IDE(props) {
         </button>
       </div>
       <div className="h-[30%]  p-5 border-y">
-        {output && (
+        {/* {output && (
           <div>
             <p className="text-lg">byte code:</p>
             <p className="mt-4 whitespace-pre-line ">
@@ -153,7 +158,13 @@ export default function IDE(props) {
               {output[0].type == "ParserError" && output[0].formattedMessage}
             </p>
           </div>
-        )}
+        )} */}
+        {
+          output!=""&&
+          <div>
+             <p className={`text-lg ${compileError?'text-red-500':'text-green-500'}`}>{output}</p>      
+          </div>
+        }
       </div>
     </div>
   );

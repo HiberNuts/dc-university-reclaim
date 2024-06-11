@@ -59,9 +59,23 @@ export const getContestProgram=async(id)=>{
       const {data}=await axios.get(
         `${import.meta.env.VITE_CMS_URL}/programs?populate=*&filters[contestid][$eq]=${id}`
       );
-      console.log("RESPPNSE--->",data);
       return data;
     } catch (error) {
        return error;
     }
 }
+
+export const compile = async (code) => {
+  try {
+    console.log("COMPILER CODE--->", code);
+    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/compile`, { content: code });
+    
+    console.log("RESPONSE FOR COMPILATION-->", res);
+    if (res.status === 200) {
+      return { error: false, message: "Compiled Successfully" };
+    }
+  } catch (error) {
+    console.error("Compile Error-->", error);
+    return { error: true, message: "Failed to compile" };
+  }
+};
