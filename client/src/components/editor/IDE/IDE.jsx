@@ -13,6 +13,7 @@ export default function IDE(props) {
   let compiler = useRef();
   const editor = useRef(null);
   const [fontSize, setFontSize] = useState(16);
+  const [input,setInput]=useState("");
   const [output, setOutput] = useState(null);
   function setupMonaco(monaco) {
     monaco.languages.register({ id: "solidity" });
@@ -71,12 +72,13 @@ export default function IDE(props) {
     compiler.current = await solcjs("v0.5.1-stable-2018.12.03");
   };
   const execute = async () => {
-    // console.log(editor.current.getValue())
+    console.log(input)
+    // alert("112")
     try {
-      const compilerOutput = await compiler.current(editor.current.getValue());
-      // axios.post("http://localhost:8080/api/compile",{content:editor.current.getValue()})
-      // .then(res=>console.log)
-      setOutput(compilerOutput);
+      // const compilerOutput = await compiler.current(editor.current.getValue());
+      axios.post("http://localhost:8080/api/compile",{content:input})
+      .then(res=>console.log)
+      // setOutput(compilerOutput);
     } catch (er) {
       setOutput(er);
     }
@@ -87,6 +89,7 @@ export default function IDE(props) {
   // }, [props.darkTheme])
   function handleEditorChange(value, event) {
     console.log(value);
+    setInput(value);
   }
   const handleEditorWillMount = (monaco) => {
     setupMonaco(monaco);
@@ -119,7 +122,7 @@ export default function IDE(props) {
           className="border-black "
           height="50vh"
           defaultLanguage="solidity"
-          defaultValue="// write code here"
+          defaultValue={props?.program?.boilerplate_code??'//Write your code here'}
           theme={props.darkTheme ? "vs-dark" : "light"}
           onChange={handleEditorChange}
           beforeMount={handleEditorWillMount}
@@ -129,8 +132,8 @@ export default function IDE(props) {
 
       <div className="w-full py-3 px-8 h-[10%]">
         <button
-          className="bg-transparent border  rounded  p-2 mr-5"
-          onClick={execute}
+          className="bg-transparent border  rounded  p-2 mr-5 hover:bg-red-500"
+          onClick={()=>execute()}
         >
           Compile
         </button>

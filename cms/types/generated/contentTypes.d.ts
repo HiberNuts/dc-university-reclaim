@@ -362,107 +362,6 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
-export interface ApiContestContest extends Schema.CollectionType {
-  collectionName: 'contests';
-  info: {
-    singularName: 'contest';
-    pluralName: 'contests';
-    displayName: 'Contest';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String;
-    description: Attribute.Text;
-    participants: Attribute.BigInteger;
-    startDate: Attribute.DateTime;
-    endDate: Attribute.DateTime;
-    image: Attribute.Media;
-    details: Attribute.Text;
-    rules: Attribute.Blocks;
-    warnings: Attribute.Blocks;
-    level: Attribute.Enumeration<['Easy', 'Medium', 'Hard']>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::contest.contest',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::contest.contest',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiCourseCourse extends Schema.CollectionType {
-  collectionName: 'courses';
-  info: {
-    singularName: 'course';
-    pluralName: 'courses';
-    displayName: 'Course';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String;
-    banner: Attribute.Media;
-    description: Attribute.String;
-    aboutCourse: Attribute.Text;
-    duration: Attribute.Decimal;
-    level: Attribute.Enumeration<['Beginner', 'Intermediate', 'Advanced']>;
-    skills: Attribute.JSON &
-      Attribute.CustomField<
-        'plugin::multi-select.multi-select',
-        [
-          'Solidity',
-          'Cryptography',
-          'EVM',
-          'React JS',
-          'Javascript',
-          'HTML',
-          'CSS',
-          'reactjs',
-          'Web3',
-          'Shardeum',
-          'Blockchain'
-        ]
-      >;
-    whatYouLearn: Attribute.Component<
-      'course-metadata.what-you-ll-learn',
-      true
-    >;
-    faq: Attribute.Component<'course-metadata.faq', true>;
-    module: Attribute.Component<'course-metadata.module', true>;
-    nftImage: Attribute.Media;
-    contractAddress: Attribute.String;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::course.course',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::course.course',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -778,6 +677,142 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiContestContest extends Schema.CollectionType {
+  collectionName: 'contests';
+  info: {
+    singularName: 'contest';
+    pluralName: 'contests';
+    displayName: 'Contest';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    description: Attribute.Text;
+    participants: Attribute.BigInteger;
+    startDate: Attribute.DateTime;
+    endDate: Attribute.DateTime;
+    image: Attribute.Media;
+    details: Attribute.Text;
+    rules: Attribute.Blocks;
+    warnings: Attribute.Blocks;
+    level: Attribute.Enumeration<['Easy', 'Medium', 'Hard']>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::contest.contest',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::contest.contest',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCourseCourse extends Schema.CollectionType {
+  collectionName: 'courses';
+  info: {
+    singularName: 'course';
+    pluralName: 'courses';
+    displayName: 'Course';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    banner: Attribute.Media;
+    description: Attribute.String;
+    aboutCourse: Attribute.Text;
+    duration: Attribute.Decimal;
+    level: Attribute.Enumeration<['Beginner', 'Intermediate', 'Advanced']>;
+    skills: Attribute.JSON &
+      Attribute.CustomField<
+        'plugin::multi-select.multi-select',
+        [
+          'Solidity',
+          'Cryptography',
+          'EVM',
+          'React JS',
+          'Javascript',
+          'HTML',
+          'CSS',
+          'reactjs',
+          'Web3',
+          'Shardeum',
+          'Blockchain'
+        ]
+      >;
+    whatYouLearn: Attribute.Component<
+      'course-metadata.what-you-ll-learn',
+      true
+    >;
+    faq: Attribute.Component<'course-metadata.faq', true>;
+    module: Attribute.Component<'course-metadata.module', true>;
+    nftImage: Attribute.Media;
+    contractAddress: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::course.course',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::course.course',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProgramProgram extends Schema.CollectionType {
+  collectionName: 'programs';
+  info: {
+    singularName: 'program';
+    pluralName: 'programs';
+    displayName: 'program';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    contestid: Attribute.UID;
+    description: Attribute.Blocks;
+    duration: Attribute.String;
+    test_case_js_code: Attribute.Blocks;
+    boilerplate_code: Attribute.Text;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::program.program',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::program.program',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -788,14 +823,15 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'api::contest.contest': ApiContestContest;
-      'api::course.course': ApiCourseCourse;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::contest.contest': ApiContestContest;
+      'api::course.course': ApiCourseCourse;
+      'api::program.program': ApiProgramProgram;
     }
   }
 }

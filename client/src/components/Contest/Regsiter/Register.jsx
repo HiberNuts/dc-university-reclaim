@@ -9,12 +9,17 @@ export default function ContestRegsiter() {
   const { title } = useParams("title");
   const navigate=useNavigate();
   const [contest, setContest] = useState(null);
+  const [contestID,setContestID]=useState(4);
   useEffect(() => {
-    getContests(title).then((res) => setContest(res.data[0].attributes));
+    getContests(title).then((res) =>{
+      setContest(res.data[0].attributes)
+      setContestID(res.data[0].id);
+    } 
+  );
   }, []);
 
   const handleRegister=async()=>{
-       navigate(`/editor/${title}`);
+       navigate(`/editor/${title}/${contestID}`);
   }
   return contest ? (
     <div className="bg-white pb-10">

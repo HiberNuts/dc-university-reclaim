@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "programs",
+  "info": {
+    "singularName": "program",
+    "pluralName": "programs",
+    "displayName": "program",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "contestid": {
+      "type": "uid"
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "duration": {
+      "type": "string"
+    },
+    "test_case_js_code": {
+      "type": "blocks"
+    },
+    "boilerplate_code": {
+      "type": "text"
+    }
+  }
+}

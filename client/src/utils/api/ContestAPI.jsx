@@ -53,3 +53,15 @@ export const getPastContests=async ()=>{
     return error;
   }
 }  
+
+export const getContestProgram=async(id)=>{
+    try {
+      const {data}=await axios.get(
+        `${import.meta.env.VITE_CMS_URL}/programs?populate=*&filters[contestid][$eq]=${id}`
+      );
+      console.log("RESPPNSE--->",data);
+      return data;
+    } catch (error) {
+       return error;
+    }
+}

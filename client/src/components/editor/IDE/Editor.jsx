@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import solcjs from "solc-js";
 import Problem from "../Problem/Problem";
 import Split from "react-split";
 import IDE from "./IDE";
 import { Resizable, ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css';
+import { getContestProgram,getContests } from "../../../utils/api/ContestAPI";
+
+
 export default function editor() {
+  const  {id,title}=useParams();
   const [code, setCode] = useState("");
   const [compiler, setCompiler] = useState(null);
-  const [darkTheme,setDarkTheme]=useState(true)
+  const [darkTheme,setDarkTheme]=useState(true);
+  const [contest,setContest]=useState();
+  const [program,setProgram]=useState();
+  const [loader,setLoader]=useState(true);
   // const loadsolc = async () => {
 
   // 	setCompiler(() => solidityCompiler)
@@ -24,6 +32,17 @@ export default function editor() {
     const output = await solidityCompiler(code);
     console.log(output);
   };
+  useEffect(()=>{
+    if(title!=null)
+      getContests(title).then(async(resp)=>{
+        setContest(resp.data[0].attributes);
+      })
+    if(id!=null)
+      getContestProgram(id).then(async(resp)=>{
+        setProgram(resp.data[0].attributes);
+        setLoader(false);
+      });
+  },[id,title])
   return (
     <div className={`w-full h-screen ${darkTheme && "bg-black text-white"} transition-all duration-200 ease-linear`}>
       
@@ -45,15 +64,28 @@ export default function editor() {
       >
             
             <div className="h-screen overflow-scroll flex-1 relative">
-            <div
-            />
-              <Problem darkTheme={darkTheme} toggleTheme={()=>setDarkTheme(theme=>!theme)}/>
-            </div>
-            <ResizableBox width={800} height={800}
-            minConstraints={[100, 100]} maxConstraints={[300, 300]}>
-              
-                <IDE  darkTheme={darkTheme}/>
-            </ResizableBox>
+                <div
+                />
+                {
+                  loader?
+                  <div className="text-center text-white my-40">
+                      Loading...
+                  </div> 
+                  :
+                  <Problem darkTheme={darkTheme} toggleTheme={()=>setDarkTheme(theme=>!theme)} contest={contest} program={program}/>
+                }
+                </div>
+                <ResizableBox width={800} height={800}
+                minConstraints={[100, 100]} maxConstraints={[300, 300]}>
+                  {
+                    loader?
+                    <div className="text-center text-white my-40">
+                      Loading
+                    </div>
+                    :
+                    <IDE  darkTheme={darkTheme} program={program}/>
+                  }
+                </ResizableBox>
       </Split>
     </div>
   );
