@@ -86,7 +86,8 @@ require("./routes/courseRoutes")(app);
 require("./routes/adminRoutes")(app);
 require("./routes/solcRoutes")(app);
 // simple route
-app.get("/", (req, res) => {
+app.post("/", (req, res) => {
+  console.log(req.body)
   res.json({ message: "Welcome to backend of shardeum academy" });
 });
 

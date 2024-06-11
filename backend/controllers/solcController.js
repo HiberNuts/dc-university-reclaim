@@ -7,7 +7,7 @@ exports.compiler = async (req, res) => {
         language: 'Solidity',
         sources: {
           'test.sol': {
-            content
+            content,
           }
         },
         settings: {
@@ -27,7 +27,7 @@ exports.compiler = async (req, res) => {
             output.contracts['test.sol'][contractName].evm.bytecode.object
         );
       }
-      res.send(output)
+      res.status(200).send(output)
     } catch (error) {
       console.error("Error while compiling", error);
       res.status(500).send({ message: error.message || "Internal Server Error" });
