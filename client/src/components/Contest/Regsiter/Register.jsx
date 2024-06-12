@@ -1,6 +1,7 @@
 import CONTEST_IMG from "../../../assets/contest.png";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import GreenButton from "../../button/GreenButton";
+import Leaderboard from "../Leaderboard/Leaderboard";
 import { useParams,useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { formatTimestamp } from "../../../utils/time";
@@ -23,9 +24,9 @@ export default function ContestRegsiter() {
   }
   return contest ? (
     <div className="bg-white pb-10">
-    <div className="contest-header grid grid-cols-1 md:grid-cols-2 px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[50px]">
+    <div className="contest-header grid grid-cols-1 md:grid-cols-2 px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[50px] bg-[#CAFFEF]">
           <div className='order-2 md:order-1 pr-2'>
-              <p className='my-2 text-[64px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold text-shardeumBlue'>{contest.title}</p>
+              <p className='my-2 text-[64px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold'>{contest.title}</p>
               <p className='my-2 text-[18px] text-black font-helvetica-neue-roman leading-[31.5px] opacity-[70%] '>{contest.description}</p>
               <div className='grid grid-cols-1 space-y-[6px]'>
                  <p className='text-[16px] '>
@@ -59,6 +60,12 @@ export default function ContestRegsiter() {
              src={contest.image.data.attributes.url} 
              />
           </div>
+    </div>
+    <div className="px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[30px]">
+       <div className="py-5">
+          <p className="my-2 text-[64px]  leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Leaderboard</p>
+       </div>
+       <Leaderboard/>
     </div>
     <div className="contest-details grid grid-cols-2 lg:grid-cols-3 px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[30px]">
           <div className='col-span-2 md:pr-8'>

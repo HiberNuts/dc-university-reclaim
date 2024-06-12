@@ -699,6 +699,7 @@ export interface ApiContestContest extends Schema.CollectionType {
     rules: Attribute.Blocks;
     warnings: Attribute.Blocks;
     level: Attribute.Enumeration<['Easy', 'Medium', 'Hard']>;
+    prize: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

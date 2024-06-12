@@ -5,14 +5,31 @@ import Carousel from "../../Carousel/Carousel"
 import ContestCard from '../Card';
 import GreenButton from "../../button/GreenButton";
 import CONTEST_IMG from '../../../assets/contest.png';
+
 import CALENDER from '../../../assets/calendar_month.png';
 import { getLatestContests,getPastContests } from "../../../utils/api/ContestAPI";
 import { formatTimestamp } from "../../../utils/time";
+import Pagination from "../../Pagination/Pagination";
 
 export default function ContestList()
 {
     const [latestContests,setLatestContests]=useState([]);
     const [pastContests,setPastContest]=useState([]);
+
+    //for pagination
+    const contestsPerPage =6;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [minIndex, setMinIndex] = useState(0);
+    const [maxIndex, setMaxIndex] = useState(6);
+    //useEffect for PAGINATION
+    useEffect(() => {
+        const newMinIndex = (currentPage - 1) * contestsPerPage;
+        const newMaxIndex = currentPage * contestsPerPage;
+        setMinIndex(newMinIndex);
+        setMaxIndex(newMaxIndex);
+      }, [currentPage]);
+
+    
     useEffect(()=>{
         getLatestContests().then((data)=>setLatestContests(data.data.map((contest,index)=>{
             return <ContestCard key={index} id={contest.id} {...contest.attributes}/>
@@ -43,7 +60,7 @@ export default function ContestList()
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"> 
                     {
-                        pastContests.map((single)=>
+                        pastContests.slice(minIndex,maxIndex).map((single)=>
                        <motion.div
                         ref={scrollRef}
                         style={{
@@ -90,6 +107,13 @@ export default function ContestList()
                 )
                     }
                 </div>
+                <div className="bg-[#CAFFEF] flex justify-center items-center">
+                    <Pagination list={pastContests} itemsPerPage={contestsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+                    <br/>    
+                    <br/>    
+                    <br/>    
+                </div>
+               
             </div>
         </div>
     )

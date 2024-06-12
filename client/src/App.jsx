@@ -15,7 +15,6 @@ import PreviewCourseDesc from "./components/Courses/CourseDesc/PreviewCourseDesc
 import PreviewWorkplace from "./components/PreviewWorkPlace/PreviewWorkplace";
 import ContestRegsiter from "./components/Contest/Regsiter/Register";
 import ContestList from "./components/Contest/List/ContestList";
-import Leaderboard from "./components/Contest/Leaderboard/Leaderboard";
 import Editor from "./components/editor/IDE/Editor";
 
 function App() {
@@ -34,7 +33,6 @@ function App() {
         <Route path="/course/:id" element={<CourseDescription />} />
         <Route path="/emailverification" element={<EmailVerification />} />
         <Route path="/contest/register/:title" element={<ContestRegsiter/>}/>
-        <Route path="/contest/leaderboard/:title" element={<Leaderboard/>}/>
         <Route path="/contest/list" element={<ContestList/>}/>
         <Route path="/editor/:title/:id" element={<Editor/>}/>
         {/* hello */}

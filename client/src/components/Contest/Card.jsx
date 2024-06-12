@@ -4,6 +4,8 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import CONTEST_IMG from '../../assets/contest.png';
+import PRICE_BADGE from '../../assets/star.png';
+import STAR_BG from "../../assets/star_bg.png"
 import GreenButton from "../button/GreenButton";
 
 import { formatTimestamp } from "../../utils/time";
@@ -27,15 +29,15 @@ return(
     opacity: scrollYProgress,
     boxShadow: "0px 4px 20px 0px rgba(195, 200, 255, 0.30)",
     }}
-    className="flex gap-[40px] card-container lg:h-[364px] bg-white border-[2px] shadow flex-col lg:flex-row justify-center align-middle w-full sm:w-[1240px] rounded-[16px] p-[32px]"
+    className="relative flex gap-[20px] card-container lg:h-[364px] bg-white border-[2px] shadow flex-col lg:flex-row justify-center align-middle w-full sm:w-[1240px] rounded-[16px] z-5 overflow-hidden"
     >
-           <div className="flex-[2]">
+           <div className="flex-[2] overflow-hidden">
                 <LazyLoadImage
-                 className="w-full h-full rounded-[16px]"
+                 className="w-full h-full"
                  src={props.image.data.attributes.url}   
                 />
            </div>                    
-           <div className="flex-[3] flex flex-col justify-between">
+           <div className="flex-[3] flex flex-col justify-between px-[20px]  py-[32px]">
               <div className="">  
                   <div className="title-container">
                       <p className="text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold font-bold">
@@ -107,8 +109,27 @@ return(
                          onClick={handleClick}
                        />
                 </div>
-           </div>                    
+           </div> 
+           {
+            props?.prize&&
+            <div className="hidden lg:block absolute bottom-[1px] right-[1px] ">
+             <div className="relative z-10">
+              <LazyLoadImage
+                className="z-[-1]"
+                src={PRICE_BADGE}
+                />
+                <img className="absolute top-0 z-[1]" src={STAR_BG}/>
+             </div>
 
+            </div>               
+           } 
+           {
+             props?.prize&&
+            <div className="hidden lg:block absolute z-10 bottom-7 right-7">
+                  <div className="text-[18px] text-right leading-[18px]  text-overflow-ellipsis font-helvetica-neue-bold">Prize Money</div>
+                  <div className="text-[42px] text-right leading-[42px]  text-overflow-ellipsis font-helvetica-neue-bold">{props?.prize}</div>
+            </div>
+           }   
     </motion.div>
     )  
 }

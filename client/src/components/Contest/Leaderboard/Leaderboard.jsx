@@ -93,21 +93,22 @@ const LEADERBOARD=[
 export default function Leaderboard({className})
 {
     const [columns,setColumns]=useState([]);
+    const [showAll,setShowAll]=useState(3);
     useEffect(()=>{
         let cols = LEADERBOARD.length > 0 ? Object.keys(LEADERBOARD[0]) : [];
         setColumns(cols);
     },[])
    return(
     <div className="">
-         <div className="bg-shardeumBlue px-2 sm:px-[100px] leaderboard_title relative">
+         {/* <div className="bg-shardeumBlue px-2 sm:px-[100px] leaderboard_title relative">
                   <div className="contest_name pt-28 pb-10">
                         <p className="mx-4 text-[64px] leading-[80px] font-helvetica-neue-bold  text-shardeumWhite">Contest Name - Leaderboard</p>
                   </div>
                   <img className="absolute right-[7rem] top-2" src={TRI}/>
                   <img className="absolute left-[20rem] top-1" src={ARROW1}/>
                   <img className="absolute left-0 bottom-0" src={ARROW2}/>
-         </div>
-         <div className="bg-shardeumWhite px-10 sm:px-[120px] py-[50px]">
+         </div> */}
+         <div className="bg-shardeumWhite">
             <div className="overflow-hidden rounded-[16px] border-2">
                   <table className="contest_leaderboard min-w-full">
                         <thead>
@@ -118,48 +119,34 @@ export default function Leaderboard({className})
                             </tr>
                         </thead>
                         <tbody className="text-[20px]">
-                            {LEADERBOARD.map((item, index) => (
-                               index<3?
-                                        <tr className="text-center bg-shardeumGreen border-b-[0.5px] top_3" key={index}>
-                                            {columns.map((column) => (
-                                                column=="Avatar"?
-                                                    <td className="px-4 py-5 flex justify-center" key={column}>
-                                                        <LazyLoadImage
-                                                            className=" rounded-[16px]"
-                                                            src={AVATAR}   
-                                                        />
-                                                    </td>
-                                                :
-                                                column=="Submission"?
-                                                    <td className="px-4 py-5" key={column}>
-                                                        <a className="text-shardeumBlue underline" href={item[column]}>View Submission</a>
-                                                    </td>
-                                                    :
-                                                    <td className={`px-4 py-5 ${column=="Id"?'text-left':''}  ${column=="Rank"?'font-bold':''}`} key={column}>{item[column]}</td>
-                                            ))}
-                                        </tr>
-                                        : 
-                                        <tr className="text-center" key={index}>
-                                            {columns.map((column) => (
-                                                column=="Avatar"?
-                                                <td className="px-4 py-5 flex justify-center" key={column}>
-                                                    <LazyLoadImage
-                                                        className=" rounded-[16px]"
-                                                        src={AVATAR}   
-                                                    />
-                                                </td>
-                                                :
-                                                column=="Submission"?
-                                                    <td className="px-4 py-5" key={column}>
-                                                        <a className="text-shardeumBlue underline" href={item[column]}>View Submission</a>
-                                                    </td>
-                                                    :
-                                                    <td className={`px-4 py-5 ${column=="Id"?'text-left':''} ${column=="Rank"?'font-bold':''}`} key={column}>{item[column]}</td>
-                                            ))}
-                                        </tr>
+                            {LEADERBOARD.slice(0,showAll).map((item, index) => (
+                                    <tr className={`text-center  border-b-[0.5px] ${index<3?'top_3':''} ${index==0?'bg-shardeumGreen':index==1?'bg-[#FBFF1E]':index==2?'bg-[#1EFFFA]':''}`} key={index}>
+                                    {columns.map((column) => (
+                                        column=="Avatar"?
+                                            <td className="px-4 py-5 flex justify-center" key={column}>
+                                                <LazyLoadImage
+                                                    className=" rounded-[16px]"
+                                                    src={AVATAR}   
+                                                />
+                                            </td>
+                                        :
+                                        column=="Submission"?
+                                            <td className="px-4 py-5" key={column}>
+                                                <a className="text-shardeumBlue underline" href={item[column]}>View Submission</a>
+                                            </td>
+                                            :
+                                            <td className={`px-4 py-5 ${column=="Id"?'text-left':''}  ${column=="Rank"?'font-bold':''}`} key={column}>{item[column]}</td>
+                                    ))}
+                                </tr>
                             ))}
                         </tbody>
                     </table>
+                      {
+                        showAll!=10&&
+                        <div className={`text-center  h-[50px] flex justify-center items-center`} key={''}>
+                             <span className="text-shardeumBlue text-[18px] leading-[18px] cursor-pointer" onClick={()=>setShowAll(10)}>View All</span>
+                        </div>
+                      }
             </div>
          </div>
     </div>
