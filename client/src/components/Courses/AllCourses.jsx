@@ -87,7 +87,7 @@ export default function AllCourses() {
         ) : (
           <div className="flex flex-wrap w-full justify-evenly gap-x-[10px] gap-y-[64px]">
             {allCourseInfo &&
-              allCourseInfo
+              allCourseInfo?.reverse()
                 ?.filter((course) => {
                   if (Query == "") {
                     return course;

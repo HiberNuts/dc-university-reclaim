@@ -32,6 +32,7 @@ export default function WorkPlace() {
   const [currentQuiz, setcurrentQuiz] = useState([]);
   const [nftModalIsOpen, setnftModalIsOpen] = useState(false);
   const [currentCourseProgress, setcurrentCourseProgress] = useState({});
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const isMobile = screenWidth < 768;
 
@@ -72,12 +73,6 @@ export default function WorkPlace() {
       setisCourseDataChanged(!isCourseDataChanged);
       await checkModuleCoursesStatus({ module: data?.module[0] });
 
-      // if (loggedInUserData?._id && !data?.usersEnrolled.includes(loggedInUserData._id)) {
-      //   toast("Please enroll course before proceeding", {
-      //     icon: "🌟",
-      //   });
-      //   navigate(-1);
-      // }
       await getUserProgress();
       await checkChapterStatus({ chapter: data?.module[0]?.chapter[0] });
     }
@@ -167,20 +162,20 @@ export default function WorkPlace() {
     getUserProgress();
   }, [loggedInUserData, moduleContent]);
 
-  if (isMobile) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-center p-4">
-          <h1 className=" font-bold text-shardeumBlue font-helvetica-neue-bold text-[48px]">
-            Better Experience on Desktop
-          </h1>
-          <p className="font-helvetica-neue-roman fon-[30px]">
-            Please open this website on a desktop for a better experience.
-          </p>
-        </div>
-      </div>
-    );
-  }
+  // if (isMobile) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       <div className="text-center p-4">
+  //         <h1 className=" font-bold text-shardeumBlue font-helvetica-neue-bold text-[48px]">
+  //           Better Experience on Desktop
+  //         </h1>
+  //         <p className="font-helvetica-neue-roman fon-[30px]">
+  //           Please open this website on a desktop for a better experience.
+  //         </p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="w-full  mt-[10vh] h-full flex justify-between align-middle">
@@ -199,7 +194,7 @@ export default function WorkPlace() {
         setIsOpen={setnftModalIsOpen}
       />
 
-      <div className="bg-shardeumBlue px-[15px] py-[48px] lg:w-[25%] md:w-[30%] sm:w-[30%] fixed h-[90vh] left-0 flex flex-col align-middle items-center scroll-m-0 overflow-y-auto">
+      <div className={`bg-shardeumBlue z-20 px-[15px] py-[48px] lg:w-[25%] md:w-[30%] sm:w-[100%] fixed h-[90vh] left-0 flex flex-col align-middle items-center scroll-m-0 overflow-y-scroll $ ${isMobile ? `${sidebarOpen ? 'block' : 'hidden'} ` : 'h-[90vh]'}`}>
         <div className="">
           <div>
             <img
@@ -218,6 +213,8 @@ export default function WorkPlace() {
               <div key={index}>
                 <CourseAcordian
                   moduleIndex={index}
+                  setSidebarOpen={setSidebarOpen}
+                  sidebarOpen={sidebarOpen}
                   setisModuleChanged={setisModuleChanged}
                   isModuleChanged={isModuleChanged}
                   handleCompleteChapter={handleCompleteChapter}
@@ -243,30 +240,31 @@ export default function WorkPlace() {
           </div>
 
           <button
-            // disabled={currentCourseProgress?.overallCompletionPercentage === 100 ? false : true}
             disabled={true}
             onClick={() => setnftModalIsOpen(true)}
-            className=
-
-            "text-white border-2 border-shardeumGreen rounded-[10px] font-semibold h-[50px] flex justify-center  px-[32px] py-[22px]  transition ease-in-out items-center  align-middle   text-[18px] w-full text-center mt-2"
-          // className={`${currentCourseProgress?.overallCompletionPercentage === 100
-          //   ? "bg-shardeumWhite text-black  hover:scale-105"
-          //   : "text-white border-2 border-shardeumGreen"
-          //   }   rounded-[10px] font-semibold h-[50px] flex justify-center  px-[32px] py-[22px]  transition ease-in-out items-center  align-middle   text-[18px] w-full text-center mt-2`}
+            className="text-white border-2 border-shardeumGreen rounded-[10px] font-semibold h-[50px] flex justify-center  px-[32px] py-[22px]  transition ease-in-out items-center  align-middle   text-[18px] w-full text-center mt-2"
           >
             Claim your reward 🔥
           </button>
         </div>
       </div>
-      <div className="ml-[25%] overflow-x-hidden   w-full flex flex-col justify-center items-center">
+      <div className={`${isMobile ? 'px-8   mt-4' : 'ml-[25%] px-20 '} overflow-x-hidden w-full flex flex-col justify-center items-center`}>
+        {isMobile && (
+          <div className="toggle-sidebar-container w-full my-5 h-10">
+            <button
+              className="toggle-sidebar-button h-full w-full text-lg rounded-lg bg-shardeumGreen"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
+              {sidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
+            </button>
+          </div>
+        )}
         <div
           style={{
             width: "100%",
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            borderBottom: "2px solid black",
-            padding: "20px 56px 20px 56px",
           }}
         >
           <p className="text-black text-[24px] text-center mt-2">{courseContent?.title}</p>
@@ -284,14 +282,13 @@ export default function WorkPlace() {
               <div className="mt-2 font-helvetica-neue-roman">
                 Course {parseInt(currentCourseProgress?.overallCompletionPercentage)}% Completed{" "}
               </div>
+              <div style={{ height: '2px', backgroundColor: 'black', width: '100%', marginTop: "8px" }}></div>
             </div>
           )}
         </div>
-
-        {/* <CourseProgress title={courseContent?.title} currentCourseProgress={currentCourseProgress} /> */}
         <div className="flex w-full  my-10 m-0 justify-center items-center align-middle">
           {isQuizSelected ? (
-            <div className="flex w-full text-[20px] md:px-[120px] px-[80px] courseContent justify-center align-middle  flex-col ">
+            <div className="flex w-full text-[20px] courseContent justify-center align-middle  flex-col ">
               <Quiz
                 courseId={courseContent?._id}
                 userId={loggedInUserData?._id}

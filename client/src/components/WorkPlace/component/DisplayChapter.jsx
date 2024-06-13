@@ -87,7 +87,7 @@ const DisplayChapter = ({
   };
 
   return (
-    <div className=" w-full bg-shardeumWhite text-[20px] md:px-[100px] px-[60px] courseContent justify-center align-middle  flex-col ">
+    <div className=" w-full bg-shardeumWhite text-[20px]  courseContent justify-center align-middle  flex-col ">
       <Toaster />
       {currentModule?.chapter
         .filter((chapter) => chapter._id === currentChapter._id)
@@ -97,7 +97,7 @@ const DisplayChapter = ({
               html={chapter?.content}
               components={{
                 figure: (props) => <CustomFigure {...props} />,
-                strong: (props) => <p className="font-bold">{props?.children}</p>,
+                strong: (props) => <span className="font-bold">{props?.children}</span>,
                 h1: (props) => <h1>{props?.children}</h1>,
                 h2: (props) => <h2>{props?.children}</h2>,
                 h3: (props) => <h3>{props?.children}</h3>,
@@ -106,19 +106,20 @@ const DisplayChapter = ({
                 li: (props) => <li className="">{props?.children}</li>,
                 ol: (props) => <ol className="list-decimal p-[0px] m-[0px]">{props?.children}</ol>,
                 ul: (props) => <ul className="list-disc p-[0px] m-[0px]">{props?.children}</ul>,
-                pre: (props) => <pre className="overflow-scroll ">{props.children}</pre>,
+                pre: (props) => <span className="font-mono overflow-scroll">{props.children}</span>,
                 // pre: (props) => <CodeBlock
                 //   text={props.children}
                 //   language="javascript"
 
                 // />
                 code: (props) => <CopyBlock
-                  className="-z-10"
+                  showLineNumbers
+
                   text={props.children}
-                  language="jsx"
+                  language="javascript"
                   wrapLongLines
                   theme={dracula}
-                  wrapLines
+
                   codeBlock
 
                 />
