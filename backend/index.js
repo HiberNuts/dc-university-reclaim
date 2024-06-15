@@ -84,7 +84,7 @@ require("./routes/authRoutes")(app);
 require("./routes/userRoutes")(app);
 require("./routes/courseRoutes")(app);
 require("./routes/adminRoutes")(app);
-require("./routes/solcRoutes")(app);
+require("./routes/contestRoutes")(app);
 // simple route
 app.post("/", (req, res) => {
   console.log(req.body)
