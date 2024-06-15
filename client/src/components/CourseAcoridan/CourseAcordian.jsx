@@ -123,7 +123,8 @@ const CourseAcordian = ({
   setuserCourseProgress,
   moduleIndex,
   currentModuleAllChapterStatus,
-  setcurrentModuleAllChapterStatus,
+  sidebarOpen,
+  setSidebarOpen,
   checkModuleCoursesStatus,
   currentModule,
   currentQuiz,
@@ -197,6 +198,7 @@ const CourseAcordian = ({
                         checkModuleCoursesStatus({ module });
                         setcurrentModule(module);
                         setisModuleChanged(!isModuleChanged);
+                        setSidebarOpen(false)
                         window.scroll(0, 0);
                       }}
                     >
@@ -208,10 +210,10 @@ const CourseAcordian = ({
                         ) : userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status === "partial" ? (
                           <div
                             className={`rounded-full ${isQuizSelected
-                                ? "text-white border-2 border-white"
-                                : chapter._id == currentChapter._id
-                                  ? "border-2 bg-white border-black"
-                                  : "border-2 bg-white border-black"
+                              ? "text-white border-2 border-white"
+                              : chapter._id == currentChapter._id
+                                ? "border-2 bg-white border-black"
+                                : "border-2 bg-white border-black"
                               } bg-shardeumBlue  w-[30px] h-[30px]`}
                           ></div>
                         ) : userCourseProgress?.modules[moduleIndex]?.chapters[i - 1]?.status !== "full" ? (
@@ -221,10 +223,10 @@ const CourseAcordian = ({
                         ) : (
                           <div
                             className={`rounded-full ${isQuizSelected
-                                ? "text-white border-2 border-white"
-                                : chapter._id == currentChapter._id
-                                  ? "border-2 bg-white border-black"
-                                  : "border-2 bg-white border-black"
+                              ? "text-white border-2 border-white"
+                              : chapter._id == currentChapter._id
+                                ? "border-2 bg-white border-black"
+                                : "border-2 bg-white border-black"
                               }   w-[30px] h-[30px]`}
                           ></div>
                         )}
@@ -232,14 +234,14 @@ const CourseAcordian = ({
                         <label
                           htmlFor="red-checkbox"
                           className={`ml-2 font-helvetica-neue-md text-[16px] items-start text-start ${isQuizSelected
-                              ? "text-white"
-                              : chapter._id == currentChapter._id
-                                ? "border-b-2 border-shardeumGreen"
-                                : `${userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status !== "full" ||
-                                  userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status !== "none"
-                                  ? "text-white"
-                                  : "text-white "
-                                }`
+                            ? "text-white"
+                            : chapter._id == currentChapter._id
+                              ? "border-b-2 border-shardeumGreen"
+                              : `${userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status !== "full" ||
+                                userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status !== "none"
+                                ? "text-white"
+                                : "text-white "
+                              }`
                             } cursor-pointer   `}
                         >
                           {chapter?.title}
@@ -328,10 +330,10 @@ const RenderQuiz = ({
           ) : (
             <div
               className={`rounded-full ${isQuizSelected &&
-                  currentModule?.quizzes[0]?._id == currentQuiz[0]?._id &&
-                  module._id == currentModule._id
-                  ? "border-2 border-black bg-white"
-                  : "border-2 border-black bg-white "
+                currentModule?.quizzes[0]?._id == currentQuiz[0]?._id &&
+                module._id == currentModule._id
+                ? "border-2 border-black bg-white"
+                : "border-2 border-black bg-white "
                 } bg-shardeumBlue  w-[30px] h-[30px]`}
             ></div>
           )}
@@ -339,8 +341,8 @@ const RenderQuiz = ({
           <label
             htmlFor="red-checkbox"
             className={`ml-2 text-[16px] items-start text-start ${isQuizSelected && currentModule?.quizzes[0]?._id == currentQuiz[0]?._id && module._id == currentModule._id
-                ? "text-shardeumOrange font-bold"
-                : "text-white"
+              ? "text-shardeumOrange font-bold"
+              : "text-white"
               }    cursor-pointer`}
           >
             Quiz

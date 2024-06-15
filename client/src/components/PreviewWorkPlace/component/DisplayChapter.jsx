@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import HTMLRenderer from "react-html-renderer";
 import { CustomFigure } from "./customCourseElement";
 import { updateCourseProgressAPI } from "../../../utils/api/CourseAPI";
-import whiteExpand from "../../../assets/whiteArrow.svg";
 import toast, { Toaster } from "react-hot-toast";
 import LongArrow from "../../../assets/LongArrow.svg";
 const DisplayChapter = ({
@@ -94,6 +93,33 @@ const DisplayChapter = ({
               html={chapter?.content}
               components={{
                 figure: (props) => <CustomFigure {...props} />,
+                strong: (props) => <span className="font-bold">{props?.children}</span>,
+                h1: (props) => <h1>{props?.children}</h1>,
+                h2: (props) => <h2>{props?.children}</h2>,
+                h3: (props) => <h3>{props?.children}</h3>,
+                h4: (props) => <h4>{props?.children}</h4>,
+                span: (props) => <>{props?.children}</>,
+                li: (props) => <li className="">{props?.children}</li>,
+                ol: (props) => <ol className="list-decimal p-[0px] m-[0px]">{props?.children}</ol>,
+                ul: (props) => <ul className="list-disc p-[0px] m-[0px]">{props?.children}</ul>,
+                pre: (props) => <span className="font-mono overflow-scroll">{props.children}</span>,
+                // pre: (props) => <CodeBlock
+                //   text={props.children}
+                //   language="javascript"
+
+                // />
+                code: (props) => <CopyBlock
+                  showLineNumbers
+
+                  text={props.children}
+                  language="javascript"
+                  wrapLongLines
+                  theme={dracula}
+
+                  codeBlock
+
+                />
+
               }}
             />
             <div className="flex w-full mt-10 justify-end">
