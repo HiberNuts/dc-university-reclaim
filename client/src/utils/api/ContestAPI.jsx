@@ -72,7 +72,8 @@ export const compile = async (code) => {
     
     console.log("RESPONSE FOR COMPILATION-->", res);
     if (res.status === 200) {
-      return { error: false, message: "Compiled Successfully" };
+      let byteCode=res.data.contracts["test.sol"].NewContract.evm.bytecode.object;
+      return { error: false,byteCode:byteCode,message: "Compiled Successfully" };
     }
   } catch (error) {
     console.error("Compile Error-->", error);

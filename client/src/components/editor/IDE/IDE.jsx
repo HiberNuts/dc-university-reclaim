@@ -17,6 +17,7 @@ export default function IDE(props) {
   const [fontSize, setFontSize] = useState(16);
   const [input,setInput]=useState("");
   const [output, setOutput] = useState("");
+  const [byteCode,setByteCode]=useState("");
   const [compileError,setCompileError]=useState(false);
   function setupMonaco(monaco) {
     monaco.languages.register({ id: "solidity" });
@@ -78,12 +79,21 @@ export default function IDE(props) {
     try {
       await compile(input).then((response)=>{
           if(response.error==true) 
+            {
+              setByteCode("");
               setCompileError(true);
-          setOutput(response.message)
-          setTimeout(() => {
-              setOutput("")
-              setCompileError(false);
-          },20000);
+              setOutput(response.message)
+              setTimeout(() => {
+                  setOutput("")
+                  setCompileError(false);
+              },20000);
+            }
+            else
+            {
+               setCompileError(false);
+               setOutput(response.message);
+               setByteCode(response.byteCode);
+            }
         })
     } catch (er) {
         setOutput(er.message);
@@ -161,9 +171,20 @@ export default function IDE(props) {
         )} */}
         {
           output!=""&&
-          <div>
-             <p className={`text-lg ${compileError?'text-red-500':'text-green-500'}`}>{output}</p>      
-          </div>
+          <div className="text-wrap overflow-y-auto max-h-[250px]  p-2  ">
+          <p className={`text-lg ${compileError ? 'text-red-500' : 'text-green-500'}`}>{output}</p>
+          {
+          byteCode!=""&&(
+            <p className="text-lg text-white">Bytecode: </p>
+          )
+          }
+          {byteCode !== "" && (
+            <p className="text-lg text-white break-words overflow-y-auto">
+             {byteCode}
+            </p>
+          )}
+        </div>
+        
         }
       </div>
     </div>
