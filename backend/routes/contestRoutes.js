@@ -1,4 +1,4 @@
-const controller=require("../controllers/solcController")
+const controller=require("../controllers/contestController")
 
 module.exports = function (app) {
     app.use(function (req, res, next) {
@@ -7,5 +7,6 @@ module.exports = function (app) {
     });
   
     app.post("/api/compile", controller.compiler);
-    
+    app.post("/api/webhook/contest/create",controller.createModel);
+    app.post("/api/webhook/contest/update",controller.updateModel);
   };
