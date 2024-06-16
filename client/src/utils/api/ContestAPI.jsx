@@ -80,3 +80,19 @@ export const compile = async (code) => {
     return { error: true, message: "Failed to compile" };
   }
 };
+
+export const registerContest=async(AccessToken,contestId)=>{
+   try {
+    console.log("REGISTERING CONTEST[+]");
+    const res=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/contest/register`,{contest:contestId}, {
+      headers: {
+        Authorization: `Bearer ${AccessToken}`,
+      }});
+    console.log("RESPOSNE FOR REGISTERING[-] ",res);
+    return res.data;
+   } catch (error) {
+      console.log("ERROR IN REGISTERING[-]");
+      console.log(error.message);
+      return {error:true,message:error.message}
+   }
+}

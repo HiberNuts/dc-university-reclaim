@@ -1,3 +1,4 @@
+const { authJwt } =require("../middlewares");
 const controller=require("../controllers/contestController")
 
 module.exports = function (app) {
@@ -7,6 +8,7 @@ module.exports = function (app) {
     });
   
     app.post("/api/compile", controller.compiler);
+    app.post("/api/contest/register",[authJwt.verifyToken],controller.createSubmission);
     app.post("/api/webhook/contest/create",controller.createModel);
     app.post("/api/webhook/contest/update",controller.updateModel);
   };

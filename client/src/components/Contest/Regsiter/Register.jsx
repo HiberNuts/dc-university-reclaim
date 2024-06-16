@@ -5,7 +5,7 @@ import Leaderboard from "../Leaderboard/Leaderboard";
 import { useParams,useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { formatTimestamp } from "../../../utils/time";
-import { getContests } from "../../../utils/api/ContestAPI";
+import { getContests,registerContest } from "../../../utils/api/ContestAPI";
 export default function ContestRegsiter() {
   const { title } = useParams("title");
   const navigate=useNavigate();

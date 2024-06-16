@@ -1,6 +1,7 @@
 const db = require("../models");
 const Contests = db.Contests;
 const Programs = db.Programs;
+const Submissions=db.Submissions;
 var solc = require('solc');
 
 exports.compiler = async (req, res) => {
@@ -38,6 +39,7 @@ exports.compiler = async (req, res) => {
     }
   };
 
+  
 exports.createModel=async(req,res)=>{
     try{
            if(req.body.model=='contest')
@@ -162,5 +164,36 @@ updateProgram=async(req)=>{
   {
      console.log(error.message)
      console.log("Failed to update program");
+  }
+}
+
+exports.createSubmission=async(req,res)=>{
+  try {
+     console.log("USER REGISTERING FOR CONTEST --->",req.userId);
+    //  console.log("REQ. BODY--->",req.body);   
+    
+     const contest = await Contests.findOne({ strapiId: req.body.contest });
+     if (!contest) {
+       console.log("CONTEST NOT EXIXTS IN DB");
+       return res.status(404).json({error:true,message: "Contest not found" });
+     }
+    
+     const isSubmissionExist=await Submissions.findOne({contest:contest._id})
+     if(isSubmissionExist){
+       console.log("USER ALREADY REGISTERED FOR THE CONTEST[-]");
+       return res.status(200).json({error:true,message:"User already Registered for the contest!"});
+     }
+    //IF NOT EXIST THEN CREATE
+     const newSubmission = new Submissions({
+       user: req.userId,
+       contest: contest._id, 
+     });
+     console.log("NEW SUBMISSION SAVED[+]")
+     await newSubmission.save();
+     return res.status(200).json({error:false,message:"New Registration created"}); 
+  } catch (error) {
+     console.log("ERROR IN CREATING SUBMISSION SCHEMA");
+     console.log(error.message);
+     return res.status(500).json({error:true,message:error.message});
   }
 }
