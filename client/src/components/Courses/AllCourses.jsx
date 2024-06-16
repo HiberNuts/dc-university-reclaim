@@ -4,10 +4,22 @@ import { Toaster, toast } from "react-hot-toast";
 import CourseCard from "./CourseCard/CourseCard";
 import { ParentContext } from "../../contexts/ParentContext";
 import { getAllCourse } from "../../utils/api/CourseAPI";
-
+import Pagination from "../Pagination/Pagination";
 export default function AllCourses() {
   const [allCourseInfo, setallCourseInfo] = useState([]);
   const [loading, setloading] = useState(false);
+  //FOR PAGINATION
+  const coursesPerPage =3;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [minIndex, setMinIndex] = useState(0);
+  const [maxIndex, setMaxIndex] = useState(6);
+  //useEffect for PAGINATION
+  useEffect(() => {
+    const newMinIndex = (currentPage - 1) * coursesPerPage;
+    const newMaxIndex = currentPage * coursesPerPage;
+    setMinIndex(newMinIndex);
+    setMaxIndex(newMaxIndex);
+  }, [currentPage]);
 
   const getAllCourseInfo = async () => {
     setloading(true);
@@ -85,20 +97,28 @@ export default function AllCourses() {
         {loading ? (
           <SkeletonLoader />
         ) : (
-          <div className="flex flex-wrap w-full justify-evenly gap-x-[10px] gap-y-[64px]">
-            {allCourseInfo &&
-              allCourseInfo?.reverse()
-                ?.filter((course) => {
-                  if (Query == "") {
-                    return course;
-                  } else if (course.title.toLowerCase().includes(Query.toLowerCase())) {
-                    return course;
-                  }
-                })
+         <div className="w-full">
+            <div className="flex w-full justify-evenly gap-x-[10px] gap-y-[64px]">
+              {allCourseInfo &&
+                allCourseInfo?.slice(minIndex,maxIndex).reverse()
+                  ?.filter((course) => {
+                    if (Query == "") {
+                      return course;
+                    } else if (course.title.toLowerCase().includes(Query.toLowerCase())) {
+                      return course;
+                    }
+                  })
                 ?.map((course, index) => {
                   return course.softDelete != true ? <CourseCard key={index} props={course} /> : "";
                 })}
-          </div>
+             </div>
+             <div className="flex justify-center items-center  mt-10">
+                    <Pagination list={allCourseInfo} itemsPerPage={coursesPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+                    <br/>    
+                    <br/>    
+                    <br/>    
+              </div>
+         </div>  
         )}
       </div>
     </div>

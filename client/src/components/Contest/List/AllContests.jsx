@@ -11,13 +11,13 @@ import { getLatestContests,getPastContests } from "../../../utils/api/ContestAPI
 import { formatTimestamp } from "../../../utils/time";
 import Pagination from "../../Pagination/Pagination";
 
-export default function ContestList()
+export default function AllContests()
 {
     const [latestContests,setLatestContests]=useState([]);
     const [pastContests,setPastContest]=useState([]);
 
     //for pagination
-    const contestsPerPage =6;
+    const contestsPerPage =3;
     const [currentPage, setCurrentPage] = useState(1);
     const [minIndex, setMinIndex] = useState(0);
     const [maxIndex, setMaxIndex] = useState(6);
