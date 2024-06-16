@@ -10,6 +10,7 @@ import CourseDescription from "./components/Courses/CourseDesc/CourseDescription
 import EmailVerification from "./components/Courses/CourseDesc/EmailVerification";
 import WorkPlace from "./components/WorkPlace/Workplace";
 import Profile from "./components/Profile/Profile";
+import EditProfile from "./components/Profile/Edit";
 import PreviewAllCourses from "./components/Courses/PreviewAllCourses";
 import PreviewCourseDesc from "./components/Courses/CourseDesc/PreviewCourseDesc";
 import PreviewWorkplace from "./components/PreviewWorkPlace/PreviewWorkplace";
@@ -21,7 +22,7 @@ function App() {
   const RedirectAs404 = ({ location }) => <Navigate to={Object.assign({}, location, { state: { is404: true } })} />;
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <Routes>
         {/* Auth Pages */}
         <Route exact path="/" element={<Home />} />
@@ -41,6 +42,7 @@ function App() {
         <Route exact path="/" element={<PrivateRoute />}>
           <Route path="/workplace/:id" element={<WorkPlace />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/edit" element={<EditProfile />} />
         </Route>
         <Route component={RedirectAs404}></Route>
       </Routes>
