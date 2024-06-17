@@ -7,7 +7,7 @@ import GreenButton from "../../button/GreenButton";
 import CONTEST_IMG from '../../../assets/contest.png';
 
 import CALENDER from '../../../assets/calendar_month.png';
-import { getLatestContests,getPastContests } from "../../../utils/api/ContestAPI";
+import { upcomingContests,getPastContests } from "../../../utils/api/ContestAPI";
 import { formatTimestamp } from "../../../utils/time";
 import Pagination from "../../Pagination/Pagination";
 
@@ -31,10 +31,10 @@ export default function AllContests()
 
     
     useEffect(()=>{
-        getLatestContests().then((data)=>setLatestContests(data.data.map((contest,index)=>{
-            return <ContestCard key={index} id={contest.id} {...contest.attributes}/>
+        upcomingContests().then((data)=>setLatestContests(data.map((contest,index)=>{
+            return <ContestCard key={index} id={contest._id} {...contest}/>
         })))
-        getPastContests().then((data)=>setPastContest(data.data.map((contest,index)=>contest.attributes)))
+        getPastContests().then((data)=>setPastContest(data.map((contest,index)=>contest)))
     },[])
     const slides = [
         <ContestCard key={0} />,
@@ -73,7 +73,7 @@ export default function AllContests()
                                <div className="">
                                      <LazyLoadImage
                                         className="w-full h-[300px]  rounded-[16px]"
-                                        src={single.image.data.attributes.url}   
+                                        src={single.image}   
                                         />
                                 </div>
                                 <div>
@@ -83,7 +83,7 @@ export default function AllContests()
                                 </div>
                                 <div>
                                     <p className="text-[16px] mt-2 text-black font-helvetica-neue-roman leading-[25px] opacity-[70%]">
-                                      {single.description.slice(0, 170) + (single.description.length > 170 ? "..." : "")}
+                                      {single?.description?.slice(0, 170) + (single?.description?.length > 170 ? "..." : "")}
                                     </p>
                                 </div>
                                 <div>

@@ -45,6 +45,21 @@ exports.getAllContests=async(req,res)=>{
     res.status(500).send({error:true,message:error.message});
   }
 }
+//GET PASTCONTESTS
+exports.getPastContests=async(req,res)=>{
+    try {
+      const today = new Date().toISOString();
+      const pastContests = await Contests.find({
+        endDate: { $lt: today }
+      }).sort({ endDate: -1 });
+      if (pastContests.length === 0) {
+        return res.status(404).send({ error: true, message: "No past contests found" });
+      }
+       res.status(200).send(pastContests);
+    } catch (error) {
+       res.status(500).send({error:true,message:error.message});
+    }
+}
 //GET CONTEST BY ID
 exports.getContestByID=async(req,res)=>{
     try {
@@ -66,10 +81,21 @@ exports.getContestByTitle=async(req,res)=>{
 //GET PROGRAM BY STRAPI-CONTESTID
 exports.getProgram=async(req,res)=>{
     try {
-       const Program=await Programs.findOne({contestId:req.params.contestId});
-       if(!Program)
-         return res.status(404).send({error:true,message:"Program not found"});
-       return res.status(200).send(Program);
+          const Submisison=await Submissions.findById(req.body.submissionId);
+          if(!Submisison)
+             return res.json(404).send({error:true,message:"Invalid submission!"});
+          // const Program=await Program.findOne({contestId:Submission.contest});
+          const Contest=await Contests.findById(Submisison.contest);
+          const Program=await Programs.findOne({contestId:Submisison.contest});
+          if(!Contest)
+              return res.status(404).send({error:true,message:"Contest not found for the submission"});
+          if(!Program)
+              return res.status(404).send({error:true,message:"Program not found for the submission"});
+          return res.status(200).send({Program:Program,Contest:Contest});
+      //  const Program=await Programs.findOne({contestId:req.params.contestId});
+      //  if(!Program)
+      //    return res.status(404).send({error:true,message:"Program not found"});
+      //  return res.status(200).send(Program);
     } catch (error) {
         res.status(500).send({error:true,message:error.message});
     }
@@ -146,10 +172,10 @@ exports.updateModel=async(req,res)=>{
 
 createContest = async (req) => {
     try {
-      const {id:strapiId,title,description,participants,startDate,endDate,image,details,rules,warnings,level}=req.body.entry
+      const {id:strapiId,title,description,participants,startDate,endDate,image,details,rules,warnings,level,prize}=req.body.entry
       const mappedRules=req.body.entry.rules[0].children.map(child=>child.children[0].text)
       const mappedWarnings=req.body.entry.warnings[0].children.map(child=>child.children[0].text)
-      const createdContest=new Contests({strapiId,title,participants,startDate,endDate,image:image.url,details,rules:mappedRules,warnings:mappedWarnings,level})
+      const createdContest=new Contests({strapiId,title,participants,startDate,endDate,image:image.url,details,rules:mappedRules,warnings:mappedWarnings,level,prize})
       await createdContest.save()
       console.log("new contest saved[+]")
     } catch (error) {
@@ -160,7 +186,7 @@ createContest = async (req) => {
 
 updateContest=async(req,res)=>{
     try {
-        const { id: strapiId, title, description, participants, startDate, endDate, image, details, rules, warnings, level } = req.body.entry;
+        const { id: strapiId, title, description, participants, startDate, endDate, image, details, rules, warnings, level,prize } = req.body.entry;
         const mappedRules = req.body.entry.rules[0].children.map(child => child.children[0].text);
         const mappedWarnings = req.body.entry.warnings[0].children.map(child => child.children[0].text);
 
@@ -174,7 +200,8 @@ updateContest=async(req,res)=>{
           details,
           rules: mappedRules,
           warnings: mappedWarnings,
-          level
+          level,
+          prize
         };
         const updatedContest = await Contests.findOneAndUpdate(
           { strapiId: strapiId },
@@ -199,9 +226,15 @@ updateContest=async(req,res)=>{
 
 createProgram=async(req)=>{
   try{
-     const {id:strapiId,contestid,duration,boilerplate_code,description}=req.body.entry;
+     const {id:strapiId,contestid:strapiContestId,duration,boilerplate_code,description}=req.body.entry;
+     const contest=await Contests.findOne({strapiId:strapiContestId});
+     if(!contest)
+      {
+        console.log("Contest not exist for the program");
+        return ;
+      }
      const mappedDescription=description[0].children.map(child=>child.children[0].text);
-     const createdProgram=new Programs({strapiId,contestId:contestid,duration,boilerplate_code,description:mappedDescription});
+     const createdProgram=new Programs({strapiId,strapiContestId,contestId:contest._id,duration,boilerplate_code,description:mappedDescription});
      await createdProgram.save();
      console.log("new program saved[+]");
   }
@@ -214,11 +247,11 @@ createProgram=async(req)=>{
 
 updateProgram=async(req)=>{
   try {
-      const {id:strapiId,contestid,duration,boilerplate_code,description}=req.body.entry;
+      const {id:strapiId,contestid:strapiContestId,duration,boilerplate_code,description}=req.body.entry;
       const mappedDescription=description[0].children.map(child=>child.children[0].text);
       const updateData = {
         duration,
-        contestId:contestid,
+        strapiContestId,
         boilerplate_code,
         description:mappedDescription
       };
@@ -247,7 +280,7 @@ exports.createSubmission=async(req,res)=>{
      console.log("USER REGISTERING FOR CONTEST --->",req.userId);
     //  console.log("REQ. BODY--->",req.body);   
     
-     const contest = await Contests.findOne({ strapiId: req.body.contest });
+     const contest = await Contests.findById(req.body.contest);
      if (!contest) {
        console.log("CONTEST NOT EXIXTS IN DB");
        return res.status(404).json({error:true,message: "Contest not found" });
@@ -265,7 +298,8 @@ exports.createSubmission=async(req,res)=>{
      });
      console.log("NEW SUBMISSION SAVED[+]")
      await newSubmission.save();
-     return res.status(200).json({error:false,message:"New Registration created"}); 
+    //  The submisison schema contains User ID and ContestID , & program schema contains contestID, so with submission schema ID, we can map user&contest&program&submission schemas
+     return res.status(200).json({error:false,submissionId:newSubmission._id,message:"New Registration created"}); 
   } catch (error) {
      console.log("ERROR IN CREATING SUBMISSION SCHEMA");
      console.log(error.message);

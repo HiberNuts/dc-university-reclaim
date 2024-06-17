@@ -17,7 +17,7 @@ export const getContests = async (title = null) => {
 };
 
 
-export const getLatestContests = async () => {
+export const getLatestContestsStrapi = async () => {
     try {
       const { data } = await axios.get(
         `${import.meta.env.VITE_CMS_URL}/contests?populate=*&pagination[limit]=3&sort[0]=createdAt:desc`
@@ -29,7 +29,7 @@ export const getLatestContests = async () => {
     }
   };
 
-export const getLatestContest = async () => {
+export const getLatestContestStrapi = async () => {
     try {
       const { data } = await axios.get(
         `${import.meta.env.VITE_CMS_URL}/contests?populate=*&pagination[limit]=1&sort[0]=createdAt:desc`
@@ -41,7 +41,7 @@ export const getLatestContest = async () => {
     }
   };
 
-export const getPastContests=async ()=>{
+export const getPastContestsStrapi=async ()=>{
   try {
     const currentDateTime=getCurrentDate();
     const { data } = await axios.get(
@@ -54,15 +54,74 @@ export const getPastContests=async ()=>{
   }
 }  
 
-export const getContestProgram=async(id)=>{
-    try {
+// export const getContestProgram=async(id)=>{
+//     try {
+//       const {data}=await axios.get(
+//         `${import.meta.env.VITE_CMS_URL}/programs?populate=*&filters[contestid][$eq]=${id}`
+//       );
+//       return data;
+//     } catch (error) {
+//        return error;
+//     }
+// }
+//BACKEND
+export const getLatestContest=async()=>{
+  try {
+    const {data}=await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/contest/latest`
+    );
+    console.log("BACKEND LATEST CONTEST-->",data);
+    return data;
+  } catch (error) {
+     return error;
+  }
+}
+export const upcomingContests=async()=>{
+   try {
       const {data}=await axios.get(
-        `${import.meta.env.VITE_CMS_URL}/programs?populate=*&filters[contestid][$eq]=${id}`
+        `${import.meta.env.VITE_BACKEND_URL}/contest/upcoming/3`
       );
+      console.log("BACKEND UPCOMING CONTEST-->",data);
       return data;
-    } catch (error) {
-       return error;
-    }
+   } catch (error) {
+     return error;
+   }
+}
+export const getPastContests=async()=>{
+   try {
+      const {data}=await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/contest/getPastContests`
+      );
+      console.log("BACKEND PAST CONTEST-->",data);
+      return data;
+   } catch (error) {
+     return error;
+   }
+}
+export const getContestByTitle=async(title=null)=>{
+   try {
+      const {data}=await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/contest/getContest/${destructureSlug(title)}`
+      );
+      console.log("BACKEND CONTEST DATA BY TITLE-->",data);
+      return data;
+   } catch (error) {
+      return error;
+   }
+}
+export const getContestProgram=async(AccessToken,submissionId)=>{
+   try {
+    console.log("T->",AccessToken)
+    const res=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/program/getProgram`,{submissionId:submissionId},{
+      headers: {
+        Authorization: `Bearer ${AccessToken}`,
+      }});
+    console.log("RESPOSNE FOR PROGRAM PAGE--->",res);
+    if(res.status==200)
+       return res.data;
+   } catch (error) {
+      return error;
+   }
 }
 
 export const compile = async (code) => {
