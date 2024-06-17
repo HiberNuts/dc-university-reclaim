@@ -4,6 +4,79 @@ const Programs = db.Programs;
 const Submissions=db.Submissions;
 var solc = require('solc');
 
+
+//LATEST CONTEST
+exports.getLatestContest=async(req,res)=>{
+   try {
+        const latestContest = await Contests.findOne().sort({ createdAt: -1 });
+        if (!latestContest) {
+          return res.status(404).send({ error: true, message: "No contests found" });
+        }
+        res.status(200).send(latestContest);
+   } catch (error) {
+      res.status(500).send({error:true,message:error.messgae});
+   }
+}
+
+// GET 3 UPCOMING CONTESTS 
+exports.getUpcomingContests = async (req, res) => {
+  try {
+    const today = new Date().toISOString();
+    const upcomingContests = await Contests.find({
+      endDate: { $gt: today }
+    })
+    .sort({ endDate: 1 })
+    .limit(req.params.limit);
+    if (upcomingContests.length === 0) {
+      return res.status(404).send({ error: true, message: "No upcoming contests found" });
+    }
+    res.status(200).send(upcomingContests);
+  } catch (error) {
+    res.status(500).send({ error: true, message: error.message });
+  }
+};
+//ALL CONTESTS
+exports.getAllContests=async(req,res)=>{
+  try {
+    const allContests=await Contests.find();
+    console.log("LENGTH-->",allContests.length);
+    res.status(200).send(allContests);
+  } catch (error) {
+    res.status(500).send({error:true,message:error.message});
+  }
+}
+//GET CONTEST BY ID
+exports.getContestByID=async(req,res)=>{
+    try {
+      const contest=await Contests.findById(req.body.id);
+      res.status(200).send(contest);
+    } catch (error) {
+       res.status(500).send({error:true,message:error.message});
+    }
+}
+//GET CONTEST BY TITLE
+exports.getContestByTitle=async(req,res)=>{
+  try {
+    const contest=await Contests.find({title:req.params.title});
+    res.status(200).send(contest);
+  } catch (error) {
+      res.status(500).send({error:true,message:error.message});
+  }
+}
+//GET PROGRAM BY STRAPI-CONTESTID
+exports.getProgram=async(req,res)=>{
+    try {
+       const Program=await Programs.findOne({contestId:req.params.contestId});
+       if(!Program)
+         return res.status(404).send({error:true,message:"Program not found"});
+       return res.status(200).send(Program);
+    } catch (error) {
+        res.status(500).send({error:true,message:error.message});
+    }
+}
+
+
+//COMPILER
 exports.compiler = async (req, res) => {
     try {
       const {content}=req.body
@@ -39,7 +112,8 @@ exports.compiler = async (req, res) => {
     }
   };
 
-  
+
+//WEBHOOKS
 exports.createModel=async(req,res)=>{
     try{
            if(req.body.model=='contest')
@@ -109,7 +183,8 @@ updateContest=async(req,res)=>{
         );
       
         if (!updatedContest) {
-          console.log("Contest failed to update becoz not found in db")
+          console.log("Contest failed to update becoz not found in db");
+          return;
         }
         console.log("contest update done")
         return;

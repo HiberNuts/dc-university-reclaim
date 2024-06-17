@@ -15,6 +15,8 @@ const contestSchema = new mongoose.Schema({
             enum: ["Easy", "Medium", "Hard"],
             default: "Easy",
         },
+        createdAt: { type: Date, required: true, default: Date.now},
+        updatedAt:{ type:Date,required:true,default:Date.now()}
 })
 
 module.exports=Contests=mongoose.model("Contests", contestSchema)
