@@ -72,10 +72,27 @@ export const compile = async (code) => {
     
     console.log("RESPONSE FOR COMPILATION-->", res);
     if (res.status === 200) {
-      return { error: false, message: "Compiled Successfully" };
+      let byteCode=res.data.contracts["test.sol"].NewContract.evm.bytecode.object;
+      return { error: false,byteCode:byteCode,message: "Compiled Successfully" };
     }
   } catch (error) {
     console.error("Compile Error-->", error);
     return { error: true, message: "Failed to compile" };
   }
 };
+
+export const registerContest=async(AccessToken,contestId)=>{
+   try {
+    console.log("REGISTERING CONTEST[+]");
+    const res=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/contest/register`,{contest:contestId}, {
+      headers: {
+        Authorization: `Bearer ${AccessToken}`,
+      }});
+    console.log("RESPOSNE FOR REGISTERING[-] ",res);
+    return res.data;
+   } catch (error) {
+      console.log("ERROR IN REGISTERING[-]");
+      console.log(error.message);
+      return {error:true,message:error.message}
+   }
+}
