@@ -79,6 +79,7 @@ exports.getContestByTitle=async(req,res)=>{
   }
 }
 //GET PROGRAM BY STRAPI-CONTESTID
+//PROGRAM SCREEN SHOULD BE ACCESIBLE IF USER LOGINS
 exports.getProgram=async(req,res)=>{
     try {
           const Submisison=await Submissions.findById(req.body.submissionId);
@@ -91,7 +92,7 @@ exports.getProgram=async(req,res)=>{
               return res.status(404).send({error:true,message:"Contest not found for the submission"});
           if(!Program)
               return res.status(404).send({error:true,message:"Program not found for the submission"});
-          return res.status(200).send({Program:Program,Contest:Contest});
+          return res.status(200).send({error:false,Program:Program,Contest:Contest});
       //  const Program=await Programs.findOne({contestId:req.params.contestId});
       //  if(!Program)
       //    return res.status(404).send({error:true,message:"Program not found"});
@@ -101,6 +102,52 @@ exports.getProgram=async(req,res)=>{
     }
 }
 
+
+//SUBMISSIONS
+exports.createSubmission=async(req,res)=>{
+  try {
+     console.log("USER REGISTERING FOR CONTEST --->",req.userId);
+    //  console.log("REQ. BODY--->",req.body);   
+    
+     const contest = await Contests.findById(req.body.contest);
+     if (!contest) {
+       console.log("CONTEST NOT EXIXTS IN DB");
+       return res.status(404).json({error:true,message: "Contest not found" });
+     }
+    
+     const isSubmissionExist=await Submissions.findOne({contest:contest._id})
+     if(isSubmissionExist){
+       console.log("USER ALREADY REGISTERED FOR THE CONTEST[-]");
+       return res.status(200).json({error:false,submissionId:isSubmissionExist._id,message:"User already Registered for the contest!"});
+     }
+    //IF NOT EXIST THEN CREATE
+     const newSubmission = new Submissions({
+       user: req.userId,
+       contest: contest._id, 
+     });
+     console.log("NEW SUBMISSION SAVED[+]")
+     await newSubmission.save();
+    //  The submisison schema contains User ID and ContestID , & program schema contains contestID, so with submission schema ID, we can map user&contest&program&submission schemas
+     return res.status(200).json({error:false,submissionId:newSubmission._id,message:"New Registration created"}); 
+  } catch (error) {
+     console.log("ERROR IN CREATING SUBMISSION SCHEMA");
+     console.log(error.message);
+     return res.status(500).json({error:true,message:error.message});
+  }
+}
+//TO CHECK USER ALREADY REGISTERED FOR THE CONTEST
+exports.alreadyRegistered=async(req,res)=>{
+  try {
+    const isSubmissionExist=await Submissions.findOne({contest:req.body.contest,user:req.userId})
+    if(isSubmissionExist){
+      console.log("USER ALREADY REGISTERED FOR THE CONTEST[-]");
+      return res.status(200).json({error:false,message:"User already Registered for the contest!"});
+    }
+    return res.status(200).json({error:false,message:"User not registered"});
+  } catch (error) {
+     res.status(500).send({error:true,message:error.message});
+  }
+}
 
 //COMPILER
 exports.compiler = async (req, res) => {
@@ -272,49 +319,5 @@ updateProgram=async(req)=>{
   {
      console.log(error.message)
      console.log("Failed to update program");
-  }
-}
-
-exports.createSubmission=async(req,res)=>{
-  try {
-     console.log("USER REGISTERING FOR CONTEST --->",req.userId);
-    //  console.log("REQ. BODY--->",req.body);   
-    
-     const contest = await Contests.findById(req.body.contest);
-     if (!contest) {
-       console.log("CONTEST NOT EXIXTS IN DB");
-       return res.status(404).json({error:true,message: "Contest not found" });
-     }
-    
-     const isSubmissionExist=await Submissions.findOne({contest:contest._id})
-     if(isSubmissionExist){
-       console.log("USER ALREADY REGISTERED FOR THE CONTEST[-]");
-       return res.status(200).json({error:false,submissionId:isSubmissionExist._id,message:"User already Registered for the contest!"});
-     }
-    //IF NOT EXIST THEN CREATE
-     const newSubmission = new Submissions({
-       user: req.userId,
-       contest: contest._id, 
-     });
-     console.log("NEW SUBMISSION SAVED[+]")
-     await newSubmission.save();
-    //  The submisison schema contains User ID and ContestID , & program schema contains contestID, so with submission schema ID, we can map user&contest&program&submission schemas
-     return res.status(200).json({error:false,submissionId:newSubmission._id,message:"New Registration created"}); 
-  } catch (error) {
-     console.log("ERROR IN CREATING SUBMISSION SCHEMA");
-     console.log(error.message);
-     return res.status(500).json({error:true,message:error.message});
-  }
-}
-exports.alreadyRegistered=async(req,res)=>{
-  try {
-    const isSubmissionExist=await Submissions.findOne({contest:req.body.contest,user:req.userId})
-    if(isSubmissionExist){
-      console.log("USER ALREADY REGISTERED FOR THE CONTEST[-]");
-      return res.status(200).json({error:false,message:"User already Registered for the contest!"});
-    }
-    return res.status(200).json({error:false,message:"User not registered"});
-  } catch (error) {
-     res.status(500).send({error:true,message:error.message});
   }
 }

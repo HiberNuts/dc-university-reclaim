@@ -1,6 +1,7 @@
 import { useEffect,useState } from "react"
 import { getLatestContest } from "../../utils/api/ContestAPI"
-import ContestCard from "../Contest/Card"
+import ContestCard from "../Contest/Card";
+import SkeletonLoader from "../Courses/SkeletonLoader";
 export default function Contest(){
    const [latestContest,setLatestContest]=useState(null)
    useEffect(()=>{
@@ -11,7 +12,7 @@ export default function Contest(){
         <div className="flex flex-col w-full space-y-12">
            <p className="font-helvetica-neue-bold text-[64px]  items-center text-center  ">Upcoming Contest</p>
            <div className="flex justify-center items-center">
-                {latestContest?<ContestCard id={latestContest._id} {...latestContest}/>:<p className="px-5 text-center text-[30px] font-bold">...</p>}
+                {latestContest?<ContestCard id={latestContest._id} {...latestContest}/>:<SkeletonLoader></SkeletonLoader>}
            </div>
         </div>
     </div>

@@ -1,7 +1,6 @@
 import { useEffect, useState,useContext } from "react";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { useParams } from "react-router-dom";
-import solcjs from "solc-js";
 import Problem from "../Problem/Problem";
 import Split from "react-split";
 import IDE from "./IDE";
@@ -42,9 +41,12 @@ export default function editor() {
     //   })
     if(id!=null)
       getContestProgram(loggedInUserData?.accessToken,id).then(async(resp)=>{
-        setProgram(resp.Program);
-        setContest(resp.Contest);
-        setLoader(false);
+       if(resp.error==false)
+        {
+          setProgram(resp.Program);
+          setContest(resp.Contest);
+          setLoader(false);
+        }
       });
   },[id,title])
   return (
@@ -84,7 +86,7 @@ export default function editor() {
                   {
                     loader?
                     <div className="text-center text-white my-40">
-                      Loading
+                      Loading...
                     </div>
                     :
                     <IDE  darkTheme={darkTheme} program={program}/>
