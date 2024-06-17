@@ -1,0 +1,11 @@
+{
+    "watch": [
+        "index.js"
+    ],
+    "ignore": [
+        "contracts/*",
+        "controllers/contracts*",
+        "controllers/test*",
+        "test/*"
+    ]
+}
