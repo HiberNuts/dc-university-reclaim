@@ -45,7 +45,6 @@ export default function editor() {
         setProgram(resp.Program);
         setContest(resp.Contest);
         setLoader(false);
-        console.log("REPSONE NIN FRONTEND---->",resp);
       });
   },[id,title])
   return (

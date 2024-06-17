@@ -289,7 +289,7 @@ exports.createSubmission=async(req,res)=>{
      const isSubmissionExist=await Submissions.findOne({contest:contest._id})
      if(isSubmissionExist){
        console.log("USER ALREADY REGISTERED FOR THE CONTEST[-]");
-       return res.status(200).json({error:true,message:"User already Registered for the contest!"});
+       return res.status(200).json({error:false,submissionId:isSubmissionExist._id,message:"User already Registered for the contest!"});
      }
     //IF NOT EXIST THEN CREATE
      const newSubmission = new Submissions({
@@ -304,5 +304,17 @@ exports.createSubmission=async(req,res)=>{
      console.log("ERROR IN CREATING SUBMISSION SCHEMA");
      console.log(error.message);
      return res.status(500).json({error:true,message:error.message});
+  }
+}
+exports.alreadyRegistered=async(req,res)=>{
+  try {
+    const isSubmissionExist=await Submissions.findOne({contest:req.body.contest,user:req.userId})
+    if(isSubmissionExist){
+      console.log("USER ALREADY REGISTERED FOR THE CONTEST[-]");
+      return res.status(200).json({error:false,message:"User already Registered for the contest!"});
+    }
+    return res.status(200).json({error:false,message:"User not registered"});
+  } catch (error) {
+     res.status(500).send({error:true,message:error.message});
   }
 }

@@ -17,8 +17,9 @@ module.exports = function (app) {
     app.post("/api/program/getProgram",[authJwt.verifyToken],controller.getProgram);
     // COMPILER 
     app.post("/api/compile", controller.compiler);
-    // WEBHOOKS 
     app.post("/api/contest/register",[authJwt.verifyToken],controller.createSubmission);
+    app.post("/api/contest/alreadyRegistered",[authJwt.verifyToken],controller.alreadyRegistered);
+    // WEBHOOKS 
     app.post("/api/webhook/contest/create",controller.createModel);
     app.post("/api/webhook/contest/update",controller.updateModel);
   };

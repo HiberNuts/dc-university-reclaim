@@ -140,18 +140,37 @@ export const compile = async (code) => {
   }
 };
 
-export const registerContest=async(AccessToken,contestId)=>{
+export const registerContest=async(AccessToken,contestId=null)=>{
    try {
-    console.log("REGISTERING CONTEST[+]");
-    const res=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/contest/register`,{contest:contestId}, {
-      headers: {
-        Authorization: `Bearer ${AccessToken}`,
-      }});
-    console.log("RESPOSNE FOR REGISTERING[-] ",res);
-    return res.data;
+    if(contestId!=null)
+      {
+          console.log("REGISTERING CONTEST[+]");
+          const res=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/contest/register`,{contest:contestId}, {
+            headers: {
+              Authorization: `Bearer ${AccessToken}`,
+            }});
+          console.log("RESPOSNE FOR REGISTERING[-] ",res);
+          return res.data;
+      }
    } catch (error) {
       console.log("ERROR IN REGISTERING[-]");
       console.log(error.message);
       return {error:true,message:error.message}
    }
+}
+export const alreadyRegistered=async(AccessToken,contestId=null)=>{
+  try {
+    if(contestId!=null)
+      {
+          console.log("CHECKING REGISTRATION OF  CONTEST[+]");
+          const res=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/contest/alreadyRegistered`,{contest:contestId}, {
+            headers: {
+              Authorization: `Bearer ${AccessToken}`,
+            }});
+          console.log("RESPOSNE FOR CHECKING[-] ",res);
+          return res.data;
+      }
+  } catch (error) {
+      return error;
+  }
 }

@@ -5,18 +5,28 @@ import { useParams,useNavigate } from "react-router-dom";
 import { useEffect, useState,useContext } from "react";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { formatTimestamp } from "../../../utils/time";
-import { getContestByTitle,registerContest } from "../../../utils/api/ContestAPI";
+import { getContestByTitle,registerContest,alreadyRegistered } from "../../../utils/api/ContestAPI";
 
 export default function ContestRegsiter() {
   const { title } = useParams("title");
   const { loggedInUserData } = useContext(ParentContext);
   const navigate=useNavigate();
   const [contest, setContest] = useState(null);
-  const [contestID,setContestID]=useState(4);
+  const [contestID,setContestID]=useState(null);
+  const [btn,setBtn]=useState("Register Now");
   useEffect(() => {
     getContestByTitle(title).then((res) =>{
       setContest(res[0])
       setContestID(res[0]._id);
+
+      const checkUserAlreadyRegistered=async()=>{
+       await alreadyRegistered(loggedInUserData?.accessToken,res[0]._id).then((resp)=>{
+          if(resp.error==false&&resp.message=="User already Registered for the contest!")
+             setBtn("Continue");
+       })
+      }
+      //function to check if user already registered
+      checkUserAlreadyRegistered();
     } 
   );
   }, []);
@@ -54,7 +64,7 @@ export default function ContestRegsiter() {
               </div>
               <div className='py-2 mt-10'>
                   <GreenButton 
-                   text={"Register Now"}
+                   text={btn}
                    isHoveredReq={true}
                    onClick={handleRegister}
                    />
