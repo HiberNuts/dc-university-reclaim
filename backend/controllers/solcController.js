@@ -1,8 +1,7 @@
 const util = require('util');  // Import the util module
 const exec = util.promisify(require('child_process').exec);
 const solc = require('solc');
-
-
+const { ethers } = require('hardhat');
 
 const fs = require('fs');
 const path = require('path');
@@ -51,15 +50,16 @@ function parseTestResults(output) {
 }
 
 
+
+
 exports.compiler = async (req, res) => {
   try {
     const { content } = req.body
-    console.log(content)
     var input = {
       language: 'Solidity',
       sources: {
         'test.sol': {
-          content,
+          content: content,
         }
       },
       settings: {
@@ -72,6 +72,10 @@ exports.compiler = async (req, res) => {
     };
 
     var output = JSON.parse(solc.compile(JSON.stringify(input)));
+    if (output.errors) {
+      res.json({ error: output.errors[0] })
+    }
+    console.log("Cmpiled->>", output);
     for (var contractName in output.contracts['test.sol']) {
       console.log(
         contractName +

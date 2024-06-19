@@ -20,13 +20,13 @@ const allowedOrigins = [process.env.ORIGIN, "http://localhost:5173", "http://loc
 var corsOptions = {
   origin: "*",
 };
+app.use(express.json());
 app.use(cors(corsOptions));
 app.use(compression());
 app.use(bodyParser.json());
 
 // app.use(cors(corsOptions));
 
-app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
@@ -40,6 +40,7 @@ require("./routes/courseRoutes")(app);
 require("./routes/adminRoutes")(app);
 require("./routes/contestRoutes")(app);
 require("./routes/solcRoutes")(app);
+
 // simple route
 app.get("/", (req, res) => {
   console.log(req.body)
