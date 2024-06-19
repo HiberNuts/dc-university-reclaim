@@ -39,8 +39,9 @@ require("./routes/userRoutes")(app);
 require("./routes/courseRoutes")(app);
 require("./routes/adminRoutes")(app);
 require("./routes/contestRoutes")(app);
+require("./routes/solcRoutes")(app);
 // simple route
-app.post("/", (req, res) => {
+app.get("/", (req, res) => {
   console.log(req.body)
   res.json({ message: "Welcome to backend of shardeum academy" });
 });
