@@ -1,26 +1,42 @@
-import CONTEST_IMG from "../../../assets/contest.png";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import GreenButton from "../../button/GreenButton";
 import Leaderboard from "../Leaderboard/Leaderboard";
 import { useParams,useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
+import { ParentContext } from "../../../contexts/ParentContext";
 import { formatTimestamp } from "../../../utils/time";
-import { getContests,registerContest } from "../../../utils/api/ContestAPI";
+import { getContestByTitle,registerContest,alreadyRegistered } from "../../../utils/api/ContestAPI";
+
 export default function ContestRegsiter() {
   const { title } = useParams("title");
+  const { loggedInUserData } = useContext(ParentContext);
   const navigate=useNavigate();
   const [contest, setContest] = useState(null);
-  const [contestID,setContestID]=useState(4);
+  const [contestID,setContestID]=useState(null);
+  const [btn,setBtn]=useState("Register Now");
   useEffect(() => {
-    getContests(title).then((res) =>{
-      setContest(res.data[0].attributes)
-      setContestID(res.data[0].id);
+    getContestByTitle(title).then((res) =>{
+      setContest(res[0])
+      setContestID(res[0]._id);
+
+      const checkUserAlreadyRegistered=async()=>{
+       await alreadyRegistered(loggedInUserData?.accessToken,res[0]._id).then((resp)=>{
+          if(resp.error==false&&resp.message=="User already Registered for the contest!")
+             setBtn("Continue");
+       })
+      }
+      //function to check if user already registered
+      checkUserAlreadyRegistered();
     } 
   );
   }, []);
 
   const handleRegister=async()=>{
-       navigate(`/editor/${title}/${contestID}`);
+      await registerContest(loggedInUserData?.accessToken,contestID).then((resp)=>{
+        console.log("response for registration-->",resp);
+        if(resp.error==false)
+         navigate(`/editor/${title}/${resp.submissionId}`);
+      })
   }
   return contest ? (
     <div className="bg-white pb-10">
@@ -48,7 +64,7 @@ export default function ContestRegsiter() {
               </div>
               <div className='py-2 mt-10'>
                   <GreenButton 
-                   text={"Start Now"}
+                   text={btn}
                    isHoveredReq={true}
                    onClick={handleRegister}
                    />
@@ -57,7 +73,7 @@ export default function ContestRegsiter() {
           <div className='order-1 md:order-2 flex justify-center md:justify-end items-center'>
              <LazyLoadImage
              className="h-[375px] py-2 rounded-[20px]"
-             src={contest.image.data.attributes.url} 
+             src={contest?.image} 
              />
           </div>
     </div>
@@ -80,11 +96,11 @@ export default function ContestRegsiter() {
              <div className='contest-details-rules py-5'>
                  <p className='text-[18px] font-semibold'>Rules:</p>
                  <ul className='mx-1'>
-                    {contest.rules[0].children.map((s, index) => (
+                    {contest.rules.map((s, index) => (
                     <li className="py-1" key={index}>
                       <span className="w-2 h-2 bg-[#605d5d] rounded-full inline-block mr-2"></span>
                       <span className="text-[15px]  text-slategray font-helvetica-neue-roman leading-[25px]">
-                        {s.children[0].text}
+                        {s}
                       </span>
                     </li>
                       ))}
@@ -93,11 +109,11 @@ export default function ContestRegsiter() {
              <div className='contest-details-rules py-5'>
                  <p className='text-[18px] font-semibold'>Winnings:</p>
                  <ul className='mx-1'>
-                 {contest.warnings[0].children.map((s) => (
+                 {contest.warnings.map((s) => (
                     <li className="py-1">
                       <span className="w-2 h-2 bg-[#605d5d] rounded-full inline-block mr-2"></span>
                       <span className="text-[15px]  text-slategray font-helvetica-neue-roman leading-[25px]">
-                        {s.children[0].text}
+                        {s}
                       </span>
                     </li>
                   ))}

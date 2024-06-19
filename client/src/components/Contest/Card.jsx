@@ -1,30 +1,23 @@
-import React,{ useRef,useContext } from "react"
+import React,{ useRef } from "react"
 import { motion, useScroll } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ParentContext } from "../../contexts/ParentContext";
-import CONTEST_IMG from '../../assets/contest.png';
 import PRICE_BADGE from '../../assets/star.png';
 import STAR_BG from "../../assets/star_bg.png"
 import GreenButton from "../button/GreenButton";
 
-import { registerContest } from "../../utils/api/ContestAPI";
 import { formatTimestamp } from "../../utils/time";
 import { generateSlug } from "../../utils/generateSlug";
 
 export default function ContestCard(props)
 {
-   const { loggedInUserData } = useContext(ParentContext);
     // console.log(props)
     const navigate=useNavigate();
     const scrollRef = useRef(null);
     const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
-    let contentDescription="Ensure rapid development and build powerful Linearly Scalable Dapps with Shardeum Ensure rapid development and build powerful Linearly rapid development and build powerful Linearly";
+    
     const handleClick=async()=>{
-      await registerContest(loggedInUserData?.accessToken,props.id).then((resp)=>{
-        if(resp.error==false)
            navigate(`/contest/register/${generateSlug(props.title)}`);
-      })
     }
 return(
     <motion.div
@@ -39,7 +32,8 @@ return(
            <div className="flex-[2] overflow-hidden">
                 <LazyLoadImage
                  className="w-full h-full"
-                 src={props.image.data.attributes.url}   
+                //  src={props.image.data.attributes.url}   
+                 src={props.image}   
                 />
            </div>                    
            <div className="flex-[3] flex flex-col justify-between px-[20px]  py-[32px]">
@@ -51,7 +45,7 @@ return(
                   </div>
                   <div className="description-container">
                       <p className="text-[16px] mt-2 text-black font-helvetica-neue-roman leading-[25px] opacity-[70%]">
-                          {props.description.slice(0, 140) + (props.description.length > 140 ? "..." : "")}
+                          {props?.description?.slice(0, 140) + (props?.description?.length > 140 ? "..." : "")}
                       </p>
                   </div>
                   <div className="details-container my-5">

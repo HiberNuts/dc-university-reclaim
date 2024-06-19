@@ -1,16 +1,30 @@
 import React, { useState, useEffect, useContext, lazy, Suspense } from "react";
 import { faCaretSquareDown, faHandPointRight, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import mailSVG from "./mailSVG.svg";
-import workSVG from "./workSVG.svg";
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import axios from "axios";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import toast, { Toaster } from "react-hot-toast";
 import { ParentContext } from "../../contexts/ParentContext";
 const ProfileCourses = lazy(() => import("./ProfileCourses"));
+import mailSVG from "./mailSVG.svg";
+import workSVG from "./workSVG.svg";
 import logo from "../../assets/navlogoBlack.svg";
+import JOB from "../../assets/job.svg";
+import MAIL from "../../assets/mail.svg";
+import PORTFOLIO from "../../assets/portfolio.svg";
+import LEVEL from "../../assets/level.svg";
+import TWITTER from "../../assets/twitter.png";
+import GITHUB from "../../assets/github.png";
+import YOUTUBE from "../../assets/youtube.png";
+import LINKEDIN from "../../assets/linkedin.png";
+import DISCORD from "../../assets/discord.png";
 import ProfileButton from "../button/ProfileButton";
+import TRIANGLE_IMG from "../../assets/leaderboard_triangle.png";
+import AVATAR from "../../assets/avatar.png";
+import GreenButton from "../button/GreenButton";
+
 
 const ProfileLinks = ({ img, title }) => {
   return (
@@ -142,7 +156,55 @@ const Profile = ({ isOpen, closeModal }) => {
       toast.error("Error while resending verification email.");
     }
   };
-
+  // return (
+  //   <div className="">
+  //             <div className="bg-shardeumTeelGreen min-h-[180px] relative profile_header">
+  //                    <img src={TRIANGLE_IMG} className="absolute left-10"/>
+  //             </div>
+  //             <div className="grid grid-cols-5 min-h-screen "> 
+  //                   <div className="col-span-1 bg-shardeumBlue relative">
+  //                     <div className="absolute top-[-80px] left-16  ">
+  //                       <LazyLoadImage src={AVATAR} className="rounded-lg border-2 w-[120px] h-[120px]" />
+  //                     </div>
+  //                     <div className="name my-[50px] px-16">
+  //                       <p className='my-2 text-[24px] text-left leading-tight text-white text-overflow-ellipsis font-helvetica-neue-bold'>Arun Maini</p>
+  //                       <p className='my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis'>
+  //                         I'm Arun Maini, I'm a 27 year old Economics graduate whose life's passion is Technology, and I'm on a mission to make the most FUN and USEFUL Tech videos on the Planet!
+  //                       </p>
+  //                       <div className="flex flex-col">
+  //                                 <div className="flex gap-2">
+  //                                     <img src={JOB}/>
+  //                                     <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">UI/UX Designer</p>
+  //                                 </div>
+  //                                 <div className="flex gap-2">
+  //                                     <img src={MAIL}/>
+  //                                     <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">mrwhosethboss@gmail.com</p>
+  //                                 </div>
+  //                                 <div className="flex gap-2">
+  //                                     <img src={PORTFOLIO}/>
+  //                                     <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">bento.me/arun</p>
+  //                                 </div>
+  //                                 <div className="flex gap-2">
+  //                                     <img src={LEVEL}/>
+  //                                     <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">Intermediate level</p>
+  //                                 </div>
+  //                                 <div className="flex gap-5  mt-2">
+  //                                     <img src={TWITTER}/>
+  //                                     <img src={GITHUB}/>
+  //                                     <img src={LINKEDIN}/>
+  //                                     <img src={YOUTUBE}/>
+  //                                     <img src={GITHUB}/>
+  //                                 </div>
+  //                                 <div className="mt-10">
+  //                                    <ProfileButton isHoveredReq={true} text={"Edit Profile"} />
+  //                                 </div>
+  //                       </div>
+  //                     </div>
+  //                   </div>
+  //                   <div className="col-span-4"></div>
+  //             </div>
+  //   </div>
+  // )
   return (
     <div className="w-full  bg-shardeumWhite font-helvetica-neue  h-full flex justify-between align-middle">
       <Toaster />

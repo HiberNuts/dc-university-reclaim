@@ -99,7 +99,7 @@ body::-webkit-scrollbar-thumb:hover {
   background: #555; /* Customize scrollbar thumb color on hover */
 }
 
-.leaderboard_title{
+.leaderboard_title,.profile_header{
   background-image: url('../src/assets/backdrop_heading.png');
 }
 .table_head{

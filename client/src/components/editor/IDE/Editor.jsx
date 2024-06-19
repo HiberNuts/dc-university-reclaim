@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
+import { ParentContext } from "../../../contexts/ParentContext";
 import { useParams } from "react-router-dom";
-import solcjs from "solc-js";
 import Problem from "../Problem/Problem";
 import Split from "react-split";
 import IDE from "./IDE";
 import { Resizable, ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css';
-import { getContestProgram,getContests } from "../../../utils/api/ContestAPI";
+import { getContestProgram,getContestByTitle } from "../../../utils/api/ContestAPI";
 
 
 export default function editor() {
   const  {id,title}=useParams();
-  const [code, setCode] = useState("");
-  const [compiler, setCompiler] = useState(null);
+  const { loggedInUserData } = useContext(ParentContext);
+
+  // const [code, setCode] = useState("");
+  // const [compiler, setCompiler] = useState(null);
   const [darkTheme,setDarkTheme]=useState(true);
   const [contest,setContest]=useState();
   const [program,setProgram]=useState();
@@ -25,22 +27,26 @@ export default function editor() {
   // 	loadsolc()
   // }, [code])
   
-  const execute = async () => {
-    const version = "v0.4.25-stable-2018.09.13";
-    const solidityCompiler = await solcjs(version);
-    console.log(solidityCompiler);
-    const output = await solidityCompiler(code);
-    console.log(output);
-  };
+  // const execute = async () => {
+  //   const version = "v0.4.25-stable-2018.09.13";
+  //   const solidityCompiler = await solcjs(version);
+  //   console.log(solidityCompiler);
+  //   const output = await solidityCompiler(code);
+  //   console.log(output);
+  // };
   useEffect(()=>{
-    if(title!=null)
-      getContests(title).then(async(resp)=>{
-        setContest(resp.data[0].attributes);
-      })
+    // if(title!=null)
+    //   getContestByTitle(title).then(async(resp)=>{
+    //     setContest(resp.data[0].attributes);
+    //   })
     if(id!=null)
-      getContestProgram(id).then(async(resp)=>{
-        setProgram(resp.data[0].attributes);
-        setLoader(false);
+      getContestProgram(loggedInUserData?.accessToken,id).then(async(resp)=>{
+       if(resp.error==false)
+        {
+          setProgram(resp.Program);
+          setContest(resp.Contest);
+          setLoader(false);
+        }
       });
   },[id,title])
   return (
@@ -80,7 +86,7 @@ export default function editor() {
                   {
                     loader?
                     <div className="text-center text-white my-40">
-                      Loading
+                      Loading...
                     </div>
                     :
                     <IDE  darkTheme={darkTheme} program={program}/>

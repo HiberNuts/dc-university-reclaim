@@ -4,6 +4,152 @@ const Programs = db.Programs;
 const Submissions=db.Submissions;
 var solc = require('solc');
 
+
+//LATEST CONTEST
+exports.getLatestContest=async(req,res)=>{
+   try {
+        const latestContest = await Contests.findOne().sort({ createdAt: -1 });
+        if (!latestContest) {
+          return res.status(404).send({ error: true, message: "No contests found" });
+        }
+        res.status(200).send(latestContest);
+   } catch (error) {
+      res.status(500).send({error:true,message:error.messgae});
+   }
+}
+
+// GET 3 UPCOMING CONTESTS 
+exports.getUpcomingContests = async (req, res) => {
+  try {
+    const today = new Date().toISOString();
+    const upcomingContests = await Contests.find({
+      endDate: { $gt: today }
+    })
+    .sort({ endDate: 1 })
+    .limit(req.params.limit);
+    if (upcomingContests.length === 0) {
+      return res.status(404).send({ error: true, message: "No upcoming contests found" });
+    }
+    res.status(200).send(upcomingContests);
+  } catch (error) {
+    res.status(500).send({ error: true, message: error.message });
+  }
+};
+//ALL CONTESTS
+exports.getAllContests=async(req,res)=>{
+  try {
+    const allContests=await Contests.find();
+    console.log("LENGTH-->",allContests.length);
+    res.status(200).send(allContests);
+  } catch (error) {
+    res.status(500).send({error:true,message:error.message});
+  }
+}
+//GET PASTCONTESTS
+exports.getPastContests=async(req,res)=>{
+    try {
+      const today = new Date().toISOString();
+      const pastContests = await Contests.find({
+        endDate: { $lt: today }
+      }).sort({ endDate: -1 });
+      if (pastContests.length === 0) {
+        return res.status(404).send({ error: true, message: "No past contests found" });
+      }
+       res.status(200).send(pastContests);
+    } catch (error) {
+       res.status(500).send({error:true,message:error.message});
+    }
+}
+//GET CONTEST BY ID
+exports.getContestByID=async(req,res)=>{
+    try {
+      const contest=await Contests.findById(req.body.id);
+      res.status(200).send(contest);
+    } catch (error) {
+       res.status(500).send({error:true,message:error.message});
+    }
+}
+//GET CONTEST BY TITLE
+exports.getContestByTitle=async(req,res)=>{
+  try {
+    const contest=await Contests.find({title:req.params.title});
+    res.status(200).send(contest);
+  } catch (error) {
+      res.status(500).send({error:true,message:error.message});
+  }
+}
+//GET PROGRAM BY STRAPI-CONTESTID
+//PROGRAM SCREEN SHOULD BE ACCESIBLE IF USER LOGINS
+exports.getProgram=async(req,res)=>{
+    try {
+          const Submisison=await Submissions.findById(req.body.submissionId);
+          if(!Submisison)
+             return res.json(404).send({error:true,message:"Invalid submission!"});
+          // const Program=await Program.findOne({contestId:Submission.contest});
+          const Contest=await Contests.findById(Submisison.contest);
+          const Program=await Programs.findOne({contestId:Submisison.contest});
+          if(!Contest)
+              return res.status(404).send({error:true,message:"Contest not found for the submission"});
+          if(!Program)
+              return res.status(404).send({error:true,message:"Program not found for the submission"});
+          return res.status(200).send({error:false,Program:Program,Contest:Contest});
+      //  const Program=await Programs.findOne({contestId:req.params.contestId});
+      //  if(!Program)
+      //    return res.status(404).send({error:true,message:"Program not found"});
+      //  return res.status(200).send(Program);
+    } catch (error) {
+        res.status(500).send({error:true,message:error.message});
+    }
+}
+
+
+//SUBMISSIONS
+exports.createSubmission=async(req,res)=>{
+  try {
+     console.log("USER REGISTERING FOR CONTEST --->",req.userId);
+    //  console.log("REQ. BODY--->",req.body);   
+    
+     const contest = await Contests.findById(req.body.contest);
+     if (!contest) {
+       console.log("CONTEST NOT EXIXTS IN DB");
+       return res.status(404).json({error:true,message: "Contest not found" });
+     }
+    
+     const isSubmissionExist=await Submissions.findOne({contest:contest._id})
+     if(isSubmissionExist){
+       console.log("USER ALREADY REGISTERED FOR THE CONTEST[-]");
+       return res.status(200).json({error:false,submissionId:isSubmissionExist._id,message:"User already Registered for the contest!"});
+     }
+    //IF NOT EXIST THEN CREATE
+     const newSubmission = new Submissions({
+       user: req.userId,
+       contest: contest._id, 
+     });
+     console.log("NEW SUBMISSION SAVED[+]")
+     await newSubmission.save();
+    //  The submisison schema contains User ID and ContestID , & program schema contains contestID, so with submission schema ID, we can map user&contest&program&submission schemas
+     return res.status(200).json({error:false,submissionId:newSubmission._id,message:"New Registration created"}); 
+  } catch (error) {
+     console.log("ERROR IN CREATING SUBMISSION SCHEMA");
+     console.log(error.message);
+     return res.status(500).json({error:true,message:error.message});
+  }
+}
+//TO CHECK USER ALREADY REGISTERED FOR THE CONTEST
+exports.alreadyRegistered=async(req,res)=>{
+  try {
+    const isSubmissionExist=await Submissions.findOne({contest:req.body.contest,user:req.userId})
+    if(isSubmissionExist){
+      console.log("USER ALREADY REGISTERED FOR THE CONTEST[-]");
+      return res.status(200).json({error:false,message:"User already Registered for the contest!"});
+    }
+    return res.status(200).json({error:false,message:"User not registered"});
+  } catch (error) {
+     res.status(500).send({error:true,message:error.message});
+  }
+}
+
+//COMPILER
 exports.compiler = async (req, res) => {
     try {
       const {content}=req.body
@@ -39,7 +185,8 @@ exports.compiler = async (req, res) => {
     }
   };
 
-  
+
+//WEBHOOKS
 exports.createModel=async(req,res)=>{
     try{
            if(req.body.model=='contest')
@@ -72,10 +219,10 @@ exports.updateModel=async(req,res)=>{
 
 createContest = async (req) => {
     try {
-      const {id:strapiId,title,description,participants,startDate,endDate,image,details,rules,warnings,level}=req.body.entry
+      const {id:strapiId,title,description,participants,startDate,endDate,image,details,rules,warnings,level,prize}=req.body.entry
       const mappedRules=req.body.entry.rules[0].children.map(child=>child.children[0].text)
       const mappedWarnings=req.body.entry.warnings[0].children.map(child=>child.children[0].text)
-      const createdContest=new Contests({strapiId,title,participants,startDate,endDate,image:image.url,details,rules:mappedRules,warnings:mappedWarnings,level})
+      const createdContest=new Contests({strapiId,title,participants,startDate,endDate,image:image.url,details,rules:mappedRules,warnings:mappedWarnings,level,prize})
       await createdContest.save()
       console.log("new contest saved[+]")
     } catch (error) {
@@ -86,7 +233,7 @@ createContest = async (req) => {
 
 updateContest=async(req,res)=>{
     try {
-        const { id: strapiId, title, description, participants, startDate, endDate, image, details, rules, warnings, level } = req.body.entry;
+        const { id: strapiId, title, description, participants, startDate, endDate, image, details, rules, warnings, level,prize } = req.body.entry;
         const mappedRules = req.body.entry.rules[0].children.map(child => child.children[0].text);
         const mappedWarnings = req.body.entry.warnings[0].children.map(child => child.children[0].text);
 
@@ -100,7 +247,8 @@ updateContest=async(req,res)=>{
           details,
           rules: mappedRules,
           warnings: mappedWarnings,
-          level
+          level,
+          prize
         };
         const updatedContest = await Contests.findOneAndUpdate(
           { strapiId: strapiId },
@@ -109,7 +257,8 @@ updateContest=async(req,res)=>{
         );
       
         if (!updatedContest) {
-          console.log("Contest failed to update becoz not found in db")
+          console.log("Contest failed to update becoz not found in db");
+          return;
         }
         console.log("contest update done")
         return;
@@ -124,9 +273,15 @@ updateContest=async(req,res)=>{
 
 createProgram=async(req)=>{
   try{
-     const {id:strapiId,contestid,duration,boilerplate_code,description}=req.body.entry;
+     const {id:strapiId,contestid:strapiContestId,duration,boilerplate_code,description}=req.body.entry;
+     const contest=await Contests.findOne({strapiId:strapiContestId});
+     if(!contest)
+      {
+        console.log("Contest not exist for the program");
+        return ;
+      }
      const mappedDescription=description[0].children.map(child=>child.children[0].text);
-     const createdProgram=new Programs({strapiId,contestId:contestid,duration,boilerplate_code,description:mappedDescription});
+     const createdProgram=new Programs({strapiId,strapiContestId,contestId:contest._id,duration,boilerplate_code,description:mappedDescription});
      await createdProgram.save();
      console.log("new program saved[+]");
   }
@@ -139,11 +294,11 @@ createProgram=async(req)=>{
 
 updateProgram=async(req)=>{
   try {
-      const {id:strapiId,contestid,duration,boilerplate_code,description}=req.body.entry;
+      const {id:strapiId,contestid:strapiContestId,duration,boilerplate_code,description}=req.body.entry;
       const mappedDescription=description[0].children.map(child=>child.children[0].text);
       const updateData = {
         duration,
-        contestId:contestid,
+        strapiContestId,
         boilerplate_code,
         description:mappedDescription
       };
@@ -164,36 +319,5 @@ updateProgram=async(req)=>{
   {
      console.log(error.message)
      console.log("Failed to update program");
-  }
-}
-
-exports.createSubmission=async(req,res)=>{
-  try {
-     console.log("USER REGISTERING FOR CONTEST --->",req.userId);
-    //  console.log("REQ. BODY--->",req.body);   
-    
-     const contest = await Contests.findOne({ strapiId: req.body.contest });
-     if (!contest) {
-       console.log("CONTEST NOT EXIXTS IN DB");
-       return res.status(404).json({error:true,message: "Contest not found" });
-     }
-    
-     const isSubmissionExist=await Submissions.findOne({contest:contest._id})
-     if(isSubmissionExist){
-       console.log("USER ALREADY REGISTERED FOR THE CONTEST[-]");
-       return res.status(200).json({error:true,message:"User already Registered for the contest!"});
-     }
-    //IF NOT EXIST THEN CREATE
-     const newSubmission = new Submissions({
-       user: req.userId,
-       contest: contest._id, 
-     });
-     console.log("NEW SUBMISSION SAVED[+]")
-     await newSubmission.save();
-     return res.status(200).json({error:false,message:"New Registration created"}); 
-  } catch (error) {
-     console.log("ERROR IN CREATING SUBMISSION SCHEMA");
-     console.log(error.message);
-     return res.status(500).json({error:true,message:error.message});
   }
 }

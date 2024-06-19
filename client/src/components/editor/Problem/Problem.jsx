@@ -16,9 +16,9 @@ export default function Problem(props) {
             <span className="font-[500] text-[16px] text-[#FF4C0F] ml-1">{props?.contest?.level}</span>
       </span>
        {
-        props?.program?.description[0]?.children.map((s,index)=>
+        props?.program?.description?.map((s,index)=>
         <p className="text-lg leading-[31.5px] mt-5">
-           {s.children[0].text}
+           {s}
         </p>
         )
        }
