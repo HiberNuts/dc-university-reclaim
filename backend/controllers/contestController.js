@@ -273,7 +273,7 @@ updateContest=async(req,res)=>{
 
 createProgram=async(req)=>{
   try{
-     const {id:strapiId,contestid:strapiContestId,duration,boilerplate_code,description}=req.body.entry;
+     const {id:strapiId,contestid:strapiContestId,duration,boilerplate_code,description,test_cases}=req.body.entry;
      const contest=await Contests.findOne({strapiId:strapiContestId});
      if(!contest)
       {
@@ -281,7 +281,7 @@ createProgram=async(req)=>{
         return ;
       }
      const mappedDescription=description[0].children.map(child=>child.children[0].text);
-     const createdProgram=new Programs({strapiId,strapiContestId,contestId:contest._id,duration,boilerplate_code,description:mappedDescription});
+     const createdProgram=new Programs({strapiId,strapiContestId,contestId:contest._id,duration,boilerplate_code,description:mappedDescription,test_cases});
      await createdProgram.save();
      console.log("new program saved[+]");
   }
@@ -294,13 +294,16 @@ createProgram=async(req)=>{
 
 updateProgram=async(req)=>{
   try {
-      const {id:strapiId,contestid:strapiContestId,duration,boilerplate_code,description}=req.body.entry;
+    console.log("-->",req.body.entry)
+
+      const {id:strapiId,contestid:strapiContestId,duration,boilerplate_code,description,test_cases}=req.body.entry;
       const mappedDescription=description[0].children.map(child=>child.children[0].text);
       const updateData = {
         duration,
         strapiContestId,
         boilerplate_code,
-        description:mappedDescription
+        description:mappedDescription,
+        test_cases
       };
       const updatedProgram = await Programs.findOneAndUpdate(
         { strapiId: strapiId },
@@ -310,6 +313,7 @@ updateProgram=async(req)=>{
     
       if (!updatedProgram) {
         console.log("Update failed, program not found in db")
+        return;
       }
       console.log("program update done")
       return;

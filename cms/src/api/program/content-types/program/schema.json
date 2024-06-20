@@ -21,11 +21,14 @@
     "duration": {
       "type": "string"
     },
-    "test_case_js_code": {
-      "type": "blocks"
-    },
     "boilerplate_code": {
       "type": "text"
+    },
+    "test_cases": {
+      "displayName": "test_cases",
+      "type": "component",
+      "repeatable": true,
+      "component": "contest-meta.test-cases"
     }
   }
 }

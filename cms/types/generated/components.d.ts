@@ -1,5 +1,17 @@
 import type { Schema, Attribute } from '@strapi/strapi';
 
+export interface ContestMetaTestCases extends Schema.Component {
+  collectionName: 'components_contest_meta_test_cases';
+  info: {
+    displayName: 'test_cases';
+    description: '';
+  };
+  attributes: {
+    description: Attribute.Text;
+    code: Attribute.Text;
+  };
+}
+
 export interface CourseMetadataChapter extends Schema.Component {
   collectionName: 'components_course_metadata_chapters';
   info: {
@@ -74,6 +86,7 @@ export interface CourseMetadataWhatYouLlLearn extends Schema.Component {
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
+      'contest-meta.test-cases': ContestMetaTestCases;
       'course-metadata.chapter': CourseMetadataChapter;
       'course-metadata.faq': CourseMetadataFaq;
       'course-metadata.module': CourseMetadataModule;
