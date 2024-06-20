@@ -18,7 +18,7 @@ export default function IDE(props) {
   const [input,setInput]=useState("");
   const [output, setOutput] = useState("");
   const [byteCode,setByteCode]=useState("");
-  const [compileError,setCompileError]=useState(false);
+  const [compileError,setCompileError]=useState(null);
   function setupMonaco(monaco) {
     monaco.languages.register({ id: "solidity" });
     monaco.languages.setLanguageConfiguration(
@@ -82,11 +82,11 @@ export default function IDE(props) {
             {
               setByteCode("");
               setCompileError(true);
-              setOutput(response.message)
+              setOutput(response.message.replace(/\n/g, '<br />'))
               setTimeout(() => {
                   setOutput("")
-                  setCompileError(false);
-              },20000);
+                  setCompileError(null);
+              },50000);
             }
             else
             {
@@ -137,7 +137,9 @@ export default function IDE(props) {
           className="border-black "
           height="50vh"
           defaultLanguage="solidity"
-          defaultValue={props?.program?.boilerplate_code??'//Write your code here'}
+          defaultValue={props?.program?.boilerplate_code?`// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.4;\n\n ${props?.program?.boilerplate_code}`:`// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.4;\n\n`}
           theme={props.darkTheme ? "vs-dark" : "light"}
           onChange={handleEditorChange}
           beforeMount={handleEditorWillMount}
@@ -152,12 +154,15 @@ export default function IDE(props) {
         >
           Compile
         </button>
-        <button
-          className="bg-transparent border rounded  p-2"
-          onClick={execute}
-        >
-          Submit
-        </button>
+        {
+          compileError==false&&
+          <button
+            className="bg-transparent border rounded  p-2"
+            onClick={execute}
+          >
+            Submit
+          </button>
+        }
       </div>
       <div className="h-[30%]  p-5 border-y">
         {/* {output && (
@@ -171,18 +176,24 @@ export default function IDE(props) {
         )} */}
         {
           output!=""&&
+          compileError?
           <div className="text-wrap overflow-y-auto max-h-[250px]  p-2  ">
-          <p className={`text-lg ${compileError ? 'text-red-500' : 'text-green-500'}`}>{output}</p>
-          {
+            <p className={`text-lg text-red-500`}>Compilation Failed<br/><br/></p>
+            <pre dangerouslySetInnerHTML={{ __html: output }}></pre>
+          </div>
+          :
+          <div className="text-wrap overflow-y-auto max-h-[250px]  p-2  ">
+            <p className={`text-lg text-green-500`}>{output}</p>
+          {/* {
           byteCode!=""&&(
             <p className="text-lg text-white">Bytecode: </p>
           )
-          }
-          {byteCode !== "" && (
+          } */}
+          {/* {byteCode !== "" && (
             <p className="text-lg text-white break-words overflow-y-auto">
              {byteCode}
             </p>
-          )}
+          )} */}
         </div>
         
         }

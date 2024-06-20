@@ -126,12 +126,15 @@ export const getContestProgram=async(AccessToken,submissionId)=>{
 
 export const compile = async (code) => {
   try {
-    console.log("COMPILER CODE--->", code);
     const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/compile`, { content: code });
     
     console.log("RESPONSE FOR COMPILATION-->", res);
     if (res.status === 200) {
-      let byteCode=res.data.contracts["test.sol"].NewContract.evm.bytecode.object;
+      if(res.data.error)
+      {
+        return { error: true,message:res.data.error.errors[0].formattedMessage?.replace(/\n/g, '<br\>')};
+      }  
+      let byteCode=res.data.contracts["test.sol"].TestContract.evm.bytecode.object;
       return { error: false,byteCode:byteCode,message: "Compiled Successfully" };
     }
   } catch (error) {

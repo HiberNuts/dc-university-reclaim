@@ -72,18 +72,16 @@ exports.compiler = async (req, res) => {
     };
 
     var output = JSON.parse(solc.compile(JSON.stringify(input)));
-    if (output.errors) {
-      res.json({ error: output.errors[0] })
-    }
-    console.log("Cmpiled->>", output);
-    for (var contractName in output.contracts['test.sol']) {
-      console.log(
-        contractName +
-        ': ' +
-        output.contracts['test.sol'][contractName].evm.bytecode.object
-      );
-    }
-    res.status(200).send(output)
+    // console.log("Compiled->>", output);
+    
+      for (var contractName in output.contracts['test.sol']) {
+        console.log(
+          contractName +
+          ': ' +
+          output.contracts['test.sol'][contractName].evm.bytecode.object
+        );
+      }
+      return res.status(200).send(output)
   } catch (error) {
     console.error("Error while compiling", error);
     res.status(500).send({ message: error.message || "Internal Server Error" });
