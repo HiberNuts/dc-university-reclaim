@@ -145,14 +145,12 @@ exports.testContract = async (req, res) => {
 }
 
 exports.compileAndTest=async(req,res)=>{
-  console.log("bodyy->",req.body);
   const { userCode } = req.body;
   const Submisison=await Submissions.findById(req.body.submissionId);
   if(!Submisison)
      return res.json(404).send({error:true,message:"Invalid submission!"});
   const Program=await Programs.findOne({contestId:Submisison.contest});
   const testCases=Program.test_cases;
-  console.log("TEST CASES-->",testCases);
   try {
     var input = {
       language: 'Solidity',
@@ -182,7 +180,7 @@ exports.compileAndTest=async(req,res)=>{
     const bytecode = compiled.contracts["test.sol"].TestContract.evm.bytecode.object;
 
     // Deploy contract to local Hardhat network
-    const provider = new ethers.providers.JsonRpcProvider();
+    const provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545/");
     const signer = await provider.getSigner();
     const factory = new ethers.ContractFactory(abi, bytecode, signer);
     const contract = await factory.deploy();

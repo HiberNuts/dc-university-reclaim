@@ -6,7 +6,7 @@ import solcjs from "solc-js";
 import { FaCode } from "react-icons/fa6";
 import { IoIosAdd } from "react-icons/io";
 import { FiMinus } from "react-icons/fi";
-import { compile } from "../../../utils/api/ContestAPI";
+import { compile,compileAndSubmit } from "../../../utils/api/ContestAPI";
 import Split from "react-split";
 
 import axios from "axios";
@@ -100,6 +100,13 @@ export default function IDE(props) {
         setOutput(er.message);
     }
   };
+  const handleSubmitAndTest=async()=>{
+      try {
+          await compileAndSubmit(input,props?.submissionID).then((result)=>console.log("TEST CASE RESULT===?",result));
+      } catch (error) {
+        console.log("ERROR IN TESTING");
+      }
+  }
   // useEffect(() => {
   // 	setupMonaco()
   // 	// loadsolc()
@@ -166,8 +173,8 @@ pragma solidity ^0.8.4;\n\n`}
         {
           compileError==false&&
           <button
-            className="bg-transparent border rounded  p-2"
-            onClick={execute}
+            className="bg-transparent border rounded  p-2 hover:bg-green-500"
+            onClick={handleSubmitAndTest}
           >
             Submit
           </button>

@@ -178,11 +178,13 @@ export const alreadyRegistered=async(AccessToken,contestId=null)=>{
     }
   };
 
-  export const compileAndSubmit=async()=>{
+  export const compileAndSubmit=async(code,submissionID)=>{
     try{
-    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/compile-and-test`,{userCode: "// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n\ncontract TestContract {\n    uint256 private value;\n\n    function setValue(uint256 _value) public {\n        value = _value;\n    }\n\n    function getValue() public view returns (uint256) {\n        return value;\n    }\n}\n",submissionId:'6670307bbbf3246bdd7bc334'});
+    // const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/compile-and-test`,{userCode: "// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n\ncontract TestContract {\n    uint256 private value;\n\n    function setValue(uint256 _value) public {\n        value = _value;\n    }\n\n    function getValue() public view returns (uint256) {\n        return value;\n    }\n}\n",submissionId:'6670307bbbf3246bdd7bc334'});
+    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/compile-and-test`,{userCode:code,submissionId:submissionID});
       
-      console.log("RESPONSE FOR COMPILATION-->", res);
+      console.log("RESPONSE FOR COMPILATION & TEST-->", res);
+      return res.data;
       
     } catch (error) {
       console.error("Compile Error-->", error);

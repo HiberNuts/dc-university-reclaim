@@ -89,7 +89,7 @@ export default function editor() {
                       Loading...
                     </div>
                     :
-                    <IDE  darkTheme={darkTheme} program={program}/>
+                    <IDE submissionID={id} darkTheme={darkTheme} program={program}/>
                   }
                 </ResizableBox>
       </Split>
