@@ -7,6 +7,7 @@ import { FaCode } from "react-icons/fa6";
 import { IoIosAdd } from "react-icons/io";
 import { FiMinus } from "react-icons/fi";
 import { compile } from "../../../utils/api/ContestAPI";
+import Split from "react-split";
 
 import axios from "axios";
 
@@ -123,19 +124,26 @@ export default function IDE(props) {
           <FaCode className=" mr-3 " />
           <p className="">Code Editor</p>
         </div>
-
-        {/* <div className="flex items-center">
-		<IoIosAdd className="text-white mr-3" />
-		<FiMinus className="text-white"/>
-		</div> */}
       </div>
-      {/* <div id="container" className="w-full resize-x h-[50%]">
-				
-      </div> */}
-      <div className="border-black ">
+      <Split
+        className="flex flex-col h-[90%]"
+        sizes={[50, 50]}
+        minSize={100}
+        expandToMin={true}
+        gutterSize={5}
+        gutterAlign="center"
+        snapOffset={30}
+        dragInterval={1}
+        direction="vertical"
+        gutter={(index, direction) => {
+          const gutterElement = document.createElement('div');
+          gutterElement.className = `bg-gray-500 cursor-row-resize w-full h-5 flex items-center justify-center hover:bg-gray-400   z-10`;
+          return gutterElement;
+        }}
+      >
+      <div className="border h-[70%]">
         <Editor
-          className="border-black "
-          height="50vh"
+          className="border-black h-full"
           defaultLanguage="solidity"
           defaultValue={props?.program?.boilerplate_code?`// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.4;\n\n ${props?.program?.boilerplate_code}`:`// SPDX-License-Identifier: UNLICENSED
@@ -146,8 +154,9 @@ pragma solidity ^0.8.4;\n\n`}
           onMount={handleEditorDidMount}
         />
       </div>
+      <div className="w-full h-[30%]">
 
-      <div className="w-full py-3 px-8 h-[10%]">
+      <div className="w-full py-3 px-8 ">
         <button
           className="bg-transparent border  rounded  p-2 mr-5 hover:bg-green-500"
           onClick={()=>execute()}
@@ -164,16 +173,9 @@ pragma solidity ^0.8.4;\n\n`}
           </button>
         }
       </div>
-      <div className="h-[30%]  p-5 border-y">
-        {/* {output && (
-          <div>
-            <p className="text-lg">byte code:</p>
-            <p className="mt-4 whitespace-pre-line ">
-              {output[0].binary && output[0].binary.bytecodes.bytecode}
-              {output[0].type == "ParserError" && output[0].formattedMessage}
-            </p>
-          </div>
-        )} */}
+
+      <div className="h-full  p-5 border-y">
+        
         {
           output!=""&&
           compileError?
@@ -184,20 +186,49 @@ pragma solidity ^0.8.4;\n\n`}
           :
           <div className="text-wrap overflow-y-auto max-h-[250px]  p-2  ">
             <p className={`text-lg text-green-500`}>{output}</p>
-          {/* {
-          byteCode!=""&&(
-            <p className="text-lg text-white">Bytecode: </p>
-          )
-          } */}
-          {/* {byteCode !== "" && (
-            <p className="text-lg text-white break-words overflow-y-auto">
-             {byteCode}
-            </p>
-          )} */}
         </div>
-        
         }
       </div>
+
+      </div>
+      
+      </Split>
+
+      
+      
+      {/* <Split
+        className="flex flex-col h-full"
+        sizes={[50, 50]}
+        minSize={100}
+        expandToMin={true}
+        gutterSize={5}
+        gutterAlign="center"
+        snapOffset={30}
+        dragInterval={1}
+        direction="vertical"
+        gutter={(index, direction) => {
+          const gutterElement = document.createElement('div');
+          gutterElement.className = `bg-gray-500 cursor-row-resize w-full h-5 flex items-center justify-center hover:bg-gray-400   z-10`;
+          return gutterElement;
+        }}
+      >
+      <div className="border-black ">
+        <Editor
+          className="border-black "
+          defaultLanguage="solidity"
+          defaultValue={props?.program?.boilerplate_code?`// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.4;\n\n ${props?.program?.boilerplate_code}`:`// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.4;\n\n`}
+          theme={props.darkTheme ? "vs-dark" : "light"}
+          onChange={handleEditorChange}
+          beforeMount={handleEditorWillMount}
+          onMount={handleEditorDidMount}
+        />
+      </div>
+      <div className="w-full h-[50%] border">
+
+      </div>
+      </Split> */}
     </div>
   );
 }
