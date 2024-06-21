@@ -124,25 +124,6 @@ export const getContestProgram=async(AccessToken,submissionId)=>{
    }
 }
 
-export const compile = async (code) => {
-  try {
-    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/compile`, { content: code });
-    
-    console.log("RESPONSE FOR COMPILATION-->", res);
-    if (res.status === 200) {
-      if(res.data.error)
-      {
-        return { error: true,message:res.data.error.errors[0].formattedMessage?.replace(/\n/g, '<br\>')};
-      }  
-      let byteCode=res.data.contracts["test.sol"].TestContract.evm.bytecode.object;
-      return { error: false,byteCode:byteCode,message: "Compiled Successfully" };
-    }
-  } catch (error) {
-    console.error("Compile Error-->", error);
-    return { error: true, message: "Failed to compile" };
-  }
-};
-
 export const registerContest=async(AccessToken,contestId=null)=>{
    try {
     if(contestId!=null)
@@ -177,3 +158,34 @@ export const alreadyRegistered=async(AccessToken,contestId=null)=>{
       return error;
   }
 }
+  
+  export const compile = async (code) => {
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/compile`, { content: code });
+      
+      console.log("RESPONSE FOR COMPILATION-->", res);
+      if (res.status === 200) {
+        if(res.data.errors)
+        {
+          return { error: true,message:res.data.errors[0].formattedMessage?.replace(/\n/g, '<br\>')};
+        }  
+        let byteCode=res.data.contracts["test.sol"].TestContract.evm.bytecode.object;
+        return { error: false,byteCode:byteCode,message: "Compiled Successfully" };
+      }
+    } catch (error) {
+      console.error("Compile Error-->", error);
+      return { error: true, message: "Failed to compile" };
+    }
+  };
+
+  export const compileAndSubmit=async()=>{
+    try{
+    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/compile-and-test`,{userCode: "// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n\ncontract TestContract {\n    uint256 private value;\n\n    function setValue(uint256 _value) public {\n        value = _value;\n    }\n\n    function getValue() public view returns (uint256) {\n        return value;\n    }\n}\n",submissionId:'6670307bbbf3246bdd7bc334'});
+      
+      console.log("RESPONSE FOR COMPILATION-->", res);
+      
+    } catch (error) {
+      console.error("Compile Error-->", error);
+      return { error: true, message: "Failed to compile" };
+    }
+  }
