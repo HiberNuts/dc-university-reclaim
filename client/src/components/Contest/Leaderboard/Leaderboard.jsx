@@ -2,110 +2,14 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-
-import AVATAR from "../../../assets/userdp1.png";
-import TRI from "../../../assets/leaderboard_triangle.png";
-import ARROW1 from "../../../assets/leaderboard_arrow1.png";
-import ARROW2 from "../../../assets/leaderboard_arrow2.png";
-import CONFETTI from "../../../assets/svgconfetti.svg"
-const LEADERBOARD=[
- {
-      "Rank":1,
-      "Avatar": "img1",
-      "User Name": "Deadpool_Wolverine",
-      "XP Points":2000,
-      "Prize":"$ 2000"
-    },
-    {
-     "Rank":2,
-     "Avatar": "img2",
-     "User Name": "Iron_Man",
-     "XP Points":2000,
-     "Prize":"$ 2000"
-
-   
-    },
-    {
-     "Rank":3,
-     "Avatar": "img3",
-     "User Name": "Spider_Man",
-     "XP Points":2000,
-     "Prize":"$ 2000"
-
-    
-    },
-    {
-     "Rank":4,
-     "Avatar": "img4",
-     "User Name": "Black_Panther",
-     "XP Points":2000,
-     "Prize":"$ 2000"
-
-   
-    },
-    {
-     "Rank":5,
-     "Avatar": "img5",
-     "User Name": "Captain_America",
-     "XP Points":2000,
-     "Prize":"$ 2000"
-     
-    
-    },
-    {
-     "Rank":6,
-     "Avatar": "img6",
-     "User Name": "Hulk_Smash",
-     "XP Points":2000,
-     "Prize":"$ 2000"
-
-    
-    },
-    {
-     "Rank":7,
-     "Avatar": "img7",
-     "User Name": "Thor_Odin",
-     "XP Points":2000,
-     "Prize":"$ 2000"
-
-    
-    },
-    {
-     "Rank":8,
-     "Avatar": "img8",
-     "User Name": "Loki_Chaos",
-     "XP Points":2000,
-     "Prize":"$ 2000"
-
-    
-    },
-    {
-     "Rank":9,
-     "Avatar": "img9",
-     "User Name": "Black_Widow",
-     "XP Points":2000,
-     "Prize":"$ 2000"
-
-    
-    },
-    {
-     "Rank":10,
-     "Avatar": "img10",
-     "User Name": "Hawkeye_Aim",
-     "XP Points":2000,
-     "Prize":"$ 2000"
-
-      
- }
-]
-export default function Leaderboard({className})
+export default function Leaderboard({data})
 {
     const [columns,setColumns]=useState([]);
     const [showAll,setShowAll]=useState(3);
     useEffect(()=>{
-        let cols = LEADERBOARD.length > 0 ? Object.keys(LEADERBOARD[0]) : [];
+        let cols = data.length > 0 ? Object.keys(data[0]) : [];
         setColumns(cols);
-    },[])
+    },[data])
    return(
     <div className="">
          {/* <div className="bg-shardeumBlue px-2 sm:px-[100px] leaderboard_title relative">
@@ -127,14 +31,14 @@ export default function Leaderboard({className})
                             </tr>
                         </thead>
                         <tbody className="text-[20px]">
-                            {LEADERBOARD.slice(0,showAll).map((item, index) => (
+                            {data.slice(0,showAll).map((item, index) => (
                                     <tr className={`text-center  border-b-[0.5px] ${index<3?'top_3':''} ${index==0?'bg-shardeumGreen':index==1?'bg-[#FBFF1E]':index==2?'bg-[#1EFFFA]':''}`} key={index}>
                                     {columns.map((column) => (
                                         column=="Avatar"?
                                             <td className="px-4 py-5 flex justify-center" key={column}>
                                                 <LazyLoadImage
-                                                    className=" rounded-[16px]"
-                                                    src={AVATAR}   
+                                                    className=" rounded-[50%] w-14 h-14"
+                                                    src={item?.Avatar}   
                                                 />
                                             </td>
                                         :
@@ -150,7 +54,7 @@ export default function Leaderboard({className})
                         </tbody>
                     </table>
                       {
-                        showAll!=10&&
+                        data.length>3&&showAll!=10&&
                         <div className={`text-center  h-[50px] flex justify-center items-center`} key={''}>
                              <span className="text-shardeumBlue text-[18px] leading-[18px] cursor-pointer" onClick={()=>setShowAll(10)}>View All</span>
                         </div>

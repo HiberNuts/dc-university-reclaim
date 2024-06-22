@@ -5,7 +5,7 @@ import { useParams,useNavigate } from "react-router-dom";
 import { useEffect, useState,useContext } from "react";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { formatTimestamp,checkTimeLeft } from "../../../utils/time";
-import { getContestByTitle,registerContest,alreadyRegistered } from "../../../utils/api/ContestAPI";
+import { getContestByTitle,registerContest,alreadyRegistered,getLeaderboard } from "../../../utils/api/ContestAPI";
 
 export default function ContestRegsiter() {
   const { title } = useParams("title");
@@ -13,6 +13,7 @@ export default function ContestRegsiter() {
   const navigate=useNavigate();
   const [contest, setContest] = useState(null);
   const [contestID,setContestID]=useState(null);
+  const [leaderboard,setLeaderboard]=useState([]);
   const [btn,setBtn]=useState("Register Now");
   const [timeLeft, setTimeLeft] = useState({ status: false });
   useEffect(() => {
@@ -39,7 +40,11 @@ export default function ContestRegsiter() {
          navigate(`/editor/${title}/${resp.submissionId}`);
       })
   }
-
+  const getLeaderboardRank=async()=>{
+     await getLeaderboard(contest?._id).then((resp)=>{
+       setLeaderboard(resp);
+     });
+  }
   useEffect(()=>{
     if(contest!=null)
       {
@@ -49,6 +54,8 @@ export default function ContestRegsiter() {
         };
         updateTimer();
         const intervalId = setInterval(updateTimer, 1000);
+        //FOR LEADERBOARD
+        getLeaderboardRank();
         return () => clearInterval(intervalId);
       }
   },[contest])
@@ -100,12 +107,17 @@ export default function ContestRegsiter() {
              />
           </div>
     </div>
-    <div className="px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[30px]">
+    {
+   leaderboard.length>0&&
+     <div className="px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[30px]">
        <div className="py-5">
           <p className="my-2 text-[64px]  leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Leaderboard</p>
        </div>
-       <Leaderboard/>
-    </div>
+  
+        <Leaderboard data={leaderboard}/>
+       
+     </div>
+    }
     <div className="contest-details grid grid-cols-2 lg:grid-cols-3 px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[30px]">
           <div className='col-span-2 md:pr-8'>
              <div className='contest-details-title'>

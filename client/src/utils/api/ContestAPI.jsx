@@ -191,3 +191,15 @@ export const alreadyRegistered=async(AccessToken,contestId=null)=>{
       return { error: true, message: "Failed to compile" };
     }
   }
+
+  export const getLeaderboard=async(contestID)=>{
+     try {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/contest/leaderboard?id=${contestID}`);
+      console.log("LEADER BOARD RESPONSE-->",res);
+      return res.data;
+    
+     } catch (error) {
+          console.log("Failed to fetch leaderboard details-->",error.message);
+          return;
+     }
+  }

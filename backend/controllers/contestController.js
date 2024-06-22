@@ -155,7 +155,7 @@ exports.alreadyRegistered=async(req,res)=>{
   }
 }
 
-//COMPILER
+
 // exports.compiler = async (req, res) => {
 //     try {
 //       const {content}=req.body
@@ -192,12 +192,14 @@ exports.alreadyRegistered=async(req,res)=>{
 //   };
 exports.leaderboard=async(req,res)=>{
     try {
-      console.log(req.query.id)
        const contestID=req.query.id;
-       const allSubmissions=await Submissions.find({contest:contestID})
-       let ranks=await rankSubmissions(allSubmissions,contestID);
-      
-       res.json(ranks)
+       const allSubmissions=await Submissions.find({contest:contestID,status:"completed"});
+       if(allSubmissions.length>0)
+        {
+          let ranks=await rankSubmissions(allSubmissions,contestID);
+          return res.json(ranks)
+        }
+       return res.json([])
     } catch (error) {
        res.status(500).send({error:true,message:error.message || "Internal Server Error"})
     }

@@ -23,12 +23,12 @@ exports.rankSubmissions = async (submissions, contestID) => {
       const prize = rewards.find(reward => reward.rank === index + 1)?.prize || '-';
 
       return {
-        rank: index + 1,
-        userID: submission.user,
-        username: user ? user.username : 'Unknown',
-        image: user?.image ?? 'https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/9aa80aa64a524e6477fb757e287fba19.avif',
-        xp: submission.xp,
-        prize
+        "Rank": index + 1,
+        // userID: submission.user,
+        "Avatar": user?.image ?? 'https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/9aa80aa64a524e6477fb757e287fba19.avif',
+        "User Name": user ? user.username : 'Unknown',
+        "XP": submission.xp,
+        "Prize":prize
       };
     })
   );
