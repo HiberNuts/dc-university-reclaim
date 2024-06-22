@@ -1,4 +1,4 @@
-import React,{ useRef } from "react"
+import React,{ useRef,useState,useEffect } from "react"
 import { motion, useScroll } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -6,7 +6,7 @@ import PRICE_BADGE from '../../assets/star.png';
 import STAR_BG from "../../assets/star_bg.png"
 import GreenButton from "../button/GreenButton";
 
-import { formatTimestamp } from "../../utils/time";
+import { formatTimestamp,checkTimeLeft } from "../../utils/time";
 import { generateSlug } from "../../utils/generateSlug";
 
 export default function ContestCard(props)
@@ -14,11 +14,25 @@ export default function ContestCard(props)
     // console.log(props)
     const navigate=useNavigate();
     const scrollRef = useRef(null);
+    const [timeLeft, setTimeLeft] = useState({ status: false });
+
     const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
     
     const handleClick=async()=>{
            navigate(`/contest/register/${generateSlug(props.title)}`);
     }
+    useEffect(()=>{
+        if(props?.startDate)
+        {
+          const updateTimer = () => {
+            var status = checkTimeLeft(props?.startDate, props?.endDate);
+            setTimeLeft(status);
+          };
+          updateTimer();
+          const intervalId = setInterval(updateTimer, 1000);
+          return () => clearInterval(intervalId);
+        }
+    },[props])
 return(
     <motion.div
     ref={scrollRef}
@@ -61,43 +75,49 @@ return(
                               </p>
                           </div>
                       </div>
-                      <div className="hidden md:block my-3">
-                          <div className="">
-                              <p className="text-[15px]">
-                                  <span className="pr-2 border-r-2  border-r-[#C3C8FF]">
-                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Start:</span><span className="text-[14px]"> {formatTimestamp(props.startDate)}</span>
-                                  </span>
-                                  <span className="px-2">
-                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">End:</span><span className="text-[14px]">  {formatTimestamp(props.endDate)}</span>
-                                  </span>
-                              </p>
-                          </div>
-                      </div>
-                      <div className="block md:hidden my-3">
-                          <div className="">
+                      {
+                        !timeLeft.status&&
+                        <div className="hidden md:block my-3">
+                            <div className="">
+                                <p className="text-[15px]">
+                                    <span className="pr-2 border-r-2  border-r-[#C3C8FF]">
+                                      <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Start:</span><span className="text-[14px]"> {formatTimestamp(props.startDate)}</span>
+                                    </span>
+                                    <span className="px-2">
+                                      <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">End:</span><span className="text-[14px]">  {formatTimestamp(props.endDate)}</span>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                      }
+                      {
+                        !timeLeft.status&&
+                        <div className="block md:hidden my-3">
+                            <div className="">
+                                <p className="text-[15px] flex flex-col">
+                                    <span className="pr-2">
+                                      <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Start:</span><span className="text-[14px]"> {formatTimestamp(props.startDate)}</span>
+                                    </span>
+                                    <span className="mt-2">
+                                      <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">End:</span><span className="text-[14px]">   {formatTimestamp(props.endDate)}</span>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                      }
+                      {/* When the contest is live  */}
+                      {timeLeft.status &&
+                        <div className="my-1">
+                           <div className="">
                               <p className="text-[15px] flex flex-col">
                                   <span className="pr-2">
-                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Start:</span><span className="text-[14px]"> {formatTimestamp(props.startDate)}</span>
+                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Ends in:</span><span className="text-[14px] text-red-500"> {timeLeft?.timeleft}</span>
                                   </span>
-                                  <span className="mt-2">
-                                    <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">End:</span><span className="text-[14px]">   {formatTimestamp(props.endDate)}</span>
-                                  </span>
+                                
                               </p>
                           </div>
-                      </div>
-                      {/* When the contest is live  */}
-                      {/* <div className="my-1">
-                          <div className="">
-                              <p className="text-[15px]">
-                                <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Ending in:</span>
-                              </p>
-                          </div>
-                          <div>
-                                <p className="text-[14px]">
-                                  <span className="text-red-500">2d : 11h :59m :22s</span>
-                                </p>
-                          </div>
-                      </div> */}
+                        </div>
+                      }
                   </div>
               </div>
                 <div className="button-container">

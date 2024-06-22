@@ -4,7 +4,7 @@ import Leaderboard from "../Leaderboard/Leaderboard";
 import { useParams,useNavigate } from "react-router-dom";
 import { useEffect, useState,useContext } from "react";
 import { ParentContext } from "../../../contexts/ParentContext";
-import { formatTimestamp } from "../../../utils/time";
+import { formatTimestamp,checkTimeLeft } from "../../../utils/time";
 import { getContestByTitle,registerContest,alreadyRegistered } from "../../../utils/api/ContestAPI";
 
 export default function ContestRegsiter() {
@@ -14,6 +14,7 @@ export default function ContestRegsiter() {
   const [contest, setContest] = useState(null);
   const [contestID,setContestID]=useState(null);
   const [btn,setBtn]=useState("Register Now");
+  const [timeLeft, setTimeLeft] = useState({ status: false });
   useEffect(() => {
     getContestByTitle(title).then((res) =>{
       setContest(res[0])
@@ -38,6 +39,19 @@ export default function ContestRegsiter() {
          navigate(`/editor/${title}/${resp.submissionId}`);
       })
   }
+
+  useEffect(()=>{
+    if(contest!=null)
+      {
+        const updateTimer = () => {
+          var status = checkTimeLeft(contest?.startDate, contest?.endDate);
+          setTimeLeft(status);
+        };
+        updateTimer();
+        const intervalId = setInterval(updateTimer, 1000);
+        return () => clearInterval(intervalId);
+      }
+  },[contest])
   return contest ? (
     <div className="bg-white pb-10">
     <div className="contest-header grid grid-cols-1 md:grid-cols-2 px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[50px] bg-[#CAFFEF]">
@@ -51,16 +65,25 @@ export default function ContestRegsiter() {
                  <p className='my-2 text-[16px] '>
                      <span className="leading-[28px] text-overflow-ellipsis font-bold">Participants:</span> <span className="pl-1">  {contest.participants}</span> 
                  </p>
+                 {
+                  !timeLeft.status&&
                  <p className='my-2 text-[16px] '>
                      <span className="leading-[28px] text-overflow-ellipsis font-bold">Start:</span><span className="pl-1"> {formatTimestamp(contest.startDate)}</span>
                  </p>
+                 }
+                 {
+                  !timeLeft.status&&
                  <p className='my-2 text-[16px] '>
                      <span className="leading-[28px] text-overflow-ellipsis font-bold">End:</span><span className="pl-1"> {formatTimestamp(contest.endDate)}</span>
                  </p>
-                 {/* When the contest is live  */}
-                 {/* <p className='my-2 text-[15px]'>
-                     <span className="leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Ending in:</span> <span className="text-red-500 pl-1"> 2d : 11h :59m :22s</span>
-                 </p>  */}
+                 }
+                {timeLeft.status && (
+                          <p className='my-2 text-[16px]'>
+                              <span className="leading-[28px] text-overflow-ellipsis font-bold">Ends in:</span> <span className="text-red-500 pl-1"> {timeLeft?.timeleft}</span>
+                          </p> 
+                )}
+                 <div>
+    </div>
               </div>
               <div className='py-2 mt-10'>
                   <GreenButton 

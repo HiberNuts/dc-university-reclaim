@@ -33,3 +33,26 @@ export function formatTimestamp(timestamp) {
     const seconds = String(now.getSeconds()).padStart(2, '0');
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
   }
+
+  export function checkTimeLeft(startDate, endDate) {
+    const currentDate = new Date();
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+  
+    if (currentDate >= start && currentDate <= end) {
+      const timeLeft = end - currentDate;
+  
+      // Calculate days, hours, minutes, and seconds left
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+  
+      return {
+        status: true,
+        timeleft: `${days}d : ${hours}h : ${minutes}m : ${seconds}s`
+      };
+    }
+  
+    return { status: false };
+  }
