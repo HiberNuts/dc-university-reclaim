@@ -12,6 +12,17 @@ export interface ContestMetaTestCases extends Schema.Component {
   };
 }
 
+export interface ContestPrizePrize extends Schema.Component {
+  collectionName: 'components_contest_prize_prizes';
+  info: {
+    displayName: 'prize';
+  };
+  attributes: {
+    rank: Attribute.Integer;
+    prize: Attribute.String;
+  };
+}
+
 export interface CourseMetadataChapter extends Schema.Component {
   collectionName: 'components_course_metadata_chapters';
   info: {
@@ -87,6 +98,7 @@ declare module '@strapi/types' {
   export module Shared {
     export interface Components {
       'contest-meta.test-cases': ContestMetaTestCases;
+      'contest-prize.prize': ContestPrizePrize;
       'course-metadata.chapter': CourseMetadataChapter;
       'course-metadata.faq': CourseMetadataFaq;
       'course-metadata.module': CourseMetadataModule;

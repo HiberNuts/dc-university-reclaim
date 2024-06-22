@@ -57,6 +57,11 @@
     },
     "prize": {
       "type": "string"
+    },
+    "reward": {
+      "type": "component",
+      "repeatable": true,
+      "component": "contest-prize.prize"
     }
   }
 }

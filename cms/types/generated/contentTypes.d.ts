@@ -700,6 +700,7 @@ export interface ApiContestContest extends Schema.CollectionType {
     warnings: Attribute.Blocks;
     level: Attribute.Enumeration<['Easy', 'Medium', 'Hard']>;
     prize: Attribute.String;
+    reward: Attribute.Component<'contest-prize.prize', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

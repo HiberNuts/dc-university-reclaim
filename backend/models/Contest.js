@@ -1,4 +1,10 @@
 const mongoose = require("mongoose");
+const rewardSchema=new mongoose.Schema({
+    id:{type:Number},
+    rank:{type:Number},
+    prize:{type:String}
+});
+
 const contestSchema = new mongoose.Schema({
         strapiId:{type:Number},
         description:{type:String},
@@ -16,6 +22,7 @@ const contestSchema = new mongoose.Schema({
             default: "Easy",
         },
         prize:{type:String},
+        reward:{type:[rewardSchema]},
         createdAt: { type: Date, required: true, default: Date.now},
         updatedAt:{ type:Date,required:true,default:Date.now()}
 })

@@ -195,7 +195,7 @@ exports.leaderboard=async(req,res)=>{
       console.log(req.query.id)
        const contestID=req.query.id;
        const allSubmissions=await Submissions.find({contest:contestID})
-       let ranks=await rankSubmissions(allSubmissions);
+       let ranks=await rankSubmissions(allSubmissions,contestID);
       
        res.json(ranks)
     } catch (error) {
@@ -236,10 +236,10 @@ exports.updateModel=async(req,res)=>{
 
 createContest = async (req) => {
     try {
-      const {id:strapiId,title,description,participants,startDate,endDate,image,details,rules,warnings,level,prize}=req.body.entry
+      const {id:strapiId,title,description,participants,startDate,endDate,image,details,rules,warnings,level,prize,reward}=req.body.entry
       const mappedRules=req.body.entry.rules[0].children.map(child=>child.children[0].text)
       const mappedWarnings=req.body.entry.warnings[0].children.map(child=>child.children[0].text)
-      const createdContest=new Contests({strapiId,title,participants,startDate,endDate,image:image.url,details,rules:mappedRules,warnings:mappedWarnings,level,prize})
+      const createdContest=new Contests({strapiId,title,participants,startDate,endDate,image:image.url,details,rules:mappedRules,warnings:mappedWarnings,level,prize,reward})
       await createdContest.save()
       console.log("new contest saved[+]")
     } catch (error) {
@@ -250,7 +250,8 @@ createContest = async (req) => {
 
 updateContest=async(req,res)=>{
     try {
-        const { id: strapiId, title, description, participants, startDate, endDate, image, details, rules, warnings, level,prize } = req.body.entry;
+       console.log("re-->",req.body.entry);
+        const { id: strapiId, title, description, participants, startDate, endDate, image, details, rules, warnings, level,prize,reward } = req.body.entry;
         const mappedRules = req.body.entry.rules[0].children.map(child => child.children[0].text);
         const mappedWarnings = req.body.entry.warnings[0].children.map(child => child.children[0].text);
 
@@ -265,7 +266,8 @@ updateContest=async(req,res)=>{
           rules: mappedRules,
           warnings: mappedWarnings,
           level,
-          prize
+          prize,
+          reward
         };
         const updatedContest = await Contests.findOneAndUpdate(
           { strapiId: strapiId },
