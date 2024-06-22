@@ -12,82 +12,90 @@ const LEADERBOARD=[
  {
       "Rank":1,
       "Avatar": "img1",
-      "Id": "Deadpool_Wolverine",
-      "Test Cases": 14,
-      "Timing": "11:23:45",
-      "Submission": "https://linkedin.com/in/user1"
+      "User Name": "Deadpool_Wolverine",
+      "XP Points":2000,
+      "Prize":"$ 2000"
     },
     {
      "Rank":2,
      "Avatar": "img2",
-     "Id": "Iron_Man",
-     "Test Cases": 9,
-     "Timing": "07:34:29",
-     "Submission": "https://linkedin.com/in/user2"
+     "User Name": "Iron_Man",
+     "XP Points":2000,
+     "Prize":"$ 2000"
+
+   
     },
     {
      "Rank":3,
      "Avatar": "img3",
-     "Id": "Spider_Man",
-     "Test Cases": 18,
-     "Timing": "05:16:01",
-     "Submission": "https://linkedin.com/in/user3"
+     "User Name": "Spider_Man",
+     "XP Points":2000,
+     "Prize":"$ 2000"
+
+    
     },
     {
      "Rank":4,
      "Avatar": "img4",
-     "Id": "Black_Panther",
-     "Test Cases": 13,
-     "Timing": "19:22:53",
-     "Submission": "https://linkedin.com/in/user4"
+     "User Name": "Black_Panther",
+     "XP Points":2000,
+     "Prize":"$ 2000"
+
+   
     },
     {
      "Rank":5,
      "Avatar": "img5",
-     "Id": "Captain_America",
-     "Test Cases": 7,
-     "Timing": "14:44:12",
-     "Submission": "https://linkedin.com/in/user5"
+     "User Name": "Captain_America",
+     "XP Points":2000,
+     "Prize":"$ 2000"
+     
+    
     },
     {
      "Rank":6,
      "Avatar": "img6",
-     "Id": "Hulk_Smash",
-     "Test Cases": 16,
-     "Timing": "10:18:34",
-     "Submission": "https://linkedin.com/in/user6"
+     "User Name": "Hulk_Smash",
+     "XP Points":2000,
+     "Prize":"$ 2000"
+
+    
     },
     {
      "Rank":7,
      "Avatar": "img7",
-     "Id": "Thor_Odin",
-     "Test Cases": 12,
-     "Timing": "08:39:57",
-     "Submission": "https://linkedin.com/in/user7"
+     "User Name": "Thor_Odin",
+     "XP Points":2000,
+     "Prize":"$ 2000"
+
+    
     },
     {
      "Rank":8,
      "Avatar": "img8",
-     "Id": "Loki_Chaos",
-     "Test Cases": 19,
-     "Timing": "21:15:42",
-     "Submission": "https://linkedin.com/in/user8"
+     "User Name": "Loki_Chaos",
+     "XP Points":2000,
+     "Prize":"$ 2000"
+
+    
     },
     {
      "Rank":9,
      "Avatar": "img9",
-     "Id": "Black_Widow",
-     "Test Cases": 10,
-     "Timing": "06:11:05",
-     "Submission": "https://linkedin.com/in/user9"
+     "User Name": "Black_Widow",
+     "XP Points":2000,
+     "Prize":"$ 2000"
+
+    
     },
     {
      "Rank":10,
      "Avatar": "img10",
-     "Id": "Hawkeye_Aim",
-     "Test Cases": 15,
-     "Timing": "17:59:23",
-     "Submission": "https://linkedin.com/in/user10"
+     "User Name": "Hawkeye_Aim",
+     "XP Points":2000,
+     "Prize":"$ 2000"
+
+      
  }
 ]
 export default function Leaderboard({className})
@@ -114,7 +122,7 @@ export default function Leaderboard({className})
                         <thead>
                             <tr className="text-white bg-black table_head">
                                 {columns.map((column) => (
-                                    <th className={`px-4 py-8 text-[22px] leading-tight font-helvetica-neue-semibold ${column=="Id"?'text-left':''}`} key={column}>{column.toUpperCase()}</th>
+                                    <th className={`px-4 py-8 text-[22px] leading-tight font-helvetica-neue-semibold ${column=="User Name"?'text-left':''}`} key={column}>{column.toUpperCase()}</th>
                                 ))}
                             </tr>
                         </thead>
@@ -135,7 +143,7 @@ export default function Leaderboard({className})
                                                 <a className="text-shardeumBlue underline" href={item[column]}>View Submission</a>
                                             </td>
                                             :
-                                            <td className={`px-4 py-5 ${column=="Id"?'text-left':''}  ${column=="Rank"?'font-bold':''}`} key={column}>{item[column]}</td>
+                                            <td className={`px-4 py-5 ${column=="User Name"?'text-left':''}  ${column=="Rank"?'font-bold':''}`} key={column}>{item[column]}</td>
                                     ))}
                                 </tr>
                             ))}

@@ -29,7 +29,7 @@ export default function ContestRegsiter() {
       checkUserAlreadyRegistered();
     } 
   );
-  }, []);
+  }, [loggedInUserData]);
 
   const handleRegister=async()=>{
       await registerContest(loggedInUserData?.accessToken,contestID).then((resp)=>{

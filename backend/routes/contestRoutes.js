@@ -15,6 +15,8 @@ module.exports = function (app) {
   app.get("/api/contest/getContest/:title", controller.getContestByTitle);
   //PROGRAM 
   app.post("/api/program/getProgram", [authJwt.verifyToken], controller.getProgram);
+  //LEADERBOARD
+  app.get("/api/contest/leaderboard",controller.leaderboard)
   // COMPILER 
   // app.post("/api/compile", controller.compiler);
   app.post("/api/contest/register", [authJwt.verifyToken], controller.createSubmission);

@@ -1,7 +1,9 @@
 const db = require("../models");
+const Users=db.user;
 const Contests = db.Contests;
 const Programs = db.Programs;
 const Submissions=db.Submissions;
+const {rankSubmissions}=require('../utils/leaderboardCalculator')
 var solc = require('solc');
 
 
@@ -188,7 +190,18 @@ exports.alreadyRegistered=async(req,res)=>{
 //       res.status(500).send({ message: error.message || "Internal Server Error" });
 //     }
 //   };
-
+exports.leaderboard=async(req,res)=>{
+    try {
+      console.log(req.query.id)
+       const contestID=req.query.id;
+       const allSubmissions=await Submissions.find({contest:contestID})
+       let ranks=await rankSubmissions(allSubmissions);
+      
+       res.json(ranks)
+    } catch (error) {
+       res.status(500).send({error:true,message:error.message || "Internal Server Error"})
+    }
+}
 
 //WEBHOOKS
 exports.createModel=async(req,res)=>{
