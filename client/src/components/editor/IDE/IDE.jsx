@@ -1,5 +1,8 @@
 import Editor from "@monaco-editor/react";
 import { useEffect, useRef, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { solidityLanguageConfig, solidityTokensProvider } from "./EditorConfig";
 // import * as monaco from "monaco-editor"
 import solcjs from "solc-js";
@@ -20,6 +23,8 @@ export default function IDE(props) {
   const [output, setOutput] = useState("");
   const [byteCode,setByteCode]=useState("");
   const [compileError,setCompileError]=useState(null);
+  const [testCases,setTestCases]=useState(null);
+  const [currentTestCase,setCurrentTestCase]=useState(0);
   function setupMonaco(monaco) {
     monaco.languages.register({ id: "solidity" });
     monaco.languages.setLanguageConfiguration(
@@ -78,6 +83,7 @@ export default function IDE(props) {
   };
   const execute = async () => {
     try {
+      setTestCases(null);
       await compile(input).then((response)=>{
           if(response.error==true) 
             {
@@ -101,8 +107,14 @@ export default function IDE(props) {
     }
   };
   const handleSubmitAndTest=async()=>{
-      try {
-          await compileAndSubmit(input,props?.submissionID).then((result)=>console.log("TEST CASE RESULT===?",result));
+    try {
+          setTestCases(null);
+          await compileAndSubmit(input,props?.submissionID).then((result)=>{
+             console.log("TEST CASES--->",result);
+             setCompileError(false);
+             setOutput("Compiled Successfully");
+             setTestCases(result);
+          });
       } catch (error) {
         console.log("ERROR IN TESTING");
       }
@@ -161,7 +173,7 @@ pragma solidity ^0.8.4;\n\n`}
           onMount={handleEditorDidMount}
         />
       </div>
-      <div className="w-full h-[30%]">
+      <div className="w-full h-[30%] overflow-y-scroll">
 
       <div className="w-full py-3 px-8 ">
         <button
@@ -181,7 +193,7 @@ pragma solidity ^0.8.4;\n\n`}
         }
       </div>
 
-      <div className="h-full  p-5 border-y">
+      <div className="h-full  px-5 py-10 border-y">
         
         {
           output!=""&&
@@ -194,6 +206,34 @@ pragma solidity ^0.8.4;\n\n`}
           <div className="text-wrap overflow-y-auto max-h-[250px]  p-2  ">
             <p className={`text-lg text-green-500`}>{output}</p>
         </div>
+        }
+        {
+          testCases!=null&&
+          <div className="p-2">
+            <div className="grid grid-cols-5 gap-1">
+              <div className="col-span-1 border-[0.5px] rounded-[4px] flex flex-col justify-center">
+                {
+                  testCases?.testResults?.map((single,index)=>
+                    <p onClick={()=>setCurrentTestCase(index)} className={`${index+1==testCases.testResults.length?'':'border-b-[1px]'} py-3 px-2 hover:cursor-pointer hover:bg-gray hover:text-black`}>
+                      <span className="pr-2" >Test case {index+1}</span>
+                     {
+                      single?.passed==true?
+                      <FontAwesomeIcon icon={faCheckCircle} style={{ color: 'green' }} />
+                      :
+                      <FontAwesomeIcon icon={faTimesCircle} style={{ color: 'red' }} />
+                     }
+                    </p>
+                  )
+                }
+              </div>
+              <div className="col-span-4  border-[0.5px] rounded-[4px] p-5">
+                 {
+                  testCases?.testResults[currentTestCase].description
+                 }
+              </div>    
+            </div>  
+          </div>
+
         }
       </div>
 
