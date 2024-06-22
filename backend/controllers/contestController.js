@@ -85,13 +85,17 @@ exports.getProgram=async(req,res)=>{
           const Submisison=await Submissions.findById(req.body.submissionId);
           if(!Submisison)
              return res.json(404).send({error:true,message:"Invalid submission!"});
-          // const Program=await Program.findOne({contestId:Submission.contest});
-          const Contest=await Contests.findById(Submisison.contest);
-          const Program=await Programs.findOne({contestId:Submisison.contest});
-          if(!Contest)
+            // const Program=await Program.findOne({contestId:Submission.contest});
+            const Contest=await Contests.findById(Submisison.contest);
+            const Program=await Programs.findOne({contestId:Submisison.contest});
+            if(!Contest)
               return res.status(404).send({error:true,message:"Contest not found for the submission"});
-          if(!Program)
+            if(!Program)
               return res.status(404).send({error:true,message:"Program not found for the submission"});
+            if(Submisison.status=="completed")
+            {
+              return res.status(200).send({error:true,code:Submisison.submittedCode,testResults:Submisison.testResults,Program:Program,Contest:Contest})
+            }
           return res.status(200).send({error:false,Program:Program,Contest:Contest});
       //  const Program=await Programs.findOne({contestId:req.params.contestId});
       //  if(!Program)

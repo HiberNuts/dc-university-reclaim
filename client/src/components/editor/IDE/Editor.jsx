@@ -18,6 +18,7 @@ export default function editor() {
   const [darkTheme,setDarkTheme]=useState(true);
   const [contest,setContest]=useState();
   const [program,setProgram]=useState();
+  const [completed,setCompleted]=useState({completed:false});
   const [loader,setLoader]=useState(true);
   // const loadsolc = async () => {
 
@@ -47,8 +48,23 @@ export default function editor() {
           setContest(resp.Contest);
           setLoader(false);
         }
+        if(resp.error==true)
+        {
+          if(resp.code)
+            {
+            setProgram(resp.Program);
+            setContest(resp.Contest);
+            let submittedData={
+              completed:true,
+              submittedCode:resp.code,
+              testResults:resp.testResults
+            }
+            setCompleted(submittedData);
+            setLoader(false);
+          }
+        }
       });
-  },[id,title])
+  },[id,title,loggedInUserData])
   return (
     <div className={`w-full h-screen ${darkTheme && "bg-black text-white"} transition-all duration-200 ease-linear`}>
       
@@ -89,7 +105,7 @@ export default function editor() {
                       Loading...
                     </div>
                     :
-                    <IDE submissionID={id} darkTheme={darkTheme} program={program}/>
+                    <IDE completed={completed} submissionID={id} darkTheme={darkTheme} program={program}/>
                   }
                 </ResizableBox>
       </Split>

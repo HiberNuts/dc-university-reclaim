@@ -136,6 +136,12 @@ export default function IDE(props) {
       fontSize: 14,
     });
   };
+  useEffect(()=>{
+      if(props?.completed?.completed==true)
+        {
+          setTestCases({testResults:props.completed?.testResults});
+        }
+  },[props.completed])
   return (
     <div className="h-screen w-full border flex-1 z-10">
       <div className="w-full  z-10   px-8 flex  items-center justify-between h-[10%]">
@@ -164,7 +170,7 @@ export default function IDE(props) {
         <Editor
           className="border-black h-full"
           defaultLanguage="solidity"
-          defaultValue={props?.program?.boilerplate_code?`// SPDX-License-Identifier: UNLICENSED
+          defaultValue={props?.completed?.completed==true?props?.completed?.submittedCode:props?.program?.boilerplate_code?`// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.4;\n\n ${props?.program?.boilerplate_code}`:`// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.4;\n\n`}
           theme={props.darkTheme ? "vs-dark" : "light"}
@@ -175,23 +181,29 @@ pragma solidity ^0.8.4;\n\n`}
       </div>
       <div className="w-full h-[30%] overflow-y-scroll">
 
-      <div className="w-full py-3 px-8 ">
-        <button
-          className="bg-transparent border  rounded  p-2 mr-5 hover:bg-green-500"
-          onClick={()=>execute()}
-        >
-          Compile
-        </button>
-        {
-          compileError==false&&
-          <button
-            className="bg-transparent border rounded  p-2 hover:bg-green-500"
-            onClick={handleSubmitAndTest}
-          >
-            Submit
-          </button>
-        }
-      </div>
+  {
+    props.completed?.completed==false&&
+        <div className="w-full py-3 px-8 ">
+          
+            
+            <button
+              className="bg-transparent border  rounded  p-2 mr-5 hover:bg-green-500"
+              onClick={()=>execute()}
+            >
+              Compile
+            </button>
+          
+          {
+            compileError==false&&
+            <button
+              className="bg-transparent border rounded  p-2 hover:bg-green-500"
+              onClick={handleSubmitAndTest}
+            >
+              Submit
+            </button>
+          }
+        </div>
+  }
 
       <div className="h-full  px-5 py-10 border-y">
         
@@ -214,7 +226,7 @@ pragma solidity ^0.8.4;\n\n`}
               <div className="col-span-1 border-[0.5px] rounded-[4px] flex flex-col justify-center">
                 {
                   testCases?.testResults?.map((single,index)=>
-                    <p onClick={()=>setCurrentTestCase(index)} className={`${index+1==testCases.testResults.length?'':'border-b-[1px]'} py-3 px-2 hover:cursor-pointer hover:bg-gray hover:text-black`}>
+                    <p onClick={()=>setCurrentTestCase(index)} className={`${index+1==testCases.testResults.length?'':'border-b-[1px]'} py-3 px-2 ${currentTestCase==index?`cursor-pointer  text-black ${props?.darkTheme?' bg-gray ':' bg-black text-white '}`:''} cursor-pointer`}>
                       <span className="pr-2" >Test case {index+1}</span>
                      {
                       single?.passed==true?

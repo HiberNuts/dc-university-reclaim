@@ -1,10 +1,23 @@
 const mongoose=require('mongoose');
+const testResultSchema=new mongoose.Schema({
+     passed:{type:Boolean},
+     description:{type:String}
+})
 const submissionSchema=new mongoose.Schema({
      user:{type: mongoose.Schema.Types.ObjectId,required:true},
      contest:{type: mongoose.Schema.Types.ObjectId,required:true},
      code:{type:String},
-     test_cases:{type:String},
-     completion_time:{type:String},
+     status:{
+          type: String,
+          enum: ['progress','completed'],
+          default:"progress"
+     },
+     xp:{type:Number},
+     passedCases:{type:Number},
+     totalCases:{type:Number},
+     testResults:{type:[testResultSchema]},
+     submittedTime:{type:Date},
+     submittedCode:{type:String},
      createdAt: { type: Date, required: true, default: Date.now},
      updatedAt:{ type:Date,required:true,default:Date.now()}
 })

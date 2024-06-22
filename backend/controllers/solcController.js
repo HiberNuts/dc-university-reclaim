@@ -202,7 +202,19 @@ exports.compileAndTest=async(req,res)=>{
     // Calculate number of passing and failing tests
     const passedTests = testResults.filter(result => result.passed).length;
     const failedTests = testResults.length - passedTests;
+    const xpForEachTestCase=500/testResults.length;
+    const xpEarned=xpForEachTestCase*passedTests;
+    //UPDATE THE SUBMISSION SCHEMA 
+    Submisison.passedCases=passedTests;
+    Submisison.totalCases=passedTests+failedTests;
+    Submisison.testResults=testResults;
+    Submisison.submittedCode=userCode;
+    Submisison.submittedTime=new Date();
+    Submisison.xp=xpEarned;
+    Submisison.status="completed"
 
+    await Submisison.save();
+    console.log("Submisission updated");
     // Send test results back to the frontend
     res.json({ passedTests, failedTests, testResults });
   } catch (error) {
