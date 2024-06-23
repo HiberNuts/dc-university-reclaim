@@ -18,14 +18,7 @@ export default function AllContests()
         <SkeletonLoader className=""/>,
         <SkeletonLoader className="" />
     ]);
-    const [pastContests,setPastContest]=useState([
-        <SkeletonLoader className=""/>,
-        <SkeletonLoader className=""/>,
-        <SkeletonLoader className=""/>,
-        <SkeletonLoader className=""/>,
-        <SkeletonLoader className=""/>,
-        <SkeletonLoader className=""/>,
-    ]);
+    const [pastContests,setPastContest]=useState([]);
 
     //for pagination
     const contestsPerPage =3;
@@ -76,9 +69,9 @@ export default function AllContests()
                     <span className="mx-4 text-[64px] leading-tight font-helvetica-neue-bold text-shardeumBlack">Past Contests</span>
                     <div className="flex-grow border-t border-gray-300"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"> 
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"> 
                     {
-                        pastContests.slice(minIndex,maxIndex).map((single)=>
+                        pastContests.length>0?pastContests.slice(minIndex,maxIndex).map((single)=>
                        <motion.div
                         ref={scrollRef}
                         style={{
@@ -122,7 +115,8 @@ export default function AllContests()
                                      <GreenButton text={"View Solution"} isHoveredReq={true}/>
                                 </div>
                       </motion.div> 
-                )
+                ):
+                    Array.from({length:6}).map((_,index)=><SkeletonLoader className="my-10"/>)
                     }
                 </div>
                 <div className="bg-[#CAFFEF] flex justify-center items-center">
