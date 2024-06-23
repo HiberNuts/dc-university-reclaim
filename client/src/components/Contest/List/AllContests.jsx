@@ -10,11 +10,22 @@ import CALENDER from '../../../assets/calendar_month.png';
 import { upcomingContests,getPastContests } from "../../../utils/api/ContestAPI";
 import { formatTimestamp } from "../../../utils/time";
 import Pagination from "../../Pagination/Pagination";
-
+import SkeletonLoader from "../../Courses/SkeletonLoader";
 export default function AllContests()
 {
-    const [latestContests,setLatestContests]=useState([]);
-    const [pastContests,setPastContest]=useState([]);
+    const [latestContests,setLatestContests]=useState([
+        <SkeletonLoader className=""/>,
+        <SkeletonLoader className=""/>,
+        <SkeletonLoader className="" />
+    ]);
+    const [pastContests,setPastContest]=useState([
+        <SkeletonLoader className=""/>,
+        <SkeletonLoader className=""/>,
+        <SkeletonLoader className=""/>,
+        <SkeletonLoader className=""/>,
+        <SkeletonLoader className=""/>,
+        <SkeletonLoader className=""/>,
+    ]);
 
     //for pagination
     const contestsPerPage =3;
@@ -31,16 +42,16 @@ export default function AllContests()
 
     
     useEffect(()=>{
-        upcomingContests().then((data)=>{
-            if(data.error==false)
-                setLatestContests(data.data.map((contest,index)=>{
+        upcomingContests().then((resp)=>{
+            if(resp.error==false)
+                setLatestContests(resp.data.map((contest,index)=>{
                 return <ContestCard key={index} id={contest._id} {...contest}/>
                 }))
            } 
     )
-        getPastContests().then((data)=>{
-            if(data.error==false) 
-              setPastContest(data.data.map((contest,index)=>contest))
+        getPastContests().then((resp)=>{
+            if(resp.error==false) 
+              setPastContest(resp.data.map((contest,index)=>contest))
         })
     },[])
     const slides = [

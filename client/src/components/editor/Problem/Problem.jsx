@@ -14,7 +14,6 @@ export default function Problem(props) {
         const updateTimer = () => {
           var status = checkTimeLeft(props?.contest?.startDate, props?.contest?.endDate);
           setTimeLeft(status);
-          console.log("ssjja8sw9")
         };
         updateTimer();
         const intervalId = setInterval(updateTimer, 1000);
