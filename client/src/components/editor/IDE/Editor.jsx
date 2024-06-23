@@ -44,20 +44,20 @@ export default function editor() {
       getContestProgram(loggedInUserData?.accessToken,id).then(async(resp)=>{
        if(resp.error==false)
         {
-          setProgram(resp.Program);
-          setContest(resp.Contest);
+          setProgram(resp.data.Program);
+          setContest(resp.data.Contest);
           setLoader(false);
         }
         if(resp.error==true)
         {
-          if(resp.code)
+          if(resp?.data?.code)
             {
-            setProgram(resp.Program);
-            setContest(resp.Contest);
+            setProgram(resp.data.Program);
+            setContest(resp.data.Contest);
             let submittedData={
               completed:true,
-              submittedCode:resp.code,
-              testResults:resp.testResults
+              submittedCode:resp.data.code,
+              testResults:resp.data.testResults
             }
             setCompleted(submittedData);
             setLoader(false);

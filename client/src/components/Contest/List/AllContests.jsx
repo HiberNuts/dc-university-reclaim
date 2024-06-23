@@ -31,10 +31,17 @@ export default function AllContests()
 
     
     useEffect(()=>{
-        upcomingContests().then((data)=>setLatestContests(data.map((contest,index)=>{
-            return <ContestCard key={index} id={contest._id} {...contest}/>
-        })))
-        getPastContests().then((data)=>setPastContest(data.map((contest,index)=>contest)))
+        upcomingContests().then((data)=>{
+            if(data.error==false)
+                setLatestContests(data.data.map((contest,index)=>{
+                return <ContestCard key={index} id={contest._id} {...contest}/>
+                }))
+           } 
+    )
+        getPastContests().then((data)=>{
+            if(data.error==false) 
+              setPastContest(data.data.map((contest,index)=>contest))
+        })
     },[])
     const slides = [
         <ContestCard key={0} />,

@@ -5,7 +5,10 @@ import SkeletonLoader from "../Courses/SkeletonLoader";
 export default function Contest(){
    const [latestContest,setLatestContest]=useState(null)
    useEffect(()=>{
-      getLatestContest().then(data=>setLatestContest(data))
+      getLatestContest().then(data=>{
+          if(data?.error==false)
+            setLatestContest(data.data)
+      })
    },[])
   return(
     <div className="w-full mt-4 flex flex-col bg-shardeumWhite p-[12px] sm:p-[80px] text-black items-center  justify-center align-middle">

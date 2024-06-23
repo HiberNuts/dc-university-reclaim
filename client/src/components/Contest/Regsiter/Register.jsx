@@ -18,17 +18,22 @@ export default function ContestRegsiter() {
   const [timeLeft, setTimeLeft] = useState({ status: false });
   useEffect(() => {
     getContestByTitle(title).then((res) =>{
-      setContest(res[0])
-      setContestID(res[0]._id);
+     if(res.error==false)
+     {
+       setContest(res.data[0])
+       setContestID(res.data[0]._id);
 
-      const checkUserAlreadyRegistered=async()=>{
-       await alreadyRegistered(loggedInUserData?.accessToken,res[0]._id).then((resp)=>{
-          if(resp.error==false&&resp.message=="User already Registered for the contest!")
-             setBtn("Continue");
-       })
-      }
-      //function to check if user already registered
-      checkUserAlreadyRegistered();
+       //function to check if user already registered
+       const checkUserAlreadyRegistered=async()=>{
+        await alreadyRegistered(loggedInUserData?.accessToken,res.data[0]._id).then((resp)=>{
+           if(resp.error==false&&resp.message=="User already registered for the contest!")
+              setBtn("Continue");
+        })
+       }
+       checkUserAlreadyRegistered();
+
+     } 
+
     } 
   );
   }, [loggedInUserData]);
@@ -37,12 +42,13 @@ export default function ContestRegsiter() {
       await registerContest(loggedInUserData?.accessToken,contestID).then((resp)=>{
         console.log("response for registration-->",resp);
         if(resp.error==false)
-         navigate(`/editor/${title}/${resp.submissionId}`);
+         navigate(`/editor/${title}/${resp.data.submissionId}`);
       })
   }
   const getLeaderboardRank=async()=>{
      await getLeaderboard(contest?._id).then((resp)=>{
-       setLeaderboard(resp);
+      if(resp.error==false)
+        setLeaderboard(resp.data);
      });
   }
   useEffect(()=>{

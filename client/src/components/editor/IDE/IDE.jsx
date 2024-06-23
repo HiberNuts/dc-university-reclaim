@@ -182,7 +182,7 @@ pragma solidity ^0.8.4;\n\n`}
       <div className="w-full h-[30%] overflow-y-scroll">
 
   {
-    props.completed?.completed==false&&
+    testCases==null&&props.completed?.completed==false&&
         <div className="w-full py-3 px-8 ">
           
             

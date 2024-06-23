@@ -73,7 +73,7 @@ export const getLatestContest=async()=>{
     console.log("BACKEND LATEST CONTEST-->",data);
     return data;
   } catch (error) {
-     return error;
+     return {error:true,message:error?.message};
   }
 }
 export const upcomingContests=async()=>{
@@ -84,7 +84,7 @@ export const upcomingContests=async()=>{
       console.log("BACKEND UPCOMING CONTEST-->",data);
       return data;
    } catch (error) {
-     return error;
+     return {error:true,message:error?.message};
    }
 }
 export const getPastContests=async()=>{
@@ -95,7 +95,7 @@ export const getPastContests=async()=>{
       console.log("BACKEND PAST CONTEST-->",data);
       return data;
    } catch (error) {
-     return error;
+     return {error:true,message:error?.message};
    }
 }
 export const getContestByTitle=async(title=null)=>{
@@ -106,21 +106,20 @@ export const getContestByTitle=async(title=null)=>{
       console.log("BACKEND CONTEST DATA BY TITLE-->",data);
       return data;
    } catch (error) {
-      return error;
+      return {error:true,message:error?.message};
    }
 }
 export const getContestProgram=async(AccessToken,submissionId)=>{
    try {
     console.log("T->",AccessToken)
-    const res=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/program/getProgram`,{submissionId:submissionId},{
+    const {data}=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/program/getProgram`,{submissionId:submissionId},{
       headers: {
         Authorization: `Bearer ${AccessToken}`,
       }});
-    console.log("RESPOSNE FOR PROGRAM PAGE--->",res);
-    if(res.status==200)
-       return res.data;
+    console.log("RESPOSNE FOR PROGRAM PAGE--->",data);
+       return data;
    } catch (error) {
-      return error;
+      return {error:true,message:error?.message};
    }
 }
 
@@ -128,17 +127,13 @@ export const registerContest=async(AccessToken,contestId=null)=>{
    try {
     if(contestId!=null)
       {
-          console.log("REGISTERING CONTEST[+]");
-          const res=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/contest/register`,{contest:contestId}, {
+          const {data}=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/contest/register`,{contest:contestId}, {
             headers: {
               Authorization: `Bearer ${AccessToken}`,
             }});
-          console.log("RESPOSNE FOR REGISTERING[-] ",res);
-          return res.data;
+          return data;
       }
    } catch (error) {
-      console.log("ERROR IN REGISTERING[-]");
-      console.log(error.message);
       return {error:true,message:error.message}
    }
 }
@@ -147,19 +142,31 @@ export const alreadyRegistered=async(AccessToken,contestId=null)=>{
     if(contestId!=null)
       {
           console.log("CHECKING REGISTRATION OF  CONTEST[+]");
-          const res=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/contest/alreadyRegistered`,{contest:contestId}, {
+          const {data}=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/contest/alreadyRegistered`,{contest:contestId}, {
             headers: {
               Authorization: `Bearer ${AccessToken}`,
             }});
-          console.log("RESPOSNE FOR CHECKING[-] ",res);
-          return res.data;
+          console.log("RESPOSNE FOR CHECKING[-] ",data);
+          return data;
       }
   } catch (error) {
-      return error;
+      return {error:true,message:error?.message};
   }
 }
+
+export const getLeaderboard=async(contestID)=>{
+  try {
+   const {data} = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/contest/leaderboard?id=${contestID}`);
+   console.log("LEADER BOARD RESPONSE-->",data);
+   return data;
+ 
+  } catch (error) {
+       return {error:true,message:error.message};
+  }
+}
+//COMPILER HELPER FUNCITONS
   
-  export const compile = async (code) => {
+export const compile = async (code) => {
     try {
       const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/compile`, { content: code });
       
@@ -178,7 +185,7 @@ export const alreadyRegistered=async(AccessToken,contestId=null)=>{
     }
   };
 
-  export const compileAndSubmit=async(code,submissionID)=>{
+export const compileAndSubmit=async(code,submissionID)=>{
     try{
     // const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/compile-and-test`,{userCode: "// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n\ncontract TestContract {\n    uint256 private value;\n\n    function setValue(uint256 _value) public {\n        value = _value;\n    }\n\n    function getValue() public view returns (uint256) {\n        return value;\n    }\n}\n",submissionId:'6670307bbbf3246bdd7bc334'});
     const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/compile-and-test`,{userCode:code,submissionId:submissionID});
@@ -190,16 +197,4 @@ export const alreadyRegistered=async(AccessToken,contestId=null)=>{
       console.error("Compile Error-->", error);
       return { error: true, message: "Failed to compile" };
     }
-  }
-
-  export const getLeaderboard=async(contestID)=>{
-     try {
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/contest/leaderboard?id=${contestID}`);
-      console.log("LEADER BOARD RESPONSE-->",res);
-      return res.data;
-    
-     } catch (error) {
-          console.log("Failed to fetch leaderboard details-->",error.message);
-          return;
-     }
   }
