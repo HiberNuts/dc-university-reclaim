@@ -384,3 +384,21 @@ exports.toggleBlock = async (req, res) => {
       .send({ message: error.message || "Internal Server Error", error });
   }
 };
+
+exports.updateuser = async (req, res) => {
+  try {
+    const shardId=await User.find({shardId:req.body.shardId})
+    if(req.body.shardId && shardId.length){
+      return res
+      .status(200)
+      .send({ message: "ShardID already exists!!", error:true });
+    }
+    await User.updateOne({ _id: req.body.id }, { $set: { ...req.body } })
+    return res.status(200).send({error:false})
+  }
+  catch (error) {
+    res
+      .status(500)
+      .send({ message: error.message || "Internal Server Error", error });
+  }
+}
