@@ -12,6 +12,8 @@ const submissionSchema=new mongoose.Schema({
           enum: ['progress','completed'],
           default:"progress"
      },
+     rank:{type:Number},
+     amountEarned:{type:Number},
      xp:{type:Number},
      passedCases:{type:Number},
      totalCases:{type:Number},

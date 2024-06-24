@@ -7,6 +7,7 @@ import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import toast, { Toaster } from "react-hot-toast";
 import { ParentContext } from "../../contexts/ParentContext";
+import { getUserContestDetails } from "../../utils/api/ContestAPI";
 const ProfileCourses = lazy(() => import("./ProfileCourses"));
 import mailSVG from "./mailSVG.svg";
 import workSVG from "./workSVG.svg";
@@ -45,7 +46,7 @@ const Profile = ({ isOpen, closeModal }) => {
   const [isEditing, setisEditing] = useState(false);
   const [userData, setUserData] = useState({});
   const [error, setError] = useState(null); // State for managing errors
-
+  const [userContestData,setUserContestData]=useState(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -79,8 +80,21 @@ const Profile = ({ isOpen, closeModal }) => {
       }
     };
 
-
+    const getUserContestData=async()=>{
+      try {
+        if(loggedInUserData?.shardId)
+          getUserContestDetails(loggedInUserData?.shardId).then((resp)=>{
+            if(resp?.error==false)
+              {
+                setUserContestData(resp.data);
+              }
+        })
+      } catch (error) {
+        
+      }
+    }
     fetchUserData();
+    getUserContestData();
   }, [loggedInUserData]);
 
 
@@ -246,42 +260,42 @@ const Profile = ({ isOpen, closeModal }) => {
   //                                    <p className="text-[16px]">XP Points</p>
   //                                    <p className="flex justify-center">
   //                                       <img src={FLASH}/>
-  //                                       <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">1000</p>
+  //                                       <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.XPEarned??'-'}</p>
   //                                    </p>
   //                                </div>
   //                                <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
   //                                    <p className="text-[16px]">Contests participated</p>
   //                                    <p className="flex justify-center">
   //                                       <img src={PARTICIPATION}/>
-  //                                       <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">30</p>
+  //                                       <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.contestParticipated??'-'}</p>
   //                                    </p>
   //                                </div>
   //                                <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
   //                                    <p className="text-[16px]">Contests won</p>
   //                                    <p className="flex justify-center">
   //                                       <img src={STAR}/>
-  //                                       <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">15</p>
+  //                                       <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.contestWon??'-'}</p>
   //                                    </p>
   //                                </div>
   //                                <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
   //                                    <p className="text-[16px]">Prize won</p>
   //                                    <p className="flex justify-center">
   //                                       <img src={PRIZE}/>
-  //                                       <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">1000</p>
+  //                                       <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.AmountEarned??'-'}</p>
   //                                    </p>
   //                                </div>
   //                                <div className="col-span-1 text-center">
   //                                    <p className="text-[16px]">Badges</p>
   //                                    <p className="flex justify-center">
   //                                       <img src={BADGES}/>
-  //                                       <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">2</p>
+  //                                       <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.badges??'-'}</p>
   //                                    </p>
   //                                </div>
   //                       </div>
   //                   </div>
   //             </div>
   //   </div>
-  // )
+  // )  
   return (
     <div className="w-full  bg-shardeumWhite font-helvetica-neue  h-full flex justify-between align-middle">
       <Toaster />

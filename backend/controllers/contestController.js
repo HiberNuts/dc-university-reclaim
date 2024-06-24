@@ -201,7 +201,20 @@ exports.getUserContestDetails=async(req,res)=>{
    try {
     const user=await Users.findOne({shardId:req.params.shardId});
     const allSubmissions=await Submissions.find({user:user._id});
-    res.status(200).send(formatResponse(false,"Success",allSubmissions));
+      // Calculate the statistics
+      const totalSubmissions = allSubmissions.length;
+      const totalXpEarned = allSubmissions.reduce((acc, submission) => acc + (submission.xp || 0), 0);
+      const totalAmountEarned = allSubmissions.reduce((acc, submission) => acc + (submission.amountEarned || 0), 0);
+      const rank1Count = allSubmissions.filter(submission => submission.rank === 1).length;
+      const badges=0;
+      const response = {
+         contestParticipated:totalSubmissions,
+         contestWon:rank1Count,
+         XPEarned:totalXpEarned,
+         AmountEarned:totalAmountEarned,
+         badges:badges
+      };
+      return res.status(200).send(formatResponse(false,"Success",response));
    } catch (error) {
       res.status(500).send(formatResponse(true,error?.message));
    }
@@ -209,7 +222,7 @@ exports.getUserContestDetails=async(req,res)=>{
 //WEBHOOKS
 exports.createModel=async(req,res)=>{
     try{
-           if(req.body.model=='contest')
+           if(req.body.model=='c ontest')
              await createContest(req)
            if(req.body.model=="program")
              await createProgram(req)
