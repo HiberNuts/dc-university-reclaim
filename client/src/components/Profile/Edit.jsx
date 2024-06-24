@@ -18,23 +18,30 @@ const EditProfile = () => {
   const { loggedInUserData } = useContext(ParentContext)
   console.log(loggedInUserData)
   const [showError, setShowError] = useState(false)
-  const [projects, setProjects] = useState([{
-    id: 1,
-    title: "",
-    URL: ""
-  }])
-
+  const [projects, setProjects] = useState([])
+  const [projectValues,setProjectValues]=useState({title:"",URL:""})
   const addProjectHandler = () => {
+    if(!projectValues.title || !projectValues.URL) return
     setProjects(prev => {
-      return [...prev, { id: prev[prev.length - 1].id + 1, title: "", URL: "" }]
+      if(!prev.length) return [{ id:1, ...projectValues }]
+      else return [...prev, { id: prev[prev.length - 1].id + 1, ...projectValues }]
+    })
+    setProjectValues({title:"",URL:""})
+  }
+
+  useEffect(()=>{
+    if(loggedInUserData?.projects){
+      setProjects(loggedInUserData.projects)
+    }
+  },[loggedInUserData])
+  const projectChangeHandler = (event) => {
+    setProjectValues(prev=>{
+      return {...prev,[event.target.id]:event.target.value}
     })
   }
 
-  const projectChangeHandler = (event, id) => {
-    const newProjects = [...projects]
-    const projectIndex = projects.findIndex(project => project.id == id)
-    newProjects[projectIndex] = { ...newProjects[projectIndex], [event.target.id]: event.target.value }
-    setProjects(newProjects)
+  const projectRemoveHandler=(id)=>{
+    setProjects(prev=>prev.filter(project=>project.id!=id))
   }
 
   const [data, setData] = useState({
@@ -134,23 +141,23 @@ const EditProfile = () => {
           <div className="box-1  bg-white rounded-3xl border-[1px] p-2 md:p-10">
             <div>
               <p className='my-2 text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-5'>Basic Information</p>
-              <div className="py-5 grid grid-cols-1 md:grid-cols-2 gap-10">
+              <div className="py-5 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Shard ID</label>
-                  <input id="shardId" defaultValue={loggedInUserData?.shardId} className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your username" onChange={changehandler} />
+                  <input id="shardId" defaultValue={loggedInUserData?.shardId??""} className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your username" onChange={changehandler} />
                   {showError && <p className="text-red-500">Shard ID already exists</p>}
                 </div>
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Your Name</label>
-                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Name" id="username" defaultValue={loggedInUserData?.username} onChange={changehandler} />
+                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Name" id="username" defaultValue={loggedInUserData?.username??''} onChange={changehandler} />
                 </div>
                 <div className="col-span-1 md:col-span-2 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Description</label>
-                  <input className="p-[16px] rounded-[12px] border-[0.5px] h-[100px]" placeholder="Enter your Introduction" id="description" defaultValue={loggedInUserData?.description}  onChange={changehandler} />
+                  <input className="p-[16px] rounded-[12px] border-[0.5px] h-[100px]" placeholder="Enter your Introduction" id="description" defaultValue={loggedInUserData?.description??''}  onChange={changehandler} />
                 </div>
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Occupation</label>
-                  <select className="p-[16px] rounded-[12px] border-[0.5px]" id="occupation" defaultValue={loggedInUserData?.occupation}   onChange={changehandler}>
+                  <select className="p-[16px] rounded-[12px] border-[0.5px]" id="occupation" defaultValue={loggedInUserData?.occupation??''}   onChange={changehandler}>
                     <option disabled className="opacity-[50%]">Please Select</option>
                     <option>Private</option>
                     <option>Government</option>
@@ -168,11 +175,11 @@ const EditProfile = () => {
                 </div>
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Email Address</label>
-                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your email ID" id="email" defaultValue={loggedInUserData?.email}  onChange={changehandler} />
+                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your email ID" id="email" defaultValue={loggedInUserData?.email??''}  onChange={changehandler} />
                 </div>
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Website URL</label>
-                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Website URL" id="portfolio" defaultValue={loggedInUserData?.portfolio}  onChange={changehandler} />
+                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Website URL" id="portfolio" defaultValue={loggedInUserData?.portfolio??''}  onChange={changehandler} />
                 </div>
               </div>
             </div>
@@ -186,10 +193,8 @@ const EditProfile = () => {
                   <div className="col-span-1">
                     <img src={TWITTER} />
                   </div>
-                  <input className="col-span-8 outline-none" placeholder="Enter Username" id="twitter" onChange={changehandler} />
-                  <div className="col-span-1 text-center  ">
-                    <span className="text-shardeumBlue">connect</span>
-                  </div>
+                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.twitter??''} placeholder="Enter Username" id="twitter" onChange={changehandler} />
+                  
                 </div>
               </div>
               <div className="col-span-1">
@@ -197,10 +202,8 @@ const EditProfile = () => {
                   <div className="col-span-1">
                     <img src={LINKEDIN} />
                   </div>
-                  <input className="col-span-8 outline-none" placeholder="Enter Username" id="linkedIn" onChange={changehandler} />
-                  <div className="col-span-1 text-right  ">
-                    <span className="text-shardeumBlue">connect</span>
-                  </div>
+                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.portfolio??''} placeholder="Enter Username" id="linkedIn" onChange={changehandler} />
+                 
                 </div>
               </div>
               <div className="col-span-1">
@@ -209,10 +212,8 @@ const EditProfile = () => {
                   <div className="col-span-1">
                     <img src={YOUTUBE} />
                   </div>
-                  <input className="col-span-8 outline-none" placeholder="Enter Username" id="youtube" onChange={changehandler} />
-                  <div className="col-span-1 text-right  ">
-                    <span className="text-shardeumBlue">connect</span>
-                  </div>
+                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.youtube??''} placeholder="Enter Username" id="youtube" onChange={changehandler} />
+                  
                 </div>
               </div>
               <div className="col-span-1">
@@ -220,10 +221,8 @@ const EditProfile = () => {
                   <div className="col-span-1">
                     <img src={GITHUB} />
                   </div>
-                  <input className="col-span-8 outline-none" placeholder="Enter Username" id="github" onChange={changehandler} />
-                  <div className="col-span-1 text-right  ">
-                    <span className="text-shardeumBlue">connect</span>
-                  </div>
+                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.github??''} placeholder="Enter Username" id="github" onChange={changehandler} />
+                 
                 </div>
               </div>
               <div className="col-span-1">
@@ -231,10 +230,8 @@ const EditProfile = () => {
                   <div className="col-span-1">
                     <img src={DISCORD} />
                   </div>
-                  <input className="col-span-8 outline-none" placeholder="Enter Username" id="discord" onChange={changehandler} />
-                  <div className="col-span-1 text-right  ">
-                    <span className="text-shardeumBlue">connect</span>
-                  </div>
+                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.discord??''} placeholder="Enter Username" id="discord" onChange={changehandler} />
+                  
                 </div>
               </div>
             </div>
@@ -242,28 +239,28 @@ const EditProfile = () => {
           <div className="mt-10 box-1 bg-white rounded-3xl border-[1px] p-2 md:p-10">
             <p className='my-2 text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-5'>Project Links</p>
 
-            {
-              projects.map(project => <div className="py-5 grid grid-cols-5 gap-10">
-                <div className="col-span-2 flex flex-col space-y-4" key={project.id}>
+            
+              <div className="py-5 grid grid-cols-5 gap-2 md:gap-10">
+                <div className="md:col-span-2 col-span-5 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Link Title</label>
-                  <input id="title" className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your username" onChange={(event) => projectChangeHandler(event, project.id)} />
+                  <input id="title" className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter the title" onChange={projectChangeHandler} value={projectValues.title}/>
                 </div>
-                <div className="col-span-2 flex flex-col space-y-4">
+                <div className="md:col-span-2 col-span-3 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">URL</label>
-                  <input id="URL" className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your username" onChange={(event) => projectChangeHandler(event, project.id)} />
+                  <input id="URL" className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter link" onChange={projectChangeHandler} value={projectValues.URL}/>
                 </div>
-                {project.id === projects.length && <div className="col-span-1 flex items-end space-y-4">
+                <div className="md:col-span-1 col-span-2 text-center flex items-end space-y-4">
                   <GreenButton
                     onClick={addProjectHandler}
                     text={"Add"}
                     isHoveredReq={true}
                   />
-                </div>}
-              </div>)
-            }
+                </div>
+              </div>
+            
 
             {
-              loggedInUserData.projects?.map(project => <div key={project.id} className="w-full mt-5 bg-white flex justify-between  p-[16px] rounded-[12px] border">
+              projects.map(project => <div key={project.id} className="w-full mt-5 bg-white flex justify-between  p-[16px] rounded-[12px] border">
 
                 <div className="flex items-center">
                   <img src={HAMBURGER} className="w-[24px] h-[24px] mr-[12px]" />
@@ -272,11 +269,10 @@ const EditProfile = () => {
 
                 <div className="flex items-center">
                   <a className="mr-[12px] text-blue-800 underline cursor-pointer">{project.URL}</a>
-                  <img src={REMOVE} className="w-[24px] h-[24px]" />
+                  <img src={REMOVE} className="w-[24px] h-[24px] cursor-pointer" onClick={()=>projectRemoveHandler(project.id)}/>
                 </div>
 
               </div>)
-
 
             }
 
