@@ -87,14 +87,17 @@ const EditProfile = () => {
     axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/updateuser`, url ? { ...filteredData, image: url, id: loggedInUserData._id, projects } : { ...filteredData, id: loggedInUserData._id, projects })
       .then(res => {
         if (res.data.error) setShowError(true)
-        else setShowError(false)
+        else {
+           setShowError(false)
+           window.location.reload();
+        }
       })
   }
   return (
-    <div className="py-[60px] px-[100px]">
+    <div className="py-[60px] px-5 md:px-[100px] bg-shardeumPink ">
       <div className="heading pb-10 border-b-2 flex ">
         <div className="flex-1 text-left">
-          <p className='my-2 text-[64px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold'>Edit Profile</p>
+          <p className='my-2 text-[48px] md:text-[64px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold'>Edit Profile</p>
         </div>
         <div className="flex-1 float-right flex justify-end items-center">
           <GreenButton
@@ -104,11 +107,11 @@ const EditProfile = () => {
           />
         </div>
       </div>
-      <div className="edit_section grid grid-cols-5 py-20">
+      <div className="edit_section grid grid-cols-1 space-y-5 md:space-y-0  md:grid-cols-5 py-10  md:py-20">
         <div className="col-span-1">
           <div className="flex flex-col space-y-7 justify-center items-center">
             <LazyLoadImage src={preview} className="rounded-[16px] w-[180px] h-[180px] border-[2px]" />
-            <label for="files" className="text-shardeumBlue cursor-pointer border-[2px] border-shardeumBlue rounded-[10px] py-[8px] px-[16px] flex space-x-1">
+            <label for="files" className="text-shardeumBlue bg-white cursor-pointer border-[2px] border-shardeumBlue rounded-[10px] py-[8px] px-[16px] flex space-x-1">
               <div className="py-1"><img src={IMG_UPLOAD} /></div>
               <div className="mt-[2px]"><span>Change Avatar</span></div>
             </label>
@@ -128,33 +131,33 @@ const EditProfile = () => {
           </div>
         </div>
         <div className="col-span-4">
-          <div className="box-1 bg-shardeumPink rounded-3xl border-[1px] p-10">
+          <div className="box-1  bg-white rounded-3xl border-[1px] p-2 md:p-10">
             <div>
               <p className='my-2 text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-5'>Basic Information</p>
-              <div className="py-5 grid grid-cols-2 gap-10">
-                <div className="col-span-1 flex flex-col space-y-4">
+              <div className="py-5 grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Shard ID</label>
-                  <input id="shardId" className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your username" onChange={changehandler} />
+                  <input id="shardId" defaultValue={loggedInUserData?.shardId} className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your username" onChange={changehandler} />
                   {showError && <p className="text-red-500">Shard ID already exists</p>}
                 </div>
-                <div className="col-span-1 flex flex-col space-y-4">
+                <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Your Name</label>
-                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Name" id="username" onChange={changehandler} />
+                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Name" id="username" defaultValue={loggedInUserData?.username} onChange={changehandler} />
                 </div>
-                <div className="col-span-2 flex flex-col space-y-4">
+                <div className="col-span-1 md:col-span-2 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Description</label>
-                  <input className="p-[16px] rounded-[12px] border-[0.5px] h-[100px]" placeholder="Enter your Introduction" id="description" onChange={changehandler} />
+                  <input className="p-[16px] rounded-[12px] border-[0.5px] h-[100px]" placeholder="Enter your Introduction" id="description" defaultValue={loggedInUserData?.description}  onChange={changehandler} />
                 </div>
-                <div className="col-span-1 flex flex-col space-y-4">
+                <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Occupation</label>
-                  <select className="p-[16px] rounded-[12px] border-[0.5px]" id="occupation" onChange={changehandler}>
+                  <select className="p-[16px] rounded-[12px] border-[0.5px]" id="occupation" defaultValue={loggedInUserData?.occupation}   onChange={changehandler}>
                     <option disabled className="opacity-[50%]">Please Select</option>
                     <option>Private</option>
                     <option>Government</option>
                     <option>Others</option>
                   </select>
                 </div>
-                <div className="col-span-1 flex flex-col space-y-4">
+                <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Work Experience</label>
                   <select className="p-[16px] rounded-[12px] border-[0.5px]" id="experience" onChange={changehandler}>
                     <option disabled className="opacity-[50%]">Please Select</option>
@@ -163,19 +166,21 @@ const EditProfile = () => {
                     <option>Less than 5 years</option>
                   </select>
                 </div>
-                <div className="col-span-1 flex flex-col space-y-4">
+                <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Email Address</label>
-                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your email ID" id="email" onChange={changehandler} />
+                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your email ID" id="email" defaultValue={loggedInUserData?.email}  onChange={changehandler} />
                 </div>
-                <div className="col-span-1 flex flex-col space-y-4">
+                <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Website URL</label>
-                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Website URL" id="portfolio" onChange={changehandler} />
+                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Website URL" id="portfolio" defaultValue={loggedInUserData?.portfolio}  onChange={changehandler} />
                 </div>
               </div>
             </div>
           </div>
-          <div className="mt-10 box-1 bg-shardeumPink rounded-3xl border-[1px] p-10">
-            <div className="py-5 grid grid-cols-2 gap-10">
+          <div className="mt-10 box-1 bg-white rounded-3xl border-[1px] p-2 md:p-10">
+            <p className='my-2 text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-5'>On the web</p>
+
+            <div className="py-5 grid col-span-1 md:grid-cols-2 gap-10">
               <div className="col-span-1">
                 <div className="grid grid-cols-10 p-[16px] rounded-[12px] border-[0.5px] bg-shardeumWhite">
                   <div className="col-span-1">
@@ -234,7 +239,7 @@ const EditProfile = () => {
               </div>
             </div>
           </div>
-          <div className="mt-10 box-1 bg-shardeumPink rounded-3xl border-[1px] p-10">
+          <div className="mt-10 box-1 bg-white rounded-3xl border-[1px] p-2 md:p-10">
             <p className='my-2 text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-5'>Project Links</p>
 
             {

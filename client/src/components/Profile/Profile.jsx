@@ -23,7 +23,13 @@ import DISCORD from "../../assets/discord.png";
 import ProfileButton from "../button/ProfileButton";
 import TRIANGLE_IMG from "../../assets/leaderboard_triangle.png";
 import AVATAR from "../../assets/avatar.png";
+import FLASH from "../../assets/flash.svg";
+import PARTICIPATION from "../../assets/participation.svg";
+import STAR from "../../assets/star.svg";
+import BADGES from "../../assets/badges.svg";
+import PRIZE from "../../assets/prize.svg";
 import GreenButton from "../button/GreenButton";
+import { Link } from "react-router-dom";
 
 
 const ProfileLinks = ({ img, title }) => {
@@ -161,47 +167,118 @@ const Profile = ({ isOpen, closeModal }) => {
   //             <div className="bg-shardeumTeelGreen min-h-[180px] relative profile_header">
   //                    <img src={TRIANGLE_IMG} className="absolute left-10"/>
   //             </div>
-  //             <div className="grid grid-cols-5 min-h-screen "> 
-  //                   <div className="col-span-1 bg-shardeumBlue relative">
+  //             <div className="grid grid-cols-8 min-h-screen "> 
+  //                   <div className="col-span-2 bg-shardeumBlue relative">
   //                     <div className="absolute top-[-80px] left-16  ">
-  //                       <LazyLoadImage src={AVATAR} className="rounded-lg border-2 w-[120px] h-[120px]" />
+  //                       <LazyLoadImage src={loggedInUserData?.image??'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg'} className="rounded-lg border-2 w-[120px] h-[120px]" />
   //                     </div>
   //                     <div className="name my-[50px] px-16">
-  //                       <p className='my-2 text-[24px] text-left leading-tight text-white text-overflow-ellipsis font-helvetica-neue-bold'>Arun Maini</p>
+  //                       <p className='my-2 text-[24px] text-left leading-tight text-white text-overflow-ellipsis font-helvetica-neue-bold'>{loggedInUserData?.username}</p>
   //                       <p className='my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis'>
-  //                         I'm Arun Maini, I'm a 27 year old Economics graduate whose life's passion is Technology, and I'm on a mission to make the most FUN and USEFUL Tech videos on the Planet!
+  //                            {loggedInUserData?.description}
   //                       </p>
   //                       <div className="flex flex-col">
+  //                               {
+  //                                 loggedInUserData?.designation&&
   //                                 <div className="flex gap-2">
   //                                     <img src={JOB}/>
-  //                                     <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">UI/UX Designer</p>
+  //                                     <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{loggedInUserData?.designation}</p>
   //                                 </div>
+  //                               }
+  //                               {
+  //                                loggedInUserData?.email&&
   //                                 <div className="flex gap-2">
   //                                     <img src={MAIL}/>
-  //                                     <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">mrwhosethboss@gmail.com</p>
+  //                                     <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{loggedInUserData?.email}</p>
   //                                 </div>
+  //                               }
+  //                               {
+  //                                 loggedInUserData?.portfolio&&
   //                                 <div className="flex gap-2">
   //                                     <img src={PORTFOLIO}/>
-  //                                     <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">bento.me/arun</p>
+  //                                     <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{loggedInUserData?.portfolio}</p>
   //                                 </div>
+  //                               }
+  //                               {
+  //                                 loggedInUserData?.experience&&
   //                                 <div className="flex gap-2">
   //                                     <img src={LEVEL}/>
-  //                                     <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">Intermediate level</p>
+  //                                     <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{loggedInUserData?.experience}</p>
   //                                 </div>
+  //                               }
   //                                 <div className="flex gap-5  mt-2">
+  //                                   {
+  //                                     loggedInUserData?.twitter&&
+  //                                    <a target="_blank" href={loggedInUserData?.twitter??'#'}>
   //                                     <img src={TWITTER}/>
+  //                                    </a>
+  //                                   }
+  //                                   {
+  //                                     loggedInUserData?.github&&
+  //                                    <a target="_blank" href={loggedInUserData?.github??'#'}>
   //                                     <img src={GITHUB}/>
+  //                                    </a>
+  //                                   }
+  //                                   {
+  //                                     loggedInUserData?.linkedin&&
+  //                                    <a target="_blank" href={loggedInUserData?.linkedin??'#'}>
   //                                     <img src={LINKEDIN}/>
+  //                                    </a>
+  //                                   }
+  //                                   {
+  //                                     loggedInUserData?.youtube&&
+  //                                    <a target="_blank" href={loggedInUserData?.youtube??'#'}>
   //                                     <img src={YOUTUBE}/>
-  //                                     <img src={GITHUB}/>
+  //                                    </a>
+  //                                   }
   //                                 </div>
   //                                 <div className="mt-10">
-  //                                    <ProfileButton isHoveredReq={true} text={"Edit Profile"} />
+  //                                   <Link to={'/profile/edit'}>
+  //                                     <ProfileButton isHoveredReq={true} text={"Edit Profile"} />
+  //                                   </Link>
   //                                 </div>
   //                       </div>
   //                     </div>
   //                   </div>
-  //                   <div className="col-span-4"></div>
+  //                   <div className="col-span-6">
+  //                       <div className="border-t-2 border-b-[1px] py-2 grid grid-cols-5">
+  //                                <div className="col-span-1 border-r-2 border-r-[#8a8f96] text-center">
+  //                                    <p className="text-[16px]">XP Points</p>
+  //                                    <p className="flex justify-center">
+  //                                       <img src={FLASH}/>
+  //                                       <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">1000</p>
+  //                                    </p>
+  //                                </div>
+  //                                <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
+  //                                    <p className="text-[16px]">Contests participated</p>
+  //                                    <p className="flex justify-center">
+  //                                       <img src={PARTICIPATION}/>
+  //                                       <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">30</p>
+  //                                    </p>
+  //                                </div>
+  //                                <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
+  //                                    <p className="text-[16px]">Contests won</p>
+  //                                    <p className="flex justify-center">
+  //                                       <img src={STAR}/>
+  //                                       <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">15</p>
+  //                                    </p>
+  //                                </div>
+  //                                <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
+  //                                    <p className="text-[16px]">Prize won</p>
+  //                                    <p className="flex justify-center">
+  //                                       <img src={PRIZE}/>
+  //                                       <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">1000</p>
+  //                                    </p>
+  //                                </div>
+  //                                <div className="col-span-1 text-center">
+  //                                    <p className="text-[16px]">Badges</p>
+  //                                    <p className="flex justify-center">
+  //                                       <img src={BADGES}/>
+  //                                       <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">2</p>
+  //                                    </p>
+  //                                </div>
+  //                       </div>
+  //                   </div>
   //             </div>
   //   </div>
   // )

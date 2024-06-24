@@ -197,7 +197,15 @@ exports.leaderboard=async(req,res)=>{
        res.status(500).send(formatResponse(true,error?.message));
     }
 }
-
+exports.getUserContestDetails=async(req,res)=>{
+   try {
+    const user=await Users.findOne({shardId:req.params.shardId});
+    const allSubmissions=await Submissions.find({user:user._id});
+    res.status(200).send(formatResponse(false,"Success",allSubmissions));
+   } catch (error) {
+      res.status(500).send(formatResponse(true,error?.message));
+   }
+}
 //WEBHOOKS
 exports.createModel=async(req,res)=>{
     try{
