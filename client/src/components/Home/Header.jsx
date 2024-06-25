@@ -13,6 +13,7 @@ import { useAccount } from "wagmi";
 import { ParentContext } from "../../contexts/ParentContext";
 import GreenButton from "../button/GreenButton";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { getUserContestDetails } from "../../utils/api/UserAPI";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ export default function Header() {
   const { loggedInUserData, setloggedInUserData } = useContext(ParentContext);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [xp,setXP]=useState(0);
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
@@ -58,7 +60,24 @@ export default function Header() {
       setloggedInUserData({});
     }
   }, [address]);
-
+  useEffect(()=>{
+    const getUserContestData=async()=>{
+      try {
+        if(loggedInUserData?.shardId)
+          getUserContestDetails(loggedInUserData?.shardId).then((resp)=>{
+            if(resp?.error==false)
+              {
+                if(resp.data?.XPEarned)
+                setXP(resp.data?.XPEarned);
+              }
+        })
+      } catch (error) {
+          console.log("Error in fetching profile user data & contest->",error.message)
+      }
+    }
+    if(loggedInUserData?.shardId)
+      getUserContestData();
+  },[loggedInUserData])
   const styleNavEl = `text-[18px] font-helvetica-neue-md before:bg-white before:left-0 ${homeRoute
       ? "hover:text-white text-white font-helvetica-neue-md"
       : "hover:text-black text-black hover:before:bg-black "
@@ -138,7 +157,7 @@ export default function Header() {
                               <div className={`flex gap-4 border-2 rounded-[24px] px-5 py-2 cursor-pointer ${homeRoute?'text-white':'text-black'}`}>
                                   <div className="flex gap-2">
                                       <img src={HEADER_XP} />
-                                      <span className="pt-[2px]">1000 XP</span>
+                                      <span className="pt-[2px]">{xp} XP</span>
                                   </div>
                                   <div className="flex gap-2">
                                       <img src={HEADER_USER}/>

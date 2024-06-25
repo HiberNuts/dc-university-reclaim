@@ -254,112 +254,174 @@ exports.updateModel=async(req,res)=>{
 }
 
 
-createContest = async (req) => {
-    try {
-      const {id:strapiId,title,description,participants,startDate,endDate,image,details,rules,warnings,level,prize,reward}=req.body.entry
-      const mappedRules=req.body.entry.rules[0].children.map(child=>child.children[0].text)
-      const mappedWarnings=req.body.entry.warnings[0].children.map(child=>child.children[0].text)
-      const createdContest=new Contests({strapiId,title,description,participants,startDate,endDate,image:image.url,details,rules:mappedRules,warnings:mappedWarnings,level,prize,reward})
-      await createdContest.save()
-      console.log("WEBHOOK: NEW CONTEST ADDED")
-    } catch (error) {
-      console.log("Failed to save contest");
-      return;
-    }
-  };
-
-updateContest=async(req)=>{
-    try {
-      //  console.log("re-->",req.body.entry);
-        const { id: strapiId, title, description, participants, startDate, endDate, image, details, rules, warnings, level,prize,reward } = req.body.entry;
-        const mappedRules = req.body.entry.rules[0].children.map(child => child.children[0].text);
-        const mappedWarnings = req.body.entry.warnings[0].children.map(child => child.children[0].text);
-
-        const updateData = {
-          title,
-          description,
-          participants,
-          startDate,
-          endDate,
-          image: image.url,
-          details,
-          rules: mappedRules,
-          warnings: mappedWarnings,
-          level,
-          prize,
-          reward
-        };
-        const updatedContest = await Contests.findOneAndUpdate(
-          { strapiId: strapiId },
-          updateData,
-          { new: true, useFindAndModify: false } // new: true returns the updated document
-        );
-      
-        if (!updatedContest) {
-          console.log("Contest failed to update becoz not found in db");
-          return;
-        }
-        console.log("WEBHOOK: CONTEST UPDATED")
-        return;
-
-    }
-    catch(error)
-    {
-       console.log(error.message);
-       console.log("Contest failed to update")
-    }
-}
-
-createProgram=async(req)=>{
-  try{
-     const {id:strapiId,contestid:strapiContestId,duration,boilerplate_code,description,test_cases}=req.body.entry;
-     const contest=await Contests.findOne({strapiId:strapiContestId});
-     if(!contest)
-      {
-        console.log("Contest not exist for the program");
-        return ;
-      }
-     const mappedDescription=description[0].children.map(child=>child.children[0].text);
-     const createdProgram=new Programs({strapiId,strapiContestId,contestId:contest._id,duration,boilerplate_code,description:mappedDescription,test_cases});
-     await createdProgram.save();
-     console.log("WEBHOOK: NEW PROGRAM ADDED");
-  }
-  catch(error)
-  {
-    console.log(error.message);
-    console.log("Failed to save new program")
-  }
-}
-
-updateProgram=async(req)=>{
+const createContest = async (req) => {
   try {
+    const {
+      id: strapiId = null,
+      title = '',
+      description = '',
+      participants = 0,
+      startDate = null,
+      endDate = null,
+      image = { url: '' },
+      details = '',
+      rules = [],
+      warnings = [],
+      level = 'Easy',
+      prize = '',
+      reward = []
+    } = req.body.entry;
 
-      const {id:strapiId,contestid:strapiContestId,duration,boilerplate_code,description,test_cases}=req.body.entry;
-      const mappedDescription=description[0].children.map(child=>child.children[0].text);
-      const updateData = {
-        duration,
-        strapiContestId,
-        boilerplate_code,
-        description:mappedDescription,
-        test_cases
-      };
-      const updatedProgram = await Programs.findOneAndUpdate(
-        { strapiId: strapiId },
-        updateData,
-        { new: true, useFindAndModify: false } // new: true returns the updated document
-      );
-    
-      if (!updatedProgram) {
-        console.log("Update failed, program not found in db")
-        return;
-      }
-      console.log("WEBHOOK: PROGRAM UPDATED")
+    const mappedRules = rules[0]?.children?.map(child => child.children[0]?.text) || [];
+    const mappedWarnings = warnings[0]?.children?.map(child => child.children[0]?.text) || [];
+
+    const createdContest = new Contests({
+      strapiId,
+      title,
+      description,
+      participants,
+      startDate,
+      endDate,
+      image: image.url,
+      details,
+      rules: mappedRules,
+      warnings: mappedWarnings,
+      level,
+      prize,
+      reward
+    });
+
+    await createdContest.save();
+    console.log("WEBHOOK: NEW CONTEST ADDED");
+  } catch (error) {
+    console.log("Failed to save contest:", error.message);
+    return;
+  }
+};
+
+const updateContest = async (req) => {
+  try {
+    const {
+      id: strapiId = null,
+      title = '',
+      description = '',
+      participants = 0,
+      startDate = null,
+      endDate = null,
+      image = { url: '' },
+      details = '',
+      rules = [],
+      warnings = [],
+      level = 'Easy',
+      prize = '',
+      reward = []
+    } = req.body.entry;
+
+    const mappedRules = rules[0]?.children?.map(child => child.children[0]?.text) || [];
+    const mappedWarnings = warnings[0]?.children?.map(child => child.children[0]?.text) || [];
+
+    const updateData = {
+      title,
+      description,
+      participants,
+      startDate,
+      endDate,
+      image: image.url,
+      details,
+      rules: mappedRules,
+      warnings: mappedWarnings,
+      level,
+      prize,
+      reward
+    };
+
+    const updatedContest = await Contests.findOneAndUpdate(
+      { strapiId },
+      updateData,
+      { new: true, useFindAndModify: false }
+    );
+
+    if (!updatedContest) {
+      console.log("Contest failed to update because not found in db");
       return;
+    }
+    console.log("WEBHOOK: CONTEST UPDATED");
+  } catch (error) {
+    console.log("Failed to update contest:", error.message);
+  }
+};
 
+const createProgram = async (req) => {
+  try {
+    const {
+      id: strapiId = null,
+      contestid: strapiContestId = '',
+      duration = '',
+      boilerplate_code = '',
+      description = [],
+      test_cases = []
+    } = req.body.entry;
+
+    const contest = await Contests.findOne({ strapiId: strapiContestId });
+    if (!contest) {
+      console.log("Contest does not exist for the program");
+      return;
+    }
+
+    const mappedDescription = description[0]?.children?.map(child => child.children[0]?.text) || [];
+
+    const createdProgram = new Programs({
+      strapiId,
+      strapiContestId,
+      contestId: contest._id,
+      duration,
+      boilerplate_code,
+      description: mappedDescription,
+      test_cases
+    });
+
+    await createdProgram.save();
+    console.log("WEBHOOK: NEW PROGRAM ADDED");
+  } catch (error) {
+    console.log("Failed to save new program:", error.message);
   }
-  catch(error)
-  {
-     console.log(error.message)
-     console.log("Failed to update program");
+};
+
+
+const updateProgram = async (req) => {
+  try {
+    const {
+      id: strapiId = null,
+      contestid: strapiContestId = '',
+      duration = '',
+      boilerplate_code = '',
+      description = [],
+      test_cases = []
+    } = req.body.entry;
+
+    const mappedDescription = description[0]?.children?.map(child => child.children[0]?.text) || [];
+
+    const updateData = {
+      duration,
+      strapiContestId,
+      boilerplate_code,
+      description: mappedDescription,
+      test_cases
+    };
+
+    const updatedProgram = await Programs.findOneAndUpdate(
+      { strapiId },
+      updateData,
+      { new: true, useFindAndModify: false }
+    );
+
+    if (!updatedProgram) {
+      console.log("Update failed, program not found in db");
+      return;
+    }
+    console.log("WEBHOOK: PROGRAM UPDATED");
+  } catch (error) {
+    console.log("Failed to update program:", error.message);
   }
-}
+};
+
