@@ -77,11 +77,13 @@ const EditProfile = () => {
 
     switch (id) {
       case 'shardId':
-        if (/\s/.test(value) || /\d/.test(value)) {
-          errorMsg = 'Shard ID should not contain spaces or numbers';
+        if (/\s/.test(value)) {
+          errorMsg = 'Shard ID should not contain spaces';
+        } else if (/^\d+$/.test(value)) {
+          errorMsg = 'Shard ID should not be composed entirely of numbers';
+        } else {
+          errorMsg = '';
         }
-        else
-         errorMsg=''
         break;
       case 'email':
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
