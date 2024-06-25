@@ -43,21 +43,22 @@ const ProfileCourseCard = ({ props, loggedInUserData, userData }) => {
           opacity: scrollYProgress,
           boxShadow: "0px 4px 20px 0px rgba(195, 200, 255, 0.30)",
         }}
-        className="flex card-container font-helvetica-neue h-[600px] bg-white border-[3px] shadow flex-col justify-center align-middle w-[400px] rounded-[16px]"
+        // className="flex card-container font-helvetica-neue max-h-[600px] bg-white border-[3px] shadow flex-col justify-center align-middle w-[400px] rounded-[16px]"
+        className="flex card-container font-helvetica-neue max-h-[600px] bg-white border-[3px] shadow flex-col justify-center align-middle max-w-[400px] rounded-[16px]"
       >
-        <div className="image-section h-full flex flex-col justify-between  p-[20px]">
+        <div className="image-section h-full flex flex-col justify-between  p-[15px]">
           <div className="flex justify-center  align-middle items-center">
             <img className="w-[360px] h-[230px] rounded-[16px]" src={props?.banner} />
           </div>
           <div className="description-section  flex flex-col justify-center align-middle">
             <div className="title-container h-[4rem] overflow-hidden">
-              <p className="text-[2vh] text-overflow-ellipsis font-helvetica-neue-bold font-bold">{props?.title}</p>
+              <p className="text-[24px] text-overflow-ellipsis font-helvetica-neue-bold font-bold">{props?.title}</p>
             </div>
-            <p className="text-[16px] text-slategray font-helvetica-neue-roman font-thin">
+            {/* <p className="text-[16px] text-slategray font-helvetica-neue-roman font-thin">
               {props?.description?.slice(0, 180) + (props?.description?.length > 180 ? "..." : "")}
-            </p>
+            </p> */}
           </div>
-          <div className="description-section flex  flex-col w-full">
+          {/* <div className="description-section flex  flex-col w-full">
             <div className="flex ">
               <img
                 class="inline-block h-6 w-6 rounded-full ring-2 ring-white mt-1"
@@ -100,7 +101,7 @@ const ProfileCourseCard = ({ props, loggedInUserData, userData }) => {
                 %
               </div>
             </div>
-          </div>
+          </div> */}
 
         </div>
       </motion.div>

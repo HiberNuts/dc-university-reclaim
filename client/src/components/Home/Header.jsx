@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import navLogoBlack from "../../assets/navlogoBlack.svg";
 import navLogoWhite from "../../assets/navlogoWhite.svg";
+import HEADER_XP from "../../assets/header_xp.svg";
+import HEADER_USER from "../../assets/header_user.svg";
 import "./Home.css";
 const Burger = lazy(() => import("./Burger"));
 import ProfileDropDown from "./ProfileDropdown";
@@ -95,6 +97,9 @@ export default function Header() {
               <li className={targetLinks[2] === "courses" ? activeNavEl : styleNavEl}>
                 <Link to="/courses">Courses</Link>
               </li>
+              <li className={targetLinks[2] === "contests" ? activeNavEl : styleNavEl}>
+                <Link to="/contests">Contests</Link>
+              </li>
               <li>
                 <ConnectButton.Custom>
                   {({
@@ -128,6 +133,23 @@ export default function Header() {
                           if (!connected) {
                             return <GreenButton isHoveredReq={true} onClick={openConnectModal} text={"Login"} />;
                           }
+                          return (
+                             <Link to={`/${loggedInUserData?.shardId}`}>
+                              <div className={`flex gap-4 border-2 rounded-[24px] px-5 py-2 cursor-pointer ${homeRoute?'text-white':'text-black'}`}>
+                                  <div className="flex gap-2">
+                                      <img src={HEADER_XP} />
+                                      <span className="pt-[2px]">1000 XP</span>
+                                  </div>
+                                  <div className="flex gap-2">
+                                      <img src={HEADER_USER}/>
+                                     {
+                                      loggedInUserData?.shardId&&
+                                       <span className="pt-[2px]">{loggedInUserData?.shardId?.slice(0, 13) + (loggedInUserData?.shardId?.length > 13 ? ".." : "")}</span>
+                                     }
+                                  </div>
+                              </div>
+                             </Link>
+                          )
                           return (
                             <div style={{ display: "flex", gap: 12 }}>
                               <ProfileDropDown

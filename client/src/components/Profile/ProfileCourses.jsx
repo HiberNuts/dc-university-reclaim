@@ -9,7 +9,7 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
   const [profileCoursesID, setprofileCoursesID] = useState([]);
   const [loading, setloading] = useState(false);
   const [profileCoursesData, setprofileCoursesData] = useState([]);
-
+  const [nfts,setNfts]=useState([]);
 
   const getCourseById = async () => {
     setloading(true);
@@ -26,7 +26,11 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
       })
     );
     results = results.filter((item) => item !== undefined);
+    let NFTS=results.map((single)=>single.nftImage??'');
+    console.log("NFTS----",NFTS);
+    setNfts(NFTS);
     setprofileCoursesData(results);
+    console.log("--data---,pro",results);
     setloading(false);
   };
 
@@ -36,31 +40,93 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
 
   return (
     <div>
+      {
+        loading?<SkeletonLoader/>
+        :
+        <div>
+               <p className='my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-3'>NFTs earned</p>
+               <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 my-10">
+                 {
+                  nfts.map((single)=>
+                  single!=""&&
+                  <div className="col-span-1 bg-shardeumBlue px-2 rounded-[16px] min-h-[350px]">
+                      
+                    
+                  </div>   
+                  )
+                 }
+               </div> 
+        </div>  
+      }
       {loading ? (
         <SkeletonLoader />
-      ) : userData?.enrolledCourses?.length > 0 ? (
-        <div className="flex w-full mt-24 flex-wrap h-auto gap-5 ">
-          <div className="border-b-2 border-b-dimgray w-full flex pb-4 mb-10">
+      ) :userData?.enrolledCourses?.length > 0 ? (
+        // <div className="flex w-full mt-24 flex-wrap h-auto gap-5 ">
+        //   <div className="border-b-2 border-b-dimgray w-full flex pb-4 mb-10">
 
-            <p className="font-helvetica-neue-bold mt-[-50px] text-[32px] items-center text-center  ">
-              Resume your course
-            </p>
-          </div>
-          <div className="flex flex-wrap w-full gap-10 mb-10 justify-evenly">
-            {profileCoursesData?.map((course, index) => {
-              return course?.softDelete == true ? (
-                ""
-              ) : (
-                <ProfileCourseCard userData={userData} loggedInUserData={loggedInUserData} key={index} props={course} />
-              );
-            })}
+        //     <p className="font-helvetica-neue-bold mt-[-50px] text-[32px] items-center text-center  ">
+        //       Resume your course
+        //     </p>
+        //   </div>
+        //   <div className="flex flex-wrap w-full gap-10 mb-10 justify-evenly">
+        //     {profileCoursesData?.map((course, index) => {
+        //       return course?.softDelete == true ? (
+        //         ""
+        //       ) : (
+        //         <ProfileCourseCard userData={userData} loggedInUserData={loggedInUserData} key={index} props={course} />
+        //       );
+        //     })}
 
-          </div>
+        //   </div>
+        // </div>
+        userData._id==loggedInUserData._id?
+      <div className="">
+        <p className='my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-3'>Resume your courses</p>
+        <div className="grid grid-cols-3 w-full gap-5 mb-10">
+          {profileCoursesData?.map((course, index) => {
+            return course?.softDelete == true ? (
+              ""
+            ) : (
+              <ProfileCourseCard userData={userData} loggedInUserData={loggedInUserData} key={index} props={course} />
+            );
+          })}
+
         </div>
-      ) : (
-        <div className="flex w-full h-auto gap-5 flex-col">
-          <GetStarted />
-        </div>
+      </div>
+      :
+    <div className="">
+      <p className='my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-3'>Completed courses</p>
+      <div className="grid grid-cols-3 w-full gap-5 my-10 ">
+        {profileCoursesData?.map((course, index) => {
+          return course?.softDelete == true ? (
+            ""
+          ) : (
+            <ProfileCourseCard userData={userData} loggedInUserData={loggedInUserData} key={index} props={course} />
+          );
+        })}
+
+      </div>
+    </div>
+      ) : 
+      userData._id==loggedInUserData._id?
+      <div className="">
+         <GetStarted/>
+      </div>  
+      :
+      (
+   <div className="">
+      <p className='my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-3'>Completed courses</p>
+      <div className="grid grid-cols-3 w-full gap-5 my-10 ">
+        {profileCoursesData?.map((course, index) => {
+          return course?.softDelete == true ? (
+            ""
+          ) : (
+            <ProfileCourseCard userData={userData} loggedInUserData={loggedInUserData} key={index} props={course} />
+          );
+        })}
+
+      </div>
+    </div>
       )}
     </div>
   );

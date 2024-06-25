@@ -202,7 +202,7 @@ const EditProfile = () => {
                   <div className="col-span-1">
                     <img src={LINKEDIN} />
                   </div>
-                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.portfolio??''} placeholder="Enter Username" id="linkedIn" onChange={changehandler} />
+                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.linkedIn??''} placeholder="Enter Username" id="linkedIn" onChange={changehandler} />
                  
                 </div>
               </div>

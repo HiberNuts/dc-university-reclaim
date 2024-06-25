@@ -50,6 +50,16 @@ exports.getAllUser = async (req, res) => {
   res.json({ user, totalPages, currentPage: page, hasNextPage: endIndex < totalUsers })
 };
 
+exports.getUserData=async(req,res)=>{
+  try {
+    const userData=await User.findOne({shardId:req.params.shardId});
+    res.status(200).send({error:false,data:userData});
+  } catch (error) {
+     res.status(500).send({error:true,message:error.message});
+  }
+
+}
+
 exports.joinNewsLetter = (req, res) => {
   try {
     const email = req.query.email;

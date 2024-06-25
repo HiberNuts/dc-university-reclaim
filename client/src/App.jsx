@@ -26,6 +26,7 @@ function App() {
       <Routes>
         {/* Auth Pages */}
         <Route exact path="/" element={<Home />} />
+        <Route exact path="/:shardId" element={<Profile/>}/>
         {/*Error Pages*/}
         <Route path="/courses" element={<AllCourses />} />
         <Route path="/previewcourses" element={<PreviewAllCourses />} />
@@ -41,7 +42,7 @@ function App() {
         {/*Private route section*/}
         <Route exact path="/" element={<PrivateRoute />}>
           <Route path="/workplace/:id" element={<WorkPlace />} />
-          <Route path="/profile" element={<Profile />} />
+          {/* <Route path="/profile" element={<Profile />} /> */}
           <Route path="/profile/edit" element={<EditProfile />} />
         </Route>
         <Route component={RedirectAs404}></Route>
