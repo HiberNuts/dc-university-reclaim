@@ -11,7 +11,7 @@ import HAMBURGER from "../../assets/drawer.png";
 import { useContext, useState } from "react";
 import { ParentContext } from "../../contexts/ParentContext";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect,useRef } from "react";
 import REMOVE from "../../assets/remove.png";
 const EditProfile = () => {
   const [img, setImg] = useState(null);
@@ -59,24 +59,78 @@ const EditProfile = () => {
     discord: ""
   })
 
+  const [errors, setErrors] = useState({
+    shardId: '',
+    email: '',
+    portfolio: '',
+  });
+  const errorRef=useRef();
   const [preview, setPreview] = useState(null)
-
+  
   useEffect(() => {
     setPreview(loggedInUserData.image)
   }, [loggedInUserData])
 
   const changehandler = (event) => {
-    setData(prev => {
-      return { ...prev, [event.target.id]: event.target.value }
-    })
+    const { id, value } = event.target;
+    let errorMsg = '';
+
+    switch (id) {
+      case 'shardId':
+        if (/\s/.test(value) || /\d/.test(value)) {
+          errorMsg = 'Shard ID should not contain spaces or numbers';
+        }
+        else
+         errorMsg=''
+        break;
+      case 'email':
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          errorMsg = 'Invalid email address';
+        }
+        else
+         errorMsg=''
+        break;
+      case 'portfolio':
+        const urlRegex = /^https?:\/\/.+/;
+        if (!urlRegex.test(value)) {
+          errorMsg = 'URL should start with http:// or https://';
+        }
+        else
+         errorMsg=''
+        break;
+      default:
+        break;
+    }
+    if(errorMsg!='')
+      {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [id]: errorMsg,
+        }));
+        setShowError(true);
+      }
+      else
+      {
+        setErrors({shardId:'',email:'',portfolio:''})
+        setShowError(false);
+      }
+
+    // setData(prev => {
+    //   return { ...prev, [event.target.id]: event.target.value }
+    // })
   }
   const saveHandler = async () => {
+      if (showError && errorRef.current) {
+        errorRef.current.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
     var url;
     const notNullEntries = Object.entries(data).filter(entry => entry[1])
     const filteredData = notNullEntries.reduce((acc, curr) => {
       return { ...acc, [curr[0]]: curr[1] }
     }, {})
-
+     
 
     if (img) {
       const formData = new FormData();
@@ -93,7 +147,14 @@ const EditProfile = () => {
 
     axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/updateuser`, url ? { ...filteredData, image: url, id: loggedInUserData._id, projects } : { ...filteredData, id: loggedInUserData._id, projects })
       .then(res => {
-        if (res.data.error) setShowError(true)
+        if (res.data.error){
+           console.log("errr->",res.data)
+          setShowError(true)
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            shardId: "This Shard ID is already in use",
+          }));
+        } 
         else {
            setShowError(false)
            window.location.reload();
@@ -145,9 +206,9 @@ const EditProfile = () => {
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Shard ID</label>
                   <input id="shardId" defaultValue={loggedInUserData?.shardId??""} className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your username" onChange={changehandler} />
-                  {showError && <p className="text-red-500">Shard ID already exists</p>}
+                  {showError&&errors.shardId!=""&& <p className="text-red-500 text-[12px]">{errors?.shardId}</p>}
                 </div>
-                <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
+                <div ref={errorRef} className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Your Name</label>
                   <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Name" id="username" defaultValue={loggedInUserData?.username??''} onChange={changehandler} />
                 </div>
@@ -173,13 +234,15 @@ const EditProfile = () => {
                     <option>Less than 5 years</option>
                   </select>
                 </div>
-                <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
+                <div  className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Email Address</label>
                   <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your email ID" id="email" defaultValue={loggedInUserData?.email??''}  onChange={changehandler} />
+                  {showError&&errors.email!=""&& <p className="text-red-500 text-[12px]">{errors?.email}</p>}
                 </div>
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Website URL</label>
                   <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Website URL" id="portfolio" defaultValue={loggedInUserData?.portfolio??''}  onChange={changehandler} />
+                  {showError&&errors.portfolio!=""&& <p className="text-red-500 text-[12px]">{errors?.portfolio}</p>}
                 </div>
               </div>
             </div>
