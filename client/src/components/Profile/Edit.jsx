@@ -116,11 +116,11 @@ const EditProfile = () => {
       {
         setErrors({shardId:'',email:'',portfolio:''})
         setShowError(false);
+        setData(prev => {
+          return { ...prev, [event.target.id]: event.target.value }
+        })
       }
 
-    // setData(prev => {
-    //   return { ...prev, [event.target.id]: event.target.value }
-    // })
   }
   const saveHandler = async () => {
       if (showError && errorRef.current) {
@@ -128,11 +128,12 @@ const EditProfile = () => {
         return;
       }
     var url;
+    console.log("6363636362--->",data);
     const notNullEntries = Object.entries(data).filter(entry => entry[1])
     const filteredData = notNullEntries.reduce((acc, curr) => {
       return { ...acc, [curr[0]]: curr[1] }
     }, {})
-     
+    console.log("FILTERED DAYA-->",filteredData);
 
     if (img) {
       const formData = new FormData();
