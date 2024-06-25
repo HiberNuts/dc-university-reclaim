@@ -76,6 +76,7 @@ exports.getContestByID = async (req, res) => {
 //GET CONTEST BY TITLE
 exports.getContestByTitle = async (req, res) => {
   try {
+    // console.log("title-->",req.params.title);
     const contest = await Contests.find({ title: req.params.title });
     res.status(200).send(formatResponse(false, "Contest fetched successfully", contest));
   } catch (error) {
@@ -127,6 +128,10 @@ exports.createSubmission = async (req, res) => {
       user: req.userId,
       contest: contest._id,
     });
+    //to count the number of participants
+    contest.participants=contest.participants+1;
+    await contest.save();
+
     await newSubmission.save();
     return res.status(200).send(formatResponse(false, "New registration created", { submissionId: newSubmission._id }));
   } catch (error) {
@@ -222,7 +227,7 @@ exports.getUserContestDetails=async(req,res)=>{
 //WEBHOOKS
 exports.createModel=async(req,res)=>{
     try{
-           if(req.body.model=='c ontest')
+           if(req.body.model=='contest')
              await createContest(req)
            if(req.body.model=="program")
              await createProgram(req)
@@ -254,9 +259,9 @@ createContest = async (req) => {
       const {id:strapiId,title,description,participants,startDate,endDate,image,details,rules,warnings,level,prize,reward}=req.body.entry
       const mappedRules=req.body.entry.rules[0].children.map(child=>child.children[0].text)
       const mappedWarnings=req.body.entry.warnings[0].children.map(child=>child.children[0].text)
-      const createdContest=new Contests({strapiId,title,participants,startDate,endDate,image:image.url,details,rules:mappedRules,warnings:mappedWarnings,level,prize,reward})
+      const createdContest=new Contests({strapiId,title,description,participants,startDate,endDate,image:image.url,details,rules:mappedRules,warnings:mappedWarnings,level,prize,reward})
       await createdContest.save()
-      console.log("new contest saved[+]")
+      console.log("WEBHOOK: NEW CONTEST ADDED")
     } catch (error) {
       console.log("Failed to save contest");
       return;
@@ -265,7 +270,7 @@ createContest = async (req) => {
 
 updateContest=async(req)=>{
     try {
-       console.log("re-->",req.body.entry);
+      //  console.log("re-->",req.body.entry);
         const { id: strapiId, title, description, participants, startDate, endDate, image, details, rules, warnings, level,prize,reward } = req.body.entry;
         const mappedRules = req.body.entry.rules[0].children.map(child => child.children[0].text);
         const mappedWarnings = req.body.entry.warnings[0].children.map(child => child.children[0].text);
@@ -294,7 +299,7 @@ updateContest=async(req)=>{
           console.log("Contest failed to update becoz not found in db");
           return;
         }
-        console.log("contest update done")
+        console.log("WEBHOOK: CONTEST UPDATED")
         return;
 
     }
@@ -317,7 +322,7 @@ createProgram=async(req)=>{
      const mappedDescription=description[0].children.map(child=>child.children[0].text);
      const createdProgram=new Programs({strapiId,strapiContestId,contestId:contest._id,duration,boilerplate_code,description:mappedDescription,test_cases});
      await createdProgram.save();
-     console.log("new program saved[+]");
+     console.log("WEBHOOK: NEW PROGRAM ADDED");
   }
   catch(error)
   {
@@ -348,7 +353,7 @@ updateProgram=async(req)=>{
         console.log("Update failed, program not found in db")
         return;
       }
-      console.log("program update done")
+      console.log("WEBHOOK: PROGRAM UPDATED")
       return;
 
   }
