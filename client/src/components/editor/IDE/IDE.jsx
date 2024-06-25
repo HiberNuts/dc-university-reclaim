@@ -226,7 +226,7 @@ pragma solidity ^0.8.4;\n\n`}
               <div className="col-span-1 border-[0.5px] rounded-[4px] flex flex-col justify-center">
                 {
                   testCases?.testResults?.map((single,index)=>
-                    <p onClick={()=>setCurrentTestCase(index)} className={`${index+1==testCases.testResults.length?'':'border-b-[1px]'}${testCases.testResults.length==1?'py-5 px-2':'py-3 px-2'}  ${currentTestCase==index?`cursor-pointer  text-black ${props?.darkTheme?' bg-gray ':' bg-black text-white '}`:''} cursor-pointer`}>
+                    <p onClick={()=>setCurrentTestCase(index)} className={`${index+1==testCases.testResults.length?'':'border-b-[1px]'} ${testCases.testResults.length<=1?'py-5 px-2':'py-3 px-2'}  ${currentTestCase==index?`cursor-pointer  text-black ${props?.darkTheme?' bg-gray ':' bg-black text-white '}`:''} cursor-pointer`}>
                       <span className="pr-2" >Test case {index+1}</span>
                      {
                       single?.passed==true?
