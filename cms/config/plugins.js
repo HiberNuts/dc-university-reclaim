@@ -15,6 +15,13 @@ module.exports = ({ env }) => ({
         uploadStream: {},
         delete: {},
       },
+      parser: {
+        "enabled": true,
+        "multipart": true,
+        "formidable": {
+          "maxFileSize": 52428800
+        }
+      }
     },
   },
   ckeditor: {
