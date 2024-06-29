@@ -6,7 +6,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Headers", "x-access-token, Origin, Content-Type, Accept");
     next();
   });
-
+  
   app.post("/api/test/all", controller.allAccess);
 
   app.get("/api/test/user", [authJwt.verifyToken], controller.userBoard);
