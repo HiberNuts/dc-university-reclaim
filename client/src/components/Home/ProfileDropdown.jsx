@@ -2,18 +2,35 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import GreenButton from "../button/GreenButton";
-
-const ProfileDropDown = ({ account, openAccountModal, toggleNavbar, loggedInUserData }) => {
+import HEADER_XP from "../../assets/header_xp.svg";
+import HEADER_USER from "../../assets/header_user.svg";
+const ProfileDropDown = ({ account, openAccountModal, toggleNavbar, loggedInUserData,xp=0,homeRoute=false}) => {
   return (
-    <div className=" z-50 w-56 text-right">
+    <div className=" z-50 min-w-56 text-right">
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          <Menu.Button className="flex w-[170px] h-11 align-middle text-center items-center justify-evenly rounded-md  ">
-            <GreenButton
+                 <Menu.Button>
+        <div className={`flex gap-4 border-2 rounded-[24px] px-5 py-2 cursor-pointer ${homeRoute?'text-white':'text-black'}`}>
+                  <div className="flex gap-2">
+                                      <img src={HEADER_XP} />
+                                      <span className="pt-[2px]">{xp} XP</span>
+                                  </div>
+                                  <div className="flex gap-2">
+                                      <img src={HEADER_USER}/>
+                                     {
+                                      loggedInUserData?.shardId&&
+                                       <span className="pt-[2px]">{loggedInUserData?.shardId?.slice(0, 13) + (loggedInUserData?.shardId?.length > 13 ? ".." : "")}</span>
+                                     }
+                                    </div>
+                    </div>
+                  </Menu.Button> 
+          {/* <Menu.Button className="flex w-[170px] h-11 align-middle text-center items-center justify-evenly rounded-md  "> */}
+            {/* <GreenButton
               isHoveredReq={true}
               text={loggedInUserData?.username == "default" ? "Anon" : loggedInUserData?.username}
-            />
-          </Menu.Button>
+            /> */}
+                
+          {/* </Menu.Button> */}
         </div>
         <Transition
           as={Fragment}
