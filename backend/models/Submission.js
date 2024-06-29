@@ -15,6 +15,7 @@ const submissionSchema=new mongoose.Schema({
      rank:{type:Number},
      amountEarned:{type:Number},
      xp:{type:Number},
+     walletAddress:{type:String},
      passedCases:{type:Number},
      totalCases:{type:Number},
      testResults:{type:[testResultSchema]},

@@ -205,6 +205,8 @@ exports.compileAndTest=async(req,res)=>{
     const xpForEachTestCase=500/testResults.length;
     const xpEarned=xpForEachTestCase*passedTests;
     //UPDATE THE SUBMISSION SCHEMA 
+    //SAVING WALLET ADDRESS
+    Submisison.walletAddress=req.body?.walletAddress??'';
     Submisison.passedCases=passedTests;
     Submisison.totalCases=passedTests+failedTests;
     Submisison.testResults=testResults;

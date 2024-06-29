@@ -3,8 +3,10 @@ import { Dialog, Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FaCode } from 'react-icons/fa';
+import { FaEdit } from "react-icons/fa";
 import Editor from "@monaco-editor/react";
 import Split from "react-split";
+import { useAccount } from "wagmi";
 import { compile, compileAndSubmit } from "../../../utils/api/ContestAPI";
 import { solidityLanguageConfig, solidityTokensProvider } from "./EditorConfig";
 import solcjs from "solc-js";
@@ -12,6 +14,7 @@ import solcjs from "solc-js";
 export default function IDE(props) {
   const compiler = useRef();
   const editor = useRef(null);
+  const { isConnected,address } = useAccount();
   const [fontSize, setFontSize] = useState(16);
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
@@ -20,7 +23,8 @@ export default function IDE(props) {
   const [testCases, setTestCases] = useState(null);
   const [currentTestCase, setCurrentTestCase] = useState(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State for dialog visibility
-
+  const [editWalletAddress,setEditWalletAddress]=useState(false);
+  const [walletAddress,setWalletAddress]=useState("");
   function setupMonaco(monaco) {
     monaco.languages.register({ id: "solidity" });
     monaco.languages.setLanguageConfiguration("solidity", solidityLanguageConfig);
@@ -91,7 +95,7 @@ export default function IDE(props) {
     try {
       setTestCases(null);
       setIsDialogOpen(false);
-      await compileAndSubmit(input, props?.submissionID).then((result) => {
+      await compileAndSubmit(input, props?.submissionID,walletAddress).then((result) => {
         setCompileError(false);
         setOutput("Compiled Successfully");
         setTestCases(result);
@@ -110,6 +114,19 @@ export default function IDE(props) {
   };
 
   const handleEditorDidMount = (editor, monaco) => {
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyC, () => {
+      // Do nothing
+    });
+
+    // Disable cut (Ctrl+X and Cmd+X)
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyX, () => {
+      // Do nothing
+    });
+
+    // Disable paste (Ctrl+V and Cmd+V)
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyV, () => {
+      // Do nothing
+    });
     editor.updateOptions({
       fontFamily: "Menlo",
       fontSize: 14,
@@ -121,6 +138,9 @@ export default function IDE(props) {
       setTestCases({ testResults: props.completed?.testResults });
     }
   }, [props.completed]);
+  useEffect(()=>{
+    setWalletAddress(address);
+  },[address])
 
   return (
     <div className="h-screen w-full border flex-1 z-10">
@@ -140,6 +160,11 @@ export default function IDE(props) {
                 Confirm your submission?
               </Dialog.Title>
               <p className="py-5">Once you submit this code, you cannot compile or submit again for this contest.  </p>
+              <p>This is your wallet address.</p>
+              <div className="flex gap-2">
+               <input type="text" value={walletAddress} onChange={(e)=>setWalletAddress(e.target.value)} disabled={!editWalletAddress?true:false} className={`w-full ${editWalletAddress?'border-2':''}`} /> 
+               <p className="mt-[3px] cursor-pointer"><FaEdit onClick={()=>setEditWalletAddress(!editWalletAddress)}/></p>
+              </div>
              <div className="flex gap-2">
                      <div className="">
                      <button onClick={() => handleSubmitAndTest()} className="mt-4 bg-blue-500 hover:bg-green-500 text-white p-2 rounded">
@@ -182,7 +207,7 @@ export default function IDE(props) {
           <Editor
             className="border-black h-full"
             defaultLanguage="solidity"
-            defaultValue={props?.completed?.completed === true ? props?.completed?.submittedCode : props?.program?.boilerplate_code ? `// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n\n ${props?.program?.boilerplate_code}` : `// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n\n`}
+            defaultValue={props?.completed?.completed === true ? props?.completed?.submittedCode : props?.program?.boilerplate_code ? `// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n\n${props?.program?.boilerplate_code}` : `// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n\n`}
             theme={props.darkTheme ? "vs-dark" : "light"}
             onChange={handleEditorChange}
             beforeMount={handleEditorWillMount}
