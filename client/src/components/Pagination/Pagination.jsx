@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import LEFT from "../../assets/pagination_left.png";
 import RIGHT from "../../assets/pagination_right.png"
-const Pagination = ({ list=[],itemsPerPage,currentPage=1,setCurrentPage}) => {
+const Pagination = ({ totalItems,itemsPerPage,currentPage=1,setCurrentPage}) => {
 
-  const totalPages = Math.ceil(list.length / itemsPerPage);
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const handlePageClick = (page) => {
     setCurrentPage(page);

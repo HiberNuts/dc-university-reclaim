@@ -87,13 +87,13 @@ export const upcomingContests=async()=>{
      return {error:true,message:error?.message};
    }
 }
-export const getPastContests=async()=>{
+export const getPastContests=async(page=1,limit=3)=>{
    try {
       const {data}=await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/contest/getPastContests`
+        `${import.meta.env.VITE_BACKEND_URL}/contest/getPastContests?page=${page}&limit=${limit}`
       );
       console.log("BACKEND PAST CONTEST-->",data);
-      return data;
+      return data
    } catch (error) {
      return {error:true,message:error?.message};
    }

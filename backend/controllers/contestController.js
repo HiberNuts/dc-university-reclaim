@@ -47,17 +47,30 @@ exports.getAllContests = async (req, res) => {
   }
 };
 
-//GET PAST CONTESTS
+//GET PAST CONTESTS WITH PAGIANTION
 exports.getPastContests = async (req, res) => {
   try {
-    const today = new Date().toISOString();
-    const pastContests = await Contests.find({
-      endDate: { $lt: today }
-    }).sort({ endDate: -1 });
-    if (pastContests.length === 0) {
-      return res.status(404).send(formatResponse(true, "No past contests found"));
-    }
-    res.status(200).send(formatResponse(false, "Past contests fetched successfully", pastContests));
+      const { page = 1, limit = 3 } = req.query; // Default to page 1 and limit 10 if not provided
+      const today = new Date().toISOString();
+      
+      const totalItems = await Contests.countDocuments({ endDate: { $lt: today } });
+      const pastContests = await Contests.find({
+        endDate: { $lt: today }
+      })
+        .sort({ endDate: -1, _id: 1 } )
+        .skip((parseInt(page) - 1) * parseInt(limit))
+        .limit(parseInt(limit));
+
+      if (pastContests.length === 0) {
+        return res.status(404).send(formatResponse(true, "No past contests found"));
+      }
+
+      res.status(200).send(formatResponse(false, "Past contests fetched successfully", {
+        pastContests,
+        totalItems,
+        totalPages: Math.ceil(totalItems / limit),
+        currentPage: parseInt(page)
+      }));
   } catch (error) {
     res.status(500).send(formatResponse(true, error.message));
   }

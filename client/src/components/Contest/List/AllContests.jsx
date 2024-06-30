@@ -21,19 +21,10 @@ export default function AllContests()
     const [pastContests,setPastContest]=useState([]);
 
     //for pagination
+    const [totalItems,setTotalPages]=useState(0);
     const contestsPerPage =3;
     const [currentPage, setCurrentPage] = useState(1);
-    const [minIndex, setMinIndex] = useState(0);
-    const [maxIndex, setMaxIndex] = useState(6);
-    //useEffect for PAGINATION
-    useEffect(() => {
-        const newMinIndex = (currentPage - 1) * contestsPerPage;
-        const newMaxIndex = currentPage * contestsPerPage;
-        setMinIndex(newMinIndex);
-        setMaxIndex(newMaxIndex);
-      }, [currentPage]);
 
-    
     useEffect(()=>{
         upcomingContests().then((resp)=>{
             if(resp.error==false)
@@ -42,11 +33,19 @@ export default function AllContests()
                 }))
            } 
     )
-        getPastContests().then((resp)=>{
-            if(resp.error==false) 
-              setPastContest(resp.data.map((contest,index)=>contest))
-        })
+    
     },[])
+    //USE EFFECT FOR PAGINATION
+    useEffect(()=>{
+        setPastContest([])
+        getPastContests(currentPage,contestsPerPage).then((resp)=>{
+            if(resp.error==false) 
+                {
+                    setTotalPages(resp.data.totalItems)
+                    setPastContest(resp.data.pastContests.map((contest,index)=>contest))
+                }
+        })
+    },[currentPage])
     const slides = [
         <ContestCard key={0} />,
         <ContestCard key={1} />,
@@ -54,7 +53,7 @@ export default function AllContests()
         // Add more slide components as needed
     ];
       const scrollRef = useRef(null);
-      const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 2"] });
+      const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 0"] });
      
     return(
         <div>
@@ -63,15 +62,15 @@ export default function AllContests()
                     <Carousel slides={latestContests}/>
                 </div>
             </div>
-            <div className="past-contents-container bg-[#CAFFEF] min-h-[300px] pt-5 md:pt-20 px-5 md:px-28">
+            <div className="past-contents-container bg-[#CAFFEF] min-h-[300px] pt-5 md:pt-20 px-1 md:px-28">
                 <div className="flex items-center my-2">
                     <div className="flex-grow border-t border-gray-300"></div>
                     <span className="mx-4 text-[64px] leading-tight font-helvetica-neue-bold text-shardeumBlack">Past Contests</span>
                     <div className="flex-grow border-t border-gray-300"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"> 
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1"> 
                     {
-                        pastContests.length>0?pastContests.slice(minIndex,maxIndex).map((single)=>
+                        pastContests.length>0?pastContests.map((single)=>
                        <motion.div
                         ref={scrollRef}
                         style={{
@@ -116,11 +115,11 @@ export default function AllContests()
                                 </div>
                       </motion.div> 
                 ):
-                    Array.from({length:6}).map((_,index)=><SkeletonLoader className="my-10"/>)
+                    Array.from({length:3}).map((_,index)=><SkeletonLoader className="my-10"/>)
                     }
                 </div>
                 <div className="bg-[#CAFFEF] flex justify-center items-center">
-                    <Pagination list={pastContests} itemsPerPage={contestsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+                    <Pagination totalItems={totalItems} itemsPerPage={contestsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
                     <br/>    
                     <br/>    
                     <br/>    
