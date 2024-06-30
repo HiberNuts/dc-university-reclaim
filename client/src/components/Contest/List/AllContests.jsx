@@ -53,7 +53,7 @@ export default function AllContests()
         // Add more slide components as needed
     ];
       const scrollRef = useRef(null);
-      const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
+      const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 2"] });
      
     return(
         <div>
@@ -93,7 +93,7 @@ export default function AllContests()
                                 </div>
                                 <div>
                                     <p className="text-[16px] mt-2 text-black font-helvetica-neue-roman leading-[25px] opacity-[70%]">
-                                      {single?.description?.slice(0, 170) + (single?.description?.length > 170 ? "..." : "")}
+                                      {single?.description?.slice(0, 100) + (single?.description?.length > 100 ? "..." : "")}
                                     </p>
                                 </div>
                                 <div>
@@ -110,7 +110,7 @@ export default function AllContests()
                                         </span>
                                     </p>
                                 </div>
-                                <div className="pt-3">
+                                <div className="pt-3 h-full flex items-end">
                                      <GreenButton text={"View Solution"} isHoveredReq={true}/>
                                 </div>
                       </motion.div> 
