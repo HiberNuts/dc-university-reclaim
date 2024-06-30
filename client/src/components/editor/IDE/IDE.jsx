@@ -207,7 +207,7 @@ export default function IDE(props) {
           <Editor
             className="border-black h-full"
             defaultLanguage="solidity"
-            defaultValue={props?.completed?.completed === true ? props?.completed?.submittedCode : props?.program?.boilerplate_code ? `// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n\n${props?.program?.boilerplate_code}` : `// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n\n`}
+            defaultValue={props?.completed?.completed === true ? props?.completed?.submittedCode : props?.program?.boilerplate_code ? `// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n${props?.program?.boilerplate_code}` : `// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n\n`}
             theme={props.darkTheme ? "vs-dark" : "light"}
             onChange={handleEditorChange}
             beforeMount={handleEditorWillMount}

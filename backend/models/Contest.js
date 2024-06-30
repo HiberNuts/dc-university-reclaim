@@ -21,6 +21,7 @@ const contestSchema = new mongoose.Schema({
             enum: ["Easy", "Medium", "Hard"],
             default: "Easy",
         },
+        softDelete:{type:Boolean,default:false},
         prize:{type:String},
         reward:{type:[rewardSchema]},
         createdAt: { type: Date, required: true, default: Date.now},

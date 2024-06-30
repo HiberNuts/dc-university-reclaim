@@ -79,7 +79,7 @@ export const getLatestContest=async()=>{
 export const upcomingContests=async()=>{
    try {
       const {data}=await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/contest/upcoming/3`
+        `${import.meta.env.VITE_BACKEND_URL}/contest/upcoming/10`
       );
       console.log("BACKEND UPCOMING CONTEST-->",data);
       return data;
