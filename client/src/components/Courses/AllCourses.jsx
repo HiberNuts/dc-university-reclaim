@@ -3,34 +3,31 @@ import SkeletonLoader from "./SkeletonLoader";
 import { Toaster, toast } from "react-hot-toast";
 import CourseCard from "./CourseCard/CourseCard";
 import { ParentContext } from "../../contexts/ParentContext";
-import { getAllCourse } from "../../utils/api/CourseAPI";
+import { getAllCourse,getAllCourseWithPagination } from "../../utils/api/CourseAPI";
 import Pagination from "../Pagination/Pagination";
 export default function AllCourses() {
   const [allCourseInfo, setallCourseInfo] = useState([]);
   const [loading, setloading] = useState(false);
   //FOR PAGINATION
+  const [totalItems,setTotalItems]=useState(0);
   const coursesPerPage =3;
   const [currentPage, setCurrentPage] = useState(1);
-  const [minIndex, setMinIndex] = useState(0);
-  const [maxIndex, setMaxIndex] = useState(6);
-  //useEffect for PAGINATION
-  useEffect(() => {
-    const newMinIndex = (currentPage - 1) * coursesPerPage;
-    const newMaxIndex = currentPage * coursesPerPage;
-    setMinIndex(newMinIndex);
-    setMaxIndex(newMaxIndex);
-  }, [currentPage]);
+  // const [minIndex, setMinIndex] = useState(0);
+  // const [maxIndex, setMaxIndex] = useState(6);
 
   const getAllCourseInfo = async () => {
     setloading(true);
-    const data = await getAllCourse();
-    setallCourseInfo(data);
-    setloading(false);
+    await getAllCourseWithPagination(currentPage,coursesPerPage).then((resp)=>{
+            setTotalItems(resp.totalItems);
+            setallCourseInfo(resp.courses);
+            setloading(false);
+    })
   };
 
   useEffect(() => {
     getAllCourseInfo();
-  }, []);
+  }, [currentPage]);
+
   const [Query, setQuery] = useState("");
 
   const LogoSvg = () => {
@@ -100,7 +97,7 @@ export default function AllCourses() {
          <div className="w-full">
             <div className="flex w-full justify-evenly gap-x-[10px] gap-y-[64px]">
               {allCourseInfo &&
-                allCourseInfo?.slice(minIndex,maxIndex).reverse()
+                allCourseInfo?.reverse()
                   ?.filter((course) => {
                     if (Query == "") {
                       return course;
@@ -113,7 +110,7 @@ export default function AllCourses() {
                 })}
              </div>
              <div className="flex justify-center items-center  mt-10">
-                    <Pagination list={allCourseInfo} itemsPerPage={coursesPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+                    <Pagination totalItems={totalItems} itemsPerPage={coursesPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
                     <br/>    
                     <br/>    
                     <br/>    

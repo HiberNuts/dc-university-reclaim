@@ -5,7 +5,8 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Headers", "x-access-token, Origin, Content-Type, Accept");
     next();
   });
-
+  
+  app.get("/api/course/allCourses/pagination", controller.getAllCoursesWithPagination);
   app.get("/api/course/allCourses", controller.getAllCourses);
   app.get("/api/course/allCoursesDash", controller.getAllCoursesDash);
   app.get("/api/course/syncData", controller.syncData);

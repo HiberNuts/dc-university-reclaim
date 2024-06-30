@@ -46,6 +46,24 @@ export const getAllCourse = async () => {
     return [];
   }
 };
+export const getAllCourseWithPagination = async (page=1,limit=3) => {
+  try {
+    const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/course/allCourses/pagination?page=${page}&limit=${limit}`);
+    // console.log("RESPOSNE FOR COURSE PAGINATION-->",data);
+    if (data.courses) {
+      return data;
+    } else {
+      return {
+        courses:[],
+        totalItems:0
+      };
+    }
+  } catch (error) {
+    toast.error("Something went wrong");
+    return [];
+  }
+};
+
 
 export const getCoursebyName = async (title) => {
   try {

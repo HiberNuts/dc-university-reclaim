@@ -21,7 +21,7 @@ export default function AllContests()
     const [pastContests,setPastContest]=useState([]);
 
     //for pagination
-    const [totalItems,setTotalPages]=useState(0);
+    const [totalItems,setTotalItems]=useState(0);
     const contestsPerPage =3;
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -41,7 +41,7 @@ export default function AllContests()
         getPastContests(currentPage,contestsPerPage).then((resp)=>{
             if(resp.error==false) 
                 {
-                    setTotalPages(resp.data.totalItems)
+                    setTotalItems(resp.data.totalItems)
                     setPastContest(resp.data.pastContests.map((contest,index)=>contest))
                 }
         })
@@ -53,7 +53,7 @@ export default function AllContests()
         // Add more slide components as needed
     ];
       const scrollRef = useRef(null);
-      const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 0"] });
+      const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
      
     return(
         <div>

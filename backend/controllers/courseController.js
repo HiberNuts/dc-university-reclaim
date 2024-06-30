@@ -7,6 +7,30 @@ const ObjectId = mongoose.Types.ObjectId;
 const db = require("../models");
 const Course = db.course;
 
+exports.getAllCoursesWithPagination=async(req,res)=>{
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 3;
+    const totalItems = await Course.countDocuments();
+
+    const courses = await Course.find({}, { contractAddress: 0, usersEnrolled: 0 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+    if (courses.length === 0) {
+      return res.status(404).send({ message: "No courses found" });
+    }
+    res.status(200).send({
+      message: "Retrieved successfully",
+      courses,
+      totalItems,
+      totalPages: Math.ceil(totalItems / limit),
+      currentPage: page
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message || "Internal Server Error", error });
+  }
+}
+
 exports.getAllCourses = async (req, res) => {
   try {
     const courses = await Course.find({}, { contractAddress: 0, usersEnrolled: 0 });
@@ -24,6 +48,7 @@ exports.getAllCoursesDash = async (req, res) => {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
   }
 };
+
 
 
 exports.getCourseById = async (req, res) => {
