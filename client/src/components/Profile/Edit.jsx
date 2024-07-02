@@ -11,37 +11,91 @@ import HAMBURGER from "../../assets/drawer.png";
 import { useContext, useState } from "react";
 import { ParentContext } from "../../contexts/ParentContext";
 import axios from "axios";
-import { useEffect,useRef } from "react";
+import { useEffect, useRef } from "react";
 import REMOVE from "../../assets/remove.png";
+import CryptoJS from "crypto-js"
+import AWS from "aws-sdk";
 const EditProfile = () => {
+  const spacesEndpoint = new AWS.Endpoint('https://blr1.digitaloceanspaces.com');
+  const s3 = new AWS.S3({
+    endpoint: spacesEndpoint,
+    accessKeyId: 'DO00GYP2LHRMMEPF2KQR',
+    secretAccessKey: '7mMVFAWXcuuHBd6QZvupIBdyz9366GuD/sBhG6gSpEg'
+  });
+
+
   const [img, setImg] = useState(null);
   const { loggedInUserData } = useContext(ParentContext)
   console.log(loggedInUserData)
   const [showError, setShowError] = useState(false)
   const [projects, setProjects] = useState([])
-  const [projectValues,setProjectValues]=useState({title:"",URL:""})
+  const [projectValues, setProjectValues] = useState({ title: "", URL: "", description: "" })
   const addProjectHandler = () => {
-    if(!projectValues.title || !projectValues.URL) return
+    if (!projectValues.title || !projectValues.URL || !projectValues.description) return
     setProjects(prev => {
-      if(!prev.length) return [{ id:1, ...projectValues }]
+      if (!prev.length) return [{ id: 1, ...projectValues }]
       else return [...prev, { id: prev[prev.length - 1].id + 1, ...projectValues }]
     })
-    setProjectValues({title:"",URL:""})
+    setProjectValues({ title: "", URL: "", description: "" })
   }
 
-  useEffect(()=>{
-    if(loggedInUserData?.projects){
+  useEffect(() => {
+    if (loggedInUserData?.projects) {
       setProjects(loggedInUserData.projects)
     }
-  },[loggedInUserData])
+  }, [loggedInUserData])
   const projectChangeHandler = (event) => {
-    setProjectValues(prev=>{
-      return {...prev,[event.target.id]:event.target.value}
+    setProjectValues(prev => {
+      return { ...prev, [event.target.id]: event.target.value }
     })
   }
 
-  const projectRemoveHandler=(id)=>{
-    setProjects(prev=>prev.filter(project=>project.id!=id))
+  const projectRemoveHandler = (id) => {
+    setProjects(prev => prev.filter(project => project.id != id))
+  }
+
+  const deleteHandler = async () => {
+    const fileName="3acec97e9ac2affcc06f699e6e315e59.jpg"
+    const params = {
+      Bucket: 'shardeum-university-storage',
+      Key: `content/${fileName}`
+    };
+    // Call the delete method
+    s3.deleteObject(params, function (err, data) {
+      if (err) {
+        console.log('Error:', err);
+      } else {
+        console.log('Data:', data);
+      }
+    });
+    // const DO_SPACE_ACCESS_KEY = 'DO00GYP2LHRMMEPF2KQR';
+    // const DO_SPACE_SECRET_KEY = '7mMVFAWXcuuHBd6QZvupIBdyz9366GuD/sBhG6gSpEg';
+    // const DO_SPACE_ENDPOINT = 'https://blr1.digitaloceanspaces.com';
+    // const DO_SPACE_BUCKET = 'shardeum-university-storage';
+    // const DO_SPACE_DIRECTORY = 'content';
+    // const method = 'DELETE';
+    // const date = new Date().toUTCString();
+    // const imageName = "c5ad6895bafda0b31204df9cf9b5a476.png"
+    // const imagePath = `${DO_SPACE_DIRECTORY}/${imageName}`;
+    // const url = `${DO_SPACE_ENDPOINT}/${DO_SPACE_BUCKET}/${imagePath}`;
+
+    // // String to sign components
+    // const VERB = method;
+    // const CONTENT_MD5 = ''; // For DELETE, this is usually empty
+    // const CONTENT_TYPE = ''; // For DELETE, this is usually empty
+    // const DATE = date;
+    // const CanonicalizedAmzHeaders = ''; // No custom headers
+    // const CanonicalizedResource = `/${DO_SPACE_BUCKET}/${imagePath}`;
+
+    // // Construct the string to sign
+    // const stringToSign = `${VERB}\n${CONTENT_MD5}\n${CONTENT_TYPE}\n${DATE}\n${CanonicalizedAmzHeaders}${CanonicalizedResource}`;
+    // console.log('String to Sign:', stringToSign);
+
+    // const signature = CryptoJS.HmacSHA1(stringToSign, DO_SPACE_SECRET_KEY).toString(CryptoJS.enc.Base64);
+    // console.log('Generated Signature:', signature);
+
+    // const authorization = `AWS ${DO_SPACE_ACCESS_KEY}:${signature}`;
+    // console.log('Authorization Header:', authorization);
   }
 
   const [data, setData] = useState({
@@ -64,9 +118,9 @@ const EditProfile = () => {
     email: '',
     portfolio: '',
   });
-  const errorRef=useRef();
+  const errorRef = useRef();
   const [preview, setPreview] = useState(null)
-  
+
   useEffect(() => {
     setPreview(loggedInUserData.image)
   }, [loggedInUserData])
@@ -91,7 +145,7 @@ const EditProfile = () => {
           errorMsg = 'Invalid email address';
         }
         else
-         errorMsg=''
+          errorMsg = ''
         break;
       case 'portfolio':
         const urlRegex = /^https?:\/\/.+/;
@@ -99,41 +153,39 @@ const EditProfile = () => {
           errorMsg = 'URL should start with http:// or https://';
         }
         else
-         errorMsg=''
+          errorMsg = ''
         break;
       default:
         break;
     }
-    if(errorMsg!='')
-      {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [id]: errorMsg,
-        }));
-        setShowError(true);
-      }
-      else
-      {
-        setErrors({shardId:'',email:'',portfolio:''})
-        setShowError(false);
-        setData(prev => {
-          return { ...prev, [event.target.id]: event.target.value }
-        })
-      }
+    if (errorMsg != '') {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [id]: errorMsg,
+      }));
+      setShowError(true);
+    }
+    else {
+      setErrors({ shardId: '', email: '', portfolio: '' })
+      setShowError(false);
+      setData(prev => {
+        return { ...prev, [event.target.id]: event.target.value }
+      })
+    }
 
   }
   const saveHandler = async () => {
-      if (showError && errorRef.current) {
-        errorRef.current.scrollIntoView({ behavior: 'smooth' });
-        return;
-      }
+    if (showError && errorRef.current) {
+      errorRef.current.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
     var url;
-    console.log("6363636362--->",data);
+    console.log("6363636362--->", data);
     const notNullEntries = Object.entries(data).filter(entry => entry[1])
     const filteredData = notNullEntries.reduce((acc, curr) => {
       return { ...acc, [curr[0]]: curr[1] }
     }, {})
-    console.log("FILTERED DAYA-->",filteredData);
+    console.log("FILTERED DAYA-->", filteredData);
 
     if (img) {
       const formData = new FormData();
@@ -150,17 +202,17 @@ const EditProfile = () => {
 
     axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/updateuser`, url ? { ...filteredData, image: url, id: loggedInUserData._id, projects } : { ...filteredData, id: loggedInUserData._id, projects })
       .then(res => {
-        if (res.data.error){
-           console.log("errr->",res.data)
+        if (res.data.error) {
+          console.log("errr->", res.data)
           setShowError(true)
           setErrors((prevErrors) => ({
             ...prevErrors,
             shardId: "This Shard ID is already in use",
           }));
-        } 
+        }
         else {
-           setShowError(false)
-           window.location.reload();
+          setShowError(false)
+          window.location.reload();
         }
       })
   }
@@ -172,7 +224,7 @@ const EditProfile = () => {
         </div>
         <div className="flex-1 float-right flex justify-end items-center">
           <GreenButton
-            onClick={saveHandler}
+            onClick={deleteHandler}
             text={"Save Changes"}
             isHoveredReq={true}
           />
@@ -208,20 +260,20 @@ const EditProfile = () => {
               <div className="py-5 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Shard ID</label>
-                  <input id="shardId" defaultValue={loggedInUserData?.shardId??""} className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your username" onChange={changehandler} />
-                  {showError&&errors.shardId!=""&& <p className="text-red-500 text-[12px]">{errors?.shardId}</p>}
+                  <input id="shardId" defaultValue={loggedInUserData?.shardId ?? ""} className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your username" onChange={changehandler} />
+                  {showError && errors.shardId != "" && <p className="text-red-500 text-[12px]">{errors?.shardId}</p>}
                 </div>
                 <div ref={errorRef} className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Your Name</label>
-                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Name" id="username" defaultValue={loggedInUserData?.username??''} onChange={changehandler} />
+                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Name" id="username" defaultValue={loggedInUserData?.username ?? ''} onChange={changehandler} />
                 </div>
                 <div className="col-span-1 md:col-span-2 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Description</label>
-                  <input className="p-[16px] rounded-[12px] border-[0.5px] h-[100px]" placeholder="Enter your Introduction" id="description" defaultValue={loggedInUserData?.description??''}  onChange={changehandler} />
+                  <input className="p-[16px] rounded-[12px] border-[0.5px] h-[100px]" placeholder="Enter your Introduction" id="description" defaultValue={loggedInUserData?.description ?? ''} onChange={changehandler} />
                 </div>
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Occupation</label>
-                  <select className="p-[16px] rounded-[12px] border-[0.5px]" id="occupation" defaultValue={loggedInUserData?.occupation??''}   onChange={changehandler}>
+                  <select className="p-[16px] rounded-[12px] border-[0.5px]" id="occupation" defaultValue={loggedInUserData?.occupation ?? ''} onChange={changehandler}>
                     <option disabled className="opacity-[50%]">Please Select</option>
                     <option>Private</option>
                     <option>Government</option>
@@ -237,15 +289,15 @@ const EditProfile = () => {
                     <option>Less than 5 years</option>
                   </select>
                 </div>
-                <div  className="col-span-1 md:col-span-1 flex flex-col space-y-4">
+                <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Email Address</label>
-                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your email ID" id="email" defaultValue={loggedInUserData?.email??''}  onChange={changehandler} />
-                  {showError&&errors.email!=""&& <p className="text-red-500 text-[12px]">{errors?.email}</p>}
+                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your email ID" id="email" defaultValue={loggedInUserData?.email ?? ''} onChange={changehandler} />
+                  {showError && errors.email != "" && <p className="text-red-500 text-[12px]">{errors?.email}</p>}
                 </div>
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Website URL</label>
-                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Website URL" id="portfolio" defaultValue={loggedInUserData?.portfolio??''}  onChange={changehandler} />
-                  {showError&&errors.portfolio!=""&& <p className="text-red-500 text-[12px]">{errors?.portfolio}</p>}
+                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Website URL" id="portfolio" defaultValue={loggedInUserData?.portfolio ?? ''} onChange={changehandler} />
+                  {showError && errors.portfolio != "" && <p className="text-red-500 text-[12px]">{errors?.portfolio}</p>}
                 </div>
               </div>
             </div>
@@ -259,8 +311,8 @@ const EditProfile = () => {
                   <div className="col-span-1">
                     <img src={TWITTER} />
                   </div>
-                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.twitter??''} placeholder="Enter Username" id="twitter" onChange={changehandler} />
-                  
+                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.twitter ?? ''} placeholder="Enter Username" id="twitter" onChange={changehandler} />
+
                 </div>
               </div>
               <div className="col-span-1">
@@ -268,8 +320,8 @@ const EditProfile = () => {
                   <div className="col-span-1">
                     <img src={LINKEDIN} />
                   </div>
-                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.linkedIn??''} placeholder="Enter Username" id="linkedIn" onChange={changehandler} />
-                 
+                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.linkedIn ?? ''} placeholder="Enter Username" id="linkedIn" onChange={changehandler} />
+
                 </div>
               </div>
               <div className="col-span-1">
@@ -278,8 +330,8 @@ const EditProfile = () => {
                   <div className="col-span-1">
                     <img src={YOUTUBE} />
                   </div>
-                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.youtube??''} placeholder="Enter Username" id="youtube" onChange={changehandler} />
-                  
+                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.youtube ?? ''} placeholder="Enter Username" id="youtube" onChange={changehandler} />
+
                 </div>
               </div>
               <div className="col-span-1">
@@ -287,8 +339,8 @@ const EditProfile = () => {
                   <div className="col-span-1">
                     <img src={GITHUB} />
                   </div>
-                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.github??''} placeholder="Enter Username" id="github" onChange={changehandler} />
-                 
+                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.github ?? ''} placeholder="Enter Username" id="github" onChange={changehandler} />
+
                 </div>
               </div>
               <div className="col-span-1">
@@ -296,8 +348,8 @@ const EditProfile = () => {
                   <div className="col-span-1">
                     <img src={DISCORD} />
                   </div>
-                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.discord??''} placeholder="Enter Username" id="discord" onChange={changehandler} />
-                  
+                  <input className="col-span-9 outline-none bg-shardeumWhite" defaultValue={loggedInUserData?.discord ?? ''} placeholder="Enter Username" id="discord" onChange={changehandler} />
+
                 </div>
               </div>
             </div>
@@ -305,38 +357,50 @@ const EditProfile = () => {
           <div className="mt-10 box-1 bg-white rounded-3xl border-[1px] p-2 md:p-10">
             <p className='my-2 text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-5'>Project Links</p>
 
-            
-              <div className="py-5 grid grid-cols-5 gap-2 md:gap-10">
-                <div className="md:col-span-2 col-span-5 flex flex-col space-y-4">
-                  <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Link Title</label>
-                  <input id="title" className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter the title" onChange={projectChangeHandler} value={projectValues.title}/>
-                </div>
-                <div className="md:col-span-2 col-span-3 flex flex-col space-y-4">
-                  <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">URL</label>
-                  <input id="URL" className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter link" onChange={projectChangeHandler} value={projectValues.URL}/>
-                </div>
-                <div className="md:col-span-1 col-span-2 text-center flex items-end space-y-4">
-                  <GreenButton
-                    onClick={addProjectHandler}
-                    text={"Add"}
-                    isHoveredReq={true}
-                  />
-                </div>
+
+            <div className="py-5 grid grid-cols-4 gap-2 md:gap-10">
+              <div className="md:col-span-2 col-span-4 flex flex-col space-y-4">
+                <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Link Title</label>
+                <input id="title" className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter the title" onChange={projectChangeHandler} value={projectValues.title} />
               </div>
-            
+              <div className="md:col-span-2 col-span-4 flex flex-col space-y-4">
+                <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">URL</label>
+                <input id="URL" className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter link" onChange={projectChangeHandler} value={projectValues.URL} />
+              </div>
+              <div className="col-span-3 flex flex-col space-y-4">
+                <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">description</label>
+                <input id="description" className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Type here..." onChange={projectChangeHandler} value={projectValues.description} />
+              </div>
+              <div className="col-span-1 text-center flex items-end space-y-4">
+                <GreenButton
+                  onClick={addProjectHandler}
+                  text={"Add"}
+                  isHoveredReq={true}
+                />
+              </div>
+            </div>
+
 
             {
-              projects.map(project => <div key={project.id} className="w-full mt-5 bg-white flex justify-between  p-[16px] rounded-[12px] border">
+              projects.map(project => <div key={project.id} className="w-full mt-5 bg-white   p-[16px] rounded-[12px] border">
 
-                <div className="flex items-center">
-                  <img src={HAMBURGER} className="w-[24px] h-[24px] mr-[12px]" />
-                  <p className="text-[16px]">{project.title}</p>
+                <div className="flex justify-between">
+
+                  <div className="flex items-center">
+                    <img src={HAMBURGER} className="w-[24px] h-[24px] mr-[12px]" />
+                    <p className="text-[16px]">{project.title}</p>
+                  </div>
+
+                  <div className="flex items-center">
+                    <a className="mr-[12px] text-blue-800 underline cursor-pointer">{project.URL}</a>
+                    <img src={REMOVE} className="w-[24px] h-[24px] cursor-pointer" onClick={() => projectRemoveHandler(project.id)} />
+                  </div>
+
                 </div>
 
-                <div className="flex items-center">
-                  <a className="mr-[12px] text-blue-800 underline cursor-pointer">{project.URL}</a>
-                  <img src={REMOVE} className="w-[24px] h-[24px] cursor-pointer" onClick={()=>projectRemoveHandler(project.id)}/>
-                </div>
+                <p className="mt-5">{project.description}</p>
+
+
 
               </div>)
 
