@@ -43,7 +43,7 @@ export default function Problem(props) {
       <span className="rounded-[40px] border-[1px] py-[14px] px-[16px]  mt-4">
             <span className="font-bold text-[16px]">Difficulty level:</span>
             <span className="font-[500] text-[16px] text-[#FF4C0F] ml-1">{props?.contest?.level}</span>
-      </span>
+      </span>   
       <br/>
       <br/>
                   {props?.program?.description?.map((s, index) => (
