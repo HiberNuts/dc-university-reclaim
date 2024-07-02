@@ -138,11 +138,6 @@ const EditProfile = () => {
       errorRef.current.scrollIntoView({ behavior: 'smooth' });
       return;
     }
-    if(loggedInUserData?.shardId==data?.shardId)
-    {
-        toast.error("Shard ID must be not empty or unique !");
-        return;
-    }
     if(data?.shardId.length<5)
     {
             toast.error("Shard ID must be have atleast 5 characters!!");
@@ -171,7 +166,6 @@ const EditProfile = () => {
       .then(res => {
         if (res.data.error) {
           console.log("errr->", res.data)
-          setShowError(true)
           toast.error("This Shard ID is already in use")
         }
         else {
