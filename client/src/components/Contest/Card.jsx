@@ -2,8 +2,6 @@ import React,{ useRef,useState,useEffect } from "react"
 import { motion, useScroll } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import PRICE_BADGE from '../../assets/star.png';
-import STAR_BG from "../../assets/star_bg.png"
 import GreenButton from "../button/GreenButton";
 
 import { formatTimestamp,checkTimeLeft } from "../../utils/time";
@@ -133,20 +131,20 @@ return(
             props?.prize&&
             <div className="hidden lg:block absolute bottom-[1px] right-[1px] ">
              <div className="relative z-10">
-              <LazyLoadImage
+              {/* <LazyLoadImage
                 className="z-[-1]"
                 src={PRICE_BADGE}
-                />
-                <img className="absolute top-0 z-[1]" src={STAR_BG}/>
+                /> */}
+                {/* <img className="absolute top-0 z-[1]" src={STAR_BG}/> */}
              </div>
 
             </div>               
            } 
            {
              props?.prize&&
-            <div className="hidden lg:block absolute z-10 bottom-7 right-7">
-                  <div className="text-[18px] text-right leading-[18px]  text-overflow-ellipsis font-helvetica-neue-bold">Prize Money</div>
-                  <div className="text-[42px] text-right leading-[42px]  text-overflow-ellipsis font-helvetica-neue-bold">{props?.prize}</div>
+            <div className="hidden lg:block absolute z-10 bottom-7 right-7 border-2 p-3 rounded-lg">
+                  <div className="text-[16px] text-right leading-[18px]  text-overflow-ellipsis font-helvetica-neue-bold">Prize Money</div>
+                  <div className="text-[42px] text-right leading-[42px]  text-overflow-ellipsis font-helvetica-neue-bold text-shardeumRed">{props?.prize}</div>
             </div>
            }   
     </motion.div>
