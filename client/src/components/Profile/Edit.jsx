@@ -138,18 +138,22 @@ const EditProfile = () => {
       errorRef.current.scrollIntoView({ behavior: 'smooth' });
       return;
     }
-   
+    if(loggedInUserData?.shardId==data?.shardId)
+    {
+        toast.error("Shard ID must be not empty or unique !");
+        return;
+    }
+    if(data?.shardId.length<5)
+    {
+            toast.error("Shard ID must be have atleast 5 characters!!");
+            return;
+    }
     var url;
     const notNullEntries = Object.entries(data).filter(entry => entry[1])
     const filteredData = notNullEntries.reduce((acc, curr) => {
       return { ...acc, [curr[0]]: curr[1] }
     }, {})
-    console.log("FILTERED DAYA-->", data);
-    if(filteredData?.shardId.length<5)
-    {
-          toast.error("Shard ID must be have atleast 5 characters!!");
-          return;
-    }
+  
     if (img) {
       const formData = new FormData();
       formData.append("files", img);
