@@ -64,7 +64,7 @@ const ProfileDropDown = ({ account, openAccountModal, toggleNavbar, loggedInUser
                 {({ active }) => (
                   <Link
                     onClick={toggleNavbar}
-                    to={loggedInUserData?.shardId}
+                    to={loggedInUserData?.shardId==''?'profile/edit':loggedInUserData?.shardId}
                     className={`${
                       active ? "bg-shardeumBlue text-white" : "text-gray-900"
                     } group font-helvetica-neue-roman flex w-full items-center rounded-md px-2 py-2 text-sm`}

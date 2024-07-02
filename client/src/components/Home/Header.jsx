@@ -44,6 +44,9 @@ export default function Header() {
     try {
       const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, { walletAddress: address });
       setloggedInUserData(res?.data);
+      if(res?.data?.shardId==""||res.data?.shardId.length<5){
+         navigate("/profile/edit")
+      }
       if (res?.data?.email === "default") {
         navigate("/profile");
       }

@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import toast, { Toaster } from "react-hot-toast";
 import { ParentContext } from "../../contexts/ParentContext";
-import { getUserData, getUserContestDetails } from "../../utils/api/UserAPI";
+import { getUserData,getUserContestDetails } from "../../utils/api/UserAPI";
 const ProfileCourses = lazy(() => import("./ProfileCourses"));
 import mailSVG from "./mailSVG.svg";
 import workSVG from "./workSVG.svg";
@@ -44,12 +44,12 @@ const ProfileLinks = ({ img, title }) => {
 };
 
 const Profile = ({ isOpen, closeModal }) => {
-  const { shardId } = useParams();
+  const {shardId}=useParams();
   const [isEditing, setisEditing] = useState(false);
   const [userData, setUserData] = useState({});
   const [error, setError] = useState(null); // State for managing errors
-  const [userProfile, setUserProfile] = useState(null);
-  const [userContestData, setUserContestData] = useState(null);
+  const [userProfile,setUserProfile]=useState(null);
+  const [userContestData,setUserContestData]=useState(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -82,36 +82,39 @@ const Profile = ({ isOpen, closeModal }) => {
         // toast.error("Error while fetching user data");
       }
     };
-
+  
     fetchUserData();
   }, [loggedInUserData]);
 
   //USE EFFECT TO FETCH PROFILE-USER DATA AND CONTEST DETAILS OF THAT USER
-  useEffect(() => {
-    const getUserProfileData = async () => {
-      getUserData(shardId).then((response) => {
-        if (response.error == false) {
-          setUserProfile(response?.data);
-        }
-      })
-    }
-    const getUserContestData = async () => {
-      try {
-        if (shardId)
-          getUserContestDetails(shardId).then((resp) => {
-            if (resp?.error == false) {
-              setUserContestData(resp.data);
-            }
-          })
-      } catch (error) {
-        console.log("Error in fetching profile user data & contest->", error.message)
+  useEffect(()=>{
+      const getUserProfileData=async()=>{
+        getUserData(shardId).then((response)=>{
+           if(response.error==false)
+           {
+             setUserProfile(response?.data);
+           } 
+        })
       }
-    }
-    if (shardId) {
-      getUserProfileData();
-      getUserContestData();
-    }
-  }, [shardId])
+      const getUserContestData=async()=>{
+        try {
+          if(shardId)
+            getUserContestDetails(shardId).then((resp)=>{
+              if(resp?.error==false)
+                {
+                  setUserContestData(resp.data);
+                }
+          })
+        } catch (error) {
+            console.log("Error in fetching profile user data & contest->",error.message)
+        }
+      }
+      if(shardId)
+      {
+        getUserProfileData();
+        getUserContestData();
+      }  
+  },[shardId])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -193,142 +196,147 @@ const Profile = ({ isOpen, closeModal }) => {
   };
   return (
     <div className="">
-      <div className="bg-shardeumTeelGreen min-h-[180px] relative profile_header">
-        <img src={TRIANGLE_IMG} className="absolute left-10" />
-      </div>
-      <div className="grid grid-cols-8 min-h-screen ">
-        <div className="col-span-2 bg-shardeumBlue relative">
-          <div className="absolute top-[-80px] left-16  ">
-            <LazyLoadImage src={userProfile?.image ?? 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg'} className="rounded-lg border-2 w-[120px] h-[120px]" />
-          </div>
-          <div className="name my-[50px] px-16">
-            <p className='my-2 text-[24px] text-left leading-tight text-white text-overflow-ellipsis font-helvetica-neue-bold'>{userProfile?.username}</p>
-            <p className='my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis'>
-              {userProfile?.description}
-            </p>
-            <div className="flex flex-col">
-              {
-                userProfile?.designation &&
-                <div className="flex gap-2">
-                  <img src={JOB} />
-                  <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{userProfile?.designation}</p>
-                </div>
-              }
-              {
-                userProfile?.email &&
-                <div className="flex gap-2">
-                  <img src={MAIL} />
-                  <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{userProfile?.email}</p>
-                </div>
-              }
-              {
-                userProfile?.portfolio &&
-                <div className="flex gap-2">
-                  <img src={PORTFOLIO} />
-                  <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{userProfile?.portfolio}</p>
-                </div>
-              }
-              {
-                userProfile?.experience &&
-                <div className="flex gap-2">
-                  <img src={LEVEL} />
-                  <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{userProfile?.experience}</p>
-                </div>
-              }
-              <div className="flex gap-5  mt-2">
-                {
-                  userProfile?.twitter &&
-                  <a target="_blank" href={userProfile?.twitter ?? '#'}>
-                    <img src={TWITTER} />
-                  </a>
-                }
-                {
-                  userProfile?.github &&
-                  <a target="_blank" href={userProfile?.github ?? '#'}>
-                    <img src={GITHUB} />
-                  </a>
-                }
-                {
-                  userProfile?.linkedIn &&
-                  <a target="_blank" href={userProfile?.linkedIn ?? '#'}>
-                    <img src={LINKEDIN} />
-                  </a>
-                }
-                {
-                  userProfile?.youtube &&
-                  <a target="_blank" href={userProfile?.youtube ?? '#'}>
-                    <img src={YOUTUBE} />
-                  </a>
-                }
+              <div className="bg-shardeumTeelGreen min-h-[180px] relative profile_header">
+                     <img src={TRIANGLE_IMG} className="absolute left-10"/>
               </div>
-              {
-                loggedInUserData?._id == userProfile?._id &&
-                <div className="mt-10">
-                  <Link to={'/profile/edit'}>
-                    <ProfileButton isHoveredReq={true} text={"Edit Profile"} />
-                  </Link>
-                </div>
-              }
-            </div>
-          </div>
-        </div>
-        <div className="col-span-6">
-          <div className="border-t-2 border-b-[1px] py-2 grid grid-cols-5">
-            <div className="col-span-1 border-r-2 border-r-[#8a8f96] text-center">
-              <p className="text-[16px]">XP Points</p>
-              <p className="flex justify-center">
-                <img src={FLASH} />
-                <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.XPEarned ?? '-'}</p>
-              </p>
-            </div>
-            <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
-              <p className="text-[16px]">Contests participated</p>
-              <p className="flex justify-center">
-                <img src={PARTICIPATION} />
-                <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.contestParticipated ?? '-'}</p>
-              </p>
-            </div>
-            <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
-              <p className="text-[16px]">Contests won</p>
-              <p className="flex justify-center">
-                <img src={STAR} />
-                <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.contestWon ?? '-'}</p>
-              </p>
-            </div>
-            <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
-              <p className="text-[16px]">Prize won</p>
-              <p className="flex justify-center">
-                <img src={PRIZE} />
-                <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.AmountEarned ?? '-'}</p>
-              </p>
-            </div>
-            <div className="col-span-1 text-center">
-              <p className="text-[16px]">Badges</p>
-              <p className="flex justify-center">
-                <img src={BADGES} />
-                <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.badges ?? '-'}</p>
-              </p>
-            </div>
-          </div>
-          <div className="p-10">
-            <div>
-              {
-                userProfile != null &&
-                <ProfileCourses userData={userProfile} loggedInUserData={loggedInUserData} />
-              }
-            </div>
-          </div>
-
-          {loggedInUserData.projects && <div className="p-10">
-
-            <ProfileProjects />
-
-          </div>}
-
-        </div>
-      </div>
-    </div>
-  )
+              <div className="grid grid-cols-8 min-h-screen "> 
+                    <div className="col-span-2 bg-shardeumBlue relative">
+                      <div className="absolute top-[-80px] left-16  ">
+                        <LazyLoadImage src={userProfile?.image??'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg'} className="rounded-lg border-2 w-[120px] h-[120px]" />
+                      </div>
+                      <div className="name my-[50px] px-16">
+                        <p className='my-2 text-[24px] text-left leading-tight text-white text-overflow-ellipsis font-helvetica-neue-bold'>{userProfile?.username}</p>
+                        <p className='my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis'>
+                             {userProfile?.description}
+                        </p>
+                        <div className="flex flex-col">
+                                {
+                                  userProfile?.designation&&
+                                  <div className="flex gap-2">
+                                      <img src={JOB}/>
+                                      <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{userProfile?.designation}</p>
+                                  </div>
+                                }
+                                {
+                                 userProfile?.email&&
+                                  <div className="flex gap-2">
+                                      <img src={MAIL}/>
+                                      <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{userProfile?.email}</p>
+                                  </div>
+                                }
+                                {
+                                  userProfile?.portfolio&&
+                                  <div className="flex gap-2">
+                                      <img src={PORTFOLIO}/>
+                                      <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{userProfile?.portfolio}</p>
+                                  </div>
+                                }
+                                {
+                                  userProfile?.experience&&
+                                  <div className="flex gap-2">
+                                      <img src={LEVEL}/>
+                                      <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{userProfile?.experience}</p>
+                                  </div>
+                                }
+                                  <div className="flex gap-5  mt-2">
+                                    {
+                                      userProfile?.twitter&&
+                                     <a target="_blank" href={userProfile?.twitter??'#'}>
+                                      <img src={TWITTER}/>
+                                     </a>
+                                    }
+                                    {
+                                      userProfile?.github&&
+                                     <a target="_blank" href={userProfile?.github??'#'}>
+                                      <img src={GITHUB}/>
+                                     </a>
+                                    }
+                                    {
+                                      userProfile?.linkedIn&&
+                                     <a target="_blank" href={userProfile?.linkedIn??'#'}>
+                                      <img src={LINKEDIN}/>
+                                     </a>
+                                    }
+                                    {
+                                      userProfile?.youtube&&
+                                     <a target="_blank" href={userProfile?.youtube??'#'}>
+                                      <img src={YOUTUBE}/>
+                                     </a>
+                                    }
+                                  </div>
+                                  {
+                                    loggedInUserData?._id==userProfile?._id&&
+                                    <div className="mt-10">
+                                      <Link to={'/profile/edit'}>
+                                        <ProfileButton isHoveredReq={true} text={"Edit Profile"} />
+                                      </Link>
+                                    </div>
+                                  }
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-span-6">
+                        <div className="border-t-2 border-b-[1px] py-2 grid grid-cols-5">
+                                 <div className="col-span-1 border-r-2 border-r-[#8a8f96] text-center">
+                                     <p className="text-[16px]">XP Points</p>
+                                     <p className="flex justify-center">
+                                        <img src={FLASH}/>
+                                        <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.XPEarned??'-'}</p>
+                                     </p>
+                                 </div>
+                                 <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
+                                     <p className="text-[16px]">Contests participated</p>
+                                     <p className="flex justify-center">
+                                        <img src={PARTICIPATION}/>
+                                        <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.contestParticipated??'-'}</p>
+                                     </p>
+                                 </div>
+                                 <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
+                                     <p className="text-[16px]">Contests won</p>
+                                     <p className="flex justify-center">
+                                        <img src={STAR}/>
+                                        <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.contestWon??'-'}</p>
+                                     </p>
+                                 </div>
+                                 <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
+                                     <p className="text-[16px]">Prize won</p>
+                                     <p className="flex justify-center">
+                                        <img src={PRIZE}/>
+                                        <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.AmountEarned??'-'}</p>
+                                     </p>
+                                 </div>
+                                 <div className="col-span-1 text-center">
+                                     <p className="text-[16px]">Badges</p>
+                                     <p className="flex justify-center">
+                                        <img src={BADGES}/>
+                                        <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.badges??'-'}</p>
+                                     </p>
+                                 </div>
+                         </div>
+                         {
+                          loggedInUserData?.shardId==userProfile?.shardId&&loggedInUserData?.email=="default"&&
+                         <div className="px-10 pt-5">
+                                   <p>Email not yet  verified. Please <span className="text-blue-500 cursor-pointer" onClick={handleResendVerificationEmail}> click </span>to verify it.</p>
+                         </div>
+                         }
+                         <div className="p-10">
+                          <div>
+                             {
+                               userProfile!=null&&
+                               <ProfileCourses userData={userProfile} loggedInUserData={loggedInUserData}/>
+                            }
+                          </div>
+                         </div>
+                         {
+                         loggedInUserData?.projects && 
+                          <div className="p-10">
+                             <ProfileProjects projects={userProfile?.projects??[]}  />
+                          </div>
+                          }
+                     </div>
+               </div>
+     </div>
+   )  
   return (
     <div className="w-full  bg-shardeumWhite font-helvetica-neue  h-full flex justify-between align-middle">
       <Toaster />

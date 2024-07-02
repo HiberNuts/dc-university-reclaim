@@ -1,4 +1,6 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import toast, { Toaster } from "react-hot-toast";
+
 import GreenButton from "../button/GreenButton";
 import AVATAR from "../../assets/avatar.png";
 import IMG_UPLOAD from "../../assets/img_upload.png";
@@ -54,49 +56,6 @@ const EditProfile = () => {
     setProjects(prev => prev.filter(project => project.id != id))
   }
 
-  const deleteHandler = async () => {
-    const fileName="3acec97e9ac2affcc06f699e6e315e59.jpg"
-    const params = {
-      Bucket: 'shardeum-university-storage',
-      Key: `content/${fileName}`
-    };
-    // Call the delete method
-    s3.deleteObject(params, function (err, data) {
-      if (err) {
-        console.log('Error:', err);
-      } else {
-        console.log('Data:', data);
-      }
-    });
-    // const DO_SPACE_ACCESS_KEY = 'DO00GYP2LHRMMEPF2KQR';
-    // const DO_SPACE_SECRET_KEY = '7mMVFAWXcuuHBd6QZvupIBdyz9366GuD/sBhG6gSpEg';
-    // const DO_SPACE_ENDPOINT = 'https://blr1.digitaloceanspaces.com';
-    // const DO_SPACE_BUCKET = 'shardeum-university-storage';
-    // const DO_SPACE_DIRECTORY = 'content';
-    // const method = 'DELETE';
-    // const date = new Date().toUTCString();
-    // const imageName = "c5ad6895bafda0b31204df9cf9b5a476.png"
-    // const imagePath = `${DO_SPACE_DIRECTORY}/${imageName}`;
-    // const url = `${DO_SPACE_ENDPOINT}/${DO_SPACE_BUCKET}/${imagePath}`;
-
-    // // String to sign components
-    // const VERB = method;
-    // const CONTENT_MD5 = ''; // For DELETE, this is usually empty
-    // const CONTENT_TYPE = ''; // For DELETE, this is usually empty
-    // const DATE = date;
-    // const CanonicalizedAmzHeaders = ''; // No custom headers
-    // const CanonicalizedResource = `/${DO_SPACE_BUCKET}/${imagePath}`;
-
-    // // Construct the string to sign
-    // const stringToSign = `${VERB}\n${CONTENT_MD5}\n${CONTENT_TYPE}\n${DATE}\n${CanonicalizedAmzHeaders}${CanonicalizedResource}`;
-    // console.log('String to Sign:', stringToSign);
-
-    // const signature = CryptoJS.HmacSHA1(stringToSign, DO_SPACE_SECRET_KEY).toString(CryptoJS.enc.Base64);
-    // console.log('Generated Signature:', signature);
-
-    // const authorization = `AWS ${DO_SPACE_ACCESS_KEY}:${signature}`;
-    // console.log('Authorization Header:', authorization);
-  }
 
   const [data, setData] = useState({
     shardId: "",
@@ -179,14 +138,18 @@ const EditProfile = () => {
       errorRef.current.scrollIntoView({ behavior: 'smooth' });
       return;
     }
+   
     var url;
-    console.log("6363636362--->", data);
     const notNullEntries = Object.entries(data).filter(entry => entry[1])
     const filteredData = notNullEntries.reduce((acc, curr) => {
       return { ...acc, [curr[0]]: curr[1] }
     }, {})
-    console.log("FILTERED DAYA-->", filteredData);
-
+    console.log("FILTERED DAYA-->", data);
+    if(filteredData?.shardId.length<5)
+    {
+          toast.error("Shard ID must be have atleast 5 characters!!");
+          return;
+    }
     if (img) {
       const formData = new FormData();
       formData.append("files", img);
@@ -205,10 +168,7 @@ const EditProfile = () => {
         if (res.data.error) {
           console.log("errr->", res.data)
           setShowError(true)
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            shardId: "This Shard ID is already in use",
-          }));
+          toast.error("This Shard ID is already in use")
         }
         else {
           setShowError(false)
@@ -216,15 +176,25 @@ const EditProfile = () => {
         }
       })
   }
+  useEffect(()=>{
+    if(loggedInUserData._id)
+    {
+       setData((prevData)=>({
+         ...prevData,
+         shardId:loggedInUserData?.shardId
+       }))
+    }  
+  },[loggedInUserData])
   return (
     <div className="py-[60px] px-5 md:px-[100px] bg-shardeumPink ">
+      <Toaster/>
       <div className="heading pb-10 border-b-2 flex ">
         <div className="flex-1 text-left">
           <p className='my-2 text-[48px] md:text-[64px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold'>Edit Profile</p>
         </div>
         <div className="flex-1 float-right flex justify-end items-center">
           <GreenButton
-            onClick={deleteHandler}
+            onClick={saveHandler}
             text={"Save Changes"}
             isHoveredReq={true}
           />
@@ -291,7 +261,7 @@ const EditProfile = () => {
                 </div>
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Email Address</label>
-                  <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your email ID" id="email" defaultValue={loggedInUserData?.email ?? ''} onChange={changehandler} />
+                  <input className="p-[16px] rounded-[12px] border-[0.5px] cursor-not-allowed" disabled placeholder="Enter your email ID" id="email" defaultValue={loggedInUserData?.email ?? ''} onChange={changehandler} />
                   {showError && errors.email != "" && <p className="text-red-500 text-[12px]">{errors?.email}</p>}
                 </div>
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">

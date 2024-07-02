@@ -109,7 +109,8 @@ const userSchema = new mongoose.Schema(
       default: "https://sample.com/link",
     },
     shardId:{
-      type:String
+      type:String,
+      default:''
     },
     designation: {
       type: String,
