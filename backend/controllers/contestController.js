@@ -5,7 +5,7 @@ const Programs = db.Programs;
 const Submissions=db.Submissions;
 const {rankSubmissions}=require('../utils/leaderboardCalculator')
 const {formatResponse}=require('../utils/formatResponse');
-
+const {mapRichTextNodesToSchema}=require('../utils/mapRichText')
 //LATEST CONTEST
 exports.getLatestContest = async (req, res) => {
   try {
@@ -285,8 +285,9 @@ const createContest = async (req) => {
       reward = []
     } = req.body.entry;
 
-    const mappedRules = rules[0]?.children?.map(child => child.children[0]?.text) || [];
-    const mappedWarnings = warnings[0]?.children?.map(child => child.children[0]?.text) || [];
+
+    const mappedRules = rules[0]?.children ? mapRichTextNodesToSchema(rules[0].children) : '';
+    const mappedWarnings = warnings[0]?.children ? mapRichTextNodesToSchema(warnings[0].children) : '';
 
     const createdContest = new Contests({
       strapiId,
@@ -330,9 +331,8 @@ const updateContest = async (req) => {
       reward = []
     } = req.body.entry;
 
-    const mappedRules = rules[0]?.children?.map(child => child.children[0]?.text) || [];
-    const mappedWarnings = warnings[0]?.children?.map(child => child.children[0]?.text) || [];
-
+    const mappedRules = rules[0]?.children ? mapRichTextNodesToSchema(rules[0].children) : '';
+    const mappedWarnings = warnings[0]?.children ? mapRichTextNodesToSchema(warnings[0].children) : '';
     const updateData = {
       title,
       description,
@@ -381,7 +381,7 @@ const createProgram = async (req) => {
       return;
     }
 
-    const mappedDescription = description[0]?.children?.map(child => child.children[0]?.text) || [];
+    const mappedDescription = description[0]?.children ? mapRichTextNodesToSchema(description[0].children) : '';
 
     const createdProgram = new Programs({
       strapiId,
@@ -412,7 +412,7 @@ const updateProgram = async (req) => {
       test_cases = []
     } = req.body.entry;
 
-    const mappedDescription = description[0]?.children?.map(child => child.children[0]?.text) || [];
+    const mappedDescription = description[0]?.children ? mapRichTextNodesToSchema(description[0].children) : '';
 
     const updateData = {
       duration,

@@ -4,7 +4,10 @@ const rewardSchema=new mongoose.Schema({
     rank:{type:Number},
     prize:{type:String}
 });
-
+const richTextSchema=new mongoose.Schema({
+    type:{type:String},
+    content:{type:String}
+})
 const contestSchema = new mongoose.Schema({
         strapiId:{type:Number},
         description:{type:String},
@@ -15,7 +18,7 @@ const contestSchema = new mongoose.Schema({
         image:{type:String},
         details:{type:String},
         rules:{type:Array},
-        warnings:{type:Array},
+        warnings:{type:[richTextSchema]},
         level: {
             type: String,
             enum: ["Easy", "Medium", "Hard"],
