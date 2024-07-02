@@ -144,7 +144,7 @@ return(
              props?.prize&&
             <div className="hidden lg:block absolute z-10 bottom-7 right-7 border-2 p-3 rounded-lg">
                   <div className="text-[16px] text-right leading-[18px]  text-overflow-ellipsis font-helvetica-neue-bold">Prize Money</div>
-                  <div className="text-[42px] text-right leading-[42px]  text-overflow-ellipsis font-helvetica-neue-bold text-shardeumRed">{props?.prize}</div>
+                  <div className="text-[42px] text-right leading-[42px]  text-overflow-ellipsis font-helvetica-neue-bold text-shardeumRed">$ {props?.prize}</div>
             </div>
            }   
     </motion.div>

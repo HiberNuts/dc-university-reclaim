@@ -2,7 +2,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import GreenButton from "../../button/GreenButton";
 import Leaderboard from "../Leaderboard/Leaderboard";
 import { useParams,useNavigate } from "react-router-dom";
-import { useEffect, useState,useContext } from "react";
+import React,{ useEffect, useState,useContext } from "react";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { formatTimestamp,checkTimeLeft } from "../../../utils/time";
 import { getContestByTitle,registerContest,alreadyRegistered,getLeaderboard } from "../../../utils/api/ContestAPI";
@@ -137,27 +137,60 @@ export default function ContestRegsiter() {
              <div className='contest-details-rules py-5'>
                  <p className='text-[18px] font-semibold'>Rules:</p>
                  <ul className='mx-1'>
-                    {contest.rules.map((s, index) => (
-                    <li className="py-1" key={index}>
-                      <span className="w-2 h-2 bg-[#605d5d] rounded-full inline-block mr-2"></span>
-                      <span className="text-[15px]  text-slategray font-helvetica-neue-roman leading-[25px]">
-                        {s}
+                 {contest.rules.map((s, index) => (
+                    <li className={`${s.type == 'code' ?'bg-[#d4d2d2] px-5 ':''} py-1`} key={index}>
+                      {
+                        s.type!='code'&&
+                        <span className="w-2 h-2 bg-[#605d5d] rounded-full inline-block mr-2"></span>
+                      }
+                      <span className={` text-[15px] text-slategray font-helvetica-neue-roman leading-[25px]`}>
+                        {s.type == 'link' ? (
+                          <a href={s.url} className="underline text-shardeumBlue" target="_blank" rel="noopener noreferrer">
+                            {s.content}
+                          </a>
+                        ) : s.type == 'code' ? (
+                          s.content.split('\n').map((line, idx) => (
+                            <React.Fragment key={idx}>
+                              {line}
+                              <br />
+                            </React.Fragment>
+                          ))
+                        ) : (
+                          s.content
+                        )}
                       </span>
                     </li>
-                      ))}
+                  ))}
                  </ul>
              </div>
              <div className='contest-details-rules py-5'>
                  <p className='text-[18px] font-semibold'>Winnings:</p>
                  <ul className='mx-1'>
-                 {contest.warnings.map((s) => (
-                    <li className="py-1">
-                      <span className="w-2 h-2 bg-[#605d5d] rounded-full inline-block mr-2"></span>
-                      <span className="text-[15px]  text-slategray font-helvetica-neue-roman leading-[25px]">
-                        {s}
+                 {contest.warnings.map((s, index) => (
+                    <li className={`${s.type == 'code' ?'bg-[#d4d2d2] px-5 ':''} py-1`} key={index}>
+                      {
+                        s.type!='code'&&
+                        <span className="w-2 h-2 bg-[#605d5d] rounded-full inline-block mr-2"></span>
+                      }
+                      <span className={` text-[15px] text-slategray font-helvetica-neue-roman leading-[25px]`}>
+                        {s.type == 'link' ? (
+                          <a href={s.url} className="underline" target="_blank" rel="noopener noreferrer">
+                            {s.content}
+                          </a>
+                        ) : s.type == 'code' ? (
+                          s.content.split('\n').map((line, idx) => (
+                            <React.Fragment key={idx}>
+                              {line}
+                              <br />
+                            </React.Fragment>
+                          ))
+                        ) : (
+                          s.content
+                        )}
                       </span>
                     </li>
                   ))}
+
                  </ul>
              </div>
           </div>

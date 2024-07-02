@@ -1,3 +1,4 @@
+import React from "react"
 import { IoSunny } from "react-icons/io5";
 import { IoMoon } from "react-icons/io5";
 import { checkTimeLeft } from "../../../utils/time";
@@ -44,13 +45,31 @@ export default function Problem(props) {
             <span className="font-[500] text-[16px] text-[#FF4C0F] ml-1">{props?.contest?.level}</span>
       </span>
       <br/>
-       {
-        props?.program?.description?.map((s,index)=>
-        <p className="text-lg leading-[31.5px] mt-5">
-           {s}
-        </p>
-        )
-       }
+      <br/>
+                  {props?.program?.description?.map((s, index) => (
+                    <li className={`${s.type == 'code' ?'bg-[#474747] px-5':''} list-none`} key={index}>
+                      {
+                        s.type!='code'&&
+                        <span className="w-2 h-2 bg-[#4b4b4b] rounded-full inline-block mr-2"></span>
+                      }
+                      <span className={` text-[15px] text-slategray font-helvetica-neue-roman leading-[25px]`}>
+                        {s.type == 'link' ? (
+                          <a href={s.url} className="underline text-shardeumBlue" target="_blank" rel="noopener noreferrer">
+                            {s.content}
+                          </a>
+                        ) : s.type == 'code' ? (
+                          s.content.split('\n').map((line, idx) => (
+                            <React.Fragment key={idx}>
+                              {line}
+                              <br />
+                            </React.Fragment>
+                          ))
+                        ) : (
+                          s.content
+                        )}
+                      </span>
+                    </li>
+                  ))}
     </div>
     
   );
