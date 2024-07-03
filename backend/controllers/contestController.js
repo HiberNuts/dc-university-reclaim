@@ -1,11 +1,11 @@
 const db = require("../models");
-const Users=db.user;
+const Users = db.user;
 const Contests = db.Contests;
 const Programs = db.Programs;
-const Submissions=db.Submissions;
-const {generateLeaderboardFunction,getLeaderboard}=require('../utils/leaderboardCalculator')
-const {formatResponse}=require('../utils/formatResponse');
-const {mapRichTextNodesToSchema}=require('../utils/mapRichText')
+const Submissions = db.Submissions;
+const { rankSubmissions } = require('../utils/leaderboardCalculator')
+const { formatResponse } = require('../utils/formatResponse');
+const { mapRichTextNodesToSchema } = require('../utils/mapRichText')
 //LATEST CONTEST
 exports.getLatestContest = async (req, res) => {
   try {
@@ -50,27 +50,27 @@ exports.getAllContests = async (req, res) => {
 //GET PAST CONTESTS WITH PAGIANTION
 exports.getPastContests = async (req, res) => {
   try {
-      const { page = 1, limit = 3 } = req.query; // Default to page 1 and limit 10 if not provided
-      const today = new Date().toISOString();
-      
-      const totalItems = await Contests.countDocuments({ endDate: { $lt: today } });
-      const pastContests = await Contests.find({
-        endDate: { $lt: today }
-      })
-        .sort({ endDate: -1, _id: 1 } )
-        .skip((parseInt(page) - 1) * parseInt(limit))
-        .limit(parseInt(limit));
+    const { page = 1, limit = 3 } = req.query; // Default to page 1 and limit 10 if not provided
+    const today = new Date().toISOString();
 
-      if (pastContests.length === 0) {
-        return res.status(404).send(formatResponse(true, "No past contests found"));
-      }
+    const totalItems = await Contests.countDocuments({ endDate: { $lt: today } });
+    const pastContests = await Contests.find({
+      endDate: { $lt: today }
+    })
+      .sort({ endDate: -1, _id: 1 })
+      .skip((parseInt(page) - 1) * parseInt(limit))
+      .limit(parseInt(limit));
 
-      res.status(200).send(formatResponse(false, "Past contests fetched successfully", {
-        pastContests,
-        totalItems,
-        totalPages: Math.ceil(totalItems / limit),
-        currentPage: parseInt(page)
-      }));
+    if (pastContests.length === 0) {
+      return res.status(404).send(formatResponse(true, "No past contests found"));
+    }
+
+    res.status(200).send(formatResponse(false, "Past contests fetched successfully", {
+      pastContests,
+      totalItems,
+      totalPages: Math.ceil(totalItems / limit),
+      currentPage: parseInt(page)
+    }));
   } catch (error) {
     res.status(500).send(formatResponse(true, error.message));
   }
@@ -133,7 +133,7 @@ exports.createSubmission = async (req, res) => {
     if (!contest) {
       return res.status(404).send(formatResponse(true, "Contest not found"));
     }
-    const isSubmissionExist = await Submissions.findOne({ contest: contest._id, user: req.userId });
+    const isSubmissionExist = await Submissions.findOne({ contest: contest._id });
     if (isSubmissionExist) {
       return res.status(200).send(formatResponse(false, "User already registered for the contest!", { submissionId: isSubmissionExist._id }));
     }
@@ -142,7 +142,7 @@ exports.createSubmission = async (req, res) => {
       contest: contest._id,
     });
     //to count the number of participants
-    contest.participants=contest.participants+1;
+    contest.participants = contest.participants + 1;
     await contest.save();
 
     await newSubmission.save();
@@ -165,6 +165,21 @@ exports.alreadyRegistered = async (req, res) => {
   }
 };
 
+exports.getUsersByContest = async (req, res) => {
+  try {
+    const submissions = await Submissions.find({ contest: req.body.contestId });
+    const registeredUsers = submissions.map(submission => submission.user.toHexString())
+
+    const registeredUsersWithoutDuplicates = registeredUsers.filter((user, index) => !registeredUsers.slice(0, index).includes(user))
+    const users = await Users.find({ _id: { $in: registeredUsersWithoutDuplicates } })
+    return res.status(200).send(users)
+  } catch (error) {
+    res.status(500).send(formatResponse(true, error.message));
+  }
+};
+
+
+
 
 
 // exports.compiler = async (req, res) => {
@@ -186,7 +201,7 @@ exports.alreadyRegistered = async (req, res) => {
 //           }
 //         }
 //       };
-      
+
 //       var output = JSON.parse(solc.compile(JSON.stringify(input)));
 //       for (var contractName in output.contracts['test.sol']) {
 //         console.log(
@@ -201,82 +216,65 @@ exports.alreadyRegistered = async (req, res) => {
 //       res.status(500).send({ message: error.message || "Internal Server Error" });
 //     }
 //   };
-exports.generateLeaderboard=async(req,res)=>{
+exports.leaderboard = async (req, res) => {
   try {
-    const contestID=req.query.id;
-    const allSubmissions=await Submissions.find({contest:contestID,status:"completed"});
-       if(allSubmissions.length>0)
-        {
-         let resp=await generateLeaderboardFunction(allSubmissions,contestID);
-         return res.status(200).send(formatResponse(false,resp.message));
-        }
-       return res.send(formatResponse(false,"No one submitted yet for the contest",[]))
+    const contestID = req.query.id;
+    const allSubmissions = await Submissions.find({ contest: contestID, status: "completed" });
+    if (allSubmissions.length > 0) {
+      let ranks = await rankSubmissions(allSubmissions, contestID);
+      return res.send(formatResponse(false, "Leaderboard details fetched successfully", ranks));
+    }
+    return res.send(formatResponse(false, "No one submitted yet for the contest", []))
   } catch (error) {
-     res.status(500).send(formatResponse(true,error?.message));
+    res.status(500).send(formatResponse(true, error?.message));
   }
 }
-exports.leaderboard=async(req,res)=>{
-    try {
-       const contestID=req.query.id;
-       const allSubmissions=await Submissions.find({contest:contestID,status:"completed"});
-       if(allSubmissions.length>0)
-        {
-          let ranks=await getLeaderboard(allSubmissions);
-          return res.send(formatResponse(false, "Leaderboard details fetched successfully",ranks));
-        }
-       return res.send(formatResponse(false,"No one submitted yet for the contest",[]))
-    } catch (error) {
-       res.status(500).send(formatResponse(true,error?.message));
-    }
-}
-exports.getUserContestDetails=async(req,res)=>{
-   try {
-    const user=await Users.findOne({shardId:req.params.shardId});
-    const allSubmissions=await Submissions.find({user:user._id});
-      // Calculate the statistics
-      const totalSubmissions = allSubmissions.length;
-      const totalXpEarned = allSubmissions.reduce((acc, submission) => acc + (submission.xp || 0), 0);
-      const totalAmountEarned = allSubmissions.reduce((acc, submission) => acc + (parseInt(submission.amountEarned) || 0), 0);
-      const rank1Count = allSubmissions.filter(submission => submission.rank === 1).length;
-      const badges=0;
-      const response = {
-         contestParticipated:totalSubmissions,
-         contestWon:rank1Count,
-         XPEarned:totalXpEarned,
-         AmountEarned:totalAmountEarned,
-         badges:badges
-      };
-      return res.status(200).send(formatResponse(false,"Success",response));
-   } catch (error) {
-      res.status(500).send(formatResponse(true,error?.message));
-   }
+exports.getUserContestDetails = async (req, res) => {
+  try {
+    const user = await Users.findOne({ shardId: req.params.shardId });
+    const allSubmissions = await Submissions.find({ user: user._id });
+    // Calculate the statistics
+    const totalSubmissions = allSubmissions.length;
+    const totalXpEarned = allSubmissions.reduce((acc, submission) => acc + (submission.xp || 0), 0);
+    const totalAmountEarned = allSubmissions.reduce((acc, submission) => acc + (submission.amountEarned || 0), 0);
+    const rank1Count = allSubmissions.filter(submission => submission.rank === 1).length;
+    const badges = 0;
+    const response = {
+      contestParticipated: totalSubmissions,
+      contestWon: rank1Count,
+      XPEarned: totalXpEarned,
+      AmountEarned: totalAmountEarned,
+      badges: badges
+    };
+    return res.status(200).send(formatResponse(false, "Success", response));
+  } catch (error) {
+    res.status(500).send(formatResponse(true, error?.message));
+  }
 }
 //WEBHOOKS
-exports.createModel=async(req,res)=>{
-    try{
-           if(req.body.model=='contest')
-             await createContest(req)
-           if(req.body.model=="program")
-             await createProgram(req)
-           res.status(200).send(createdContest)
-    }
-    catch(error)
-    {
-      res.status(500).send({ message: error.message || "Internal Server Error", error });
-    }
+exports.createModel = async (req, res) => {
+  try {
+    if (req.body.model == 'contest')
+      await createContest(req)
+    if (req.body.model == "program")
+      await createProgram(req)
+    res.status(200).send(createdContest)
+  }
+  catch (error) {
+    res.status(500).send({ message: error.message || "Internal Server Error", error });
+  }
 }
 
-exports.updateModel=async(req,res)=>{
-  try{
-    if(req.body.model=='contest')
+exports.updateModel = async (req, res) => {
+  try {
+    if (req.body.model == 'contest')
       await updateContest(req)
-    if(req.body.model=="program")
+    if (req.body.model == "program")
       await updateProgram(req)
-    res.status(200).send({error:false,message:"Entry updated in db"})
+    res.status(200).send({ error: false, message: "Entry updated in db" })
   }
-  catch(error)
-  {
-  res.status(500).send({ message: error.message || "Internal Server Error", error });
+  catch (error) {
+    res.status(500).send({ message: error.message || "Internal Server Error", error });
   }
 }
 

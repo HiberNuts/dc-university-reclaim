@@ -3,7 +3,7 @@ import "./SideNav.css";
 import { RiAdminFill } from "react-icons/ri";
 import { GiWhiteBook } from "react-icons/gi";
 import logo from '../../assets/nav.png'
-
+import { FaCode } from "react-icons/fa";
 export const SideNav = () => {
 	return (
 		<div className="sidenav">
@@ -34,6 +34,14 @@ export const SideNav = () => {
 				>
 					<RiAdminFill className="sidenavicons" />
 					<p>Administrator</p>
+				</a>
+				<a
+					href="/contests"
+					className="sidenavitems"
+	
+				>
+					<FaCode className="sidenavicons" />
+					<p>Contests overview</p>
 				</a>
 				
 			
