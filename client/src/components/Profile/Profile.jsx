@@ -242,26 +242,32 @@ const Profile = ({ isOpen, closeModal }) => {
                                   <div className="flex gap-5  mt-2">
                                     {
                                       userProfile?.twitter&&
-                                     <a target="_blank" href={userProfile?.twitter??'#'}>
+                                     <a target="_blank" href={'https://x.com/'+userProfile?.twitter??'#'}>
                                       <img src={TWITTER}/>
                                      </a>
                                     }
                                     {
                                       userProfile?.github&&
-                                     <a target="_blank" href={userProfile?.github??'#'}>
+                                     <a target="_blank" href={'https://github.com/'+userProfile?.github??'#'}>
                                       <img src={GITHUB}/>
                                      </a>
                                     }
                                     {
                                       userProfile?.linkedIn&&
-                                     <a target="_blank" href={userProfile?.linkedIn??'#'}>
+                                     <a target="_blank" href={'https://linkedin.com/in/'+userProfile?.linkedIn??'#'}>
                                       <img src={LINKEDIN}/>
                                      </a>
                                     }
                                     {
                                       userProfile?.youtube&&
-                                     <a target="_blank" href={userProfile?.youtube??'#'}>
+                                     <a target="_blank" href={'https://youtube.com/'+userProfile?.youtube??'#'}>
                                       <img src={YOUTUBE}/>
+                                     </a>
+                                    }
+                                    {
+                                      userProfile?.discord&&
+                                     <a target="_blank" href={'https://discord.com/'+userProfile?.discord??'#'}>
+                                      <img src={DISCORD}/>
                                      </a>
                                     }
                                   </div>
