@@ -196,11 +196,11 @@ const Profile = ({ isOpen, closeModal }) => {
   };
   return (
     <div className="">
-              <div className="bg-shardeumTeelGreen min-h-[180px] relative profile_header">
+              <div className="bg-shardeumTeelGreen min-h-[180px] overflow-hidden relative profile_header">
                      <img src={TRIANGLE_IMG} className="absolute left-10"/>
               </div>
               <div className="grid grid-cols-8 min-h-screen "> 
-                    <div className="col-span-2 bg-shardeumBlue relative">
+                    <div className="col-span-8 lg:col-span-2 bg-shardeumBlue relative">
                       <div className="absolute top-[-80px] left-16  ">
                         <LazyLoadImage src={userProfile?.image??'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg'} className="rounded-lg border-2 w-[120px] h-[120px]" />
                       </div>
@@ -275,38 +275,38 @@ const Profile = ({ isOpen, closeModal }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-span-6">
+                    <div className="col-span-8 lg:col-span-6">
                         <div className="border-t-2 border-b-[1px] py-2 grid grid-cols-5">
                                  <div className="col-span-1 border-r-2 border-r-[#8a8f96] text-center">
-                                     <p className="text-[16px]">XP Points</p>
+                                     <p className="hidden lg:block text-[16px]">XP Points</p>
                                      <p className="flex justify-center">
                                         <img src={FLASH}/>
                                         <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.XPEarned??'-'}</p>
                                      </p>
                                  </div>
                                  <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
-                                     <p className="text-[16px]">Contests participated</p>
+                                     <p className="hidden lg:block text-[16px]">Contests participated</p>
                                      <p className="flex justify-center">
                                         <img src={PARTICIPATION}/>
                                         <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.contestParticipated??'-'}</p>
                                      </p>
                                  </div>
                                  <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
-                                     <p className="text-[16px]">Contests won</p>
+                                     <p className="hidden lg:block text-[16px]">Contests won</p>
                                      <p className="flex justify-center">
                                         <img src={STAR}/>
                                         <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.contestWon??'-'}</p>
                                      </p>
                                  </div>
                                  <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
-                                     <p className="text-[16px]">Prize won</p>
+                                     <p className="hidden lg:block text-[16px]">Prize won</p>
                                      <p className="flex justify-center">
                                         <img src={PRIZE}/>
                                         <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.AmountEarned??'-'}</p>
                                      </p>
                                  </div>
                                  <div className="col-span-1 text-center">
-                                     <p className="text-[16px]">Badges</p>
+                                     <p className="hidden lg:block text-[16px]">Badges</p>
                                      <p className="flex justify-center">
                                         <img src={BADGES}/>
                                         <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.badges??'-'}</p>
@@ -315,11 +315,11 @@ const Profile = ({ isOpen, closeModal }) => {
                          </div>
                          {
                           loggedInUserData?.shardId==userProfile?.shardId&&loggedInUserData?.email=="default"&&
-                         <div className="px-10 pt-5">
+                         <div className="px-2 lg:p-10 pt-5">
                                    <p>Email not yet  verified. Please <span className="text-blue-500 cursor-pointer" onClick={handleResendVerificationEmail}> click </span>to verify it.</p>
                          </div>
                          }
-                         <div className="p-10">
+                         <div className="px-2 lg:p-10">
                           <div>
                              {
                                userProfile!=null&&
@@ -329,7 +329,7 @@ const Profile = ({ isOpen, closeModal }) => {
                          </div>
                          {
                          loggedInUserData?.projects && 
-                          <div className="p-10">
+                          <div className="px-2 lg:p-10">
                              <ProfileProjects projects={userProfile?.projects??[]}  />
                           </div>
                           }

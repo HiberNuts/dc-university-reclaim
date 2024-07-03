@@ -9,7 +9,7 @@ const ProfileProjects = ({projects=[]}) => {
         <div className="border-b-2 border-b-dimgray">
             <p className='my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold  pb-3'>Projects</p>
         </div>
-        <div className="my-10 grid grid-cols-3 gap-[32px]">
+        <div className="my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[32px]">
 
             {projects.map(project => <ProfileProjectCard key={project.id} {...project} />)}
         </div>

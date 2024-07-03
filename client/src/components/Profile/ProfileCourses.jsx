@@ -45,7 +45,7 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
         :nfts.length==0?<></>:
         <div>
                <p className='my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-3'>NFTs earned</p>
-               <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 my-10">
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 my-10">
                  {
                   nfts.map((single)=>
                   single!=""&&
@@ -81,7 +81,7 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
         userData._id==loggedInUserData._id?
       <div className="">
         <p className='my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-3'>Resume your courses</p>
-        <div className="grid grid-cols-3 w-full gap-5 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-5 mb-10">
           {profileCoursesData?.map((course, index) => {
             return course?.softDelete == true ? (
               ""
@@ -95,7 +95,7 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
       :
     <div className="">
       <p className='my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-3'>Completed courses</p>
-      <div className="grid grid-cols-3 w-full gap-5 my-10 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-5 my-10 ">
         {profileCoursesData?.map((course, index) => {
           return course?.softDelete == true ? (
             ""
@@ -109,13 +109,13 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
       ) : 
       userData._id==loggedInUserData._id?
       <div className="">
-         <GetStarted/>
+         {/* <GetStarted/> */}
       </div>  
       :
       (
    <div className="">
       <p className='my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-3'>Completed courses</p>
-      <div className="grid grid-cols-3 w-full gap-5 my-10 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-5 my-10 ">
         {profileCoursesData?.map((course, index) => {
           return course?.softDelete == true ? (
             ""
