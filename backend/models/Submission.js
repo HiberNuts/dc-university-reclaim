@@ -13,7 +13,7 @@ const submissionSchema=new mongoose.Schema({
           default:"progress"
      },
      rank:{type:Number},
-     amountEarned:{type:Number},
+     amountEarned:{type:String},
      xp:{type:Number},
      walletAddress:{type:String},
      passedCases:{type:Number},

@@ -27,6 +27,7 @@ const contestSchema = new mongoose.Schema({
         softDelete:{type:Boolean,default:false},
         prize:{type:String},
         reward:{type:[rewardSchema]},
+        leaderboard:{type:Boolean,default:false},
         createdAt: { type: Date, required: true, default: Date.now},
         updatedAt:{ type:Date,required:true,default:Date.now()}
 })

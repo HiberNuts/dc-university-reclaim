@@ -61,7 +61,8 @@ export default function ContestRegsiter() {
         updateTimer();
         const intervalId = setInterval(updateTimer, 1000);
         //FOR LEADERBOARD
-        getLeaderboardRank();
+        if(contest?.leaderboard==true)
+          getLeaderboardRank();
         return () => clearInterval(intervalId);
       }
   },[contest])

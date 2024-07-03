@@ -794,7 +794,6 @@ export interface ApiProgramProgram extends Schema.CollectionType {
   attributes: {
     contestid: Attribute.UID;
     description: Attribute.Blocks;
-    duration: Attribute.String;
     boilerplate_code: Attribute.Text;
     test_cases: Attribute.Component<'contest-meta.test-cases', true>;
     createdAt: Attribute.DateTime;

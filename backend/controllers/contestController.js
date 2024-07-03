@@ -3,7 +3,7 @@ const Users=db.user;
 const Contests = db.Contests;
 const Programs = db.Programs;
 const Submissions=db.Submissions;
-const {rankSubmissions}=require('../utils/leaderboardCalculator')
+const {generateLeaderboardFunction,getLeaderboard}=require('../utils/leaderboardCalculator')
 const {formatResponse}=require('../utils/formatResponse');
 const {mapRichTextNodesToSchema}=require('../utils/mapRichText')
 //LATEST CONTEST
@@ -201,13 +201,27 @@ exports.alreadyRegistered = async (req, res) => {
 //       res.status(500).send({ message: error.message || "Internal Server Error" });
 //     }
 //   };
+exports.generateLeaderboard=async(req,res)=>{
+  try {
+    const contestID=req.query.id;
+    const allSubmissions=await Submissions.find({contest:contestID,status:"completed"});
+       if(allSubmissions.length>0)
+        {
+         let resp=await generateLeaderboardFunction(allSubmissions,contestID);
+         return res.status(200).send(formatResponse(false,resp.message));
+        }
+       return res.send(formatResponse(false,"No one submitted yet for the contest",[]))
+  } catch (error) {
+     res.status(500).send(formatResponse(true,error?.message));
+  }
+}
 exports.leaderboard=async(req,res)=>{
     try {
        const contestID=req.query.id;
        const allSubmissions=await Submissions.find({contest:contestID,status:"completed"});
        if(allSubmissions.length>0)
         {
-          let ranks=await rankSubmissions(allSubmissions,contestID);
+          let ranks=await getLeaderboard(allSubmissions);
           return res.send(formatResponse(false, "Leaderboard details fetched successfully",ranks));
         }
        return res.send(formatResponse(false,"No one submitted yet for the contest",[]))
