@@ -15,7 +15,6 @@ import { ParentContext } from "../../contexts/ParentContext";
 import axios from "axios";
 import { useEffect, useRef } from "react";
 import REMOVE from "../../assets/remove.png";
-import CryptoJS from "crypto-js"
 import AWS from "aws-sdk";
 const EditProfile = () => {
   const spacesEndpoint = new AWS.Endpoint('https://blr1.digitaloceanspaces.com');
