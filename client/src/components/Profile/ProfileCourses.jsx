@@ -42,16 +42,15 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
     <div>
       {
         loading?<SkeletonLoader/>
-        :
+        :nfts.length==0?<></>:
         <div>
                <p className='my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-3'>NFTs earned</p>
                <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 my-10">
                  {
                   nfts.map((single)=>
                   single!=""&&
-                  <div className="col-span-1 bg-shardeumBlue px-2 rounded-[16px] min-h-[350px]">
-                      
-                    
+                  <div className="col-span-1 flex justify-center items-center bg-shardeumBlue px-2 rounded-[16px] min-h-[350px] hover:px-5 transition-width duration-1000">
+                      <img src={single} className="cursor-pointer"/>
                   </div>   
                   )
                  }

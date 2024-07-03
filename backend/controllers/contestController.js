@@ -236,7 +236,7 @@ exports.getUserContestDetails=async(req,res)=>{
       // Calculate the statistics
       const totalSubmissions = allSubmissions.length;
       const totalXpEarned = allSubmissions.reduce((acc, submission) => acc + (submission.xp || 0), 0);
-      const totalAmountEarned = allSubmissions.reduce((acc, submission) => acc + (submission.amountEarned || 0), 0);
+      const totalAmountEarned = allSubmissions.reduce((acc, submission) => acc + (parseInt(submission.amountEarned) || 0), 0);
       const rank1Count = allSubmissions.filter(submission => submission.rank === 1).length;
       const badges=0;
       const response = {
