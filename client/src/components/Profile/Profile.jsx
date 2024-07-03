@@ -232,7 +232,7 @@ const Profile = ({ isOpen, closeModal }) => {
                                       <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{userProfile?.portfolio}</p>
                                   </div>
                                 }
-                                {
+                                {  
                                   userProfile?.experience&&
                                   <div className="flex gap-2">
                                       <img src={LEVEL}/>
