@@ -310,7 +310,7 @@ const Profile = ({ isOpen, closeModal }) => {
                                      <p className="hidden lg:block text-[16px]">Badges</p>
                                      <p className="flex justify-center">
                                         <img src={BADGES}/>
-                                        <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{(userContestData.contestWon>1&&userContestData.contestParticipated>10)?'1':userContestData?.contestWon>0?'2':'-'}</p>
+                                        <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{(userContestData?.contestWon>1&&userContestData?.contestParticipated>10)?'1':userContestData?.contestWon>0?'2':'-'}</p>
                                      </p>
                                  </div>
                          </div>

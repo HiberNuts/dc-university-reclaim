@@ -1,6 +1,8 @@
 import WIN_BADGE from "../../assets/badge/wins.svg";
 import CONSISTENT from "../../assets/badge/consistent.svg";
 const ProfileBadge=({data})=>{
+    if(data?.contestParticipated<10||data?.contestWon<1)
+        return<></>
     return(
         <div>
                <p className='my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold pb-3'>Badges</p>
