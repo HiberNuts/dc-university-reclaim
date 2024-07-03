@@ -9,6 +9,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import toast, { Toaster } from "react-hot-toast";
 import { ParentContext } from "../../contexts/ParentContext";
 import { getUserData,getUserContestDetails } from "../../utils/api/UserAPI";
+import ProfileBadge from "./ProfileBadge";
 const ProfileCourses = lazy(() => import("./ProfileCourses"));
 import mailSVG from "./mailSVG.svg";
 import workSVG from "./workSVG.svg";
@@ -309,17 +310,22 @@ const Profile = ({ isOpen, closeModal }) => {
                                      <p className="hidden lg:block text-[16px]">Badges</p>
                                      <p className="flex justify-center">
                                         <img src={BADGES}/>
-                                        <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.badges??'-'}</p>
+                                        <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{(userContestData.contestWon>1&&userContestData.contestParticipated>10)?'1':userContestData?.contestWon>0?'2':'-'}</p>
                                      </p>
                                  </div>
                          </div>
                          {
                           loggedInUserData?.shardId==userProfile?.shardId&&loggedInUserData?.email=="default"&&
-                         <div className="px-2 lg:p-10 pt-5">
+                         <div className="py-2 px-2 lg:px-10 pt-5">
                                    <p>Email not yet  verified. Please <span className="text-blue-500 cursor-pointer" onClick={handleResendVerificationEmail}> click </span>to verify it.</p>
                          </div>
                          }
-                         <div className="px-2 lg:p-10">
+                         {userContestData!=null&&
+                         <div className="py-2 px-2 lg:px-10">
+                            <ProfileBadge data={userContestData}/>
+                         </div>
+                         }
+                         <div className="py-2 px-2 lg:px-10">
                           <div>
                              {
                                userProfile!=null&&
@@ -329,7 +335,7 @@ const Profile = ({ isOpen, closeModal }) => {
                          </div>
                          {
                          loggedInUserData?.projects && 
-                          <div className="px-2 lg:p-10">
+                          <div className="py-2 px-2 lg:px-10">
                              <ProfileProjects projects={userProfile?.projects??[]}  />
                           </div>
                           }
@@ -390,7 +396,7 @@ const Profile = ({ isOpen, closeModal }) => {
                   >
                     <div className="relative mt-1 shadow-[6px_6px_0px_0px_rgba(0,0,0,0.3)] rounded-[9px]">
                       <Listbox.Button className="relative w-full flex-row cursor-default  rounded-lg bg-gray-50 py-2 text-left border-2 border-black text-sm shadow-md focus:outline-none text-shardeumBlue bg-white">
-                        <div className="px-2 flex justify-between align-middle h-full w-full ">
+                        <div className="py-2 px-2 flex justify-between align-middle h-full w-full ">
                           <span className="block truncate">{formData.designation || "Web3 Beginner"}</span>
 
                           <FontAwesomeIcon icon={faCaretSquareDown} color="black" />
