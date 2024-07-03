@@ -142,6 +142,11 @@ const EditProfile = () => {
             toast.error("Shard ID must be have atleast 5 characters!!");
             return;
     }
+    if(data?.email == "default")
+     {      
+        toast.error("Please enter valid email to continue!");
+        return;
+     }
     var url;
     const notNullEntries = Object.entries(data).filter(entry => entry[1])
     const filteredData = notNullEntries.reduce((acc, curr) => {
@@ -178,7 +183,8 @@ const EditProfile = () => {
     {
        setData((prevData)=>({
          ...prevData,
-         shardId:loggedInUserData?.shardId
+         shardId:loggedInUserData?.shardId,
+         email:loggedInUserData?.email
        }))
     }  
   },[loggedInUserData])
@@ -256,11 +262,20 @@ const EditProfile = () => {
                     <option>Less than 5 years</option>
                   </select>
                 </div>
+                {
+                  loggedInUserData?.email == "default"?
+                <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
+                  <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Email Address</label>
+                  <input className="p-[16px] rounded-[12px] border-[0.5px] " placeholder="Enter your email ID" id="email" defaultValue={loggedInUserData?.email ?? ''} onChange={changehandler} />
+                  {showError && errors.email != "" && <p className="text-red-500 text-[12px]">{errors?.email}</p>}
+                </div>
+                  :
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Email Address</label>
                   <input className="p-[16px] rounded-[12px] border-[0.5px] cursor-not-allowed" disabled placeholder="Enter your email ID" id="email" defaultValue={loggedInUserData?.email ?? ''} onChange={changehandler} />
                   {showError && errors.email != "" && <p className="text-red-500 text-[12px]">{errors?.email}</p>}
                 </div>
+                }
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Website URL</label>
                   <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Website URL" id="portfolio" defaultValue={loggedInUserData?.portfolio ?? ''} onChange={changehandler} />
