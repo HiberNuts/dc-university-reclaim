@@ -2,7 +2,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import toast, { Toaster } from "react-hot-toast";
 
 import GreenButton from "../button/GreenButton";
-import AVATAR from "../../assets/avatar.png";
+// import AVATAR from "../../assets/avatar.png"
 import IMG_UPLOAD from "../../assets/img_upload.png";
 import TWITTER from "../../assets/twitter.png";
 import GITHUB from "../../assets/github.png";
@@ -15,14 +15,14 @@ import { ParentContext } from "../../contexts/ParentContext";
 import axios from "axios";
 import { useEffect, useRef } from "react";
 import REMOVE from "../../assets/remove.png";
-import AWS from "aws-sdk";
+// import AWS from "aws-sdk";
 const EditProfile = () => {
-  const spacesEndpoint = new AWS.Endpoint('https://blr1.digitaloceanspaces.com');
-  const s3 = new AWS.S3({
-    endpoint: spacesEndpoint,
-    accessKeyId: 'DO00GYP2LHRMMEPF2KQR',
-    secretAccessKey: '7mMVFAWXcuuHBd6QZvupIBdyz9366GuD/sBhG6gSpEg'
-  });
+  // const spacesEndpoint = new AWS.Endpoint('https://blr1.digitaloceanspaces.com');
+  // const s3 = new AWS.S3({
+  //   endpoint: spacesEndpoint,
+  //   accessKeyId: 'DO00GYP2LHRMMEPF2KQR',
+  //   secretAccessKey: '7mMVFAWXcuuHBd6QZvupIBdyz9366GuD/sBhG6gSpEg'
+  // });
 
 
   const [img, setImg] = useState(null);

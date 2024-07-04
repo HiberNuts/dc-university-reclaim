@@ -6,10 +6,10 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
-    "build:window": "cross-env NODE_OPTIONS=--max_old_space_size=4096 vite build",
-    "build": "NODE_OPTIONS=--max_old_space_size=4096 vite build",
+    "build:window": "cross-env NODE_OPTIONS=--max_old_space_size=8192 vite build",
+    "build": "NODE_OPTIONS=--max_old_space_size=8192 vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview --debug"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
@@ -20,7 +20,6 @@
     "@monaco-editor/react": "^4.6.0",
     "@rainbow-me/rainbowkit": "^1.0.4",
     "@wagmi/core": "^1.3.7",
-    "aws-sdk": "^2.1653.0",
     "axios": "^1.4.0",
     "buffer": "^6.0.3",
     "framer-motion": "^10.15.0",
