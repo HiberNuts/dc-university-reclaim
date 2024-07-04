@@ -18,7 +18,7 @@ exports.generateLeaderboardFunction = async (submissions, contestID) => {
    await Promise.all(
     submissions.map(async (submission, index) => {
       // Find prize for the current rank
-      const prizeForTheRank = rewards.find(reward => reward.rank === index + 1)?.prize || '-';
+      const prizeForTheRank = rewards.find(reward => reward.rank === index + 1)?.prize || '0';
       // Update the rank and amountEarned fields in the submission document
       await Submission.findByIdAndUpdate(submission._id, { 
             rank: index + 1,
@@ -46,7 +46,7 @@ exports.getLeaderboard = async (submissions) => {
         "Avatar": user?.image ?? 'https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/9aa80aa64a524e6477fb757e287fba19.avif',
         "User Name": user ? user.username : 'Unknown',
         "XP": submission.xp,
-        "Amount Earned": submission.amountEarned
+        "Amount Earned": "$ "+submission.amountEarned
       };
     })
   );

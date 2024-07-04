@@ -46,9 +46,9 @@ export default function Header() {
       setloggedInUserData(res?.data);
       if(!res?.data?.shardId||res?.data?.shardId==""||res.data?.shardId.length<5){
          navigate("/profile/edit")
-      }
-      if (res?.data?.email === "default") {
-        navigate("/profile");
+        }
+        if (res?.data?.email === "default") {
+        navigate("/profile/edit")
       }
     } catch (error) {
     

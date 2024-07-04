@@ -232,7 +232,7 @@ const Profile = ({ isOpen, closeModal }) => {
                                       <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{userProfile?.portfolio}</p>
                                   </div>
                                 }
-                                {
+                                {  
                                   userProfile?.experience&&
                                   <div className="flex gap-2">
                                       <img src={LEVEL}/>
@@ -316,12 +316,12 @@ const Profile = ({ isOpen, closeModal }) => {
                                      <p className="hidden lg:block text-[16px]">Badges</p>
                                      <p className="flex justify-center">
                                         <img src={BADGES}/>
-                                        <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{(userContestData?.contestWon>1&&userContestData?.contestParticipated>10)?'1':userContestData?.contestWon>0?'2':'-'}</p>
+                                        <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{(userContestData?.contestWon>0&&userContestData?.contestParticipated>10)?'2':userContestData?.contestWon>0?'1':'-'}</p>
                                      </p>
                                  </div>
                          </div>
                          {
-                          loggedInUserData?.shardId==userProfile?.shardId&&loggedInUserData?.email=="default"&&
+                          loggedInUserData?.shardId==userProfile?.shardId&&loggedInUserData?.email!="default"&&loggedInUserData?.isVerified==false&&
                          <div className="py-2 px-2 lg:px-10 pt-5">
                                    <p>Email not yet  verified. Please <span className="text-blue-500 cursor-pointer" onClick={handleResendVerificationEmail}> click </span>to verify it.</p>
                          </div>
