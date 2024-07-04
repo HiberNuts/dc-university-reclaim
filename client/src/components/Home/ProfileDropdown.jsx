@@ -11,12 +11,17 @@ const ProfileDropDown = ({ account, openAccountModal, toggleNavbar, loggedInUser
         <div>
                  <Menu.Button>
         <div className={`flex gap-4 border-2 rounded-[24px] px-5 py-2 cursor-pointer ${homeRoute?'text-white':'text-black'}`}>
-                  <div className="flex gap-2">
+                                  <div className="flex gap-2">
                                       <img src={HEADER_XP} />
                                       <span className="pt-[2px]">{xp} XP</span>
                                   </div>
                                   <div className="flex gap-2">
-                                      <img src={HEADER_USER}/>
+                                     {
+                                      loggedInUserData?.image?
+                                       <img className="w-7 h-7 rounded-[50%]" src={loggedInUserData?.image??HEADER_USER}/>
+                                      :
+                                       <img src={HEADER_USER}/>
+                                     }
                                      {
                                       loggedInUserData?.shardId&&
                                        <span className="pt-[2px]">{loggedInUserData?.shardId?.slice(0, 13) + (loggedInUserData?.shardId?.length > 13 ? ".." : "")}</span>
