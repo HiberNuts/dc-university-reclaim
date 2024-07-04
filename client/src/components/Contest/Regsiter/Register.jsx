@@ -14,7 +14,7 @@ export default function ContestRegsiter() {
   const [contest, setContest] = useState(null);
   const [contestID,setContestID]=useState(null);
   const [leaderboard,setLeaderboard]=useState([]);
-  const [btn,setBtn]=useState("Register Now");
+  const [btn,setBtn]=useState("");
   const [timeLeft, setTimeLeft] = useState({ status: false });
   useEffect(() => {
     getContestByTitle(title).then((res) =>{
@@ -28,6 +28,9 @@ export default function ContestRegsiter() {
         await alreadyRegistered(loggedInUserData?.accessToken,res.data[0]._id).then((resp)=>{
            if(resp.error==false&&resp.message=="User already registered for the contest!")
               setBtn("Continue");
+           else if(resp.error==false&&resp.message=="User not registered")
+              setBtn("Register Now")
+            
         })
        }
        checkUserAlreadyRegistered();
@@ -63,6 +66,16 @@ export default function ContestRegsiter() {
         //FOR LEADERBOARD
         if(contest?.leaderboard==true)
           getLeaderboardRank();
+        //CONDITION TO DISABLE REGISTER BUTTON AFTER CONTEST IS OVER
+        if(contest?.endDate)
+        {
+          const givenDate = new Date(contest?.endDate);
+          const now = new Date();
+
+          if (givenDate < now) {
+             setBtn("")
+          } 
+        }
         return () => clearInterval(intervalId);
       }
   },[contest])
@@ -100,11 +113,14 @@ export default function ContestRegsiter() {
     </div>
               </div>
               <div className='py-2 mt-10'>
+                 {
+                  btn!=""&&
                   <GreenButton 
                    text={btn}
                    isHoveredReq={true}
                    onClick={handleRegister}
                    />
+                 }
               </div>
           </div>
           <div className='order-1 md:order-2 flex justify-center md:justify-end items-center'>

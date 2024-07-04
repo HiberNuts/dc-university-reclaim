@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, Fragment } from "react";
+import React, { useEffect, useRef, useState, Fragment,useContext } from "react";
 import { Dialog, Transition } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
@@ -7,12 +7,15 @@ import { FaEdit } from "react-icons/fa";
 import Editor from "@monaco-editor/react";
 import Split from "react-split";
 import { useAccount } from "wagmi";
+import { ParentContext } from "../../../contexts/ParentContext";
+import { getUserData } from "../../../utils/api/UserAPI";
 import { compile, compileAndSubmit } from "../../../utils/api/ContestAPI";
 import { solidityLanguageConfig, solidityTokensProvider } from "./EditorConfig";
 import solcjs from "solc-js";
 
 export default function IDE(props) {
   const compiler = useRef();
+  const { loggedInUserData, setloggedInUserData } = useContext(ParentContext);
   const editor = useRef(null);
   const { isConnected,address } = useAccount();
   const [fontSize, setFontSize] = useState(16);
@@ -25,6 +28,7 @@ export default function IDE(props) {
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State for dialog visibility
   const [editWalletAddress,setEditWalletAddress]=useState(false);
   const [walletAddress,setWalletAddress]=useState("");
+
   function setupMonaco(monaco) {
     monaco.languages.register({ id: "solidity" });
     monaco.languages.setLanguageConfiguration("solidity", solidityLanguageConfig);
@@ -104,6 +108,19 @@ export default function IDE(props) {
           setCompileError(false);
           setOutput("Compiled Successfully");
           setTestCases(result);
+          //TO UPDATE XP IN NAVBAR AFTER SUBMISSION
+          if(loggedInUserData?.shardId)
+          {
+            const getUserProfileData=async()=>{
+              await getUserData(loggedInUserData?.shardId).then((response)=>{
+                 if(response.error==false)
+                 {
+                   setloggedInUserData({...response.data,accessToken: loggedInUserData.accessToken})
+                 } 
+              })
+            }
+            getUserProfileData();
+          }
         }
       });
     } catch (error) {
