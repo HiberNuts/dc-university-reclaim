@@ -96,12 +96,18 @@ export default function IDE(props) {
       setTestCases(null);
       setIsDialogOpen(false);
       await compileAndSubmit(input, props?.submissionID,walletAddress).then((result) => {
-        setCompileError(false);
-        setOutput("Compiled Successfully");
-        setTestCases(result);
+        if(result.error){
+          setCompileError(true);
+          setOutput("Failed to run test cases");
+        }else
+        {
+          setCompileError(false);
+          setOutput("Compiled Successfully");
+          setTestCases(result);
+        }
       });
     } catch (error) {
-      console.log("ERROR IN TESTING");
+      console.log("ERROR IN TESTING :",error);
     }
   };
 

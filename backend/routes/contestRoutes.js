@@ -15,7 +15,9 @@ module.exports = function (app) {
   app.get("/api/contest/getContest/:title", controller.getContestByTitle);
   //PROGRAM 
   app.post("/api/program/getProgram", [authJwt.verifyToken], controller.getProgram);
-  //LEADERBOARD
+  //GENERATE LEADERBOARD
+  app.get("/api/contest/leaderboard/generate",controller.generateLeaderboard)
+  //GET LEADERBOARD
   app.get("/api/contest/leaderboard",controller.leaderboard);
   //GET USER CONTEST DETAILS
   app.get('/api/contest/user/:shardId',controller.getUserContestDetails);
