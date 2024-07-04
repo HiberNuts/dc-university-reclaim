@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext,useEffect } from "react"; 
 import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { ParentContext } from "./contexts/ParentContext";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
 import Home from "./components/Home/Home";
 import Footer from "./components/Footer";
 import Header from "./components/Home/Header";
@@ -20,6 +23,22 @@ import Editor from "./components/editor/IDE/Editor";
 
 function App() {
   const RedirectAs404 = ({ location }) => <Navigate to={Object.assign({}, location, { state: { is404: true } })} />;
+  
+  //METHOD TO NAVIGATE TO PEOFILE/EDIT PAGE IF USER DOESN'T HAVE SHARD_ID
+  const navigate=useNavigate();
+  const location = useLocation();
+  const {loggedInUserData}=useContext(ParentContext);
+  useEffect(()=>{
+    if(loggedInUserData!=null)
+    {
+      if(loggedInUserData?.shardId=="")
+      {
+           navigate("/profile/edit");
+      }  
+    }
+  },[loggedInUserData,location.pathname])
+
+
   return (
     <>
       <Header />

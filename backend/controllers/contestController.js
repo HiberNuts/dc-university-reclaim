@@ -133,7 +133,7 @@ exports.createSubmission = async (req, res) => {
     if (!contest) {
       return res.status(404).send(formatResponse(true, "Contest not found"));
     }
-    const isSubmissionExist = await Submissions.findOne({ contest: contest._id });
+    const isSubmissionExist = await Submissions.findOne({ contest: contest._id,user:req.userId });
     if (isSubmissionExist) {
       return res.status(200).send(formatResponse(false, "User already registered for the contest!", { submissionId: isSubmissionExist._id }));
     }
