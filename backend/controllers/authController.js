@@ -387,7 +387,7 @@ exports.toggleBlock = async (req, res) => {
 
 exports.updateuser = async (req, res) => {
   try {
-    const shardId=await User.find({shardId:req.body.shardId})
+    const shardId=await User.find({shardId:req.body.shardId,_id:{$ne:req.userId}})
     if(req.body.shardId && shardId.length){
       return res
       .status(200)
