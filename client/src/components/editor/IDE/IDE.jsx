@@ -239,7 +239,7 @@ export default function IDE(props) {
         </div>
         <div className="w-full h-[30%] overflow-y-scroll">
           {testCases === null && props.completed?.completed === false &&
-            <div className="w-full py-3 px-8">
+            <div className="w-full py-3 px-8 border-b">
               <button
                 className="bg-transparent border rounded p-2 mr-5 hover:bg-green-500"
                 onClick={() => execute()}
@@ -256,7 +256,7 @@ export default function IDE(props) {
               }
             </div>
           }
-          <div className="h-full px-5 py-10 border-y">
+          <div className="px-5 py-10 ">
             {output !== "" && compileError ?
               <div className="text-wrap overflow-y-auto max-h-[250px] p-2">
                 <p className={`text-lg text-red-500`}>Compilation Failed<br /><br /></p>

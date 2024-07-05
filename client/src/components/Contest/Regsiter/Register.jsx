@@ -1,5 +1,6 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import GreenButton from "../../button/GreenButton";
+import toast, { Toaster } from "react-hot-toast";
 import Leaderboard from "../Leaderboard/Leaderboard";
 import { useParams,useNavigate } from "react-router-dom";
 import React,{ useEffect, useState,useContext } from "react";
@@ -46,6 +47,11 @@ export default function ContestRegsiter() {
         console.log("response for registration-->",resp);
         if(resp.error==false)
          navigate(`/editor/${title}/${resp.data.submissionId}`);
+        else
+        {
+          if(resp.message)
+            toast.error(resp.message);
+        }
       })
   }
   const getLeaderboardRank=async()=>{
@@ -81,6 +87,7 @@ export default function ContestRegsiter() {
   },[contest])
   return contest ? (
     <div className="bg-white pb-10">
+    <Toaster/>
     <div className="contest-header grid grid-cols-1 md:grid-cols-2 px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[50px] bg-[#CAFFEF]">
           <div className='order-2 md:order-1 pr-2'>
               <p className='my-2 text-[64px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold'>{contest.title}</p>

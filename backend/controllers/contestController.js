@@ -9,7 +9,8 @@ const { mapRichTextNodesToSchema } = require('../utils/mapRichText')
 //LATEST CONTEST
 exports.getLatestContest = async (req, res) => {
   try {
-    const latestContest = await Contests.findOne().sort({ createdAt: -1 });
+    const today = new Date();
+    const latestContest = await Contests.findOne({ startDate: { $gte: today } }).sort({ startDate: 1 });
     if (!latestContest) {
       return res.status(404).send(formatResponse(true, "No contests found"));
     }
@@ -132,6 +133,12 @@ exports.createSubmission = async (req, res) => {
     const contest = await Contests.findById(req.body.contest);
     if (!contest) {
       return res.status(404).send(formatResponse(true, "Contest not found"));
+    }
+    // Get the current date and time
+    const now = new Date();
+    // Check if the current date and time is within the contest's start and end date
+    if (now < contest.startDate || now > contest.endDate) {
+      return res.status(200).send(formatResponse(true, "The contest is not active at this time"));
     }
     const isSubmissionExist = await Submissions.findOne({ contest: contest._id,user:req.userId });
     if (isSubmissionExist) {
