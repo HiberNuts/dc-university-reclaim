@@ -1,6 +1,7 @@
 import { motion, useScroll } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useRef,useContext,useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Carousel from "../../Carousel/Carousel"
 import ContestCard from '../Card';
 import GreenButton from "../../button/GreenButton";
@@ -8,6 +9,7 @@ import CONTEST_IMG from '../../../assets/contest.png';
 import CALENDER from '../../../assets/calendar_month.png';
 import { upcomingContests,getPastContests } from "../../../utils/api/ContestAPI";
 import { formatTimestamp } from "../../../utils/time";
+import { generateSlug } from "../../../utils/generateSlug";
 import Pagination from "../../Pagination/Pagination";
 import SkeletonLoader from "../../Courses/SkeletonLoader";
 import PastContestCardLoader from "../ContestLoaders/PastContestCardLoader";
@@ -20,7 +22,7 @@ export default function AllContests()
         <AllContestLoader/>,
     ]);
     const [pastContests,setPastContest]=useState([]);
-
+    const navigate=useNavigate();
     //for pagination
     const [totalItems,setTotalItems]=useState(0);
     const contestsPerPage =3;
@@ -111,7 +113,7 @@ export default function AllContests()
                                     </p>
                                 </div>
                                 <div className="pt-3 h-full flex items-end">
-                                     <GreenButton text={"View Solution"} isHoveredReq={true}/>
+                                     <GreenButton text={"View Solution"} isHoveredReq={true} onClick={()=>navigate(`/contest/register/${generateSlug(single?.title)}`)}/>
                                 </div>
                       </motion.div> 
                 ):

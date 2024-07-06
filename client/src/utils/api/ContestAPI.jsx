@@ -122,7 +122,16 @@ export const getContestProgram=async(AccessToken,submissionId)=>{
       return {error:true,message:error?.message};
    }
 }
-
+export const getContestSolution=async(title)=>{
+  try {
+    const {data}=await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/contest/solution?title=${destructureSlug(title)}`
+    );
+    return data;
+ } catch (error) {
+    return {error:true,message:error?.message};
+ }
+}
 export const registerContest=async(AccessToken,contestId=null)=>{
    try {
     if(contestId!=null)
@@ -134,7 +143,7 @@ export const registerContest=async(AccessToken,contestId=null)=>{
           return data;
       }
    } catch (error) {
-      return {error:true,message:error.message}
+      return {error:true,message:error?.response?.statusText}
    }
 }
 export const alreadyRegistered=async(AccessToken,contestId=null)=>{
@@ -150,7 +159,8 @@ export const alreadyRegistered=async(AccessToken,contestId=null)=>{
           return data;
       }
   } catch (error) {
-      return {error:true,message:error?.message};
+      console.log("err in chekcing: ",error);
+      return {error:true,message:error?.response?.statusText};
   }
 }
 

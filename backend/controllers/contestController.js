@@ -126,7 +126,26 @@ exports.getProgram = async (req, res) => {
     res.status(500).send(formatResponse(true, error.message));
   }
 };
-
+//GET SOLUTION
+exports.getSolution=async(req,res)=>{
+   try {
+    const contest=await Contests.findOne({title:req.query.title});
+    if(!contest)
+       return res.status(200).send(formatResponse(true,"Contest not found!")) ; 
+    // Get the current date and time
+    const now = new Date();
+    if(now>contest.endDate)
+      {
+      const program=await Programs.findOne({contestId:contest._id});
+        if(!program)  
+          return res.status(200).send(formatResponse(true,"Program not found!")) ;
+      return res.status(200).send(formatResponse(false,"Solution retrieved",{program:program,contest:contest})); 
+      }  
+    return res.status(200).send(formatResponse(true,"Solution is not yet published!"));
+   } catch (error) {
+       return res.status(500).send(formatResponse(true,"Internal Server Error"));
+   }
+}
 //SUBMISSIONS
 exports.createSubmission = async (req, res) => {
   try {
@@ -434,7 +453,8 @@ const createProgram = async (req) => {
       duration = '',
       boilerplate_code = '',
       description = [],
-      test_cases = []
+      test_cases = [],
+      solution=''
     } = req.body.entry;
 
     const contest = await Contests.findOne({ strapiId: strapiContestId });
@@ -452,7 +472,8 @@ const createProgram = async (req) => {
       duration,
       boilerplate_code,
       description: mappedDescription,
-      test_cases
+      test_cases,
+      solution
     });
 
     await createdProgram.save();
@@ -471,7 +492,8 @@ const updateProgram = async (req) => {
       duration = '',
       boilerplate_code = '',
       description = [],
-      test_cases = []
+      test_cases = [],
+      solution=''
     } = req.body.entry;
 
     const mappedDescription = description[0]?.children ? mapRichTextNodesToSchema(description[0].children) : '';
@@ -481,7 +503,8 @@ const updateProgram = async (req) => {
       strapiContestId,
       boilerplate_code,
       description: mappedDescription,
-      test_cases
+      test_cases,
+      solution
     };
 
     const updatedProgram = await Programs.findOneAndUpdate(

@@ -41,7 +41,7 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
   return (
     <div>
       {
-        loading?<SkeletonLoader/>
+        loading?<></>
         :nfts.length==0?<></>:
         <div>
                <p className='my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-3'>NFTs earned</p>
@@ -58,7 +58,7 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
         </div>  
       }
       {loading ? (
-        <SkeletonLoader />
+        <></>
       ) :userData?.enrolledCourses?.length > 0 ? (
         // <div className="flex w-full mt-24 flex-wrap h-auto gap-5 ">
         //   <div className="border-b-2 border-b-dimgray w-full flex pb-4 mb-10">
