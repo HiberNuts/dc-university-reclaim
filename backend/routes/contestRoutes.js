@@ -28,6 +28,6 @@ module.exports = function (app) {
   // WEBHOOKS 
   app.post("/api/webhook/contest/create", controller.createModel);
   app.post("/api/webhook/contest/update", controller.updateModel);
-  app.post("/api/contest/getUsersByContest", controller.getUsersByContest);
+  app.post("/api/contest/getSubmissionByContest", controller.getSubmissionByContest);
 
 };   

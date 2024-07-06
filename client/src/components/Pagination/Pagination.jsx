@@ -19,7 +19,7 @@ const Pagination = ({ totalItems,itemsPerPage,currentPage=1,setCurrentPage}) => 
             Array.from({ length: totalPages }, (_, index) => (
               <button
                 key={index}
-                className={`rounded-[10px] mx-1 px-4 py-2 ${index + 1 === currentPage ? 'bg-shardeumBlue text-white border-2 border-black' : 'bg-white text-shardeumBlue border-2 border-shardeumBlue'}`}
+                className={`rounded-[10px] mx-1 px-4 py-2 ${index + 1 === currentPage ? 'bg-shardeumBlue text-white border-2 border-black' : 'bg-white text-shardeumBlue border-2 border-shardeumBlue'} hover:bg-shardeumBlue hover:text-white transition-all duration-300 ease-linear`}
                 onClick={() => handlePageClick(index + 1)}
               >
                 {index + 1}

@@ -146,7 +146,13 @@ const EditProfile = () => {
       return;
     }
     var url;
-    const notNullEntries = Object.entries(data).filter(entry => entry[1])
+    const notNullEntries = Object.entries(data).filter(entry => entry[1] && loggedInUserData[entry[0]]!=entry[1])
+
+    if(!notNullEntries.length && !img && (!projects.length || JSON.stringify(projects)==JSON.stringify(loggedInUserData.projects))){
+      toast.error("No changes to save")
+      return
+    }
+
     const filteredData = notNullEntries.reduce((acc, curr) => {
       return { ...acc, [curr[0]]: curr[1] }
     }, {})
@@ -182,6 +188,7 @@ const EditProfile = () => {
           window.location.reload();
         }
       })
+    
   }
   useEffect(() => {
     if (loggedInUserData._id) {
