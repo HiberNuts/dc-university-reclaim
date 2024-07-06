@@ -11,7 +11,7 @@ export default function Leaderboard({data})
         setColumns(cols);
     },[data])
    return(
-    <div className="">
+    <div className="">  
          {/* <div className="bg-shardeumBlue px-2 sm:px-[100px] leaderboard_title relative">
                   <div className="contest_name pt-28 pb-10">
                         <p className="mx-4 text-[64px] leading-[80px] font-helvetica-neue-bold  text-shardeumWhite">Contest Name - Leaderboard</p>
@@ -26,7 +26,7 @@ export default function Leaderboard({data})
                         <thead>
                             <tr className="text-white bg-black table_head">
                                 {columns.map((column) => (
-                                    <th className={`px-4 py-8 text-[22px] leading-tight font-helvetica-neue-semibold ${column=="User Name"?'text-left':''}`} key={column}>{column.toUpperCase()}</th>
+                                    <th className={`px-4 py-8 text-[24px] leading-tight font-helvetica-neue-semibold ${column=="User Name"?'text-left':''}`} key={column}>{column.toUpperCase()}</th>
                                 ))}
                             </tr>
                         </thead>
@@ -47,7 +47,7 @@ export default function Leaderboard({data})
                                                 <a className="text-shardeumBlue underline" href={item[column]}>View Submission</a>
                                             </td>
                                             :
-                                            <td className={`px-4 py-5 ${column=="User Name"?'text-left':''}  ${column=="Rank"?'font-bold':''}`} key={column}>{item[column]}</td>
+                                            <td className={`px-4 py-5 ${column=="User Name"?'text-left':''}  ${column=="Rank"?'font-bold text-[22px]':''} text-[18px]   `} key={column}>{item[column]}</td>
                                     ))}
                                 </tr>
                             ))}

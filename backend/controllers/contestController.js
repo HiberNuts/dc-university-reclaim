@@ -172,16 +172,34 @@ exports.alreadyRegistered = async (req, res) => {
   }
 };
 
-exports.getUsersByContest = async (req, res) => {
+exports.getSubmissionByContest = async (req, res) => {
   try {
+    // return res.status(200).send("hello")
     const submissions = await Submissions.find({ contest: req.body.contestId });
-    const registeredUsers = submissions.map(submission => submission.user.toHexString())
-
-    const registeredUsersWithoutDuplicates = registeredUsers.filter((user, index) => !registeredUsers.slice(0, index).includes(user))
-    const users = await Users.find({ _id: { $in: registeredUsersWithoutDuplicates } })
-    return res.status(200).send(users)
+    const completedSubmissions=submissions.filter(submission=>submission.status=="completed")
+    if(!completedSubmissions.length) return res.status(200).send([])
+    // const registeredUsers = submissions.map(submission => submission.user.toHexString())
+    // const registeredUsersWithoutDuplicates = registeredUsers.filter((user, index) => !registeredUsers.slice(0, index).includes(user))
+    const users = await Users.find()
+    console.log(users)
+    // console.log("users",users)
+    const userCompletedSubmission=completedSubmissions.map(submission=>{
+      const {username,walletAddress}=users.find(user=>user._id.toHexString()==submission.user.toHexString())
+      const {totalCases,passedCases,xp,rank}=submission
+      return {
+          rank,
+          username,
+          totalCases,
+          passedCases,
+          xp,
+          walletAddress
+      }
+    }).sort((a, b) => a.rank - b.rank)
+    return res.status(200).send(userCompletedSubmission)
   } catch (error) {
-    res.status(500).send(formatResponse(true, error.message));
+    console.log(error)
+    res.status(500).send(error);
+
   }
 };
 

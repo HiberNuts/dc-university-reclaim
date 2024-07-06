@@ -6,7 +6,7 @@ AWS.config.update({
   secretAccessKey:process.env.DO_SPACE_SECRET_KEY,
   accessKeyId:process.env.DO_SPACE_ACCESS_KEY,
 })
-const s3=new AWS.S3();
+const s3=new AWS.S3(spacesEndpoint);
 module.exports = function (app) {
   app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "x-access-token, Origin, Content-Type, Accept");

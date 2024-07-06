@@ -14,20 +14,21 @@ const ContestDetails = () => {
         axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/contest/getContest`, { id: contestId })
             .then(res => setContest(res.data.data))
             .catch(er => toast.error(er))
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/contest/getUsersByContest`, { contestId })
-            .then(res => setDataRows(res.data.map((user) => {
-                const { _id: id, username, email, isVerified, walletAddress, designation, portfolio } = user
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/contest/getSubmissionByContest`, { contestId })
+            .then(res => 
+                {
+                if(!res.data.length) return
+                setDataRows(
+                res.data.map((user,index) => {
+                const { username, totalCases,passedCases,xp,rank } = user
                 return {
-                    id,
-                    username,
-                    email,
-                    isVerified,
-                    walletAddress,
-                    designation,
-                    portfolio
+                    id:index+1,
+                    ...user
                 }
-            })))
-            .catch(er => toast.error(er))
+            }))
+        }
+        )
+            .catch(er => console.log(er))
     }, [])
     // const rows = [
     //     { id: 1, username: 'john_doe', email: 'john.doe@example.com', isVerified: true, walletAddress: '0xAbC1234567890DeF1234567890abcdef12345678', designation: 'Software Engineer', portfolio: 'https://johnsportfolio.com' },
@@ -37,13 +38,18 @@ const ContestDetails = () => {
     //     { id: 5, username: 'carol_white', email: 'carol.white@example.com', isVerified: true, walletAddress: '0xEfG567890hIj567890aBcdef1234567890123456', designation: 'Marketing Specialist', portfolio: 'https://carolwhite.com' }
     // ];
 
+
+    const generateLeaderboard=()=>{
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/contest/leaderboard/generate?id=${contestId}`,)
+        .then(res=>console.log(res))
+    }
     const columns = [
-        { field: 'username', headerName: 'Username', flex: 1 },
-        { field: 'email', headerName: 'Email', flex: 2 },
-        { field: 'isVerified', headerName: 'IsVerified', flex: 1 },
-        { field: 'walletAddress', headerName: 'Wallet Address', flex: 2 },
-        { field: 'designation', headerName: 'Designation', flex: 2 },
-        { field: 'portfolio', headerName: 'Portfolio', flex: 2 }
+        { field: 'rank', headerName: 'Rank', flex: 1 },
+        { field: 'username', headerName: 'Username', flex: 2 },
+        { field: 'totalCases', headerName: 'total cases', flex: 1 },
+        { field: 'passedCases', headerName: 'passed cases', flex: 2 },
+        { field: 'xp', headerName: 'XP', flex: 2 },
+        { field: 'walletAddress', headerName: 'Wallet Adress', flex: 2 },
     ];
     return contest ? <div style={{ textAlign: 'center', marginBottom: "100px" }}>
         <Toaster position="top-right" reverseOrder={false} />
@@ -105,6 +111,10 @@ const ContestDetails = () => {
                     Soft Delete
                 </Button>
             </div>
+
+            <Button variant="contained" style={{marginTop:"1rem"}} color="error" onClick={generateLeaderboard}>
+                    Generate leader board
+                </Button>
 
             <div
                 style={{
