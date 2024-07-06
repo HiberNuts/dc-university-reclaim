@@ -4,7 +4,8 @@ import { IoMoon } from "react-icons/io5";
 import { checkTimeLeft } from "../../../utils/time";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faHourglassStart, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';
-
+import { CodeBlock, dracula } from 'react-code-blocks';
+import { CiTimer } from "react-icons/ci";
 import { useState,useEffect } from "react";
 export default function Problem(props) {
   const [timeLeft, setTimeLeft] = useState({ status: false });
@@ -34,8 +35,9 @@ export default function Problem(props) {
       {
         timeLeft.status&&
       <span>
-      <div>
-        <FontAwesomeIcon icon={faClock} />{' '}<span className="px-2">{timeLeft.timeleft}</span>
+      <div className="flex gap-1">
+        <div className="flex justify-center items-center text-[20px]"><CiTimer/></div>
+        <span className="px-2">{timeLeft.timeleft}</span>
         </div>
       </span>
       }
@@ -58,12 +60,12 @@ export default function Problem(props) {
                             {s.content}
                           </a>
                         ) : s.type == 'code' ? (
-                          s.content.split('\n').map((line, idx) => (
-                            <React.Fragment key={idx}>
-                              {line}
-                              <br />
-                            </React.Fragment>
-                          ))
+                            <CodeBlock
+                            language="javascript"
+                            text={s.content}
+                            theme={dracula}
+                            className="custom-copy-block"
+                          />
                         ) : (
                           s.content
                         )}

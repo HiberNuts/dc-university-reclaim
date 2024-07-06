@@ -3,6 +3,7 @@ import GreenButton from "../../button/GreenButton";
 import toast, { Toaster } from "react-hot-toast";
 import Leaderboard from "../Leaderboard/Leaderboard";
 import { useParams,useNavigate } from "react-router-dom";
+import { CodeBlock, dracula } from 'react-code-blocks';
 import React,{ useEffect, useState,useContext } from "react";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { formatTimestamp,checkTimeLeft } from "../../../utils/time";
@@ -173,12 +174,12 @@ export default function ContestRegsiter() {
                             {s.content}
                           </a>
                         ) : s.type == 'code' ? (
-                          s.content.split('\n').map((line, idx) => (
-                            <React.Fragment key={idx}>
-                              {line}
-                              <br />
-                            </React.Fragment>
-                          ))
+                              <CodeBlock
+                              language="javascript"
+                              text={s.content}
+                              theme={dracula}
+                              className="custom-copy-block"
+                            />
                         ) : (
                           s.content
                         )}
