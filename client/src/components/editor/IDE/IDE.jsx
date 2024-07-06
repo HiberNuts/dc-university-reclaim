@@ -176,7 +176,7 @@ export default function IDE(props) {
   },[address])
 
   return (
-    <div className="h-screen w-full border flex-1 z-10">
+    <div className="h-screen w-full border flex-1 z-10 rounded-[12px]">
      <Transition className="absolute top-1/3 left-1/3" appear show={isDialogOpen} as={Fragment}>
         <Dialog as="div" className="absolute z-10" onClose={() => setIsDialogOpen(false)}>
           <Transition.Child

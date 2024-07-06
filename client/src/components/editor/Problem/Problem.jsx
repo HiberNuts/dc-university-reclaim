@@ -49,11 +49,11 @@ export default function Problem(props) {
       <br/>
       <br/>
                   {props?.program?.description?.map((s, index) => (
-                    <li className={`${s.type == 'code' ?'bg-[#474747] px-5':''} list-none`} key={index}>
-                      {
+                    <li className={`${s.type == 'code' ?'px-1':''} py-1 leading-[30px] list-none`} key={index}>
+                      {/* {
                         s.type!='code'&&
                         <span className="w-2 h-2 bg-[#4b4b4b] rounded-full inline-block mr-2"></span>
-                      }
+                      } */}
                       <span className={` text-[15px] text-slategray font-helvetica-neue-roman leading-[25px]`}>
                         {s.type == 'link' ? (
                           <a href={s.url} className="underline text-shardeumBlue" target="_blank" rel="noopener noreferrer">

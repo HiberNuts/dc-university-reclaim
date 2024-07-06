@@ -66,7 +66,7 @@ export default function editor() {
       });
   },[id,title,loggedInUserData])
   return (
-    <div className={`w-full h-screen ${darkTheme && "bg-black text-white"} transition-all duration-200 ease-linear`}>
+    <div className={`w-full h-screen overflow-auto ${darkTheme && "bg-black text-white"} transition-all duration-200 ease-linear py-14`}>
       
       <Split
         className="flex"
