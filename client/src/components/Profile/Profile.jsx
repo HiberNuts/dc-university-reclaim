@@ -326,9 +326,9 @@ const Profile = ({ isOpen, closeModal }) => {
                                    <p>Email not yet  verified. Please <span className="text-blue-500 cursor-pointer" onClick={handleResendVerificationEmail}> click </span>to verify it.</p>
                          </div>
                          }
-                         {userContestData!=null&&
+                         {userContestData!=null&&userProfile!=null&&
                          <div className="py-2 px-2 lg:px-10">
-                            <ProfileBadge data={userContestData}/>
+                            <ProfileBadge data={userContestData} courseData={userProfile}/>
                          </div>
                          }
                          <div className="py-2 px-2 lg:px-10">

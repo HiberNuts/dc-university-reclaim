@@ -10,7 +10,7 @@ const { mapRichTextNodesToSchema } = require('../utils/mapRichText')
 exports.getLatestContest = async (req, res) => {
   try {
     const today = new Date();
-    const latestContest = await Contests.findOne({ startDate: { $gte: today } }).sort({ startDate: 1 });
+    const latestContest = await Contests.findOne({ endDate: { $gte: today } }).sort({ endDate: 1 });
     if (!latestContest) {
       return res.status(404).send(formatResponse(true, "No contests found"));
     }
