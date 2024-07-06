@@ -20,7 +20,6 @@ const ContestDetails = () => {
                 if(!res.data.length) return
                 setDataRows(
                 res.data.map((user,index) => {
-                const { username, totalCases,passedCases,xp,rank } = user
                 return {
                     id:index+1,
                     ...user
@@ -41,7 +40,8 @@ const ContestDetails = () => {
 
     const generateLeaderboard=()=>{
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/contest/leaderboard/generate?id=${contestId}`,)
-        .then(res=>console.log(res))
+        .then(res=>toast.success(res.data.message))
+        .catch(er=>toast.error(er.message))
     }
     const columns = [
         { field: 'rank', headerName: 'Rank', flex: 1 },
@@ -91,7 +91,21 @@ const ContestDetails = () => {
                 <p>
                     Course Soft Delete Status:{' '}
                     <span style={{ color: '#FF8743' }}>
-                        {contest.softDelete}
+                        {contest.softDelete.toString()}
+                    </span>{' '}
+                </p>
+            </div>
+            <div
+                style={{
+                    color: '#3A4CFF',
+                    fontSize: '20px',
+                    margin: '0px 0px 20px',
+                }}
+            >
+                <p>
+                    Leader Board generation status:{' '}
+                    <span style={{ color: '#FF8743' }}>
+                        {contest.leaderboard.toString()}
                     </span>{' '}
                 </p>
             </div>

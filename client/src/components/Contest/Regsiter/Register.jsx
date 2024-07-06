@@ -8,7 +8,7 @@ import React,{ useEffect, useState,useContext } from "react";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { formatTimestamp,checkTimeLeft } from "../../../utils/time";
 import { getContestByTitle,registerContest,alreadyRegistered,getLeaderboard } from "../../../utils/api/ContestAPI";
-
+import ContestDetailsLoader from "../ContestLoaders/ContestDetailsLoader";
 export default function ContestRegsiter() {
   const { title } = useParams("title");
   const { loggedInUserData } = useContext(ParentContext);
@@ -223,8 +223,9 @@ export default function ContestRegsiter() {
     </div>
 </div>
   ) : (
-    <div className="py-40 text-[25px] flex justify-center items-center">
-        <p>Loading...</p>
-    </div>
+    // <div className="py-40 text-[25px] flex justify-center items-center">
+    //     <p>Loading...</p>
+    // </div>
+    <ContestDetailsLoader/>
   );
 }
