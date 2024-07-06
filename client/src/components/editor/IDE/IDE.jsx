@@ -25,6 +25,7 @@ export default function IDE(props) {
   const [byteCode, setByteCode] = useState("");
   const [compileError, setCompileError] = useState(null);
   const [testCases, setTestCases] = useState(null);
+  const [submitLoader,setSubmitLoader]=useState(false);
   const [currentTestCase, setCurrentTestCase] = useState(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State for dialog visibility
   const [editWalletAddress,setEditWalletAddress]=useState(false);
@@ -75,6 +76,7 @@ export default function IDE(props) {
 
   const execute = async () => {
     try {
+      setSubmitLoader(true);
       setTestCases(null);
       await compile(input).then((response) => {
         if (response.error === true) {
@@ -90,6 +92,7 @@ export default function IDE(props) {
           setOutput(response.message);
           setByteCode(response.byteCode);
         }
+        setSubmitLoader(false);
       });
     } catch (er) {
       setOutput(er.message);
@@ -98,6 +101,7 @@ export default function IDE(props) {
 
   const handleSubmitAndTest = async () => {
     try {
+      setSubmitLoader(true);
       setTestCases(null);
       setIsDialogOpen(false);
       await compileAndSubmit(input, props?.submissionID,walletAddress).then((result) => {
@@ -123,6 +127,7 @@ export default function IDE(props) {
             getUserProfileData();
           }
         }
+      setSubmitLoader(false);
       });
     } catch (error) {
       console.log("ERROR IN TESTING :",error);
@@ -254,14 +259,16 @@ export default function IDE(props) {
           {testCases === null && props.completed?.completed === false &&
             <div className="w-full flex justify-end py-5 px-8 border-b">
               <button
-                className={`border-[1px] border-shardeumGreen rounded-[10px]  px-8  py-[6px] mr-5   text-semibold  hover:text-black ${props?.darkTheme?'bg-transparent text-shardeumGreen hover:bg-shardeumGreen':'bg-green-500 border-green-500 text-white'}`}
+                disabled={submitLoader}
+                className={`${submitLoader?'cursor-not-allowed':''} border-[1px] border-shardeumGreen rounded-[10px]  px-8  py-[6px] mr-5   text-semibold  hover:text-black ${props?.darkTheme?'bg-transparent text-shardeumGreen hover:bg-shardeumGreen':'bg-green-500 border-green-500 text-white'}`}
                 onClick={() => execute()}
               >
                 Compile
               </button>
               {compileError === false &&
                 <button
-                  className={`border-[1px] border-shardeumGreen  rounded-[10px]  px-8  py-[6px] mr-5  font-semibold text-black ${props?.darkTheme?'bg-shardeumGreen':'bg-green-500 border-green-500 text-white hover:text-black'}`}
+                  disabled={submitLoader}
+                  className={`${submitLoader?'cursor-not-allowed':''} border-[1px] border-shardeumGreen  rounded-[10px]  px-8  py-[6px] mr-5  font-semibold text-black ${props?.darkTheme?'bg-shardeumGreen':'bg-green-500 border-green-500 text-white hover:text-black'}`}
                   onClick={()=>setIsDialogOpen(true)}
                 >
                   Submit
@@ -269,6 +276,35 @@ export default function IDE(props) {
               }
             </div>
           }
+          {
+            submitLoader?
+          <div className="px-6 py-6">
+            <div class="flex-1 space-y-6 py-1">
+              <div class="space-y-5">
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+                  <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+                  <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+                  <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+                  <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+                  <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+                </div>
+              </div>
+            </div>
+          </div>    
+            :
           <div className={`${output!=""&&''} px-6`}>
             {output !== "" && compileError ?
               <div className="px-2 py-4">
@@ -309,6 +345,7 @@ export default function IDE(props) {
               </div>
             }
           </div>
+          }
         </div>
       </Split>
     </div>
