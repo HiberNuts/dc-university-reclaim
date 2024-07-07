@@ -2,19 +2,11 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import toast, { Toaster } from "react-hot-toast";
 
 import GreenButton from "../button/GreenButton";
-// import AVATAR from "../../assets/avatar.png"
-import IMG_UPLOAD from "../../assets/img_upload.png";
-import TWITTER from "../../assets/twitter.png";
-import GITHUB from "../../assets/github.png";
-import YOUTUBE from "../../assets/youtube.png";
-import LINKEDIN from "../../assets/linkedin.png";
-import DISCORD from "../../assets/discord.png";
-import HAMBURGER from "../../assets/drawer.png";
+import {IMG_UPLOAD,REMOVE,TWITTER_PNG as TWITTER,GITHUB_PNG as GITHUB,YOUTUBE,LINKEDIN,DISCORD_PNG as DISCORD,DRAWER as HAMBURGER} from "../../Constants/Assets"
 import { useContext, useState } from "react";
 import { ParentContext } from "../../contexts/ParentContext";
 import axios from "axios";
 import { useEffect, useRef } from "react";
-import REMOVE from "../../assets/remove.png";
 // import AWS from "aws-sdk";
 const EditProfile = () => {
   // const spacesEndpoint = new AWS.Endpoint('https://blr1.digitaloceanspaces.com');

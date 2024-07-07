@@ -1,7 +1,7 @@
 import React,{ useRef,useState,useEffect } from "react"
 import { motion, useScroll } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import GreenButton from "../button/GreenButton";
 
 import { formatTimestamp,checkTimeLeft } from "../../utils/time";

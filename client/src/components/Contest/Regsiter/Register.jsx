@@ -10,6 +10,8 @@ import { formatTimestamp,checkTimeLeft } from "../../../utils/time";
 import { generateSlug } from "../../../utils/generateSlug";
 import { getContestByTitle,registerContest,alreadyRegistered,getLeaderboard } from "../../../utils/api/ContestAPI";
 import ContestDetailsLoader from "../ContestLoaders/ContestDetailsLoader";
+
+
 export default function ContestRegsiter() {
   const { title } = useParams("title");
   const { loggedInUserData } = useContext(ParentContext);

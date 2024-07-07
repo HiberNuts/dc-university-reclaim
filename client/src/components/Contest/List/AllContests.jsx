@@ -1,19 +1,19 @@
 import { motion, useScroll } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useRef,useContext,useEffect, useState } from "react";
+import { useRef,useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Carousel from "../../Carousel/Carousel"
 import ContestCard from '../Card';
 import GreenButton from "../../button/GreenButton";
-import CONTEST_IMG from '../../../assets/contest.png';
-import CALENDER from '../../../assets/calendar_month.png';
+import {CALENDAR_MONTH as CALENDER} from "../../../Constants/Assets";
 import { upcomingContests,getPastContests } from "../../../utils/api/ContestAPI";
 import { formatTimestamp } from "../../../utils/time";
 import { generateSlug } from "../../../utils/generateSlug";
 import Pagination from "../../Pagination/Pagination";
-import SkeletonLoader from "../../Courses/SkeletonLoader";
 import PastContestCardLoader from "../ContestLoaders/PastContestCardLoader";
 import AllContestLoader from "../ContestLoaders/AllContestLoader";
+
+
 export default function AllContests()
 {
     const [latestContests,setLatestContests]=useState([

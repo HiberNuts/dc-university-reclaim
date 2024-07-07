@@ -12,8 +12,9 @@ import { getUserData } from "../../../utils/api/UserAPI";
 import { compile, compileAndSubmit } from "../../../utils/api/ContestAPI";
 import { solidityLanguageConfig, solidityTokensProvider } from "./EditorConfig";
 import solcjs from "solc-js";
-import TRI_IMG from "../../../assets/triangle_logo_editor.svg";
+import {TRIANGLE_LOGO_EDITOR as TRI_IMG} from "../../../Constants/Assets"
 import GreenButton from "../../button/GreenButton";
+
 export default function IDE(props) {
   const compiler = useRef();
   const { loggedInUserData, setloggedInUserData } = useContext(ParentContext);
@@ -330,7 +331,6 @@ export default function IDE(props) {
                           <div className="flex justify-center items-center text-red-500 text-[20px]">
                             <IoMdClose/>
                           </div>
-                          // <FontAwesomeIcon icon={IoMdClose} style={{ color: 'red' }} />
                         }
                         <div>
                          <span className="">Test Case {index + 1}</span>
@@ -338,7 +338,7 @@ export default function IDE(props) {
                       </p>
                     )}
                   </div>
-                  <div className="col-span-6 border-[0.5px] rounded-[12px] p-5">
+                  <div className="col-span-6 border-[0.5px] rounded-[12px] p-2 pt-3">
                     {testCases?.testResults[currentTestCase].description}
                   </div>
                 </div>
