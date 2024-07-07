@@ -30,6 +30,8 @@ module.exports = function (app) {
   // WEBHOOKS 
   app.post("/api/webhook/contest/create", controller.createModel);
   app.post("/api/webhook/contest/update", controller.updateModel);
+  //ADMIN PANEL ROUTES
   app.post("/api/contest/getSubmissionByContest", controller.getSubmissionByContest);
+  app.get("/api/contest/softDelete",controller.deleteAContest);
 
 };   

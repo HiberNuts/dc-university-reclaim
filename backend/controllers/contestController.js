@@ -10,7 +10,7 @@ const { mapRichTextNodesToSchema } = require('../utils/mapRichText')
 exports.getLatestContest = async (req, res) => {
   try {
     const today = new Date();
-    const latestContest = await Contests.findOne({ endDate: { $gte: today } }).sort({ endDate: 1 });
+    const latestContest = await Contests.findOne({ softDelete:false,endDate: { $gte: today } }).sort({ endDate: 1 });
     if (!latestContest) {
       return res.status(404).send(formatResponse(true, "No contests found"));
     }
@@ -25,6 +25,7 @@ exports.getUpcomingContests = async (req, res) => {
   try {
     const today = new Date().toISOString();
     const upcomingContests = await Contests.find({
+      softDelete:false,
       endDate: { $gt: today }
     })
       .sort({ endDate: 1 })
@@ -54,8 +55,9 @@ exports.getPastContests = async (req, res) => {
     const { page = 1, limit = 3 } = req.query; // Default to page 1 and limit 10 if not provided
     const today = new Date().toISOString();
 
-    const totalItems = await Contests.countDocuments({ endDate: { $lt: today } });
+    const totalItems = await Contests.countDocuments({softDelete:false, endDate: { $lt: today } });
     const pastContests = await Contests.find({
+      softDelete:false,
       endDate: { $lt: today }
     })
       .sort({ endDate: -1, _id: 1 })
@@ -191,25 +193,22 @@ exports.alreadyRegistered = async (req, res) => {
   }
 };
 
+//ADMIN PANEL ROUTES
 exports.getSubmissionByContest = async (req, res) => {
   try {
-    // return res.status(200).send("hello")
     const submissions = await Submissions.find({ contest: req.body.contestId });
-    const completedSubmissions=submissions.filter(submission=>submission.status=="completed")
-    if(!completedSubmissions.length) return res.status(200).send([])
-    // const registeredUsers = submissions.map(submission => submission.user.toHexString())
-    // const registeredUsersWithoutDuplicates = registeredUsers.filter((user, index) => !registeredUsers.slice(0, index).includes(user))
+  
     const users = await Users.find()
-    console.log(users)
-    // console.log("users",users)
-    const userCompletedSubmission=completedSubmissions.map(submission=>{
-      const {username,walletAddress}=users.find(user=>user._id.toHexString()==submission.user.toHexString())
-      const {totalCases,passedCases,xp,rank}=submission
+    const userCompletedSubmission=submissions.map(submission=>{
+      const {username,shardId='NA',walletAddress}=users.find(user=>user._id.toHexString()==submission.user.toHexString())
+      const {totalCases='NA',passedCases='NA',xp='NA',rank,submittedTime='NA'}=submission
       return {
           rank,
           username,
+          shardId,
           totalCases,
           passedCases,
+          submittedTime,
           xp,
           walletAddress
       }
@@ -221,45 +220,26 @@ exports.getSubmissionByContest = async (req, res) => {
 
   }
 };
+//SOFT DELETE A CONTEST
+exports.deleteAContest=async(req,res)=>{
+   try {
+      const contestId=await Contests.findById(req.query.id);
+      if(!contestId)
+         return res.status(200).send(formatResponse(true,"Contest not exist in DB"));
+      if(contestId.softDelete==true)
+        return res.status(200).send(formatResponse(true,"Contest already soft deleted!"));
+      contestId.softDelete=true;
+      await contestId.save();
+      return res.status(200).send(formatResponse(false,"Contest is soft deleted."))  
+   } catch (error) {
+      return res.status(500).send(formatResponse(true,error.message));
+   }
+}
 
 
 
 
-
-// exports.compiler = async (req, res) => {
-//     try {
-//       const {content}=req.body
-//       console.log(content)
-//       var input = {
-//         language: 'Solidity',
-//         sources: {
-//           'test.sol': {
-//             content,
-//           }
-//         },
-//         settings: {
-//           outputSelection: {
-//             '*': {
-//               '*': ['*']
-//             }
-//           }
-//         }
-//       };
-
-//       var output = JSON.parse(solc.compile(JSON.stringify(input)));
-//       for (var contractName in output.contracts['test.sol']) {
-//         console.log(
-//           contractName +
-//             ': ' +
-//             output.contracts['test.sol'][contractName].evm.bytecode.object
-//         );
-//       }
-//       res.status(200).send(output)
-//     } catch (error) {
-//       console.error("Error while compiling", error);
-//       res.status(500).send({ message: error.message || "Internal Server Error" });
-//     }
-//   };
+//LEADERT BOARD
 exports.generateLeaderboard=async(req,res)=>{
   try {
     const contestID=req.query.id;

@@ -40,14 +40,30 @@ const ContestDetails = () => {
 
     const generateLeaderboard=()=>{
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/contest/leaderboard/generate?id=${contestId}`,)
-        .then(res=>toast.success(res.data.message))
+        .then(res=>{
+            if(res.data.error==false)
+                toast.success(res.data.message)
+            else
+                toast.error(res.data.message)
+        })
         .catch(er=>toast.error(er.message))
+    }
+    const softDelete=()=>{
+       axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/contest/softDelete?id=${contestId}`)
+       .then(res=>{
+            if(res.data.error==false)
+            toast.success(res.data.message);
+            else
+            toast.error(res.data.message);
+       }) 
     }
     const columns = [
         { field: 'rank', headerName: 'Rank', flex: 1 },
+        { field: 'shardId', headerName: 'ID', flex: 2 },
         { field: 'username', headerName: 'Username', flex: 2 },
         { field: 'totalCases', headerName: 'total cases', flex: 1 },
         { field: 'passedCases', headerName: 'passed cases', flex: 2 },
+        { field: 'submittedTime', headerName: 'Submitted Time', flex: 2 },
         { field: 'xp', headerName: 'XP', flex: 2 },
         { field: 'walletAddress', headerName: 'Wallet Adress', flex: 2 },
     ];
@@ -118,10 +134,10 @@ const ContestDetails = () => {
                     gap: '20px',
                 }}
             >
-                <Button onClick={() => { }} variant="contained" color="error">
+                {/* <Button onClick={() => { }} variant="contained" color="error">
                     Hard Delete
-                </Button>
-                <Button variant="outlined" color="error" onClick={() => { }}>
+                </Button> */}
+                <Button variant="outlined" color="error" onClick={softDelete}>
                     Soft Delete
                 </Button>
             </div>
