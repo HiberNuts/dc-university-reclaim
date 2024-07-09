@@ -512,7 +512,7 @@ exports.mintNft = async (req, res) => {
 
 exports.deleteImage=(req, res) => {
   const params = {
-    Bucket: 'shardeum-university-storage',
+    Bucket: process.env.DO_SPACE_BUCKET,
     Key: req.body.key
   };
 

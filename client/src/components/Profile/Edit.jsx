@@ -141,6 +141,7 @@ const EditProfile = () => {
     }, {})
     console.log(filteredData)
     if (img) {
+      const userImageKey=loggedInUserData.image.substring(loggedInUserData.image.lastIndexOf('/') + 1)
       const formData = new FormData();
       formData.append("files", img);
       const res = await fetch(`${import.meta.env.VITE_CMS_URL}/upload?populate=*`, {
@@ -152,7 +153,7 @@ const EditProfile = () => {
         .catch((error) => console.error(error));
       url = res[0].url
 
-      
+      axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/deleteImage`,{key:userImageKey})
     }
 
     axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/updateuser`,

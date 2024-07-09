@@ -25,5 +25,5 @@ module.exports = function (app) {
   app.post("/api/user/progressPercentage", [authJwt.verifyToken], controller.userCourseProgressPercentage);
   app.post("/api/user/mintNft", [authJwt.verifyToken], controller.mintNft);
   app.get("/api/user/newsletter", controller.joinNewsLetter);
-  app.post("/deleteImage",  controller.deleteImage)
+  app.post("/api/user/deleteImage",  controller.deleteImage);
 };
