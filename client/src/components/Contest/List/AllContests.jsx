@@ -120,7 +120,7 @@ export default function AllContests()
                     Array.from({length:3}).map((_,index)=><PastContestCardLoader className="my-10"/>)
                     }
                 </div>
-                <div className="bg-[#CAFFEF] flex justify-center items-center">
+                <div className="bg-[#CAFFEF] flex justify-center items-center pb-3">
                     <Pagination totalItems={totalItems} itemsPerPage={contestsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
                     <br/>    
                     <br/>    
