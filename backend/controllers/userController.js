@@ -8,7 +8,13 @@ const Token = db.userToken;
 const _ = require("lodash");
 const brevo = require("@getbrevo/brevo");
 const { MintPOLNft } = require("../dNFT/link");
-
+const AWS = require("aws-sdk")
+const spacesEndpoint = new AWS.Endpoint(process.env.DO_SPACE_ENDPOINT);
+const s3 = new AWS.S3({
+  endpoint: spacesEndpoint,
+  accessKeyId:process.env.DO_SPACE_ACCESS_KEY,
+  secretAccessKey:process.env.DO_SPACE_SECRET_KEY,
+});
 let defaultClient = brevo.ApiClient.instance;
 
 let apiKey = defaultClient.authentications["api-key"];
@@ -503,3 +509,18 @@ exports.mintNft = async (req, res) => {
     // res.status(400).send({ message: "Error while minting NFT", minted: false });
   }
 };
+
+exports.deleteImage=(req, res) => {
+  const params = {
+    Bucket: 'shardeum-university-storage',
+    Key: req.body.key
+  };
+
+   s3.deleteObject(params, function (err, data) {
+    if (err) {
+      res.send(err)
+    } else {
+      res.send(data);
+    }
+  })
+}

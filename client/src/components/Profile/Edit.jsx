@@ -7,16 +7,7 @@ import { useContext, useState } from "react";
 import { ParentContext } from "../../contexts/ParentContext";
 import axios from "axios";
 import { useEffect, useRef } from "react";
-// import AWS from "aws-sdk";
 const EditProfile = () => {
-  // const spacesEndpoint = new AWS.Endpoint('https://blr1.digitaloceanspaces.com');
-  // const s3 = new AWS.S3({
-  //   endpoint: spacesEndpoint,
-  //   accessKeyId: 'DO00GYP2LHRMMEPF2KQR',
-  //   secretAccessKey: '7mMVFAWXcuuHBd6QZvupIBdyz9366GuD/sBhG6gSpEg'
-  // });
-
-
   const [img, setImg] = useState(null);
   const { loggedInUserData } = useContext(ParentContext)
   console.log(loggedInUserData)
@@ -160,6 +151,8 @@ const EditProfile = () => {
         .then(res => res.json())
         .catch((error) => console.error(error));
       url = res[0].url
+
+      
     }
 
     axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/updateuser`,
