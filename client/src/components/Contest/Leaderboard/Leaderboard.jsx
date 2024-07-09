@@ -21,7 +21,7 @@ export default function Leaderboard({data})
                   <img className="absolute left-0 bottom-0" src={ARROW2}/>
          </div> */}
          <div className="bg-shardeumWhite">
-            <div className="overflow-hidden rounded-[16px] border-2">
+            <div className="rounded-[16px] border-2 overflow-x-auto">
                   <table className="contest_leaderboard min-w-full">
                         <thead>
                             <tr className="text-white bg-black table_head">
