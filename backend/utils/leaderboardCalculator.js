@@ -52,7 +52,7 @@ exports.getLeaderboard = async (submissions) => {
         "Rank": submission.rank,
         // userID: submission.user,
         "Avatar": user?.image ?? 'https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/9aa80aa64a524e6477fb757e287fba19.avif',
-        "User Name": user ? user.username : 'Unknown',
+        "User Name": user ? user.shardId : 'Unknown',
         "XP": submission.xp,
         "Amount Earned": "$ "+submission.amountEarned
       };
