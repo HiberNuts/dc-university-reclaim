@@ -3,8 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import navLogoBlack from "../../assets/navlogoBlack.svg";
 import navLogoWhite from "../../assets/navlogoWhite.svg";
-import HEADER_XP from "../../assets/header_xp.svg";
-import HEADER_USER from "../../assets/header_user.svg";
 import "./Home.css";
 const Burger = lazy(() => import("./Burger"));
 import ProfileDropDown from "./ProfileDropdown";

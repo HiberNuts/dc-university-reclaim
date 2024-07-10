@@ -2,8 +2,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import GreenButton from "../button/GreenButton";
-import HEADER_XP from "../../assets/header_xp.svg";
-import HEADER_USER from "../../assets/header_user.svg";
+import { HEADER_XP,HEADER_USER } from "../../Constants/Assets";
 const ProfileDropDown = ({ account, openAccountModal, toggleNavbar, loggedInUserData,xp=0,homeRoute=false}) => {
   return (
     <div className=" z-50 min-w-56 text-right">

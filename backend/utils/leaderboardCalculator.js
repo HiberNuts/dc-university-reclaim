@@ -49,12 +49,14 @@ exports.getLeaderboard = async (submissions) => {
       const user = await User.findById(submission.user);
 
       return {
-        "Rank": submission.rank,
+        Rank: submission.rank,
         // userID: submission.user,
-        "Avatar": user?.image ?? 'https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/9aa80aa64a524e6477fb757e287fba19.avif',
-        "User Name": user ? user.username : 'Unknown',
-        "XP": submission.xp,
-        "Amount Earned": "$ "+submission.amountEarned
+        Avatar:
+          user?.image ??
+          'https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/Sharderum-Frontend-Assets/shardeum_logo.jpeg',
+        'User Name': user ? user.shardId : 'Unknown',
+        XP: submission.xp,
+        'Amount Earned': '$ ' + submission.amountEarned,
       };
     })
   );

@@ -7,7 +7,10 @@ import { CodeBlock, dracula } from 'react-code-blocks';
 import React,{ useEffect, useState,useContext } from "react";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { formatTimestamp,checkTimeLeft } from "../../../utils/time";
+import { generateSlug } from "../../../utils/generateSlug";
 import { getContestByTitle,registerContest,alreadyRegistered,getLeaderboard } from "../../../utils/api/ContestAPI";
+import ContestDetailsLoader from "../ContestLoaders/ContestDetailsLoader";
+
 
 export default function ContestRegsiter() {
   const { title } = useParams("title");
@@ -28,9 +31,9 @@ export default function ContestRegsiter() {
        //function to check if user already registered
        const checkUserAlreadyRegistered=async()=>{
         await alreadyRegistered(loggedInUserData?.accessToken,res.data[0]._id).then((resp)=>{
-           if(resp.error==false&&resp.message=="User already registered for the contest!")
-              setBtn("Continue");
-           else if(resp.error==false&&resp.message=="User not registered")
+          if(resp.error==false&&resp.message=="User already registered for the contest!")
+            setBtn("Continue");
+          else
               setBtn("Register Now")
             
         })
@@ -44,15 +47,26 @@ export default function ContestRegsiter() {
   }, [loggedInUserData]);
 
   const handleRegister=async()=>{
+      if(btn=="View Solution")
+       {
+        navigate(`/contest/${generateSlug(contest?.title)}/solution`)
+        return;
+       }
       await registerContest(loggedInUserData?.accessToken,contestID).then((resp)=>{
-        console.log("response for registration-->",resp);
-        if(resp.error==false)
-         navigate(`/editor/${title}/${resp.data.submissionId}`);
-        else
-        {
-          if(resp.message)
-            toast.error(resp.message);
-        }
+       try {
+         console.log("response for registration-->",resp);
+         if(resp.error==false)
+          navigate(`/editor/${title}/${resp.data.submissionId}`);
+         else
+         {
+           if(resp.message=="Unauthorized")
+             toast.error("Please login to Register for the contest!");
+          else
+             toast.error(resp.message);
+         }
+       } catch (error) {
+           toast.error("Please login to continue")
+       } 
       })
   }
   const getLeaderboardRank=async()=>{
@@ -80,12 +94,12 @@ export default function ContestRegsiter() {
           const now = new Date();
 
           if (givenDate < now) {
-             setBtn("")
+             setBtn("View Solution")
           } 
         }
         return () => clearInterval(intervalId);
       }
-  },[contest])
+  },[contest,btn])
   return contest ? (
     <div className="bg-white pb-10">
     <Toaster/>
@@ -223,8 +237,9 @@ export default function ContestRegsiter() {
     </div>
 </div>
   ) : (
-    <div className="py-40 text-[25px] flex justify-center items-center">
-        <p>Loading...</p>
-    </div>
+    // <div className="py-40 text-[25px] flex justify-center items-center">
+    //     <p>Loading...</p>
+    // </div>
+    <ContestDetailsLoader/>
   );
 }

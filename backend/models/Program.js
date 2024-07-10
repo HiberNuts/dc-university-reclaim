@@ -11,7 +11,8 @@ const programSchema=new mongoose.Schema({
     duration:{type:String},
     boilerplate_code:{type:String},
     description:{type:Array},
-    test_cases:{ type :[testCaseSchema]}
+    test_cases:{ type :[testCaseSchema]},
+    solution:{type:String},
 })
 
 module.exports=Programs=mongoose.model("Programs",programSchema);

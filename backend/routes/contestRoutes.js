@@ -15,6 +15,8 @@ module.exports = function (app) {
   app.get("/api/contest/getContest/:title", controller.getContestByTitle);
   //PROGRAM 
   app.post("/api/program/getProgram", [authJwt.verifyToken], controller.getProgram);
+  //GET SOLUTION
+  app.get("/api/contest/solution",controller.getSolution)
   //GENERATE LEADERBOARD
   app.get("/api/contest/leaderboard/generate",controller.generateLeaderboard)
   //GET LEADERBOARD
@@ -28,6 +30,8 @@ module.exports = function (app) {
   // WEBHOOKS 
   app.post("/api/webhook/contest/create", controller.createModel);
   app.post("/api/webhook/contest/update", controller.updateModel);
+  //ADMIN PANEL ROUTES
   app.post("/api/contest/getSubmissionByContest", controller.getSubmissionByContest);
+  app.get("/api/contest/softDelete",controller.deleteAContest);
 
 };   
