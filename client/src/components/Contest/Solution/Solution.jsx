@@ -84,11 +84,13 @@ export default function Solution() {
                 </ResizableBox> */}
               </Split>
               <div className="w-full p-10">
-                <p className="text-[35px] font-bold mb-5 underline">Solution</p>
+                <p className="text-[35px] font-bold mb-5 underline" >Solution</p>
                 <p dangerouslySetInnerHTML={{ __html: program.solution.replace(/\n/g, '<br>') }} />
               </div>
-
+                  
             </div>
+
+    
           </div>
       }
 
