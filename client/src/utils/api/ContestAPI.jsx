@@ -54,6 +54,53 @@ export const getPastContestsStrapi=async ()=>{
   }
 }  
 
+// PREVIEW STRAPI CALLS START 
+export const getAllPreviewContest=async()=>{
+   try {
+    const {data}=await axios.get(`${import.meta.env.VITE_CMS_URL}/contests?publicationState=preview&filters[publishedAt][$null]=true&populate=deep`);
+    console.log("DATA :",data);
+    return data;
+   } catch (error) {
+     return error;
+   }
+}
+
+export const getPreviewContest=async(contestID)=>{
+  try {
+    const {data}=await axios.get(`${import.meta.env.VITE_CMS_URL}/contests/${contestID}?publicationState=preview&filters[publishedAt][$null]=true&populate=deep`);
+    console.log("DATA :",data);
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
+
+export const getProgramScreenData=async(contestID)=>{
+  try {
+    // Fetch contest data
+    const { data: contestData } = await axios.get(`${import.meta.env.VITE_CMS_URL}/contests/${contestID}?publicationState=preview&filters[publishedAt][$null]=true&populate=deep`);
+    
+    // Fetch program data with contestID filter
+    const { data: programData } = await axios.get(`${import.meta.env.VITE_CMS_URL}/programs?publicationState=preview&filters[contestid][$eq]=${contestID}&filters[publishedAt][$null]=true`);
+    
+    // Combine contest data with the matching program data
+    const combinedData = {
+      ...contestData,
+      program: programData.data
+    };
+    
+    console.log("COMBINED DATA:", combinedData);
+    return combinedData;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return error;
+  }
+   
+}
+
+// PREVIEW STRAPI ENDS 
+
+
 // export const getContestProgram=async(id)=>{
 //     try {
 //       const {data}=await axios.get(

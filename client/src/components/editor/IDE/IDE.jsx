@@ -101,37 +101,45 @@ export default function IDE(props) {
   };
 
   const handleSubmitAndTest = async () => {
-    try {
-      setSubmitLoader(true);
-      setTestCases(null);
-      setIsDialogOpen(false);
-      await compileAndSubmit(input, props?.submissionID,walletAddress).then((result) => {
-        if(result.error){
-          setCompileError(true);
-          setOutput("Failed to run test cases");
-        }else
-        {
-          setCompileError(false);
-          setOutput("Compiled Successfully");
-          setTestCases(result);
-          //TO UPDATE XP IN NAVBAR AFTER SUBMISSION
-          if(loggedInUserData?.shardId)
+    //to handle preview submition
+    if(props?.preview)
+    {
+        alert("PREVIEW SUBMITION[+]")
+    }  
+    else  
+    {
+      try {
+        setSubmitLoader(true);
+        setTestCases(null);
+        setIsDialogOpen(false);
+        await compileAndSubmit(input, props?.submissionID,walletAddress).then((result) => {
+          if(result.error){
+            setCompileError(true);
+            setOutput("Failed to run test cases");
+          }else
           {
-            const getUserProfileData=async()=>{
-              await getUserData(loggedInUserData?.shardId).then((response)=>{
-                 if(response.error==false)
-                 {
-                   setloggedInUserData({...response.data,accessToken: loggedInUserData.accessToken})
-                 } 
-              })
+            setCompileError(false);
+            setOutput("Compiled Successfully");
+            setTestCases(result);
+            //TO UPDATE XP IN NAVBAR AFTER SUBMISSION
+            if(loggedInUserData?.shardId)
+            {
+              const getUserProfileData=async()=>{
+                await getUserData(loggedInUserData?.shardId).then((response)=>{
+                   if(response.error==false)
+                   {
+                     setloggedInUserData({...response.data,accessToken: loggedInUserData.accessToken})
+                   } 
+                })
+              }
+              getUserProfileData();
             }
-            getUserProfileData();
           }
-        }
-      setSubmitLoader(false);
-      });
-    } catch (error) {
-      console.log("ERROR IN TESTING :",error);
+        setSubmitLoader(false);
+        });
+      } catch (error) {
+        console.log("ERROR IN TESTING :",error);
+      }
     }
   };
 

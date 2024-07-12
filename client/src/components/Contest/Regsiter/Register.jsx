@@ -177,11 +177,11 @@ export default function ContestRegsiter() {
                  <p className='text-[18px] font-semibold'>Rules:</p>
                  <ul className='mx-1'>
                  {contest.rules.map((s, index) => (
-                    <li className={`${s.type == 'code' ?'bg-[#d4d2d2] px-5 ':''} py-1`} key={index}>
-                      {
+                    <li className={`${s.type == 'code' ?'px-1':''} py-1 leading-[30px] list-none`} key={index}>
+                      {/* {
                         s.type!='code'&&
                         <span className="w-2 h-2 bg-[#605d5d] rounded-full inline-block mr-2"></span>
-                      }
+                      } */}
                       <span className={` text-[15px] text-slategray font-helvetica-neue-roman leading-[25px]`}>
                         {s.type == 'link' ? (
                           <a href={s.url} className="underline text-shardeumBlue" target="_blank" rel="noopener noreferrer">
@@ -206,11 +206,11 @@ export default function ContestRegsiter() {
                  <p className='text-[18px] font-semibold'>Winnings:</p>
                  <ul className='mx-1'>
                  {contest.warnings.map((s, index) => (
-                    <li className={`${s.type == 'code' ?'bg-[#d4d2d2] px-5 ':''} py-1`} key={index}>
-                      {
+                      <li className={`${s.type == 'code' ?'px-1':''} py-1 leading-[30px] list-none`} key={index}>
+                      {/* {
                         s.type!='code'&&
                         <span className="w-2 h-2 bg-[#605d5d] rounded-full inline-block mr-2"></span>
-                      }
+                      } */}
                       <span className={` text-[15px] text-slategray font-helvetica-neue-roman leading-[25px]`}>
                         {s.type == 'link' ? (
                           <a href={s.url} className="underline" target="_blank" rel="noopener noreferrer">
