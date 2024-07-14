@@ -1,30 +1,12 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import toast, { Toaster } from "react-hot-toast";
-
 import GreenButton from "../button/GreenButton";
-// import AVATAR from "../../assets/avatar.png"
-import IMG_UPLOAD from "../../assets/img_upload.png";
-import TWITTER from "../../assets/twitter.png";
-import GITHUB from "../../assets/github.png";
-import YOUTUBE from "../../assets/youtube.png";
-import LINKEDIN from "../../assets/linkedin.png";
-import DISCORD from "../../assets/discord.png";
-import HAMBURGER from "../../assets/drawer.png";
+import {IMG_UPLOAD,REMOVE,TWITTER_PNG as TWITTER,GITHUB_PNG as GITHUB,YOUTUBE,LINKEDIN,DISCORD_PNG as DISCORD,DRAWER as HAMBURGER} from "../../Constants/Assets"
 import { useContext, useState } from "react";
 import { ParentContext } from "../../contexts/ParentContext";
 import axios from "axios";
 import { useEffect, useRef } from "react";
-import REMOVE from "../../assets/remove.png";
-// import AWS from "aws-sdk";
 const EditProfile = () => {
-  // const spacesEndpoint = new AWS.Endpoint('https://blr1.digitaloceanspaces.com');
-  // const s3 = new AWS.S3({
-  //   endpoint: spacesEndpoint,
-  //   accessKeyId: 'DO00GYP2LHRMMEPF2KQR',
-  //   secretAccessKey: '7mMVFAWXcuuHBd6QZvupIBdyz9366GuD/sBhG6gSpEg'
-  // });
-
-
   const [img, setImg] = useState(null);
   const { loggedInUserData } = useContext(ParentContext)
   console.log(loggedInUserData)
@@ -32,14 +14,16 @@ const EditProfile = () => {
   const [projects, setProjects] = useState([])
   const [projectValues, setProjectValues] = useState({ title: "", URL: "", description: "" })
   const addProjectHandler = () => {
-    if (!projectValues.title || !projectValues.URL || !projectValues.description) return
+    if (!projectValues.title.trim() || !projectValues.URL.trim() || !projectValues.description.trim()) {
+      toast.error("please fill all the fields")
+      return
+    }
     setProjects(prev => {
       if (!prev.length) return [{ id: 1, ...projectValues }]
       else return [...prev, { id: prev[prev.length - 1].id + 1, ...projectValues }]
     })
     setProjectValues({ title: "", URL: "", description: "" })
   }
-
   useEffect(() => {
     if (loggedInUserData?.projects) {
       setProjects(loggedInUserData.projects)
@@ -102,6 +86,9 @@ const EditProfile = () => {
         if (!emailRegex.test(value)) {
           errorMsg = 'Invalid email address';
         }
+        else if(value.length>20){
+          errorMsg = 'Email should not have more than 20 characters';
+        }
         else
           errorMsg = ''
         break;
@@ -113,6 +100,17 @@ const EditProfile = () => {
         else
           errorMsg = ''
         break;
+      
+      case 'description':
+          if(value.length>15){
+            errorMsg = 'Description should not contain more that 15 characters.';
+          }
+          break;
+      case 'username':
+          if(value.length>25){
+            errorMsg = 'Name should not contain more than 20 characters';
+          }
+          break;
       default:
         break;
     }
@@ -137,22 +135,26 @@ const EditProfile = () => {
       errorRef.current.scrollIntoView({ behavior: 'smooth' });
       return;
     }
-    if(data?.shardId.length<5)
-    {
-            toast.error("Shard ID must be have atleast 5 characters!!");
-            return;
+    if (data?.shardId.length < 5) {
+      toast.error("Shard ID must be have atleast 5 characters!!");
+      return;
     }
-    if(data?.email == "default")
-     {      
-        toast.error("Please enter valid email to continue!");
-        return;
-     }
+    if (data?.email == "default") {
+      toast.error("Please enter valid email to continue!");
+      return;
+    }
     var url;
-    const notNullEntries = Object.entries(data).filter(entry => entry[1])
+    const notNullEntries = Object.entries(data).filter(entry => entry[1].trim() && loggedInUserData[entry[0]]!=entry[1].trim())
+
+    if(!notNullEntries.length && !img && (!projects.length || JSON.stringify(projects)==JSON.stringify(loggedInUserData.projects))){
+      toast.error("No changes to save")
+      return
+    }
+
     const filteredData = notNullEntries.reduce((acc, curr) => {
       return { ...acc, [curr[0]]: curr[1] }
     }, {})
-  
+    console.log(filteredData)
     if (img) {
       const formData = new FormData();
       formData.append("files", img);
@@ -164,9 +166,20 @@ const EditProfile = () => {
         .then(res => res.json())
         .catch((error) => console.error(error));
       url = res[0].url
+      if(loggedInUserData.image){
+        const userImageKey=loggedInUserData.image.substring(loggedInUserData.image.lastIndexOf('/') + 1)
+        axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/deleteImage`,{key:userImageKey})
+      }
     }
 
-    axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/updateuser`, url ? { ...filteredData, image: url, id: loggedInUserData._id, projects } : { ...filteredData, id: loggedInUserData._id, projects })
+    axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/updateuser`,
+      url ? { ...filteredData, image: url, id: loggedInUserData._id, projects } : { ...filteredData, id: loggedInUserData._id, projects }
+      , {
+        headers: {
+          Authorization: `Bearer ${loggedInUserData.accessToken}`,
+        },
+      }
+    )
       .then(res => {
         if (res.data.error) {
           console.log("errr->", res.data)
@@ -177,20 +190,20 @@ const EditProfile = () => {
           window.location.reload();
         }
       })
+    
   }
-  useEffect(()=>{
-    if(loggedInUserData._id)
-    {
-       setData((prevData)=>({
-         ...prevData,
-         shardId:loggedInUserData?.shardId,
-         email:loggedInUserData?.email
-       }))
-    }  
-  },[loggedInUserData])
+  useEffect(() => {
+    if (loggedInUserData._id) {
+      setData((prevData) => ({
+        ...prevData,
+        shardId: loggedInUserData?.shardId,
+        email: loggedInUserData?.email
+      }))
+    }
+  }, [loggedInUserData])
   return (
     <div className="py-[60px] px-5 md:px-[100px] bg-shardeumPink ">
-      <Toaster/>
+      <Toaster />
       <div className="heading pb-10 border-b-2 flex ">
         <div className="flex-1 text-left">
           <p className='my-2 text-[48px] md:text-[64px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold'>Edit Profile</p>
@@ -239,10 +252,12 @@ const EditProfile = () => {
                 <div ref={errorRef} className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Your Name</label>
                   <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Name" id="username" defaultValue={loggedInUserData?.username ?? ''} onChange={changehandler} />
+                  {showError && errors.username != "" && <p className="text-red-500 text-[12px]">{errors?.username}</p>}
                 </div>
                 <div className="col-span-1 md:col-span-2 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Description</label>
                   <input className="p-[16px] rounded-[12px] border-[0.5px] h-[100px]" placeholder="Enter your Introduction" id="description" defaultValue={loggedInUserData?.description ?? ''} onChange={changehandler} />
+                  {showError && errors.description != "" && <p className="text-red-500 text-[12px]">{errors?.description}</p>}
                 </div>
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Occupation</label>
@@ -263,18 +278,18 @@ const EditProfile = () => {
                   </select>
                 </div>
                 {
-                  loggedInUserData?.email == "default"?
-                <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
-                  <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Email Address</label>
-                  <input className="p-[16px] rounded-[12px] border-[0.5px] " placeholder="Enter your email ID" id="email" defaultValue={loggedInUserData?.email ?? ''} onChange={changehandler} />
-                  {showError && errors.email != "" && <p className="text-red-500 text-[12px]">{errors?.email}</p>}
-                </div>
-                  :
-                <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
-                  <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Email Address</label>
-                  <input className="p-[16px] rounded-[12px] border-[0.5px] cursor-not-allowed" disabled placeholder="Enter your email ID" id="email" defaultValue={loggedInUserData?.email ?? ''} onChange={changehandler} />
-                  {showError && errors.email != "" && <p className="text-red-500 text-[12px]">{errors?.email}</p>}
-                </div>
+                  loggedInUserData?.email == "default" ?
+                    <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
+                      <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Email Address</label>
+                      <input className="p-[16px] rounded-[12px] border-[0.5px] " placeholder="Enter your email ID" id="email" type="email" defaultValue={loggedInUserData?.email ?? ''} onChange={changehandler} />
+                      {showError && errors.email != "" && <p className="text-red-500 text-[12px]">{errors?.email}</p>}
+                    </div>
+                    :
+                    <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
+                      <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Email Address</label>
+                      <input className="p-[16px] rounded-[12px] border-[0.5px] cursor-not-allowed" disabled placeholder="Enter your email ID" id="email" defaultValue={loggedInUserData?.email ?? ''} onChange={changehandler} />
+                      {showError && errors.email != "" && <p className="text-red-500 text-[12px]">{errors?.email}</p>}
+                    </div>
                 }
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Website URL</label>
@@ -364,7 +379,7 @@ const EditProfile = () => {
 
 
             {
-              projects.map(project => <div key={project.id} className="w-full mt-5 bg-white   p-[16px] rounded-[12px] border">
+              projects.map(project => <div key={project.id} className="w-full mt-5 bg-white overflow-hidden   p-[16px] rounded-[12px] border">
 
                 <div className="flex justify-between">
 
@@ -381,9 +396,6 @@ const EditProfile = () => {
                 </div>
 
                 <p className="mt-5">{project.description}</p>
-
-
-
               </div>)
 
             }

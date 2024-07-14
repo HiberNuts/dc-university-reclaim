@@ -22,7 +22,7 @@ export const DataCard = ({ title, data, onClick }) => {
   };
 
   return (
-<div className="DataCard" onClick={handleClick}>
+<div className="DataCard" style={{overflow:'hidden'}} onClick={handleClick}>
   <span style={{ fontSize: '25px', fontWeight: 'bold', color: 'var(--shardeum-blue)' }}>{title}</span>
   {loading ? (
     <div

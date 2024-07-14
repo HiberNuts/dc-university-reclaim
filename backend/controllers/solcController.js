@@ -308,8 +308,8 @@ exports.compileAndTest = async (req, res) => {
     // Calculate number of passing and failing tests
     const passedTests = testResults.filter(result => result.passed).length;
     const failedTests = testResults.length - passedTests;
-    const xpForEachTestCase = 500 / testResults.length;
-    const xpEarned = xpForEachTestCase * passedTests;
+    const xpForEachTestCase=500/testResults.length;
+    const xpEarned=parseInt(xpForEachTestCase*passedTests).toFixed(0);
     //UPDATE THE SUBMISSION SCHEMA 
     //SAVING WALLET ADDRESS
     Submisison.walletAddress = req.body?.walletAddress ?? '';

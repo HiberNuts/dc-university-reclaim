@@ -1,18 +1,23 @@
-import React, { useEffect, useRef, useState, Fragment } from "react";
+import React, { useEffect, useRef, useState, Fragment,useContext } from "react";
 import { Dialog, Transition } from '@headlessui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FaCode } from 'react-icons/fa';
-import { FaEdit } from "react-icons/fa";
+import { IoMdCheckmark } from "react-icons/io";
+import { IoMdClose } from "react-icons/io";
+import { RiPencilFill } from "react-icons/ri";
 import Editor from "@monaco-editor/react";
 import Split from "react-split";
 import { useAccount } from "wagmi";
+import { ParentContext } from "../../../contexts/ParentContext";
+import { getUserData } from "../../../utils/api/UserAPI";
 import { compile, compileAndSubmit } from "../../../utils/api/ContestAPI";
 import { solidityLanguageConfig, solidityTokensProvider } from "./EditorConfig";
 import solcjs from "solc-js";
+import {TRIANGLE_LOGO_EDITOR as TRI_IMG} from "../../../Constants/Assets"
+import GreenButton from "../../button/GreenButton";
 
 export default function IDE(props) {
   const compiler = useRef();
+  const { loggedInUserData, setloggedInUserData } = useContext(ParentContext);
   const editor = useRef(null);
   const { isConnected,address } = useAccount();
   const [fontSize, setFontSize] = useState(16);
@@ -21,10 +26,12 @@ export default function IDE(props) {
   const [byteCode, setByteCode] = useState("");
   const [compileError, setCompileError] = useState(null);
   const [testCases, setTestCases] = useState(null);
+  const [submitLoader,setSubmitLoader]=useState(false);
   const [currentTestCase, setCurrentTestCase] = useState(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State for dialog visibility
   const [editWalletAddress,setEditWalletAddress]=useState(false);
   const [walletAddress,setWalletAddress]=useState("");
+
   function setupMonaco(monaco) {
     monaco.languages.register({ id: "solidity" });
     monaco.languages.setLanguageConfiguration("solidity", solidityLanguageConfig);
@@ -70,6 +77,7 @@ export default function IDE(props) {
 
   const execute = async () => {
     try {
+      setSubmitLoader(true);
       setTestCases(null);
       await compile(input).then((response) => {
         if (response.error === true) {
@@ -85,6 +93,7 @@ export default function IDE(props) {
           setOutput(response.message);
           setByteCode(response.byteCode);
         }
+        setSubmitLoader(false);
       });
     } catch (er) {
       setOutput(er.message);
@@ -92,16 +101,45 @@ export default function IDE(props) {
   };
 
   const handleSubmitAndTest = async () => {
-    try {
-      setTestCases(null);
-      setIsDialogOpen(false);
-      await compileAndSubmit(input, props?.submissionID,walletAddress).then((result) => {
-        setCompileError(false);
-        setOutput("Compiled Successfully");
-        setTestCases(result);
-      });
-    } catch (error) {
-      console.log("ERROR IN TESTING");
+    //to handle preview submition
+    if(props?.preview)
+    {
+        alert("PREVIEW SUBMITION[+]")
+    }  
+    else  
+    {
+      try {
+        setSubmitLoader(true);
+        setTestCases(null);
+        setIsDialogOpen(false);
+        await compileAndSubmit(input, props?.submissionID,walletAddress).then((result) => {
+          if(result.error){
+            setCompileError(true);
+            setOutput("Failed to run test cases");
+          }else
+          {
+            setCompileError(false);
+            setOutput("Compiled Successfully");
+            setTestCases(result);
+            //TO UPDATE XP IN NAVBAR AFTER SUBMISSION
+            if(loggedInUserData?.shardId)
+            {
+              const getUserProfileData=async()=>{
+                await getUserData(loggedInUserData?.shardId).then((response)=>{
+                   if(response.error==false)
+                   {
+                     setloggedInUserData({...response.data,accessToken: loggedInUserData.accessToken})
+                   } 
+                })
+              }
+              getUserProfileData();
+            }
+          }
+        setSubmitLoader(false);
+        });
+      } catch (error) {
+        console.log("ERROR IN TESTING :",error);
+      }
     }
   };
 
@@ -137,13 +175,22 @@ export default function IDE(props) {
     if (props?.completed?.completed === true) {
       setTestCases({ testResults: props.completed?.testResults });
     }
+
+    if (props?.completed?.completed === true) {
+      setInput(props?.completed?.submittedCode);
+    } else {
+      const boilerplateCode = props?.program?.boilerplate_code
+        ? `// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n${props?.program?.boilerplate_code}`
+        : `// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n\n`;
+      setInput(boilerplateCode);
+    }
   }, [props.completed]);
   useEffect(()=>{
     setWalletAddress(address);
   },[address])
 
   return (
-    <div className="h-screen w-full border flex-1 z-10">
+    <div className="h-screen w-full border flex-1 z-10 rounded-[12px]">
      <Transition className="absolute top-1/3 left-1/3" appear show={isDialogOpen} as={Fragment}>
         <Dialog as="div" className="absolute z-10" onClose={() => setIsDialogOpen(false)}>
           <Transition.Child
@@ -155,37 +202,40 @@ export default function IDE(props) {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-              <Dialog.Title as="h3" className="text-xl font-medium leading-6 text-gray-900">
-                Confirm your submission?
+            <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+              <Dialog.Title as="h3" className="flex font-medium leading-6 text-gray-900 bg-shardeumPink px-5 py-5 background_dots">
+                <div className="flex-1 text-5xl  font-helvetica-neue-bold">Confirm your submission</div>
+                <div className="flex-1 text-[20px] cursor-pointer font-semibold flex justify-end items-end"><span onClick={() => setIsDialogOpen(false)}><IoMdClose/></span></div>
               </Dialog.Title>
-              <p className="py-5">Once you submit this code, you cannot compile or submit again for this contest.  </p>
-              <p>This is your wallet address.</p>
-              <div className="flex gap-2">
-               <input type="text" value={walletAddress} onChange={(e)=>setWalletAddress(e.target.value)} disabled={!editWalletAddress?true:false} className={`w-full ${editWalletAddress?'border-2':''}`} /> 
-               <p className="mt-[3px] cursor-pointer"><FaEdit onClick={()=>setEditWalletAddress(!editWalletAddress)}/></p>
+              <div className="px-5 border-b pb-5">
+                  <p className="pt-5 pb-2 text-[15px]">Once you submit this code, you cannot compile or submit again for this contest.  </p>
+                  <p className="font-semibold pb-2 text-[15px]">This is your wallet address</p>
+                  <div className="flex gap-2">
+                  <input type="text" value={walletAddress} onChange={(e)=>setWalletAddress(e.target.value)} disabled={!editWalletAddress?true:false} className={`w-full border-[1px] px-2 py-2 rounded-[12px] ${editWalletAddress?'border-shardeumBlue':''}`} /> 
+                  <p onClick={()=>setEditWalletAddress(!editWalletAddress)} className="cursor-pointer border-[1px] border-shardeumBlue text-shardeumBlue text-[20px] p-4 rounded-[12px] flex justify-center items-center"><RiPencilFill /></p>
+                  </div>
               </div>
-             <div className="flex gap-2">
+             <div className="py-3 px-5 flex justify-end">
                      <div className="">
-                     <button onClick={() => handleSubmitAndTest()} className="mt-4 bg-blue-500 hover:bg-green-500 text-white p-2 rounded">
-                          Confirm Submission  
-                        </button>
+                      <GreenButton
+                      isHoveredReq={true}
+                      onClick={() => handleSubmitAndTest()} 
+                      text={"Confirm Submission"}
+                      />
+                    
                      </div>
-                     <div className="">
-                        <button onClick={() => setIsDialogOpen(false)} className="mt-4 bg-blue-500 text-white p-2 rounded">
-                          Close
-                        </button>
-                     </div>
+                     
              </div>
             </Dialog.Panel>
           </Transition.Child>
         </Dialog>
       </Transition>
-      <div className="w-full z-10 px-8 flex items-center justify-between h-[10%]">
+      <div className="w-full relative z-10 overflow-hidden px-8 flex items-center justify-between h-[10%]">
         <div className="flex items-center">
           <FaCode className="mr-3" />
-          <p className="">Code Editor</p>
+          <p className={`text-overflow-ellipsis font-helvetica-neue ${props?.darkTheme?'text-[#CAFFEF]':'text-black'}`}>Code Editor</p>
         </div>
+        <img src={TRI_IMG} className="absolute z-20 right-5 top-2 "/>
       </div>
       <Split
         className="flex flex-col h-[90%]"
@@ -203,29 +253,31 @@ export default function IDE(props) {
           return gutterElement;
         }}
       >
-        <div className="border h-[70%]">
+        <div className="border-t border-b h-[60%]">
           <Editor
             className="border-black h-full"
             defaultLanguage="solidity"
-            defaultValue={props?.completed?.completed === true ? props?.completed?.submittedCode : props?.program?.boilerplate_code ? `// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n${props?.program?.boilerplate_code}` : `// SPDX-License-Identifier: UNLICENSED\npragma solidity ^0.8.4;\n\n`}
+            defaultValue={input}
             theme={props.darkTheme ? "vs-dark" : "light"}
             onChange={handleEditorChange}
             beforeMount={handleEditorWillMount}
             onMount={handleEditorDidMount}
           />
         </div>
-        <div className="w-full h-[30%] overflow-y-scroll">
+        <div className="w-full h-[40%] overflow-y-scroll">
           {testCases === null && props.completed?.completed === false &&
-            <div className="w-full py-3 px-8">
+            <div className="w-full flex justify-end py-5 px-8 border-b">
               <button
-                className="bg-transparent border rounded p-2 mr-5 hover:bg-green-500"
+                disabled={submitLoader}
+                className={`${submitLoader?'cursor-not-allowed':''} border-[1px] border-shardeumGreen rounded-[10px]  px-8  py-[6px] mr-5   text-semibold  hover:text-black ${props?.darkTheme?'bg-transparent text-shardeumGreen hover:bg-shardeumGreen':'bg-green-500 border-green-500 text-white'}`}
                 onClick={() => execute()}
               >
                 Compile
               </button>
               {compileError === false &&
                 <button
-                  className="bg-transparent border rounded p-2 hover:bg-green-500"
+                  disabled={submitLoader}
+                  className={`${submitLoader?'cursor-not-allowed':''} border-[1px] border-shardeumGreen  rounded-[10px]  px-8  py-[6px] mr-5  font-semibold text-black ${props?.darkTheme?'bg-shardeumGreen':'bg-green-500 border-green-500 text-white hover:text-black'}`}
                   onClick={()=>setIsDialogOpen(true)}
                 >
                   Submit
@@ -233,39 +285,75 @@ export default function IDE(props) {
               }
             </div>
           }
-          <div className="h-full px-5 py-10 border-y">
+          {
+            submitLoader?
+          <div className="px-6 py-6">
+            <div class="flex-1 space-y-6 py-1">
+              <div class="space-y-5">
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+                  <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+                  <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+                  <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+                  <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+                  <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+                </div>
+              </div>
+            </div>
+          </div>    
+            :
+          <div className={`${output!=""&&''} px-6`}>
             {output !== "" && compileError ?
-              <div className="text-wrap overflow-y-auto max-h-[250px] p-2">
-                <p className={`text-lg text-red-500`}>Compilation Failed<br /><br /></p>
-                <pre dangerouslySetInnerHTML={{ __html: output }}></pre>
+              <div className="px-2 py-4">
+                <p className={`text-wrap text-lg text-red-500`}>Compilation Failed<br /><br /></p>
+                <pre className="text-wrap" dangerouslySetInnerHTML={{ __html: output }}></pre>
               </div>
               :
-              <div className="text-wrap overflow-y-auto max-h-[250px] p-2">
-                <p className={`text-lg text-green-500`}>{output}</p>
+              <div className="text-wrap  p-2">
+                <p className={`text-lg ${props?.darkTheme?'text-shardeumGreen':'text-green-500'}`}>{output}</p>
               </div>
             }
             {testCases != null &&
               <div className="p-2">
-                <div className="grid grid-cols-5 gap-1">
-                  <div className="col-span-1 border-[0.5px] rounded-[4px] flex flex-col justify-center">
+                <div className="grid grid-cols-8 gap-4">
+                  <div className="col-span-2    rounded-[4px] flex flex-col gap-4 justify-center">
                     {testCases?.testResults?.map((single, index) =>
-                      <p key={index} onClick={() => setCurrentTestCase(index)} className={`${index + 1 === testCases.testResults.length ? '' : 'border-b-[1px]'} ${testCases.testResults.length <= 1 ? 'py-5 px-2' : 'py-3 px-2'}  ${currentTestCase === index ? `cursor-pointer  text-black ${props?.darkTheme ? ' bg-gray ' : ' bg-black text-white '}` : ''} cursor-pointer`}>
-                        <span className="pr-2">Test case {index + 1}</span>
+                      <p key={index} onClick={() => setCurrentTestCase(index)} className={`flex flex-row gap-2 border-[1px] rounded-[12px] py-3 px-2  ${currentTestCase === index ? `cursor-pointer ${single?.passed?'border-shardeumGreen':'border-red-500'}  text-white ${props?.darkTheme ? '  ' : ' bg-black text-white '}` : ''} cursor-pointer`}>
                         {single?.passed === true ?
-                          <FontAwesomeIcon icon={faCheckCircle} style={{ color: 'green' }} />
+                          <div className={`flex justify-center items-center  text-[20px] ${props?.darkTheme?'text-shardeumGreen':'text-green-500'}`}>
+                            <IoMdCheckmark/>
+                          </div>
                           :
-                          <FontAwesomeIcon icon={faTimesCircle} style={{ color: 'red' }} />
+                          <div className="flex justify-center items-center text-red-500 text-[20px]">
+                            <IoMdClose/>
+                          </div>
                         }
+                        <div>
+                         <span className="">Test Case {index + 1}</span>
+                        </div>
                       </p>
                     )}
                   </div>
-                  <div className="col-span-4 border-[0.5px] rounded-[4px] p-5">
+                  <div className="col-span-6 border-[0.5px] rounded-[12px] p-2 pt-3">
                     {testCases?.testResults[currentTestCase].description}
                   </div>
                 </div>
               </div>
             }
           </div>
+          }
         </div>
       </Split>
     </div>

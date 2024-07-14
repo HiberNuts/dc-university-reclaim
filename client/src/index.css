@@ -100,13 +100,16 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .leaderboard_title,.profile_header{
-  background-image: url('../src/assets/backdrop_heading.png');
+  background-image: url('https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/Sharderum-Frontend-Assets/backdrop_heading.png');
+}
+.background_dots{
+  background-image: url('https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/Sharderum-Frontend-Assets/submission_bg.svg');
 }
 .table_head{
-  background-image: url("../src/assets/table_head.png");
+  background-image: url("https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/Sharderum-Frontend-Assets/table_head.png");
 }
 .top_3{
-  background-image: url('../src/assets/confetti.png');
+  background-image: url('https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/Sharderum-Frontend-Assets/confetti.png');
   background-repeat: no-repeat; 
   background-size: cover;
 }

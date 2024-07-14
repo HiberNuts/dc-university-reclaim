@@ -12,7 +12,7 @@ const contestSchema = new mongoose.Schema({
         strapiId:{type:Number},
         description:{type:String},
         title:{type:String},
-        participants:{type:Number},
+        participants:{type:Number,default:0},
         startDate:{type:Date},
         endDate:{type:Date},
         image:{type:String},

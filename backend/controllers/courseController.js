@@ -13,7 +13,7 @@ exports.getAllCoursesWithPagination=async(req,res)=>{
     const limit = parseInt(req.query.limit) || 3;
     const totalItems = await Course.countDocuments();
 
-    const courses = await Course.find({}, { contractAddress: 0, usersEnrolled: 0 })
+    const courses = await Course.find({}, { contractAddress: 0, usersEnrolled: 0,softDelete:false })
       .skip((page - 1) * limit)
       .limit(limit);
     if (courses.length === 0) {

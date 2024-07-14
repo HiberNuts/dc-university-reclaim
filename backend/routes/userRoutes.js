@@ -6,7 +6,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Headers", "x-access-token, Origin, Content-Type, Accept");
     next();
   });
-  
+
   app.post("/api/test/all", controller.allAccess);
 
   app.get("/api/test/user", [authJwt.verifyToken], controller.userBoard);
@@ -16,7 +16,7 @@ module.exports = function (app) {
   app.get("/api/test/admin", [authJwt.verifyToken, authJwt.isAdmin], controller.adminBoard);
 
   app.get("/api/user/allxyz", controller.getAllUser);
-  app.get("/api/user/:shardId",controller.getUserData);
+  app.get("/api/user/:shardId", controller.getUserData);
 
   app.post("/api/user/courseEnrolled", [authJwt.verifyToken], controller.courseEnrolled);
 
@@ -25,4 +25,5 @@ module.exports = function (app) {
   app.post("/api/user/progressPercentage", [authJwt.verifyToken], controller.userCourseProgressPercentage);
   app.post("/api/user/mintNft", [authJwt.verifyToken], controller.mintNft);
   app.get("/api/user/newsletter", controller.joinNewsLetter);
+  app.post("/api/user/deleteImage",  controller.deleteImage);
 };

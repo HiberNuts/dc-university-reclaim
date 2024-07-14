@@ -4,9 +4,9 @@ import { useParams } from "react-router-dom";
 import Problem from "../Problem/Problem";
 import Split from "react-split";
 import IDE from "./IDE";
-import { Resizable, ResizableBox } from 'react-resizable';
+import { ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css';
-import { getContestProgram,getContestByTitle } from "../../../utils/api/ContestAPI";
+import { getContestProgram } from "../../../utils/api/ContestAPI";
 
 
 export default function editor() {
@@ -20,26 +20,9 @@ export default function editor() {
   const [program,setProgram]=useState();
   const [completed,setCompleted]=useState({completed:false});
   const [loader,setLoader]=useState(true);
-  // const loadsolc = async () => {
-
-  // 	setCompiler(() => solidityCompiler)
-  // }
-  // useEffect(() => {
-  // 	loadsolc()
-  // }, [code])
-  
-  // const execute = async () => {
-  //   const version = "v0.4.25-stable-2018.09.13";
-  //   const solidityCompiler = await solcjs(version);
-  //   console.log(solidityCompiler);
-  //   const output = await solidityCompiler(code);
-  //   console.log(output);
-  // };
+ 
   useEffect(()=>{
-    // if(title!=null)
-    //   getContestByTitle(title).then(async(resp)=>{
-    //     setContest(resp.data[0].attributes);
-    //   })
+   
     if(id!=null)
       getContestProgram(loggedInUserData?.accessToken,id).then(async(resp)=>{
        if(resp.error==false)
@@ -66,7 +49,7 @@ export default function editor() {
       });
   },[id,title,loggedInUserData])
   return (
-    <div className={`w-full h-screen ${darkTheme && "bg-black text-white"} transition-all duration-200 ease-linear`}>
+    <div className={`w-full h-screen overflow-auto ${darkTheme && "bg-black text-white"} transition-all duration-200 ease-linear py-14`}>
       
       <Split
         className="flex"

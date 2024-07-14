@@ -11,27 +11,10 @@ import { ParentContext } from "../../contexts/ParentContext";
 import { getUserData,getUserContestDetails } from "../../utils/api/UserAPI";
 import ProfileBadge from "./ProfileBadge";
 const ProfileCourses = lazy(() => import("./ProfileCourses"));
+import { NAVLOGO_BLACK,JOB,MAIL,PORTFOLIO,LEVEL,TWITTER_PNG as TWITTER,GITHUB_PNG as GITHUB,YOUTUBE,LINKEDIN,DISCORD_PNG as DISCORD,LEADERBOARD_TRIANGLE as TRIANGLE_IMG,FLASH,PARTICIPATION,STAR_SVG as STAR,BADGES,PRIZE } from "../../Constants/Assets";
 import mailSVG from "./mailSVG.svg";
 import workSVG from "./workSVG.svg";
-import logo from "../../assets/navlogoBlack.svg";
-import JOB from "../../assets/job.svg";
-import MAIL from "../../assets/mail.svg";
-import PORTFOLIO from "../../assets/portfolio.svg";
-import LEVEL from "../../assets/level.svg";
-import TWITTER from "../../assets/twitter.png";
-import GITHUB from "../../assets/github.png";
-import YOUTUBE from "../../assets/youtube.png";
-import LINKEDIN from "../../assets/linkedin.png";
-import DISCORD from "../../assets/discord.png";
 import ProfileButton from "../button/ProfileButton";
-import TRIANGLE_IMG from "../../assets/leaderboard_triangle.png";
-import AVATAR from "../../assets/avatar.png";
-import FLASH from "../../assets/flash.svg";
-import PARTICIPATION from "../../assets/participation.svg";
-import STAR from "../../assets/star.svg";
-import BADGES from "../../assets/badges.svg";
-import PRIZE from "../../assets/prize.svg";
-import GreenButton from "../button/GreenButton";
 import { Link } from "react-router-dom";
 import ProfileProjects from "./ProfileProjects";
 
@@ -93,6 +76,7 @@ const Profile = ({ isOpen, closeModal }) => {
         getUserData(shardId).then((response)=>{
            if(response.error==false)
            {
+            if(response?.data!=null)
              setUserProfile(response?.data);
            } 
         })
@@ -272,7 +256,7 @@ const Profile = ({ isOpen, closeModal }) => {
                                     }
                                   </div>
                                   {
-                                    loggedInUserData?._id==userProfile?._id&&
+                                    userProfile!=null&&(loggedInUserData?._id==userProfile?._id)&&
                                     <div className="mt-10">
                                       <Link to={'/profile/edit'}>
                                         <ProfileButton isHoveredReq={true} text={"Edit Profile"} />
@@ -326,9 +310,9 @@ const Profile = ({ isOpen, closeModal }) => {
                                    <p>Email not yet  verified. Please <span className="text-blue-500 cursor-pointer" onClick={handleResendVerificationEmail}> click </span>to verify it.</p>
                          </div>
                          }
-                         {userContestData!=null&&
+                         {userContestData!=null&&userProfile!=null&&
                          <div className="py-2 px-2 lg:px-10">
-                            <ProfileBadge data={userContestData}/>
+                            <ProfileBadge data={userContestData} courseData={userProfile}/>
                          </div>
                          }
                          <div className="py-2 px-2 lg:px-10">
@@ -340,7 +324,7 @@ const Profile = ({ isOpen, closeModal }) => {
                           </div>
                          </div>
                          {
-                         loggedInUserData?.projects && 
+                         userProfile?.projects && 
                           <div className="py-2 px-2 lg:px-10">
                              <ProfileProjects projects={userProfile?.projects??[]}  />
                           </div>

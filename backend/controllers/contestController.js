@@ -3,13 +3,14 @@ const Users = db.user;
 const Contests = db.Contests;
 const Programs = db.Programs;
 const Submissions = db.Submissions;
-const { rankSubmissions } = require('../utils/leaderboardCalculator')
+const { getLeaderboard,generateLeaderboardFunction } = require('../utils/leaderboardCalculator')
 const { formatResponse } = require('../utils/formatResponse');
 const { mapRichTextNodesToSchema } = require('../utils/mapRichText')
 //LATEST CONTEST
 exports.getLatestContest = async (req, res) => {
   try {
-    const latestContest = await Contests.findOne().sort({ createdAt: -1 });
+    const today = new Date();
+    const latestContest = await Contests.findOne({ softDelete:false,endDate: { $gte: today } }).sort({ endDate: 1 });
     if (!latestContest) {
       return res.status(404).send(formatResponse(true, "No contests found"));
     }
@@ -24,6 +25,7 @@ exports.getUpcomingContests = async (req, res) => {
   try {
     const today = new Date().toISOString();
     const upcomingContests = await Contests.find({
+      softDelete:false,
       endDate: { $gt: today }
     })
       .sort({ endDate: 1 })
@@ -53,8 +55,9 @@ exports.getPastContests = async (req, res) => {
     const { page = 1, limit = 3 } = req.query; // Default to page 1 and limit 10 if not provided
     const today = new Date().toISOString();
 
-    const totalItems = await Contests.countDocuments({ endDate: { $lt: today } });
+    const totalItems = await Contests.countDocuments({softDelete:false, endDate: { $lt: today } });
     const pastContests = await Contests.find({
+      softDelete:false,
       endDate: { $lt: today }
     })
       .sort({ endDate: -1, _id: 1 })
@@ -125,7 +128,26 @@ exports.getProgram = async (req, res) => {
     res.status(500).send(formatResponse(true, error.message));
   }
 };
-
+//GET SOLUTION
+exports.getSolution=async(req,res)=>{
+   try {
+    const contest=await Contests.findOne({title:req.query.title});
+    if(!contest)
+       return res.status(200).send(formatResponse(true,"Contest not found!")) ; 
+    // Get the current date and time
+    const now = new Date();
+    if(now>contest.endDate)
+      {
+      const program=await Programs.findOne({contestId:contest._id});
+        if(!program)  
+          return res.status(200).send(formatResponse(true,"Program not found!")) ;
+      return res.status(200).send(formatResponse(false,"Solution retrieved",{program:program,contest:contest})); 
+      }  
+    return res.status(200).send(formatResponse(true,"Solution is not yet published!"));
+   } catch (error) {
+       return res.status(500).send(formatResponse(true,"Internal Server Error"));
+   }
+}
 //SUBMISSIONS
 exports.createSubmission = async (req, res) => {
   try {
@@ -133,7 +155,13 @@ exports.createSubmission = async (req, res) => {
     if (!contest) {
       return res.status(404).send(formatResponse(true, "Contest not found"));
     }
-    const isSubmissionExist = await Submissions.findOne({ contest: contest._id });
+    // Get the current date and time
+    const now = new Date();
+    // Check if the current date and time is within the contest's start and end date
+    if (now < contest.startDate || now > contest.endDate) {
+      return res.status(200).send(formatResponse(true, "The contest is not active at this time"));
+    }
+    const isSubmissionExist = await Submissions.findOne({ contest: contest._id,user:req.userId });
     if (isSubmissionExist) {
       return res.status(200).send(formatResponse(false, "User already registered for the contest!", { submissionId: isSubmissionExist._id }));
     }
@@ -165,69 +193,90 @@ exports.alreadyRegistered = async (req, res) => {
   }
 };
 
-exports.getUsersByContest = async (req, res) => {
+//ADMIN PANEL ROUTES
+exports.getSubmissionByContest = async (req, res) => {
   try {
     const submissions = await Submissions.find({ contest: req.body.contestId });
-    const registeredUsers = submissions.map(submission => submission.user.toHexString())
-
-    const registeredUsersWithoutDuplicates = registeredUsers.filter((user, index) => !registeredUsers.slice(0, index).includes(user))
-    const users = await Users.find({ _id: { $in: registeredUsersWithoutDuplicates } })
-    return res.status(200).send(users)
+  
+    const users = await Users.find()
+    const userCompletedSubmission=submissions.map(submission=>{
+      const {username,shardId='NA',walletAddress}=users.find(user=>user._id.toHexString()==submission.user.toHexString())
+      const {totalCases='NA',passedCases='NA',xp='NA',rank,submittedTime='NA'}=submission
+      return {
+          rank,
+          username,
+          shardId,
+          totalCases,
+          passedCases,
+          submittedTime,
+          xp,
+          walletAddress
+      }
+    }).sort((a, b) => a.rank - b.rank)
+    return res.status(200).send(userCompletedSubmission)
   } catch (error) {
-    res.status(500).send(formatResponse(true, error.message));
+    console.log(error)
+    res.status(500).send(error);
+
   }
 };
+//SOFT DELETE A CONTEST
+exports.deleteAContest=async(req,res)=>{
+   try {
+      const contestId=await Contests.findById(req.query.id);
+      if(!contestId)
+         return res.status(200).send(formatResponse(true,"Contest not exist in DB"));
+      if(contestId.softDelete==true)
+        return res.status(200).send(formatResponse(true,"Contest already soft deleted!"));
+      contestId.softDelete=true;
+      await contestId.save();
+      return res.status(200).send(formatResponse(false,"Contest is soft deleted."))  
+   } catch (error) {
+      return res.status(500).send(formatResponse(true,error.message));
+   }
+}
 
 
 
 
-
-// exports.compiler = async (req, res) => {
-//     try {
-//       const {content}=req.body
-//       console.log(content)
-//       var input = {
-//         language: 'Solidity',
-//         sources: {
-//           'test.sol': {
-//             content,
-//           }
-//         },
-//         settings: {
-//           outputSelection: {
-//             '*': {
-//               '*': ['*']
-//             }
-//           }
-//         }
-//       };
-
-//       var output = JSON.parse(solc.compile(JSON.stringify(input)));
-//       for (var contractName in output.contracts['test.sol']) {
-//         console.log(
-//           contractName +
-//             ': ' +
-//             output.contracts['test.sol'][contractName].evm.bytecode.object
-//         );
-//       }
-//       res.status(200).send(output)
-//     } catch (error) {
-//       console.error("Error while compiling", error);
-//       res.status(500).send({ message: error.message || "Internal Server Error" });
-//     }
-//   };
-exports.leaderboard = async (req, res) => {
+//LEADERT BOARD
+exports.generateLeaderboard=async(req,res)=>{
   try {
-    const contestID = req.query.id;
-    const allSubmissions = await Submissions.find({ contest: contestID, status: "completed" });
-    if (allSubmissions.length > 0) {
-      let ranks = await rankSubmissions(allSubmissions, contestID);
-      return res.send(formatResponse(false, "Leaderboard details fetched successfully", ranks));
-    }
-    return res.send(formatResponse(false, "No one submitted yet for the contest", []))
+    const contestID=req.query.id;
+    const allSubmissions = await Submissions.find({
+      contest: contestID,
+      status: "completed",
+    });
+       if(allSubmissions.length>0)
+        {
+         let resp=await generateLeaderboardFunction(allSubmissions,contestID);
+         if(resp.error==false)
+          return res.status(200).send(formatResponse(false,resp.message));
+        else
+          return res.status(200).send(formatResponse(true,resp.message));
+        }
+       return res.send(formatResponse(false,"No one submitted yet for the contest",[]))
   } catch (error) {
-    res.status(500).send(formatResponse(true, error?.message));
+     res.status(500).send(formatResponse(true,error?.message));
   }
+}
+exports.leaderboard=async(req,res)=>{
+    try {
+       const contestID=req.query.id;
+       const allSubmissions = await Submissions.find({
+        contest: contestID,
+        status: "completed",
+        rank: { $ne: -1 }
+      });      
+       if(allSubmissions.length>0)
+        {
+          let ranks=await getLeaderboard(allSubmissions);
+          return res.send(formatResponse(false, "Leaderboard details fetched successfully",ranks));
+        }
+       return res.send(formatResponse(false,"No one submitted yet for the contest",[]))
+    } catch (error) {
+       res.status(500).send(formatResponse(true,error?.message));
+    }
 }
 exports.getUserContestDetails = async (req, res) => {
   try {
@@ -236,7 +285,7 @@ exports.getUserContestDetails = async (req, res) => {
     // Calculate the statistics
     const totalSubmissions = allSubmissions.length;
     const totalXpEarned = allSubmissions.reduce((acc, submission) => acc + (submission.xp || 0), 0);
-    const totalAmountEarned = allSubmissions.reduce((acc, submission) => acc + (submission.amountEarned || 0), 0);
+    const totalAmountEarned = allSubmissions.reduce((acc, submission) => acc + (parseInt(submission.amountEarned) || 0), 0);
     const rank1Count = allSubmissions.filter(submission => submission.rank === 1).length;
     const badges = 0;
     const response = {
@@ -384,7 +433,8 @@ const createProgram = async (req) => {
       duration = '',
       boilerplate_code = '',
       description = [],
-      test_cases = []
+      test_cases = [],
+      solution=''
     } = req.body.entry;
 
     const contest = await Contests.findOne({ strapiId: strapiContestId });
@@ -402,7 +452,8 @@ const createProgram = async (req) => {
       duration,
       boilerplate_code,
       description: mappedDescription,
-      test_cases
+      test_cases,
+      solution
     });
 
     await createdProgram.save();
@@ -421,7 +472,8 @@ const updateProgram = async (req) => {
       duration = '',
       boilerplate_code = '',
       description = [],
-      test_cases = []
+      test_cases = [],
+      solution=''
     } = req.body.entry;
 
     const mappedDescription = description[0]?.children ? mapRichTextNodesToSchema(description[0].children) : '';
@@ -431,7 +483,8 @@ const updateProgram = async (req) => {
       strapiContestId,
       boilerplate_code,
       description: mappedDescription,
-      test_cases
+      test_cases,
+      solution
     };
 
     const updatedProgram = await Programs.findOneAndUpdate(

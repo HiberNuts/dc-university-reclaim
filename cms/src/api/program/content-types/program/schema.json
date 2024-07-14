@@ -26,6 +26,9 @@
       "type": "component",
       "repeatable": true,
       "component": "contest-meta.test-cases"
+    },
+    "solution": {
+      "type": "text"
     }
   }
 }
