@@ -434,6 +434,7 @@ const createProgram = async (req) => {
       boilerplate_code = '',
       description = [],
       test_cases = [],
+      test_file_content='',
       solution=''
     } = req.body.entry;
 
@@ -453,6 +454,7 @@ const createProgram = async (req) => {
       boilerplate_code,
       description: mappedDescription,
       test_cases,
+      test_file_content,
       solution
     });
 
@@ -473,9 +475,9 @@ const updateProgram = async (req) => {
       boilerplate_code = '',
       description = [],
       test_cases = [],
+      test_file_content='',
       solution=''
     } = req.body.entry;
-
     const mappedDescription = description[0]?.children ? mapRichTextNodesToSchema(description[0].children) : '';
 
     const updateData = {
@@ -484,6 +486,7 @@ const updateProgram = async (req) => {
       boilerplate_code,
       description: mappedDescription,
       test_cases,
+      test_file_content,
       solution
     };
 

@@ -88,12 +88,7 @@ exports.compiler = async (req, res) => {
 
 exports.test = async (req, res) => {
 
-
-  const { userCode, testFileContent } = req.body;
-  // const Submission = await Submissions.findById(req.body.submissionId);
-  // if (!Submission)
-  //   return res.status(404).send({ error: true, message: "Invalid submission!" });
-  // const Program = await Programs.findOne({ contestId: Submission.contest });
+  const { userCode='',submissionId='',testFileContent='',isPreview=true,walletAddress='' } = req.body; 
 
   try {
     function findImports(importPath) {
@@ -232,7 +227,34 @@ exports.test = async (req, res) => {
       await testFunction(chai, ethers, expect, global.describe, global.it, global.beforeEach, global.afterEach, signer, network)();
 
       await Promise.all(testPromises);
-      res.json({ results });
+      //IF IT IS NOT FOR PREVIEW TESTING
+      if(isPreview==false)
+      {
+        const Submisison = await Submissions.findById(submissionId);
+        if (!Submisison)
+          return res.json(404).send({ error: true, message: "Invalid submission!" });
+            // Calculate number of passing and failing tests
+        const passedTests = results.filter(result => result.passed).length;
+        const failedTests = results.length - passedTests;
+        const xpForEachTestCase=500/results.length;
+        const xpEarned=parseInt(xpForEachTestCase*passedTests).toFixed(0);
+         //UPDATE THE SUBMISSION SCHEMA 
+        //SAVING WALLET ADDRESS
+        Submisison.walletAddress = walletAddress ?? '';
+        Submisison.passedCases = passedTests;
+        Submisison.totalCases = passedTests + failedTests;
+        Submisison.testResults = results;
+        Submisison.submittedCode = userCode;
+        Submisison.submittedTime = new Date();
+        Submisison.xp = xpEarned;
+        Submisison.status = "completed"
+
+        await Submisison.save();
+        console.log("New Submisission updated");
+        return res.json({passedTests,failedTests, results });
+      }
+      console.log("Preview submission done[+]")
+      return res.json({results });
     } catch (error) {
       console.error("Error running tests:", error);
       res.status(500).json({ error: error.message });

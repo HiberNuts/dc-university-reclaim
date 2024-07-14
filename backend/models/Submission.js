@@ -1,7 +1,8 @@
 const mongoose=require('mongoose');
 const testResultSchema=new mongoose.Schema({
      passed:{type:Boolean},
-     description:{type:String}
+     description:{type:String},
+     error:{type:String}
 })
 const submissionSchema=new mongoose.Schema({
      user:{type: mongoose.Schema.Types.ObjectId,required:true},

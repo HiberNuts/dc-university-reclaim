@@ -234,8 +234,7 @@ export const compile = async (code) => {
         {
           return { error: true,message:res.data.errors[0].formattedMessage?.replace(/\n/g, '<br\>')};
         }  
-        let byteCode=res.data.contracts["test.sol"].TestContract.evm.bytecode.object;
-        return { error: false,byteCode:byteCode,message: "Compiled Successfully" };
+        return { error: false,message: "Compiled Successfully" };
       }
     } catch (error) {
       console.error("Compile Error-->", error);
@@ -254,4 +253,20 @@ export const compileAndSubmit=async(code,submissionID,address)=>{
       console.error("Compile Error-->", error);
       return { error: true, message: "Failed to compile" };
     }
+  }
+
+export const compileAndTest=async(code,testFileContent,submissionId,isPreview,walletAddress)=>{
+    try{
+      const res=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/test`,{
+       userCode: code,
+       testFileContent,
+       isPreview,
+       submissionId,
+       walletAddress
+     })
+     return res.data;
+    }catch(error){
+      console.log("Compile & test error :",error);
+      return {error:true,message:"Failed to submit test cases"}
+    } 
   }
