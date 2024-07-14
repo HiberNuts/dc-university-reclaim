@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 import { getContestSolution } from "../../../utils/api/ContestAPI"
 import { useParams } from "react-router-dom"
-import { Resizable, ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css';
 import Split from "react-split";
 import Problem from "../../editor/Problem/Problem";
-import IDE from "../../editor/IDE/IDE";
-import Editor from "@monaco-editor/react";
 
 export default function Solution() {
   const { title } = useParams();
@@ -14,21 +11,35 @@ export default function Solution() {
   const [program, setProgram] = useState(null);
   const [contest, setContest] = useState(null);
   const [darkTheme, setDarkTheme] = useState(true);
-
+  const [error,setError]=useState('');
   useEffect(() => {
     getContestSolution(title).then((resp) => {
       if (resp.error == false) {
         console.log(resp.data)
         setContest(resp.data.contest);
         setProgram(resp.data.program);
+        if(resp.data.program?.solution=='')
+        {
+          setError("Solution is not added yet!");
+          console.log("Solution is not added in db")
+          return;
+        }
         setLoader(false);
+      }
+      else
+      {
+         setError(resp.message);
       }
     })
   }, [title])
   return (
     <div>
       {
-        loader ?
+        loader ? error!=''?
+        <div className="h-screen flex justify-center items-center text-[30px]">
+            {error}
+          </div>  
+        :
           <div className="h-screen flex justify-center items-center text-[30px]">
             ...
           </div> :
