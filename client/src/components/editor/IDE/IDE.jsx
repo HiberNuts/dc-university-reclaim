@@ -9,7 +9,7 @@ import Split from "react-split";
 import { useAccount } from "wagmi";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { getUserData } from "../../../utils/api/UserAPI";
-import { compile, compileAndSubmit } from "../../../utils/api/ContestAPI";
+import { compile, compileAndSubmit,compileAndTest } from "../../../utils/api/ContestAPI";
 import { solidityLanguageConfig, solidityTokensProvider } from "./EditorConfig";
 import solcjs from "solc-js";
 import {TRIANGLE_LOGO_EDITOR as TRI_IMG} from "../../../Constants/Assets"
@@ -91,7 +91,6 @@ export default function IDE(props) {
         } else {
           setCompileError(false);
           setOutput(response.message);
-          setByteCode(response.byteCode);
         }
         setSubmitLoader(false);
       });
@@ -101,38 +100,66 @@ export default function IDE(props) {
   };
 
   const handleSubmitAndTest = async () => {
-    try {
-      setSubmitLoader(true);
-      setTestCases(null);
-      setIsDialogOpen(false);
-      await compileAndSubmit(input, props?.submissionID,walletAddress).then((result) => {
-        if(result.error){
-          setCompileError(true);
-          setOutput("Failed to run test cases");
-        }else
-        {
-          setCompileError(false);
-          setOutput("Compiled Successfully");
-          setTestCases(result);
-          //TO UPDATE XP IN NAVBAR AFTER SUBMISSION
-          if(loggedInUserData?.shardId)
-          {
-            const getUserProfileData=async()=>{
-              await getUserData(loggedInUserData?.shardId).then((response)=>{
-                 if(response.error==false)
-                 {
-                   setloggedInUserData({...response.data,accessToken: loggedInUserData.accessToken})
-                 } 
-              })
-            }
-            getUserProfileData();
-          }
-        }
-      setSubmitLoader(false);
-      });
-    } catch (error) {
-      console.log("ERROR IN TESTING :",error);
-    }
+
+      try {
+        setSubmitLoader(true);
+        setTestCases(null);
+        setIsDialogOpen(false);
+        let isPreviewComponent=props?.preview??false;
+        await compileAndTest(input,props?.program?.test_file_content,props?.submissionID,isPreviewComponent,walletAddress).then((resp)=>{
+           if(resp?.error)
+           {
+            setCompileError(true);
+            setOutput("Failed to run test cases");
+            setSubmitLoader(false);
+            return;
+           }
+           setCompileError(false);
+           setOutput("Test Cases Submitted Successfully")
+           setTestCases(resp?.results);
+            //TO UPDATE XP IN NAVBAR AFTER SUBMISSION
+            if(loggedInUserData?.shardId)
+              {
+                const getUserProfileData=async()=>{
+                  await getUserData(loggedInUserData?.shardId).then((response)=>{
+                      if(response.error==false)
+                      {
+                        setloggedInUserData({...response.data,accessToken: loggedInUserData.accessToken})
+                      } 
+                  })
+                }
+                getUserProfileData();
+              }
+        setSubmitLoader(false);
+        })
+        // await compileAndSubmit(input, props?.submissionID,walletAddress).then((result) => {
+        //   if(result.error){
+        //     setCompileError(true);
+        //     setOutput("Failed to run test cases");
+        //   }else
+        //   {
+        //     setCompileError(false);
+        //     setOutput("Compiled Successfully");
+        //     setTestCases(result);
+            // //TO UPDATE XP IN NAVBAR AFTER SUBMISSION
+            // if(loggedInUserData?.shardId)
+            // {
+            //   const getUserProfileData=async()=>{
+            //     await getUserData(loggedInUserData?.shardId).then((response)=>{
+            //        if(response.error==false)
+            //        {
+            //          setloggedInUserData({...response.data,accessToken: loggedInUserData.accessToken})
+            //        } 
+            //     })
+            //   }
+            //   getUserProfileData();
+        //     }
+        //   }
+        // setSubmitLoader(false);
+        // });
+      } catch (error) {
+        console.log("ERROR IN TESTING :",error);
+      }
   };
 
   function handleEditorChange(value, event) {
@@ -165,7 +192,7 @@ export default function IDE(props) {
 
   useEffect(() => {
     if (props?.completed?.completed === true) {
-      setTestCases({ testResults: props.completed?.testResults });
+      setTestCases(props.completed?.testResults);
     }
 
     if (props?.completed?.completed === true) {
@@ -321,7 +348,7 @@ export default function IDE(props) {
               <div className="p-2">
                 <div className="grid grid-cols-8 gap-4">
                   <div className="col-span-2    rounded-[4px] flex flex-col gap-4 justify-center">
-                    {testCases?.testResults?.map((single, index) =>
+                    {testCases?.map((single, index) =>
                       <p key={index} onClick={() => setCurrentTestCase(index)} className={`flex flex-row gap-2 border-[1px] rounded-[12px] py-3 px-2  ${currentTestCase === index ? `cursor-pointer ${single?.passed?'border-shardeumGreen':'border-red-500'}  text-white ${props?.darkTheme ? '  ' : ' bg-black text-white '}` : ''} cursor-pointer`}>
                         {single?.passed === true ?
                           <div className={`flex justify-center items-center  text-[20px] ${props?.darkTheme?'text-shardeumGreen':'text-green-500'}`}>
@@ -339,7 +366,16 @@ export default function IDE(props) {
                     )}
                   </div>
                   <div className="col-span-6 border-[0.5px] rounded-[12px] p-2 pt-3">
-                    {testCases?.testResults[currentTestCase].description}
+                   <p>
+                     {testCases[currentTestCase].description}
+                   </p>
+                   <br/>
+                   {
+                    testCases[currentTestCase]?.error!=null&&
+                   <p>
+                     {testCases[currentTestCase]?.error}
+                   </p>
+                   }
                   </div>
                 </div>
               </div>

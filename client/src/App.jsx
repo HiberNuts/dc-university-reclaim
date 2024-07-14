@@ -19,6 +19,9 @@ import PreviewCourseDesc from "./components/Courses/CourseDesc/PreviewCourseDesc
 import PreviewWorkplace from "./components/PreviewWorkPlace/PreviewWorkplace";
 import ContestRegsiter from "./components/Contest/Regsiter/Register";
 import AllContests from "./components/Contest/List/AllContests";
+import AllPreviewContests from "./components/Contest/Preview/AlllPreviewContests";
+import PreviewContest from "./components/Contest/Preview/PreviewContest";
+import EditorPreview from "./components/Contest/Preview/EditorPreview";
 import Editor from "./components/editor/IDE/Editor";
 import Solution from "./components/Contest/Solution/Solution";
 
@@ -56,6 +59,9 @@ function App() {
         <Route path="/emailverification" element={<EmailVerification />} />
         <Route path="/contest/register/:title" element={<ContestRegsiter/>}/>
         <Route path="/contests" element={<AllContests />}/>
+        <Route path="/allpreviewcontests" element={<AllPreviewContests />}/>
+        <Route path="/previewcontests/:id" element={<PreviewContest />}/>
+        <Route path="/previewcontests/editor/:id" element={<EditorPreview />}/>
         <Route path="/contest/:title/solution" element={<Solution/>}/>
         <Route path="/editor/:title/:id" element={<Editor/>}/>
         {/* hello */}

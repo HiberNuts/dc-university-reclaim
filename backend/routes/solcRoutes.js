@@ -16,4 +16,6 @@ module.exports = function (app) {
 
   app.post('/api/compile-and-test', controller.compileAndTest);
 
+  app.post('/api/test', controller.test);
+
 };

@@ -29,6 +29,9 @@
     },
     "solution": {
       "type": "text"
+    },
+    "test_file_content": {
+      "type": "text"
     }
   }
 }

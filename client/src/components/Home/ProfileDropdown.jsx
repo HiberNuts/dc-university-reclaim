@@ -1,9 +1,10 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GreenButton from "../button/GreenButton";
 import { HEADER_XP,HEADER_USER } from "../../Constants/Assets";
 const ProfileDropDown = ({ account, openAccountModal, toggleNavbar, loggedInUserData,xp=0,homeRoute=false}) => {
+  const navigate=useNavigate();
   return (
     <div className=" z-50 min-w-56 text-right">
       <Menu as="div" className="relative inline-block text-left">
@@ -92,6 +93,7 @@ const ProfileDropDown = ({ account, openAccountModal, toggleNavbar, loggedInUser
                       if (toggleNavbar) {
                         toggleNavbar();
                       }
+                      
                     }}
                     className={`${
                       active ? "bg-shardeumBlue text-white" : "text-gray-900"

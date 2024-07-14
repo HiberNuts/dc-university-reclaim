@@ -76,6 +76,7 @@ const Profile = ({ isOpen, closeModal }) => {
         getUserData(shardId).then((response)=>{
            if(response.error==false)
            {
+            if(response?.data!=null)
              setUserProfile(response?.data);
            } 
         })
@@ -255,7 +256,7 @@ const Profile = ({ isOpen, closeModal }) => {
                                     }
                                   </div>
                                   {
-                                    loggedInUserData?._id==userProfile?._id&&
+                                    userProfile!=null&&(loggedInUserData?._id==userProfile?._id)&&
                                     <div className="mt-10">
                                       <Link to={'/profile/edit'}>
                                         <ProfileButton isHoveredReq={true} text={"Edit Profile"} />
@@ -323,7 +324,7 @@ const Profile = ({ isOpen, closeModal }) => {
                           </div>
                          </div>
                          {
-                         loggedInUserData?.projects && 
+                         userProfile?.projects && 
                           <div className="py-2 px-2 lg:px-10">
                              <ProfileProjects projects={userProfile?.projects??[]}  />
                           </div>

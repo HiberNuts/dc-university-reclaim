@@ -14,14 +14,16 @@ const EditProfile = () => {
   const [projects, setProjects] = useState([])
   const [projectValues, setProjectValues] = useState({ title: "", URL: "", description: "" })
   const addProjectHandler = () => {
-    if (!projectValues.title || !projectValues.URL || !projectValues.description) return
+    if (!projectValues.title.trim() || !projectValues.URL.trim() || !projectValues.description.trim()) {
+      toast.error("please fill all the fields")
+      return
+    }
     setProjects(prev => {
       if (!prev.length) return [{ id: 1, ...projectValues }]
       else return [...prev, { id: prev[prev.length - 1].id + 1, ...projectValues }]
     })
     setProjectValues({ title: "", URL: "", description: "" })
   }
-
   useEffect(() => {
     if (loggedInUserData?.projects) {
       setProjects(loggedInUserData.projects)
@@ -84,6 +86,9 @@ const EditProfile = () => {
         if (!emailRegex.test(value)) {
           errorMsg = 'Invalid email address';
         }
+        else if(value.length>20){
+          errorMsg = 'Email should not have more than 20 characters';
+        }
         else
           errorMsg = ''
         break;
@@ -95,6 +100,17 @@ const EditProfile = () => {
         else
           errorMsg = ''
         break;
+      
+      case 'description':
+          if(value.length>15){
+            errorMsg = 'Description should not contain more that 15 characters.';
+          }
+          break;
+      case 'username':
+          if(value.length>25){
+            errorMsg = 'Name should not contain more than 20 characters';
+          }
+          break;
       default:
         break;
     }
@@ -128,7 +144,7 @@ const EditProfile = () => {
       return;
     }
     var url;
-    const notNullEntries = Object.entries(data).filter(entry => entry[1] && loggedInUserData[entry[0]]!=entry[1])
+    const notNullEntries = Object.entries(data).filter(entry => entry[1].trim() && loggedInUserData[entry[0]]!=entry[1].trim())
 
     if(!notNullEntries.length && !img && (!projects.length || JSON.stringify(projects)==JSON.stringify(loggedInUserData.projects))){
       toast.error("No changes to save")
@@ -236,10 +252,12 @@ const EditProfile = () => {
                 <div ref={errorRef} className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Your Name</label>
                   <input className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your Name" id="username" defaultValue={loggedInUserData?.username ?? ''} onChange={changehandler} />
+                  {showError && errors.username != "" && <p className="text-red-500 text-[12px]">{errors?.username}</p>}
                 </div>
                 <div className="col-span-1 md:col-span-2 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Description</label>
                   <input className="p-[16px] rounded-[12px] border-[0.5px] h-[100px]" placeholder="Enter your Introduction" id="description" defaultValue={loggedInUserData?.description ?? ''} onChange={changehandler} />
+                  {showError && errors.description != "" && <p className="text-red-500 text-[12px]">{errors?.description}</p>}
                 </div>
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Occupation</label>
@@ -263,7 +281,7 @@ const EditProfile = () => {
                   loggedInUserData?.email == "default" ?
                     <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                       <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Email Address</label>
-                      <input className="p-[16px] rounded-[12px] border-[0.5px] " placeholder="Enter your email ID" id="email" defaultValue={loggedInUserData?.email ?? ''} onChange={changehandler} />
+                      <input className="p-[16px] rounded-[12px] border-[0.5px] " placeholder="Enter your email ID" id="email" type="email" defaultValue={loggedInUserData?.email ?? ''} onChange={changehandler} />
                       {showError && errors.email != "" && <p className="text-red-500 text-[12px]">{errors?.email}</p>}
                     </div>
                     :
@@ -361,7 +379,7 @@ const EditProfile = () => {
 
 
             {
-              projects.map(project => <div key={project.id} className="w-full mt-5 bg-white   p-[16px] rounded-[12px] border">
+              projects.map(project => <div key={project.id} className="w-full mt-5 bg-white overflow-hidden   p-[16px] rounded-[12px] border">
 
                 <div className="flex justify-between">
 
@@ -378,9 +396,6 @@ const EditProfile = () => {
                 </div>
 
                 <p className="mt-5">{project.description}</p>
-
-
-
               </div>)
 
             }

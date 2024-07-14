@@ -12,6 +12,7 @@ const programSchema=new mongoose.Schema({
     boilerplate_code:{type:String},
     description:{type:Array},
     test_cases:{ type :[testCaseSchema]},
+    test_file_content:{type:String},
     solution:{type:String},
 })
 
