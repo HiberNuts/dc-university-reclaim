@@ -1,4 +1,4 @@
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState,useRef,useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllPreviewContest } from "../../../utils/api/ContestAPI";
 import { motion, useScroll } from "framer-motion";
@@ -6,13 +6,14 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { CALENDAR_MONTH as CALENDER } from "../../../Constants/Assets";
 import { formatTimestamp } from "../../../utils/time";
 import GreenButton from "../../button/GreenButton";
+import { checkAuthinStrapi } from "../../../utils/api/ContestAPI";
+import { ParentContext } from "../../../contexts/ParentContext";
 const AllPreviewContests=()=>{
     const [courses,setCourses]=useState([]);
     const navigate=useNavigate();
-   
+    const { loggedInUserData } = useContext(ParentContext);
     useEffect(()=>{
         getAllPreviewContest().then((response)=>{
-            console.log("RESPONSE FOR ALL PREVIEW CONTESTS: ",response);
             if(response?.data)
             {
                setCourses(response?.data);
@@ -22,7 +23,15 @@ const AllPreviewContests=()=>{
     },[])
     const scrollRef = useRef(null);
     const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 2"] });
-
+    useEffect(()=>{
+        if(loggedInUserData?.walletAddress)
+            checkAuthinStrapi(loggedInUserData?.walletAddress).then((response)=>{
+                if(response.exists==false)
+                {
+                  navigate("/")   
+                }
+            })
+    },[loggedInUserData])
     return(
         <div className="h-full px-5">
             {

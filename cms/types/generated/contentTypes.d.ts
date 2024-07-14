@@ -677,6 +677,36 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiAuthenticationAuthentication extends Schema.CollectionType {
+  collectionName: 'authentications';
+  info: {
+    singularName: 'authentication';
+    pluralName: 'authentications';
+    displayName: 'Authentication';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    wallet_address: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::authentication.authentication',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::authentication.authentication',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiContestContest extends Schema.CollectionType {
   collectionName: 'contests';
   info: {
@@ -832,6 +862,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::authentication.authentication': ApiAuthenticationAuthentication;
       'api::contest.contest': ApiContestContest;
       'api::course.course': ApiCourseCourse;
       'api::program.program': ApiProgramProgram;

@@ -17,6 +17,29 @@ export const getContests = async (title = null) => {
 };
 
 
+export const checkAuthinStrapi = async (walletAddress = null) => {
+  try {
+    if (!walletAddress) {
+      throw new Error('Wallet address is required');
+    }
+    // Endpoint to check for walletAddress in the authentication schema
+    const endpoint = `/authentications?filters[wallet_address][$eq]=${walletAddress}`;
+
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_CMS_URL}${endpoint}`
+    );
+    console.log("DATA FOR AUTH: ",data);
+    // Check if any records were found
+    if (data && data.data && data.data.length > 0) {
+      return { exists: true, data: data.data };
+    } else {
+      return { exists: false, data: null };
+    }
+  } catch (error) {
+    return { error: error.message };
+  }
+};
+
 export const getLatestContestsStrapi = async () => {
     try {
       const { data } = await axios.get(

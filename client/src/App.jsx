@@ -59,9 +59,6 @@ function App() {
         <Route path="/emailverification" element={<EmailVerification />} />
         <Route path="/contest/register/:title" element={<ContestRegsiter/>}/>
         <Route path="/contests" element={<AllContests />}/>
-        <Route path="/allpreviewcontests" element={<AllPreviewContests />}/>
-        <Route path="/previewcontests/:id" element={<PreviewContest />}/>
-        <Route path="/previewcontests/editor/:id" element={<EditorPreview />}/>
         <Route path="/contest/:title/solution" element={<Solution/>}/>
         <Route path="/editor/:title/:id" element={<Editor/>}/>
         {/* hello */}
@@ -71,6 +68,9 @@ function App() {
           <Route path="/workplace/:id" element={<WorkPlace />} />
           {/* <Route path="/profile" element={<Profile />} /> */}
           <Route path="/profile/edit" element={<EditProfile />} />
+          <Route path="/allpreviewcontests" element={<AllPreviewContests />}/>
+          <Route path="/previewcontests/:id" element={<PreviewContest />}/>
+          <Route path="/previewcontests/editor/:id" element={<EditorPreview />}/>
         </Route>
         <Route component={RedirectAs404}></Route>
       </Routes>
