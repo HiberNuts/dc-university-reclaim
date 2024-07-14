@@ -228,11 +228,10 @@ export const compile = async (code) => {
     try {
       const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/compile`, { content: code });
       
-      // console.log("RESPONSE FOR COMPILATION-->", res);
       if (res.status === 200) {
         if(res.data.errors)
         {
-          return { error: true,message:res.data.errors[0].formattedMessage?.replace(/\n/g, '<br\>')};
+          return { error: true,message:res.data.errors[0].replace(/\n/g, '<br\>')};
         }  
         return { error: false,message: "Compiled Successfully" };
       }
