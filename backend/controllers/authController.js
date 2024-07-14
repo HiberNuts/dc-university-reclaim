@@ -394,7 +394,8 @@ exports.updateuser = async (req, res) => {
       .send({ message: "ShardID already exists!!", error:true });
     }
     await User.updateOne({ _id: req.body.id }, { $set: { ...req.body } })
-    return res.status(200).send({error:false})
+    const updatedUser=await User.findOne({ _id: req.body.id })
+    return res.status(200).send({error:false,user:updatedUser})
   }
   catch (error) {
     res

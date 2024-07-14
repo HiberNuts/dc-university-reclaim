@@ -9,7 +9,7 @@ import { generateSlug } from "../../utils/generateSlug";
 
 export default function ContestCard(props)
 {
-    // console.log(props)
+    console.log(props.prize)
     const navigate=useNavigate();
     const scrollRef = useRef(null);
     const [timeLeft, setTimeLeft] = useState({ status: false });
