@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { getContestSolution } from "../../../utils/api/ContestAPI"
 import { useParams } from "react-router-dom"
-import { Resizable, ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css';
 import Split from "react-split";
 import Problem from "../../editor/Problem/Problem";
-import IDE from "../../editor/IDE/IDE";
-import Editor from "@monaco-editor/react";
+import { CodeBlock, dracula } from "react-code-blocks";
 
 export default function Solution() {
   const { title } = useParams();
@@ -14,26 +12,39 @@ export default function Solution() {
   const [program, setProgram] = useState(null);
   const [contest, setContest] = useState(null);
   const [darkTheme, setDarkTheme] = useState(true);
-
+  const [error, setError] = useState('');
+  console.log(program.solution)
   useEffect(() => {
     getContestSolution(title).then((resp) => {
       if (resp.error == false) {
         console.log(resp.data)
         setContest(resp.data.contest);
         setProgram(resp.data.program);
+        if (resp.data.program?.solution == '') {
+          setError("Solution is not added yet!");
+          console.log("Solution is not added in db")
+          return;
+        }
         setLoader(false);
+      }
+      else {
+        setError(resp.message);
       }
     })
   }, [title])
   return (
     <div>
       {
-        loader ?
+        loader ? error != '' ?
+          <div className="h-screen flex justify-center items-center text-[30px]">
+            {error}
+          </div>
+          :
           <div className="h-screen flex justify-center items-center text-[30px]">
             ...
           </div> :
           <div>
-            <div className={`w-full h-screen overflow-auto ${darkTheme && "bg-black text-white"} transition-all duration-200 ease-linear py-14`}>
+            <div className={`w-full h-screen overflow-auto ${darkTheme && "bg-black text-white"} transition-all duration-200 ease-linear py-10`}>
 
               <Split
                 className="flex"
@@ -63,6 +74,16 @@ export default function Solution() {
                       :
                       <Problem darkTheme={darkTheme} toggleTheme={() => setDarkTheme(theme => !theme)} contest={contest} program={program} />
                   }
+                  <div className="w-full px-10">
+                    <p className="text-[35px] font-bold mb-5 underline" >Solution</p>
+                    <CodeBlock
+                      language="javascript"
+                      text={program?.solution}
+                      theme={dracula}
+                      className="custom-copy-block"
+                    />
+                    {/* <p dangerouslySetInnerHTML={{ __html: program?.solution?.replace(/\n/g, '<br>') }} /> */}
+                  </div>
                 </div>
                 {/* <ResizableBox width={800} height={800}
                 minConstraints={[100, 100]} maxConstraints={[300, 300]}>
@@ -83,14 +104,9 @@ export default function Solution() {
                   }
                 </ResizableBox> */}
               </Split>
-              <div className="w-full p-10">
-                <p className="text-[35px] font-bold mb-5 underline" >Solution</p>
-                <p dangerouslySetInnerHTML={{ __html: program.solution.replace(/\n/g, '<br>') }} />
-              </div>
-                  
-            </div>
 
-    
+
+            </div>
           </div>
       }
 

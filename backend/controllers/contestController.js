@@ -143,7 +143,7 @@ exports.getSolution=async(req,res)=>{
           return res.status(200).send(formatResponse(true,"Program not found!")) ;
       return res.status(200).send(formatResponse(false,"Solution retrieved",{program:program,contest:contest})); 
       }  
-    return res.status(200).send(formatResponse(true,"Solution is not yet published!"));
+    return res.status(200).send(formatResponse(true,"Contest is still going on. Solution is not yet published!!!"));
    } catch (error) {
        return res.status(500).send(formatResponse(true,"Internal Server Error"));
    }

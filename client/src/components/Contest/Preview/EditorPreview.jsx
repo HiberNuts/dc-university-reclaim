@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { getProgramScreenData } from "../../../utils/api/ContestAPI";
+import { useEffect, useState,useContext } from "react";
+import { getProgramScreenData,checkAuthinStrapi } from "../../../utils/api/ContestAPI";
 import { useParams } from "react-router-dom";
 import Split from "react-split";
 import { ResizableBox } from 'react-resizable';
@@ -7,8 +7,13 @@ import 'react-resizable/css/styles.css';
 import Problem from "../../editor/Problem/Problem";
 import IDE from "../../editor/IDE/IDE";
 import { mapRichTextNodesToSchema } from "../../../utils/mapRichText";
+import { ParentContext } from "../../../contexts/ParentContext";
+import { useNavigate } from "react-router-dom";
 
 const EditorPreviewContest=()=>{
+  const navigate=useNavigate();
+  const { loggedInUserData } = useContext(ParentContext);
+
     const {id}=useParams();
     const [contest,setContest]=useState(null);
     const [program,setProgram]=useState(null);
@@ -44,6 +49,16 @@ const EditorPreviewContest=()=>{
               }
             })
     },[])
+
+    useEffect(()=>{
+      if(loggedInUserData?.walletAddress)
+        checkAuthinStrapi(loggedInUserData?.walletAddress).then((response)=>{
+            if(response.exists==false)
+            {
+               navigate("/")   
+            }
+        })
+      },[loggedInUserData])
 
     return (
              <div className={`w-full h-screen overflow-auto ${darkTheme && "bg-black text-white"} transition-all duration-200 ease-linear py-14`}>

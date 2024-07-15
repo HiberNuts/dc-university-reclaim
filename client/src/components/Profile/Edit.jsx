@@ -8,7 +8,7 @@ import axios from "axios";
 import { useEffect, useRef } from "react";
 const EditProfile = () => {
   const [img, setImg] = useState(null);
-  const { loggedInUserData } = useContext(ParentContext)
+  const { loggedInUserData,setloggedInUserData } = useContext(ParentContext)
   console.log(loggedInUserData)
   const [showError, setShowError] = useState(false)
   const [projects, setProjects] = useState([])
@@ -77,7 +77,11 @@ const EditProfile = () => {
           errorMsg = 'Shard ID should not contain spaces';
         } else if (/^\d+$/.test(value)) {
           errorMsg = 'Shard ID should not be composed entirely of numbers';
-        } else {
+        } 
+        else if (value.length>10) {
+          errorMsg = 'Shard ID should not contain more than 10 characters';
+        }
+        else {
           errorMsg = '';
         }
         break;
@@ -186,8 +190,11 @@ const EditProfile = () => {
           toast.error("This Shard ID is already in use")
         }
         else {
+          console.log(res.data)
+          setloggedInUserData({...res.data.user,accessToken: loggedInUserData.accessToken})
           setShowError(false)
-          window.location.reload();
+          toast.success("profile updated")
+          // window.location.reload();
         }
       })
     
@@ -219,7 +226,7 @@ const EditProfile = () => {
       <div className="edit_section grid grid-cols-1 space-y-5 md:space-y-0  md:grid-cols-5 py-10  md:py-20">
         <div className="col-span-1">
           <div className="flex flex-col space-y-7 justify-center items-center">
-            <LazyLoadImage src={preview} className="rounded-[16px] w-[180px] h-[180px] border-[2px]" />
+            <LazyLoadImage src={preview} className="rounded-[16px] w-[180px] h-[180px] border-[2px] object-contain" />
             <label for="files" className="text-shardeumBlue bg-white cursor-pointer border-[2px] border-shardeumBlue rounded-[10px] py-[8px] px-[16px] flex space-x-1">
               <div className="py-1"><img src={IMG_UPLOAD} /></div>
               <div className="mt-[2px]"><span>Change Avatar</span></div>
@@ -246,7 +253,7 @@ const EditProfile = () => {
               <div className="py-5 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Shard ID</label>
-                  <input id="shardId" defaultValue={loggedInUserData?.shardId ?? ""} className="p-[16px] rounded-[12px] border-[0.5px]" placeholder="Enter your username" onChange={changehandler} />
+                  <input id="shardId" defaultValue={loggedInUserData?.shardId ?? ""} className={`p-[16px] rounded-[12px] border-[0.5px] ${loggedInUserData?.shardId && "cursor-not-allowed"}`} placeholder="Enter your username" onChange={changehandler} disabled={loggedInUserData?.shardId} />
                   {showError && errors.shardId != "" && <p className="text-red-500 text-[12px]">{errors?.shardId}</p>}
                 </div>
                 <div ref={errorRef} className="col-span-1 md:col-span-1 flex flex-col space-y-4">

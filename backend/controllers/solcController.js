@@ -6,10 +6,11 @@ const { expect } = require("chai");
 //MODELS
 const db = require("../models");
 const path = require('path');
-const fs = require("fs")
+const fs = require("fs");
 // const Contests = db.Contests;
 const Programs = db.Programs;
 const Submissions = db.Submissions;
+const Contests=db.Contests;
 // import "@openzeppelin/contracts/access/Ownable.sol";
 // import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 // import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -54,7 +55,7 @@ exports.compiler = async (req, res) => {
     if (output.errors) {
       const criticalErrors = output.errors.filter(err => err.severity === 'error');
       if (criticalErrors.length > 0) {
-        return res.status(400).send({
+        return res.status(200).send({
           success: false,
           errors: criticalErrors.map(err => err.formattedMessage)
         });
@@ -233,7 +234,14 @@ exports.test = async (req, res) => {
         const Submisison = await Submissions.findById(submissionId);
         if (!Submisison)
           return res.json(404).send({ error: true, message: "Invalid submission!" });
-            // Calculate number of passing and failing tests
+
+        const Contest=await Contests.findById(Submisison.contest);
+        const currentDate = new Date();
+        const endDate = new Date(Contest.endDate);
+        if (currentDate > endDate) {
+          return res.status(200).json({ error: true, message: "Sorry. The Contest has ended!" });
+        }
+        // Calculate number of passing and failing tests
         const passedTests = results.filter(result => result.passed).length;
         const failedTests = results.length - passedTests;
         const xpForEachTestCase=500/results.length;
@@ -257,11 +265,11 @@ exports.test = async (req, res) => {
       return res.json({results });
     } catch (error) {
       console.error("Error running tests:", error);
-      res.status(500).json({ error: error.message });
+      res.status(200).json({ error:true,message: "Failed to run test cases"});
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: error.message });
+    res.status(200).json({ error:true,message:error.message });
   }
   finally {
     // Clean up the mocked globals

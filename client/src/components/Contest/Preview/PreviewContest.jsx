@@ -1,11 +1,12 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useState,useEffect } from "react";
+import { useState,useEffect,useContext } from "react";
 import { useParams,useNavigate } from "react-router-dom";
-import { getPreviewContest } from "../../../utils/api/ContestAPI";
+import { getPreviewContest,checkAuthinStrapi } from "../../../utils/api/ContestAPI";
 import { checkTimeLeft } from "../../../utils/time";
 import { formatTimestamp } from "../../../utils/time";
 import GreenButton from "../../button/GreenButton";
 import { mapRichTextNodesToSchema } from "../../../utils/mapRichText";
+import { ParentContext } from "../../../contexts/ParentContext";
 const PreviewContest=()=>{
     const {id}=useParams();
     const navigate=useNavigate();
@@ -14,6 +15,8 @@ const PreviewContest=()=>{
     const [warnings,setWarnings]=useState(null);
     const [loader,setLoader]=useState(true);
     const [timeLeft, setTimeLeft] = useState({ status: false });
+    const { loggedInUserData } = useContext(ParentContext);
+
 
     useEffect(()=>{
        if(id!=null)
@@ -40,6 +43,17 @@ const PreviewContest=()=>{
         })
        }
     },[])
+    
+    useEffect(()=>{
+         if(loggedInUserData?.walletAddress)
+        checkAuthinStrapi(loggedInUserData?.walletAddress).then((response)=>{
+            console.log("RESPONSE :",response)
+            if(response.exists==false)
+            {
+               navigate("/")   
+            }
+        })
+        },[loggedInUserData])
     return(
         <div>
            {

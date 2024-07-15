@@ -61,6 +61,10 @@ const enrolledCourseSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course",
   },
+  courseCompleted:{
+    type:Boolean,
+    default:false,
+  },   
   nftStatus: {
     type: Boolean,
     default: false,

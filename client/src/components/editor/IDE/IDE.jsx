@@ -14,6 +14,7 @@ import { solidityLanguageConfig, solidityTokensProvider } from "./EditorConfig";
 import solcjs from "solc-js";
 import {TRIANGLE_LOGO_EDITOR as TRI_IMG} from "../../../Constants/Assets"
 import GreenButton from "../../button/GreenButton";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function IDE(props) {
   const compiler = useRef();
@@ -110,8 +111,9 @@ export default function IDE(props) {
            if(resp?.error)
            {
             setCompileError(true);
-            setOutput("Failed to run test cases");
+            setOutput(resp?.message);
             setSubmitLoader(false);
+            toast.error(resp?.message);
             return;
            }
            setCompileError(false);
@@ -210,6 +212,7 @@ export default function IDE(props) {
 
   return (
     <div className="h-screen w-full border flex-1 z-10 rounded-[12px]">
+      <Toaster/>
      <Transition className="absolute top-1/3 left-1/3" appear show={isDialogOpen} as={Fragment}>
         <Dialog as="div" className="absolute z-10" onClose={() => setIsDialogOpen(false)}>
           <Transition.Child

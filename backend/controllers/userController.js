@@ -378,7 +378,7 @@ exports.userCourseProgressPercentage = async (req, res) => {
   }
 };
 
-const checkifUserCompletedCourse = async (params) => {
+exports.checkifUserCompletedCourse = async (params) => {
   try {
     const userId = params.userId;
     const courseId = params.courseId;
