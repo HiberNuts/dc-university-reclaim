@@ -378,7 +378,7 @@ exports.userCourseProgressPercentage = async (req, res) => {
   }
 };
 
-exports.checkifUserCompletedCourse = async (params) => {
+const checkifUserCompletedCourse = async (params) => {
   try {
     const userId = params.userId;
     const courseId = params.courseId;
@@ -524,3 +524,5 @@ exports.deleteImage=(req, res) => {
     }
   })
 }
+
+exports.checkifUserCompletedCourse=checkifUserCompletedCourse;
