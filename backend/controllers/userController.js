@@ -12,8 +12,8 @@ const AWS = require("aws-sdk")
 const spacesEndpoint = new AWS.Endpoint(process.env.DO_SPACE_ENDPOINT);
 const s3 = new AWS.S3({
   endpoint: spacesEndpoint,
-  accessKeyId:process.env.DO_SPACE_ACCESS_KEY,
-  secretAccessKey:process.env.DO_SPACE_SECRET_KEY,
+  accessKeyId: process.env.DO_SPACE_ACCESS_KEY,
+  secretAccessKey: process.env.DO_SPACE_SECRET_KEY,
 });
 let defaultClient = brevo.ApiClient.instance;
 
@@ -56,12 +56,12 @@ exports.getAllUser = async (req, res) => {
   res.json({ user, totalPages, currentPage: page, hasNextPage: endIndex < totalUsers })
 };
 
-exports.getUserData=async(req,res)=>{
+exports.getUserData = async (req, res) => {
   try {
-    const userData=await User.findOne({shardId:req.params.shardId});
-    res.status(200).send({error:false,data:userData});
+    const userData = await User.findOne({ shardId: req.params.shardId });
+    res.status(200).send({ error: false, data: userData });
   } catch (error) {
-     res.status(500).send({error:true,message:error.message});
+    res.status(500).send({ error: true, message: error.message });
   }
 
 }
@@ -295,6 +295,11 @@ exports.updateCourseProgress = async (req, res) => {
 
     if (enrolledCourseIndex !== -1) {
       user.enrolledCourses[enrolledCourseIndex] = updatedEnrolledCourse;
+      const { overallCompletionPercentage } = await this.checkifUserCompletedCourse({ userId, courseId: courseId })
+      if (overallCompletionPercentage >= 99.5 && user.enrolledCourses[enrolledCourseIndex].courseCompleted != true) {
+        user.enrolledCourses[enrolledCourseIndex].courseCompleted = true
+      }
+
       await user.save();
       res.status(200).send({
         message: "Course progress updated successfully",
@@ -378,7 +383,7 @@ exports.userCourseProgressPercentage = async (req, res) => {
   }
 };
 
-exports.checkifUserCompletedCourse = async (params) => {
+const checkifUserCompletedCourse = async (params) => {
   try {
     const userId = params.userId;
     const courseId = params.courseId;
@@ -510,13 +515,13 @@ exports.mintNft = async (req, res) => {
   }
 };
 
-exports.deleteImage=(req, res) => {
+exports.deleteImage = (req, res) => {
   const params = {
     Bucket: process.env.DO_SPACE_BUCKET,
     Key: req.body.key
   };
 
-   s3.deleteObject(params, function (err, data) {
+  s3.deleteObject(params, function (err, data) {
     if (err) {
       res.send(err)
     } else {
@@ -524,3 +529,5 @@ exports.deleteImage=(req, res) => {
     }
   })
 }
+
+exports.checkifUserCompletedCourse = checkifUserCompletedCourse;
