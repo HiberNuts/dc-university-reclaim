@@ -12,6 +12,7 @@ import ScrollToTop from "../../ScrollToTop";
 import NftModal from "./component/NftModal";
 import { getUserCourseProgressPercentage } from "../../utils/api/CourseAPI";
 import DisplayChapter from "./component/DisplayChapter";
+import WorkPlaceProgram from "./Program/Program.jsx";
 
 export default function WorkPlace() {
   const params = useParams();
@@ -27,6 +28,7 @@ export default function WorkPlace() {
   const [isCourseDataChanged, setisCourseDataChanged] = useState(false);
   const [userCourseProgress, setuserCourseProgress] = useState({});
   const [isQuizSelected, setisQuizSelected] = useState(false);
+  const [isProgramSelected,setIsProgramSelected]=useState(true);
   const [currentChapterStatus, setcurrentChapterStatus] = useState("none");
   const [currentModuleAllChapterStatus, setcurrentModuleAllChapterStatus] = useState("none");
   const [currentQuiz, setcurrentQuiz] = useState([]);
@@ -272,7 +274,12 @@ export default function WorkPlace() {
           )}
         </div>
         <div className="flex w-full  my-10 m-0 justify-center items-center align-middle">
-          {isQuizSelected ? (
+          {
+          isProgramSelected?
+          <WorkPlaceProgram currentModule={currentModule} courseContent={courseContent}/>
+           
+          :
+          isQuizSelected ? (
             <div className="flex w-full text-[20px] courseContent justify-center align-middle  flex-col ">
               <Quiz
                 courseId={courseContent?._id}

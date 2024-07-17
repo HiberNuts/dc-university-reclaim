@@ -1,5 +1,6 @@
 const axios = require("axios");
 const Course = require("../models/Course");
+const {mapRichTextNodesToSchema}=require('../utils/mapRichText');
 async function fetchCoursesFromCMS() {
     const response = await axios({
         method: "GET",
@@ -97,12 +98,12 @@ function processProgram(newProgram, existingProgram) {
             ...existingProgram,
             ...newProgram,
             strapiId: newProgram.id,
-            description: newProgram.description || existingProgram.description,
+            description: mapRichTextNodesToSchema(newProgram.description[0]?.children) || existingProgram.description,
         }
         : {
             ...newProgram,
             strapiId: newProgram.id,
-            description: newProgram.description || [],
+            description: mapRichTextNodesToSchema(newProgram.description[0]?.children) || [],
         };
 }
 
@@ -127,7 +128,7 @@ function createNewModule(moduleItem) {
             strapiId: moduleItem.program.id,
             duration: moduleItem.program.duration,
             boilerplate_code: moduleItem.program.boilerplate_code,
-            description: moduleItem.program.description,
+            description: mapRichTextNodesToSchema(moduleItem.program.description[0]?.children),
             test_file_content: moduleItem.program.test_file_content,
             solution: moduleItem.program.solution,
         } : null,

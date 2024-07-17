@@ -90,8 +90,8 @@ const EditProfile = () => {
         if (!emailRegex.test(value)) {
           errorMsg = 'Invalid email address';
         }
-        else if(value.length>20){
-          errorMsg = 'Email should not have more than 20 characters';
+        else if(value.length>50){
+          errorMsg = 'Email should not have more than 50 characters';
         }
         else
           errorMsg = ''
@@ -106,13 +106,13 @@ const EditProfile = () => {
         break;
       
       case 'description':
-          if(value.length>15){
-            errorMsg = 'Description should not contain more that 15 characters.';
+          if(value.length>100){
+            errorMsg = 'Description should not contain more that 100 characters.';
           }
           break;
       case 'username':
           if(value.length>25){
-            errorMsg = 'Name should not contain more than 20 characters';
+            errorMsg = 'Name should not contain more than 25 characters';
           }
           break;
       default:
