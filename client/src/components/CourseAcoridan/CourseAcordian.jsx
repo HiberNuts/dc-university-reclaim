@@ -3,8 +3,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import "./Acordian.scss";
 import whiteExpand from "../../assets/whiteArrow.svg";
-
-import { useNavigate } from "react-router-dom";
+import { LockIcon, TickIcon } from './Icons';
 import { useEffect } from "react";
 
 const AccordionContext = React.createContext({});
@@ -36,33 +35,7 @@ function Accordion({ children, multiple, defaultIndex }) {
   });
 }
 
-const LockIcon = () => {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
-      <rect x="0.7" y="0.70061" width="22.6006" height="22.6006" rx="11.3003" fill="white" />
-      <rect x="0.7" y="0.70061" width="22.6006" height="22.6006" rx="11.3003" stroke="black" stroke-width="1.4" />
-      <path
-        d="M7.82601 18.5735H16.1735C16.5192 18.5735 16.7995 18.2932 16.7995 17.9474V10.8521C16.7995 10.5063 16.5192 10.226 16.1735 10.226H15.5474V8.34784C15.5474 6.39166 13.9559 4.80017 11.9997 4.80017C10.0436 4.80017 8.45207 6.39166 8.45207 8.34784V10.226H7.82601C7.48026 10.226 7.19995 10.5063 7.19995 10.8521V17.9474C7.19995 18.2932 7.48026 18.5735 7.82601 18.5735ZM12.6258 14.6078V15.4432C12.6258 15.7889 12.3455 16.0692 11.9997 16.0692C11.654 16.0692 11.3737 15.7889 11.3737 15.4432V14.6078C11.1204 14.4173 10.9563 14.1143 10.9563 13.7737C10.9563 13.1983 11.4244 12.7303 11.9997 12.7303C12.5751 12.7303 13.0432 13.1983 13.0432 13.7737C13.0432 14.1143 12.8791 14.4173 12.6258 14.6078ZM9.70419 8.34784C9.70419 7.08207 10.734 6.05229 11.9997 6.05229C13.2655 6.05229 14.2953 7.08207 14.2953 8.34784V10.226H9.70419V8.34784Z"
-        fill="#3042FB"
-      />
-    </svg>
-  );
-};
 
-const TickIcon = () => {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none">
-      <rect x="0.7" y="0.7" width="22.6" height="22.6" rx="11.3" fill="#A4FF00" />
-      <rect x="0.7" y="0.7" width="22.6" height="22.6" rx="11.3" stroke="black" stroke-width="1.4" />
-      <path
-        d="M16.2352 9.38831L10.4117 15.3177L7.76465 12.6225"
-        stroke="black"
-        stroke-width="1.69412"
-        stroke-linecap="square"
-      />
-    </svg>
-  );
-};
 
 function AccordionItem({ children }) {
   return <div className="AccordionItem bg-transparent  text-white text-[18px] font-[800px]">{children}</div>;
@@ -123,26 +96,21 @@ const CourseAcordian = ({
   setuserCourseProgress,
   moduleIndex,
   currentModuleAllChapterStatus,
-  sidebarOpen,
   setSidebarOpen,
   checkModuleCoursesStatus,
   currentModule,
   currentQuiz,
   setcurrentQuiz,
 }) => {
-  const navigate = useNavigate();
-  const [courseStatus, setcourseStatus] = useState("");
 
   const handleCompleteChapter = async ({ chapter }) => {
     const updatedProgress = await userCourseProgress.modules.map((progressModule) => {
       const updatedChapters = progressModule.chapters.map((progressChapter) => {
         if (progressChapter._id === chapter._id) {
-          // Update the chapter status
           return { ...progressChapter, status: "partial" };
         }
         return progressChapter;
       });
-      // Check if all chapters are full in the updated module
 
       const updatedModule = {
         ...progressModule,
@@ -230,7 +198,6 @@ const CourseAcordian = ({
                               }   w-[30px] h-[30px]`}
                           ></div>
                         )}
-
                         <label
                           htmlFor="red-checkbox"
                           className={`ml-2 font-helvetica-neue-md text-[16px] items-start text-start ${isQuizSelected
@@ -280,17 +247,13 @@ const RenderQuiz = ({
   isQuizSelected,
   setcurrentModule,
   setisModuleChanged,
-  currentModuleAllChapterStatus,
   userCourseProgress,
   currentModule,
   currentQuiz,
   setcurrentQuiz,
-  setcurrentModuleAllChapterStatus,
 }) => {
-  // const [currentModuleStatus, setcurrentModuleStatus] = useState("");
 
   const [quizStatus, setquizStatus] = useState("");
-  const handleQuizClick = (module) => { };
 
   const [currentChaptersStatus, setcurrentChaptersStatus] = useState("none");
 

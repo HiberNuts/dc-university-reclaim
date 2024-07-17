@@ -162,21 +162,6 @@ export default function WorkPlace() {
     getUserProgress();
   }, [loggedInUserData, moduleContent]);
 
-  // if (isMobile) {
-  //   return (
-  //     <div className="flex justify-center items-center h-screen">
-  //       <div className="text-center p-4">
-  //         <h1 className=" font-bold text-shardeumBlue font-helvetica-neue-bold text-[48px]">
-  //           Better Experience on Desktop
-  //         </h1>
-  //         <p className="font-helvetica-neue-roman fon-[30px]">
-  //           Please open this website on a desktop for a better experience.
-  //         </p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="w-full  mt-[10vh] h-full flex justify-between align-middle">
       <Toaster />
