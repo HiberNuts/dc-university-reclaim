@@ -59,7 +59,7 @@ export default function WorkPlace() {
 
   useEffect(() => {
     getProgressPercentage();
-  }, [courseContent, userCourseProgress]);
+  }, [courseContent, userCourseProgress, loggedInUserData]);
 
   const getCourseInfo = async () => {
     const data = await getCoursebyName(params?.id);
@@ -112,7 +112,7 @@ export default function WorkPlace() {
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [loggedInUserData]);
 
   useEffect(() => {
     getUserProgress();

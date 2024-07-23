@@ -13,7 +13,7 @@ export default function Solution() {
   const [contest, setContest] = useState(null);
   const [darkTheme, setDarkTheme] = useState(true);
   const [error, setError] = useState('');
-  console.log(program.solution)
+  console.log(program?.solution)
   useEffect(() => {
     getContestSolution(title).then((resp) => {
       if (resp.error == false) {
@@ -82,27 +82,9 @@ export default function Solution() {
                       theme={dracula}
                       className="custom-copy-block"
                     />
-                    {/* <p dangerouslySetInnerHTML={{ __html: program?.solution?.replace(/\n/g, '<br>') }} /> */}
                   </div>
                 </div>
-                {/* <ResizableBox width={800} height={800}
-                minConstraints={[100, 100]} maxConstraints={[300, 300]}>
-                  {
-                    loader?
-                    <div className="text-center text-white my-40">
-                      Loading...
-                    </div>
-                    :
-                    <div className="h-full">
-                        <Editor
-                            className="border-black h-full"
-                            defaultLanguage="solidity"
-                            defaultValue={program?.solution??''}
-                            theme={darkTheme ? "vs-dark" : "light"}
-                        />
-                    </div>
-                  }
-                </ResizableBox> */}
+
               </Split>
 
 
