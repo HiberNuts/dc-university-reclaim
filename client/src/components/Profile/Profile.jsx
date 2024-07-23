@@ -12,10 +12,11 @@ import { getUserData, getUserContestDetails } from "../../utils/api/UserAPI";
 import ProfileBadge from "./ProfileBadge";
 const ProfileCourses = lazy(() => import("./ProfileCourses"));
 import { JOB, MAIL, PORTFOLIO, LEVEL, TWITTER_PNG as TWITTER, GITHUB_PNG as GITHUB, YOUTUBE, LINKEDIN, DISCORD_PNG as DISCORD, LEADERBOARD_TRIANGLE as TRIANGLE_IMG, FLASH, PARTICIPATION, STAR_SVG as STAR, BADGES, PRIZE } from "../../Constants/Assets";
-
+import editImg from "../../assets/CTA.png"
 import ProfileButton from "../button/ProfileButton";
 import { Link } from "react-router-dom";
 import ProfileProjects from "./ProfileProjects";
+import ShareButton from "../button/shareButton";
 
 const ProfileLinks = ({ img, title }) => {
   return (
@@ -39,6 +40,15 @@ const Profile = ({ isOpen, closeModal }) => {
     designation: "Web3 Beginner",
   });
   const { loggedInUserData, setuserDataIsUpdated, userDataIsUpdated, setloggedInUserData } = useContext(ParentContext);
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      toast.success("Profile copied to clipboard");
+    }).catch(err => {
+      alert('Failed to copy URL');
+      toast.error('Error copying profile ');
+    });
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -141,9 +151,7 @@ const Profile = ({ isOpen, closeModal }) => {
           </div>
           <div className="name mt-[150px] px-16">
             <p className='my-2 text-[24px] text-left leading-tight text-white text-overflow-ellipsis font-helvetica-neue-bold'>{userProfile?.username}</p>
-            <p className='my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis'>
-              {userProfile?.description}
-            </p>
+            
             <div className="flex flex-col">
               {
                 userProfile?.designation &&
@@ -207,14 +215,26 @@ const Profile = ({ isOpen, closeModal }) => {
               </div>
               {
                 userProfile != null && (loggedInUserData?._id == userProfile?._id) &&
-                <div className="mt-10">
+                <div className="mt-10 absolute top-[-1.5rem] right-[1rem]">
                   <Link to={'/profile/edit'}>
-                    <ProfileButton isHoveredReq={true} text={"Edit Profile"} />
+
+                    <LazyLoadImage src={editImg}/>
                   </Link>
                 </div>
               }
+              <div className="mt-10">
+                  <ShareButton text={"Share Profile"} isHoveredReq={true} onClick={copyToClipboard}/>
+              </div>
+              <div className="mt-10">
+                <p className="font-[500] text-[12px] text-white tracking-[2px]">ABOUT ME</p>
+              <p className=' text-[16px] font-[400] text-left leading-[28px] text-white text-overflow-ellipsis'>
+              {userProfile?.description}
+            </p>
+              </div>
+              
             </div>
           </div>
+          
         </div>
         <div className="col-span-8 lg:col-span-6">
           <div className="border-t-2 border-b-[1px] py-2 grid grid-cols-5">

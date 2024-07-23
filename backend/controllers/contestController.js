@@ -344,6 +344,9 @@ const createContest = async (req) => {
       reward = []
     } = req.body.entry;
 
+    const availableContest=await Contests.findOne({strapiId})
+    if(availableContest) return
+     
 
     const mappedRules = rules || [];
     const mappedWarnings = warnings || [];
@@ -389,6 +392,7 @@ const updateContest = async (req) => {
       prize = '',
       reward = []
     } = req.body.entry;
+
 
     const mappedRules = rules || [];
     const mappedWarnings = warnings || [];
@@ -438,6 +442,9 @@ const createProgram = async (req) => {
       test_file_content = '',
       solution = ''
     } = req.body.entry;
+
+    const availableProgram=await Programs.findOne({strapiId})
+    if(availableProgram) return
 
     const contest = await Contests.findOne({ strapiId: strapiContestId });
     if (!contest) {
