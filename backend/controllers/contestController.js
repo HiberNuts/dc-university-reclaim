@@ -303,11 +303,13 @@ exports.getUserContestDetails = async (req, res) => {
 //WEBHOOKS
 exports.createModel = async (req, res) => {
   try {
+    console.log(req)
     if (req.body.model == 'contest')
       await createContest(req)
     if (req.body.model == "program")
       await createProgram(req)
-    res.status(200).send(createdContest)
+    
+    res.status(200).send("okk")
   }
   catch (error) {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
@@ -424,6 +426,9 @@ const updateContest = async (req) => {
     console.log("Failed to update contest:", error.message);
   }
 };
+
+
+
 
 const createProgram = async (req) => {
   try {

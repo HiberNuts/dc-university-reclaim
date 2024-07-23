@@ -6,16 +6,21 @@ import ResultPage from "./ResultPage";
 import SuccessModal from "./SuccessModal";
 import toast, { Toaster } from "react-hot-toast";
 import { updateCourseProgressAPI } from "../../utils/api/CourseAPI";
+import LongArrow from "../../assets/LongArrow.svg";
 
 const Quiz = ({
+  setCurrentChapter,
+  setIsProgramSelected,
   moduleQuiz,
-  isModuleChanged,
   currentModule,
   userCourseProgress,
   setuserCourseProgress,
   courseId,
   userId,
   accessToken,
+  setisQuizSelected,
+  setisModuleChanged,
+  isModuleChanged,
 }) => {
   const [quizNo, setQuizNo] = useState(0);
   const [choice, setChoice] = useState("");
@@ -51,7 +56,7 @@ const Quiz = ({
       if (module?._id === currentModule?._id) {
         // Update quizStatus to true for the entire module
         module.quizStatus = "full";
-        module.status = "full";
+        // module.status = "full";
 
         // Update all quiz statuses to 'full' for this module
         module.quizzes = module.quizzes.map((quiz) => ({
@@ -90,9 +95,8 @@ const Quiz = ({
     } else {
       toast.custom((t) => (
         <div
-          className={`${
-            t.visible ? "animate-enter" : "animate-leave"
-          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+          className={`${t.visible ? "animate-enter" : "animate-leave"
+            } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
         >
           <div className="flex-1 w-0 p-4">
             <div className="flex items-start">
@@ -105,7 +109,7 @@ const Quiz = ({
                 </p>
               </div>
             </div>
-          </div>s
+          </div>
           <div className="flex border-l border-gray-200">
             <button
               onClick={() => toast.dismiss(t.id)}
@@ -127,7 +131,6 @@ const Quiz = ({
       }
     });
     setScore(newScore);
-    // score * (100 / quizzes.length)
     if (newScore * (100 / moduleQuiz.length) == 100) {
       handleQuizUpdateToBackend();
     }
@@ -157,12 +160,7 @@ const Quiz = ({
     setcorrectAnswer(currentQuiz?.answer);
   };
 
-  const handleClickNext = () => {
-    checkAnswer();
-    setQuizNo(quizNo + 1);
-    setAnswerArray([]);
-    extractABCDValues(moduleQuiz, quizNo);
-  };
+
 
   const handleClickTry = () => {
     setScore(0);
@@ -204,13 +202,13 @@ const Quiz = ({
       });
       setChoices(finalAnswers);
     }
-  }, [moduleQuiz]);
+  }, [moduleQuiz, isSubmitted == true]);
 
   useEffect(() => {
     if (currentQuizCompleted == true) {
       let finalAnswers = [];
       moduleQuiz.forEach((m) => {
-    
+
         finalAnswers.push(ABC_TO_INT_MAP[m.answer]);
       });
       setChoices(finalAnswers);
@@ -225,16 +223,14 @@ const Quiz = ({
   const isCorrect = correctAnswer === INT_TO_ABC_MAP[choice];
 
   const checkAnswer = () => isCorrect && setScore(score + 1);
- 
-  return (
-    <div className=" w-full font-helvetica-neue-roman">
-      <Toaster />
 
-  
+  return (
+    <div className=" w-full gap-2 flex flex-col font-helvetica-neue-roman">
+      <Toaster />
       {moduleQuiz?.length === 0 || isloading ? (
         <p>Loading</p>
       ) : (
-        <>
+        <div className="w-full">
           {moduleQuiz.slice(0, moduleQuiz?.length).map((question, index) => (
             <div key={index}>
               <span className="text-[18px] font-helvetica-neue-roman text-shardeumBlue ">Question {index + 1}</span>
@@ -251,17 +247,44 @@ const Quiz = ({
           ))}
 
           {!currentQuizCompleted && (
-            <Button className="" onClickButton={handleSubmit}>
+            <Button className="w-20" onClickButton={handleSubmit}>
               {score === moduleQuiz.length ? "Completed" : "Submit"}
             </Button>
           )}
-        </>
+        </div>
       )}
 
       {!currentQuizCompleted && isSubmitted && (
         <ResultPage score={score} quizzes={moduleQuiz} onClickTry={handleClickTry} answerArray={answerArray} />
       )}
-      {<SuccessModal currentModule={currentModule} isOpen={modalIsOpen} setIsOpen={setModalIsOpen} />}
+      <div className="w-full mt-10 flex justify-between align-middle items-center">
+        <button
+          onClick={() => {
+            setisQuizSelected(false)
+            setIsProgramSelected(false)
+            setCurrentChapter(currentModule.chapter[currentModule.chapter.length - 1])
+            setisModuleChanged(!isModuleChanged);
+          }}
+          className={`bg-shardeumRed h-[58px] w-[58px] flex justify-center align-middle  hover:bg-shardeumGreen rounded-[10px]  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
+        >
+          <img className="rotate-180" src={LongArrow} />
+        </button>
+
+        {
+          currentQuizCompleted && <button
+            onClick={() => {
+              setisQuizSelected(false)
+              setIsProgramSelected(true)
+
+            }}
+            className={`bg-shardeumRed h-[58px] w-[58px] flex justify-center align-middle  hover:bg-shardeumGreen rounded-[10px]  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
+          >
+            <img className={``} src={LongArrow} />
+          </button>
+        }
+
+      </div>
+      {/* {<SuccessModal currentModule={currentModule} isOpen={modalIsOpen} setIsOpen={setModalIsOpen} />} */}
     </div>
   );
 };

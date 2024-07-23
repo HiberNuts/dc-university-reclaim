@@ -22,6 +22,7 @@ const DisplayChapter = ({
   courseId,
   setcurrentQuiz,
   accessToken,
+  
 }) => {
   const handleNextChapterClick = async ({ chapter }) => {
     let chapterIndex = currentModule?.chapter.findIndex((c) => c._id == chapter._id);
@@ -107,21 +108,13 @@ const DisplayChapter = ({
                 ol: (props) => <ol className="list-decimal p-[0px] m-[0px]">{props?.children}</ol>,
                 ul: (props) => <ul className="list-disc p-[0px] m-[0px]">{props?.children}</ul>,
                 pre: (props) => <span className="font-mono overflow-scroll">{props.children}</span>,
-                // pre: (props) => <CodeBlock
-                //   text={props.children}
-                //   language="javascript"
-
-                // />
                 code: (props) => <CopyBlock
                   showLineNumbers
-
                   text={props.children}
                   language="javascript"
                   wrapLongLines
                   theme={dracula}
-
                   codeBlock
-
                 />
 
               }}

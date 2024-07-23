@@ -14,4 +14,7 @@ module.exports = function (app) {
   app.get("/api/course/getCourse/:title", controller.getCourseByName);
   app.delete("/api/course/getCourse", controller.deleteCourseById);
   app.get("/api/course/softDelete", controller.softDelete);
+  app.post("/api/webhook/course/create", controller.createModel);
+  app.post("/api/webhook/course/update", controller.updateModel);
+
 };
