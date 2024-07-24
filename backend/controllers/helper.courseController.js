@@ -1,6 +1,5 @@
 const axios = require("axios");
 const Course = require("../models/Course");
-const {mapRichTextNodesToSchema}=require('../utils/mapRichText');
 async function fetchCoursesFromCMS() {
     const response = await axios({
         method: "GET",
@@ -14,6 +13,7 @@ async function fetchCoursesFromCMS() {
 
 async function processCourse(courseData) {
     const courseDetails = extractCourseDetails(courseData);
+    // console.log("Extracted Course", courseDetails);
     const existingCourse = await Course.findOne({ strapiId: courseData.id });
 
     if (existingCourse) {
@@ -26,35 +26,89 @@ async function processCourse(courseData) {
 function extractCourseDetails(courseData) {
     return {
         strapiId: courseData.id,
-        title: courseData.attributes.title,
-        description: courseData.attributes.description,
-        aboutCourse: courseData.attributes.aboutCourse,
-        duration: courseData.attributes.duration,
-        level: courseData.attributes.level,
-        skills: courseData.attributes.skills,
-        nftImage: courseData.attributes.nftImage.data?.attributes?.url,
-        banner: courseData.attributes.banner.data[0]?.attributes?.url,
-        whatYouLearn: courseData.attributes.whatYouLearn.map((item) => item.title),
-        contractAddress: courseData.attributes.contractAddress,
-        faq: courseData.attributes.faq.map((faqItem) => ({
+        title: courseData.title,
+        description: courseData.description,
+        aboutCourse: courseData.aboutCourse,
+        duration: courseData.duration,
+        level: courseData.level,
+        skills: courseData.skills,
+        nftImage: courseData.nftImage.data?.url,
+        banner: courseData.banner[0]?.url,
+        whatYouLearn: courseData.whatYouLearn.map((item) => item.title),
+        contractAddress: courseData.contractAddress,
+        faq: courseData.faq.map((faqItem) => ({
             faqTitle: faqItem.faqTitle,
             faqAnswer: faqItem.faqAnswer,
         })),
-        module: courseData.attributes.module,
+        module: courseData.module,
     };
 }
 
 async function updateExistingCourse(existingCourse, courseDetails) {
     const updatedModules = processModules(courseDetails.module, existingCourse.module);
-    courseDetails.module = updatedModules;
+
+    const updateObject = {
+        title: courseDetails.title,
+        description: courseDetails.description,
+        aboutCourse: courseDetails.aboutCourse,
+        duration: courseDetails.duration,
+        level: courseDetails.level,
+        skills: courseDetails.skills,
+        nftImage: courseDetails.nftImage,
+        banner: courseDetails.banner,
+        whatYouLearn: courseDetails.whatYouLearn,
+        contractAddress: courseDetails.contractAddress,
+        faq: courseDetails.faq,
+    };
+
+    // Add module updates using dot notation
+    updatedModules.forEach((module, index) => {
+        updateObject[`module.${index}.strapiId`] = module.strapiId;
+        updateObject[`module.${index}.moduleTitle`] = module.moduleTitle;
+
+        module.chapter.forEach((chapter, chapterIndex) => {
+            updateObject[`module.${index}.chapter.${chapterIndex}.strapiId`] = chapter.strapiId;
+            updateObject[`module.${index}.chapter.${chapterIndex}.title`] = chapter.title;
+            updateObject[`module.${index}.chapter.${chapterIndex}.content`] = chapter.content;
+        });
+
+        module.quizzes.forEach((quiz, quizIndex) => {
+            updateObject[`module.${index}.quizzes.${quizIndex}.strapiId`] = quiz.strapiId;
+            updateObject[`module.${index}.quizzes.${quizIndex}.quizTitle`] = quiz.quizTitle;
+            updateObject[`module.${index}.quizzes.${quizIndex}.a`] = quiz.a;
+            updateObject[`module.${index}.quizzes.${quizIndex}.b`] = quiz.b;
+            updateObject[`module.${index}.quizzes.${quizIndex}.c`] = quiz.c;
+            updateObject[`module.${index}.quizzes.${quizIndex}.d`] = quiz.d;
+            updateObject[`module.${index}.quizzes.${quizIndex}.answer`] = quiz.answer;
+        });
+
+        if (module.program) {
+            updateObject[`module.${index}.program.strapiId`] = module.program.strapiId;
+            updateObject[`module.${index}.program.duration`] = module.program.duration;
+            updateObject[`module.${index}.program.boilerplate_code`] = module.program.boilerplate_code;
+            updateObject[`module.${index}.program.description`] = module.program.description;
+            updateObject[`module.${index}.program.test_file_content`] = module.program.test_file_content;
+            updateObject[`module.${index}.program.solution`] = module.program.solution;
+        }
+    });
 
     const updatedCourse = await Course.findOneAndUpdate(
         { strapiId: courseDetails.strapiId },
-        { $set: courseDetails },
-        { new: true }
+        { $set: updateObject },
+        {
+            new: true,
+            runValidators: true,
+            upsert: false,
+        }
     );
-    console.log("Course updated:", updatedCourse._id);
+
+    if (!updatedCourse) {
+        throw new Error(`Course with strapiId ${courseDetails.strapiId} not found`);
+    }
+    console.log("Course updated:", updatedCourse.title);
+    return updatedCourse;
 }
+
 
 function processModules(newModules, existingModules) {
     return newModules.map((newModule) => {
@@ -91,20 +145,37 @@ function processQuizzes(newQuizzes, existingQuizzes = []) {
     });
 }
 
-function processProgram(newProgram, existingProgram) {
-    if (!newProgram) return existingProgram;
-    return existingProgram
-        ? {
-            ...existingProgram,
-            ...newProgram,
+async function processProgram(newProgram, existingProgram) {
+    if (!newProgram) return null;
+    console.log(JSON.stringify(newProgram.description));
+
+    let description;
+    if (newProgram.description && newProgram.description.length > 0) {
+        description = newProgram.description
+    } else {
+        description = existingProgram ? existingProgram.description : [];
+    }
+
+    if (existingProgram) {
+        return {
+            _id: existingProgram._id,
             strapiId: newProgram.id,
-            description: mapRichTextNodesToSchema(newProgram.description[0]?.children) || existingProgram.description,
-        }
-        : {
-            ...newProgram,
-            strapiId: newProgram.id,
-            description: mapRichTextNodesToSchema(newProgram.description[0]?.children) || [],
+            duration: newProgram.duration,
+            boilerplate_code: newProgram.boilerplate_code,
+            description: description,
+            test_file_content: newProgram.test_file_content,
+            solution: newProgram.solution,
         };
+    } else {
+        return {
+            strapiId: newProgram.id,
+            duration: newProgram.duration,
+            boilerplate_code: newProgram.boilerplate_code,
+            description: description,
+            test_file_content: newProgram.test_file_content,
+            solution: newProgram.solution,
+        };
+    }
 }
 
 function createNewModule(moduleItem) {
@@ -128,7 +199,7 @@ function createNewModule(moduleItem) {
             strapiId: moduleItem.program.id,
             duration: moduleItem.program.duration,
             boilerplate_code: moduleItem.program.boilerplate_code,
-            description: mapRichTextNodesToSchema(moduleItem.program.description[0]?.children),
+            description: moduleItem.program.description,
             test_file_content: moduleItem.program.test_file_content,
             solution: moduleItem.program.solution,
         } : null,

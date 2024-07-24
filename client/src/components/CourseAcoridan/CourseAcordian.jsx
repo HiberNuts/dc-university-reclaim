@@ -3,7 +3,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import "./Acordian.scss";
 import whiteExpand from "../../assets/whiteArrow.svg";
-import { LockIcon, TickIcon } from './Icons';
+import { LockIcon, TickIcon } from "./Icons";
 import { useEffect } from "react";
 
 const AccordionContext = React.createContext({});
@@ -34,8 +34,6 @@ function Accordion({ children, multiple, defaultIndex }) {
     return <AccordionContext.Provider value={{ isActive, index, onChangeIndex }}>{child}</AccordionContext.Provider>;
   });
 }
-
-
 
 function AccordionItem({ children }) {
   return <div className="AccordionItem bg-transparent  text-white text-[18px] font-[800px]">{children}</div>;
@@ -101,8 +99,9 @@ const CourseAcordian = ({
   currentModule,
   currentQuiz,
   setcurrentQuiz,
+  isProgramSelected,
+  setIsProgramSelected,
 }) => {
-
   const handleCompleteChapter = async ({ chapter }) => {
     const updatedProgress = await userCourseProgress.modules.map((progressModule) => {
       const updatedChapters = progressModule.chapters.map((progressChapter) => {
@@ -162,11 +161,12 @@ const CourseAcordian = ({
                       key={i}
                       onClick={() => {
                         setisQuizSelected(false);
+                        setIsProgramSelected(false);
                         handleChapterClick(chapter);
                         checkModuleCoursesStatus({ module });
                         setcurrentModule(module);
                         setisModuleChanged(!isModuleChanged);
-                        setSidebarOpen(false)
+                        setSidebarOpen(false);
                         window.scroll(0, 0);
                       }}
                     >
@@ -200,7 +200,7 @@ const CourseAcordian = ({
                         )}
                         <label
                           htmlFor="red-checkbox"
-                          className={`ml-2 font-helvetica-neue-md text-[16px] items-start text-start ${isQuizSelected
+                          className={`ml-2 font-helvetica-neue-md text-[16px] items-start text-start ${isQuizSelected || isProgramSelected
                             ? "text-white"
                             : chapter._id == currentChapter._id
                               ? "border-b-2 border-shardeumGreen"
@@ -209,7 +209,7 @@ const CourseAcordian = ({
                                 ? "text-white"
                                 : "text-white "
                               }`
-                            } cursor-pointer   `}
+                            } cursor-pointer`}
                         >
                           {chapter?.title}
                         </label>
@@ -231,13 +231,102 @@ const CourseAcordian = ({
                 currentModule={currentModule}
                 setcurrentQuiz={setcurrentQuiz}
                 currentQuiz={currentQuiz}
+                setIsProgramSelected={setIsProgramSelected}
               />
+              {module.program && (
+                <RenderProgram
+                  module={module}
+                  isModuleChanged={isModuleChanged}
+                  setisQuizSelected={setisQuizSelected}
+                  isQuizSelected={isQuizSelected}
+                  setcurrentModule={setcurrentModule}
+                  setisModuleChanged={setisModuleChanged}
+                  currentModuleAllChapterStatus={currentModuleAllChapterStatus}
+                  checkModuleCoursesStatus={checkModuleCoursesStatus}
+                  userCourseProgress={userCourseProgress}
+                  currentModule={currentModule}
+                  setcurrentQuiz={setcurrentQuiz}
+                  currentQuiz={currentQuiz}
+                  isProgramSelected={isProgramSelected}
+                  setIsProgramSelected={setIsProgramSelected}
+                />
+              )}
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
       </div>
     );
   }
+};
+
+const RenderProgram = ({
+  module,
+  isModuleChanged,
+  setcurrentModule,
+  setisModuleChanged,
+  userCourseProgress,
+  currentModule,
+  setisQuizSelected,
+  isProgramSelected,
+  setIsProgramSelected,
+}) => {
+  const [programStatus, setprogramStatus] = useState("");
+
+  const [currentQuizStatus, setcurrentQuizStatus] = useState("none");
+
+  const checkModuleQuizStatus = async ({ module }) => {
+    await userCourseProgress?.modules?.map((progressModule) => {
+      if (progressModule?._id == module?._id) {
+        setcurrentQuizStatus(progressModule?.quizStatus);
+        setprogramStatus(progressModule?.programStatus);
+      }
+    });
+  };
+
+  useEffect(() => {
+    checkModuleQuizStatus({ module });
+  }, [userCourseProgress]);
+
+  return (
+    <div>
+      <button
+        disabled={currentQuizStatus == "full" ? false : true}
+        onClick={() => {
+          setisQuizSelected(false);
+          setIsProgramSelected(true);
+          setcurrentModule(module);
+          setisModuleChanged(!isModuleChanged);
+        }}
+      >
+        <div className="flex items-center pt-2  mr-4">
+          {currentQuizStatus == "none" ? (
+            <div className="rounded-full items-center w-[30px] h-[30px]">
+              <LockIcon />
+            </div>
+          ) : programStatus == "full" ? (
+            <div className="rounded-full  w-[30px] h-[30px]">
+              <TickIcon />
+            </div>
+          ) : (
+            <div
+              className={`rounded-full ${isProgramSelected && module._id == currentModule._id
+                ? "border-2 border-black bg-white"
+                : "border-2 border-black bg-white "
+                } bg-shardeumBlue  w-[30px] h-[30px]`}
+            ></div>
+          )}
+
+          <label
+            htmlFor="red-checkbox"
+            className={`ml-2 text-[16px] items-start text-start ${isProgramSelected && module._id == currentModule._id ? "text-shardeumOrange font-bold" : "text-white"
+              }    cursor-pointer`}
+          >
+            Program
+          </label>
+        </div>
+      </button>
+    </div>
+  );
 };
 
 const RenderQuiz = ({
@@ -251,14 +340,12 @@ const RenderQuiz = ({
   currentModule,
   currentQuiz,
   setcurrentQuiz,
+  setIsProgramSelected,
 }) => {
-
   const [quizStatus, setquizStatus] = useState("");
-
   const [currentChaptersStatus, setcurrentChaptersStatus] = useState("none");
-
   const checkModuleCoursesStatus = async ({ module }) => {
-    const data = await userCourseProgress?.modules?.map((progressModule) => {
+    await userCourseProgress?.modules?.map((progressModule) => {
       if (progressModule?._id == module?._id) {
         setcurrentChaptersStatus(progressModule?.chapterStatus);
         setquizStatus(progressModule?.quizStatus);
@@ -275,6 +362,7 @@ const RenderQuiz = ({
       <button
         disabled={currentChaptersStatus == "full" ? false : true}
         onClick={() => {
+          setIsProgramSelected(false);
           setisQuizSelected(true);
           setcurrentModule(module);
           setcurrentQuiz(module?.quizzes);

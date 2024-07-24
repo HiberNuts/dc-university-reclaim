@@ -3,17 +3,10 @@ const solc = require('solc');
 const { ethers, network } = require('hardhat');
 const chai = require("chai");
 const { expect } = require("chai");
-//MODELS
 const db = require("../models");
-const path = require('path');
-const fs = require("fs");
-// const Contests = db.Contests;
 const Programs = db.Programs;
 const Submissions = db.Submissions;
-const Contests=db.Contests;
-// import "@openzeppelin/contracts/access/Ownable.sol";
-// import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-// import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+const Contests = db.Contests;
 
 
 exports.compiler = async (req, res) => {
@@ -89,24 +82,30 @@ exports.compiler = async (req, res) => {
 
 exports.test = async (req, res) => {
 
-  const { userCode='',submissionId='',testFileContent='',isPreview=true,walletAddress='' } = req.body; 
+  const { userCode = '', submissionId = '', testFileContent = '', isPreview = true, walletAddress = '' } = req.body;
 
   try {
+    const path = require('path');
+    const fs = require('fs');
+
     function findImports(importPath) {
-      // Check if the import is for an OpenZeppelin contract
       if (importPath.startsWith('@openzeppelin/')) {
-        const fullPath = path.resolve(__dirname, '..', 'node_modules', importPath);
+        const parts = importPath.split('/');
+        const fileName = parts[parts.length - 1];
+        const fullPath = path.resolve(__dirname, '..', 'node_modules', '@openzeppelin', 'contracts', ...parts.slice(2));
 
         if (fs.existsSync(fullPath)) {
           return { contents: fs.readFileSync(fullPath, 'utf8') };
         } else {
+          console.error(`File not found: ${fullPath}`);
           return { error: `File not found: ${importPath}` };
         }
       }
-
       // For other imports (if any)
       return { error: `File not found: ${importPath}` };
     }
+
+
 
     var input = {
       language: 'Solidity',
@@ -133,10 +132,12 @@ exports.test = async (req, res) => {
       });
     }
 
-    const contractNames = Object.keys(compiled.contracts['test.sol']);// Assuming the first contract is the main one
+    const contractNames = Object.keys(compiled.contracts['test.sol']);
     console.log('Contract Names', contractNames);
 
-    const [signer] = await ethers.getSigners();
+    const { ethers } = require('hardhat');
+    const provider = new ethers.JsonRpcProvider("http://127.0.0.1:8545");
+    const signer = await provider.getSigner();
 
     const factories = {};
     for (const contractName in compiled.contracts['test.sol']) {
@@ -210,7 +211,7 @@ exports.test = async (req, res) => {
     const modifiedTestContent = replaceContractFactory(testFileContent, 'factories');
     try {
       const [signer] = await ethers.getSigners();
-      const testFunction = new Function('chai', 'ethers', 'expect', 'describe', 'it', 'beforeEach', 'afterEach', 'signer', 'network', `
+      const testFunction = new Function('chai', 'ethers', 'expect', 'describe', 'it', 'beforeEach', 'afterEach', 'signer', 'provider', 'network', `
       return async () => {
         const factories = {
           ${Object.entries(compiled.contracts['test.sol']).map(([name, contract]) => `
@@ -225,17 +226,16 @@ exports.test = async (req, res) => {
       }
     `);
 
-      await testFunction(chai, ethers, expect, global.describe, global.it, global.beforeEach, global.afterEach, signer, network)();
+      await testFunction(chai, ethers, expect, global.describe, global.it, global.beforeEach, global.afterEach, signer, provider, network)();
 
       await Promise.all(testPromises);
       //IF IT IS NOT FOR PREVIEW TESTING
-      if(isPreview==false)
-      {
+      if (isPreview == false) {
         const Submisison = await Submissions.findById(submissionId);
         if (!Submisison)
           return res.json(404).send({ error: true, message: "Invalid submission!" });
 
-        const Contest=await Contests.findById(Submisison.contest);
+        const Contest = await Contests.findById(Submisison.contest);
         const currentDate = new Date();
         const endDate = new Date(Contest.endDate);
         if (currentDate > endDate) {
@@ -244,9 +244,9 @@ exports.test = async (req, res) => {
         // Calculate number of passing and failing tests
         const passedTests = results.filter(result => result.passed).length;
         const failedTests = results.length - passedTests;
-        const xpForEachTestCase=500/results.length;
-        const xpEarned=parseInt(xpForEachTestCase*passedTests).toFixed(0);
-         //UPDATE THE SUBMISSION SCHEMA 
+        const xpForEachTestCase = 500 / results.length;
+        const xpEarned = parseInt(xpForEachTestCase * passedTests).toFixed(0);
+        //UPDATE THE SUBMISSION SCHEMA 
         //SAVING WALLET ADDRESS
         Submisison.walletAddress = walletAddress ?? '';
         Submisison.passedCases = passedTests;
@@ -259,17 +259,17 @@ exports.test = async (req, res) => {
 
         await Submisison.save();
         console.log("New Submisission updated");
-        return res.json({passedTests,failedTests, results });
+        return res.json({ passedTests, failedTests, results });
       }
       console.log("Preview submission done[+]")
-      return res.json({results });
+      return res.json({ results });
     } catch (error) {
       console.error("Error running tests:", error);
-      res.status(200).json({ error:true,message: "Failed to run test cases"});
+      res.status(200).json({ error: true, message: "Failed to run test cases: " + error.message });
     }
   } catch (error) {
     console.error(error);
-    res.status(200).json({ error:true,message:error.message });
+    res.status(200).json({ error: true, message: error.message });
   }
   finally {
     // Clean up the mocked globals
@@ -315,7 +315,7 @@ exports.compileAndTest = async (req, res) => {
     const bytecode = compiled.contracts["test.sol"].TestContract.evm.bytecode.object;
 
     // Deploy contract to local Hardhat network
-    const provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545/");
+    const provider = ethers.provider;
     const signer = await provider.getSigner();
     // ethers.getSigner()
     const factory = new ethers.ContractFactory(abi, bytecode, signer);
@@ -338,8 +338,8 @@ exports.compileAndTest = async (req, res) => {
     // Calculate number of passing and failing tests
     const passedTests = testResults.filter(result => result.passed).length;
     const failedTests = testResults.length - passedTests;
-    const xpForEachTestCase=500/testResults.length;
-    const xpEarned=parseInt(xpForEachTestCase*passedTests).toFixed(0);
+    const xpForEachTestCase = 500 / testResults.length;
+    const xpEarned = parseInt(xpForEachTestCase * passedTests).toFixed(0);
     //UPDATE THE SUBMISSION SCHEMA 
     //SAVING WALLET ADDRESS
     Submisison.walletAddress = req.body?.walletAddress ?? '';
