@@ -5,7 +5,7 @@ import { getPreviewContest,checkAuthinStrapi } from "../../../utils/api/ContestA
 import { checkTimeLeft } from "../../../utils/time";
 import { formatTimestamp } from "../../../utils/time";
 import GreenButton from "../../button/GreenButton";
-import { mapRichTextNodesToSchema } from "../../../utils/mapRichText";
+import { mapRichTextNodesToSchema,renderContent } from "../../../utils/mapRichText";
 import { ParentContext } from "../../../contexts/ParentContext";
 const PreviewContest=()=>{
     const {id}=useParams();
@@ -27,9 +27,10 @@ const PreviewContest=()=>{
             {
                setContest(response?.data);
                setLoader(false);
-               const mappedRules=mapRichTextNodesToSchema(response?.data?.attributes?.rules[0].children);
+               const mappedRules=response?.data?.attributes?.rules[0].children.map(content=>renderContent(content))
+            //    console.log("mapped rules",response?.data?.attributes?.rules[0].children.map(content=>renderContent(content)));
                setRules(mappedRules);
-               const mappedWarnings=mapRichTextNodesToSchema(response?.data?.attributes?.warnings[0].children)
+               const mappedWarnings=response?.data?.attributes?.warnings[0].children.map(content=>renderContent(content))
                setWarnings(mappedWarnings);
 
                const updateTimer = () => {
@@ -122,43 +123,48 @@ const PreviewContest=()=>{
                  <p className='text-[18px] mt-2 text-black font-helvetica-neue-roman leading-[31.5px] opacity-[70%]'>{contest?.attributes?.details}</p>
              </div>
              {
-                rules!==null&&
-                <div className='contest-details-rules py-5'>
-                    <p className='text-[18px] font-semibold'>Rules:</p>
-                    <ul className='mx-1'>
-                    {rules.map((s, index) => (
-                        <li className={`${s.type == 'code' ?'bg-[#d4d2d2] px-5 ':''} py-1`} key={index}>
-                        {
-                            s.type!='code'&&
-                            <span className="w-2 h-2 bg-[#605d5d] rounded-full inline-block mr-2"></span>
-                        }
-                        <span className={` text-[15px] text-slategray font-helvetica-neue-roman leading-[25px]`}>
-                            {s.type == 'link' ? (
-                            <a href={s.url} className="underline text-shardeumBlue" target="_blank" rel="noopener noreferrer">
-                                {s.content}
-                            </a>
-                            ) : s.type == 'code' ? (
-                                <CodeBlock
-                                language="javascript"
-                                text={s.content}
-                                theme={dracula}
-                                className="custom-copy-block"
-                                />
-                            ) : (
-                            s.content
-                            )}
-                        </span>
-                        </li>
-                    ))}
-                    </ul>
+                rules!==null&& <div>
+                    <div className='contest-details-rules py-5'>
+                        <p className='text-[18px] font-semibold'>Rules:</p>
+                        {rules}
+                    </div>
                 </div>
+                // <div className='contest-details-rules py-5'>
+                //     <ul className='mx-1'>
+                //     {rules.map((s, index) => (
+                //         <li className={`${s.type == 'code' ?'bg-[#d4d2d2] px-5 ':''} py-1`} key={index}>
+                //         {
+                //             s.type!='code'&&
+                //             <span className="w-2 h-2 bg-[#605d5d] rounded-full inline-block mr-2"></span>
+                //         }
+                //         <span className={` text-[15px] text-slategray font-helvetica-neue-roman leading-[25px]`}>
+                //             {s.type == 'link' ? (
+                //             <a href={s.url} className="underline text-shardeumBlue" target="_blank" rel="noopener noreferrer">
+                //                 {s.content}
+                //             </a>
+                //             ) : s.type == 'code' ? (
+                //                 <CodeBlock
+                //                 language="javascript"
+                //                 text={s.content}
+                //                 theme={dracula}
+                //                 className="custom-copy-block"
+                //                 />
+                //             ) : (
+                //             s.content
+                //             )}
+                //         </span>
+                //         </li>
+                //     ))}
+                //     </ul>
+                // </div>
              }
              {
                 warnings!=null&&
                 <div className='contest-details-rules py-5'>
                     <p className='text-[18px] font-semibold'>Winnings:</p>
                     <ul className='mx-1'>
-                    {warnings.map((s, index) => (
+                        {warnings}
+                    {/* {warnings.map((s, index) => (
                         <li className={`${s.type == 'code' ?'bg-[#d4d2d2] px-5 ':''} py-1`} key={index}>
                         {
                             s.type!='code'&&
@@ -181,7 +187,7 @@ const PreviewContest=()=>{
                             )}
                         </span>
                         </li>
-                    ))}
+                    ))} */}
 
                     </ul>
                 </div>

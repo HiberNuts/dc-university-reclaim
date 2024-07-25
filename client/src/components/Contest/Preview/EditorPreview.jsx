@@ -32,10 +32,10 @@ const EditorPreviewContest=()=>{
          obj.level=contest?.level;
          return obj;
     }
-    const mapDescriptionForProgramFromStrapi=(program)=>{
-        let obj={...program,description:mapRichTextNodesToSchema(program.description[0].children)};
-        return obj;
-    }
+    // const mapDescriptionForProgramFromStrapi=(program)=>{
+    //     let obj={...program,description:mapRichTextNodesToSchema(program.description[0].children)};
+    //     return obj;
+    // }
 
     useEffect(()=>{
 
@@ -45,7 +45,7 @@ const EditorPreviewContest=()=>{
               if(response?.data)
               {
                 setContest(mapContestForProblemComponentFromStrapi(response?.data.attributes));
-                setProgram(mapDescriptionForProgramFromStrapi(response?.program[0].attributes));
+                setProgram(response?.program[0].attributes);
               }
             })
     },[])
@@ -78,8 +78,7 @@ const EditorPreviewContest=()=>{
           gutterElement.className = `bg-gray-500 cursor-col-resize w-10 h-screen flex items-center justify-center hover:bg-gray-400   z-10`;
           return gutterElement;
         }}
-      >
-            
+      >  
             <div className="h-screen overflow-scroll flex-1 relative">
                 <div
                 />
