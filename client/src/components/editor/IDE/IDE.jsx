@@ -85,11 +85,13 @@ const IDE = (props) => {
 
   const handleSubmitAndTest = async (preview = false) => {
     try {
+
       setSubmitLoader(true);
       setTestCases(null);
       setIsDialogOpen(false);
       const isPreviewComponent = preview || props?.preview || false;
-      const response = await compileAndTest(input, props?.program?.test_file_content, props?.submissionID, isPreviewComponent, walletAddress);
+      const isCourseProgram = props.course ? true : false
+      const response = await compileAndTest(input, props?.program?.test_file_content, props?.submissionID, isPreviewComponent, walletAddress, props?.course, props?.course_id, props?.user_id, props?.program_id, props?.module_id);
       if (response?.error) {
         setCompileError(true);
         setOutput(response?.message);
@@ -109,6 +111,7 @@ const IDE = (props) => {
         getUserProfileData();
       }
       setSubmitLoader(false);
+      props?.setIsProgramSubmited(!props?.isProgramSubmited)
     } catch (error) {
       console.log("ERROR IN TESTING :", error);
     }
@@ -119,9 +122,9 @@ const IDE = (props) => {
   const handleEditorWillMount = (monaco) => setupMonaco(monaco);
 
   const handleEditorDidMount = (editor, monaco) => {
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyC, () => {});
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyX, () => {});
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyV, () => {});
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyC, () => { });
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyX, () => { });
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyV, () => { });
     editor.updateOptions({ fontFamily: "Menlo", fontSize: 14 });
   };
 
