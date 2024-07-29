@@ -116,7 +116,7 @@ const IDE = (props) => {
       console.log("ERROR IN TESTING :", error);
     }
   };
-
+  
   const handleEditorChange = (value) => setInput(value);
 
   const handleEditorWillMount = (monaco) => setupMonaco(monaco);

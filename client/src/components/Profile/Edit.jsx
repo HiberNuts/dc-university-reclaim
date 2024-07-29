@@ -226,7 +226,7 @@ const EditProfile = () => {
       <div className="edit_section grid grid-cols-1 space-y-5 md:space-y-0  md:grid-cols-5 py-10  md:py-20">
         <div className="col-span-1">
           <div className="flex flex-col space-y-7 justify-center items-center">
-            <LazyLoadImage src={preview} className="rounded-[16px] w-[180px] h-[180px] border-[2px] object-contain" />
+            <LazyLoadImage src={preview} className="rounded-[50%] object-cover object-center w-[180px] h-[180px] border-[2px]" />
             <label for="files" className="text-shardeumBlue bg-white cursor-pointer border-[2px] border-shardeumBlue rounded-[10px] py-[8px] px-[16px] flex space-x-1">
               <div className="py-1"><img src={IMG_UPLOAD} /></div>
               <div className="mt-[2px]"><span>Change Avatar</span></div>
