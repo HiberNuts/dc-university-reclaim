@@ -8,7 +8,7 @@ import Split from "react-split";
 import { useAccount } from "wagmi";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { getUserData } from "../../../utils/api/UserAPI";
-import { compileAndTest } from "../../../utils/api/ContestAPI";
+import { compile,test } from "../../../utils/api/ContestAPI";
 import { solidityLanguageConfig, solidityTokensProvider } from "./EditorConfig";
 import { TRIANGLE_LOGO_EDITOR as TRI_IMG } from "../../../Constants/Assets";
 import GreenButton from "../../button/GreenButton";
@@ -85,13 +85,21 @@ const IDE = (props) => {
 
   const handleSubmitAndTest = async (preview = false) => {
     try {
-
+      var response;
       setSubmitLoader(true);
       setTestCases(null);
       setIsDialogOpen(false);
       const isPreviewComponent = preview || props?.preview || false;
       const isCourseProgram = props.course ? true : false
-      const response = await compileAndTest(input, props?.program?.test_file_content, props?.submissionID, isPreviewComponent, walletAddress, props?.course, props?.course_id, props?.user_id, props?.program_id, props?.module_id);
+      // response = await compile(input, props?.program?.test_file_content, props?.submissionID, isPreviewComponent, walletAddress, props?.course, props?.course_id, props?.user_id, props?.program_id, props?.module_id);
+
+      if(isPreviewComponent){
+        response = await compile(input);
+      }
+      else{
+          response = await test(input, props?.program?.test_file_content);
+          console.log(response)
+      }
       if (response?.error) {
         setCompileError(true);
         setOutput(response?.message);
@@ -122,9 +130,9 @@ const IDE = (props) => {
   const handleEditorWillMount = (monaco) => setupMonaco(monaco);
 
   const handleEditorDidMount = (editor, monaco) => {
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyC, () => { });
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyX, () => { });
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyV, () => { });
+    // editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyC, () => { });
+    // editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyX, () => { });
+    // editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyV, () => { });
     editor.updateOptions({ fontFamily: "Menlo", fontSize: 14 });
   };
 

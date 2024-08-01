@@ -108,6 +108,8 @@ exports.getProgram = async (req, res) => {
     }
     const contest = await Contests.findById(submission.contest);
     const program = await Programs.findOne({ contestId: submission.contest });
+    console.log(program)   
+    console.log(submission.contest)
     if (!contest) {
       return res.status(200).send(formatResponse(true, "Contest not found for the submission"));
     }

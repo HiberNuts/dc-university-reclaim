@@ -51,7 +51,7 @@ exports.compiler = async (req, res) => {
       }
     };
 
-    const output = JSON.parse(solc.compile(JSON.stringify(input), { import: findImports }));
+    const output = JSON.parse(solc.compile(JSON.stringify(input), { import: findImports }));   
     if (output.errors) {
       const criticalErrors = output.errors.filter(err => err.severity === 'error');
       if (criticalErrors.length > 0) {

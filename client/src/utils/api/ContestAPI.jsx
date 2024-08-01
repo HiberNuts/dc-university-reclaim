@@ -264,6 +264,24 @@ export const compile = async (code) => {
   }
 };
 
+export const test = async (userCode, testFileContent) => {
+  try {
+    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/test`, { userCode,testFileContent });
+
+      
+      if (res.data.error) {
+        return { error: true, message: res.data.error };
+      }
+      return { error: false, message: "Submitted Successfully" };
+    
+    
+
+  } catch (error) {
+    console.error("Compile Error-->", error);
+    return { error: true, message: "Failed to compile" };
+  }
+}
+
 export const compileAndSubmit = async (code, submissionID, address) => {
   try {
     const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/compile-and-test`, { userCode: code, submissionId: submissionID, walletAddress: address });
@@ -277,27 +295,27 @@ export const compileAndSubmit = async (code, submissionID, address) => {
   }
 }
 
-export const compileAndTest = async (code, testFileContent, submissionId, isPreview, walletAddress, isCourse, courseId, userId, programId, moduleId) => {
-  try {
+// export const compileAndTest = async (code, testFileContent, submissionId, isPreview, walletAddress, isCourse, courseId, userId, programId, moduleId) => {
+//   try {
 
-    let payload = {
-      userCode: code,
-      testFileContent,
-      isPreview,
-      submissionId,
-      walletAddress
-    };
-    if (isCourse) {
-      payload.isCourse = true;
-      payload.user_id = userId;
-      payload.course_id = courseId;
-      payload.program_id = programId;
-      payload.module_id = moduleId;
-    }
-    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/test`, payload)
-    return res.data;
-  } catch (error) {
-    console.log("Compile & test error :", error);
-    return { error: true, message: "Failed to submit test cases" }
-  }
-}
+//     let payload = {
+//       userCode: code,
+//       testFileContent,
+//       isPreview,
+//       submissionId,
+//       walletAddress
+//     };
+//     if (isCourse) {
+//       payload.isCourse = true;
+//       payload.user_id = userId;
+//       payload.course_id = courseId;
+//       payload.program_id = programId;
+//       payload.module_id = moduleId;
+//     }
+//     const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/test`, payload)
+//     return res.data;
+//   } catch (error) {
+//     console.log("Compile & test error :", error);
+//     return { error: true, message: "Failed to submit test cases" }
+//   }
+// }
