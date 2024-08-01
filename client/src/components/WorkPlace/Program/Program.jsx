@@ -1,11 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Problem from "../../editor/Problem/Problem.jsx";
 import IDE from "../../editor/IDE/IDE.jsx";
 import Split from "react-split";
 import 'react-resizable/css/styles.css';
 
-const WorkPlaceProgram = ({ currentModule, courseContent }) => {
+const WorkPlaceProgram = ({ currentModule, courseContent, user_id, isProgramSubmited, setIsProgramSubmited, loggedInUserData }) => {
   const [darkTheme, setDarkTheme] = useState(true);
+  const [completed, setcompleted] = useState(false);
+  const [userProgramData, setUserProgramData] = useState({})
+
+  useEffect(() => {
+    const enrolledCourse = loggedInUserData.enrolledCourses.find(course => course.courseId.toString() == courseContent._id)
+    const module = enrolledCourse.modules.find(
+      mod => mod._id.toString() === currentModule._id
+    );
+    if (module.program.status === "full") {
+      setcompleted(true)
+      setUserProgramData(module.program)
+    } else {
+      setcompleted(false)
+    }
+  }, [loggedInUserData, isProgramSubmited])
+  console.log(completed);
+
 
   return (
     <div className={`${darkTheme && "bg-black text-white"} py-5 px-2 transition-all duration-200 ease-linear w-full`}>
@@ -29,7 +46,7 @@ const WorkPlaceProgram = ({ currentModule, courseContent }) => {
           <Problem program={currentModule?.program} contest={courseContent} darkTheme={darkTheme} toggleTheme={() => setDarkTheme(theme => !theme)} />
         </div>
         <div className="">
-          <IDE program={currentModule?.program} darkTheme={darkTheme} completed={{ completed: false }} />
+          <IDE setIsProgramSubmited={setIsProgramSubmited} isProgramSubmited={isProgramSubmited} course={true} isProgram user_id={user_id} course_id={courseContent._id} program_id={currentModule?.program._id} module_id={currentModule._id} program={currentModule?.program} darkTheme={darkTheme} completed={{ completed: completed, testResults: userProgramData.testResults, submittedCode: userProgramData.code }} />
         </div>
       </Split>
     </div>

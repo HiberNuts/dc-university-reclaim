@@ -187,7 +187,7 @@ const Quiz = ({
   useEffect(() => {
     setChoices([]);
     setScore(0);
-    setIsSubmitted(false);
+    // setIsSubmitted(false);
     setcurrentQuizCompleted(
       userCourseProgress?.modules[userCourseProgress.modules.findIndex((m) => m._id == currentModule._id)].quizStatus ==
         "full"
@@ -219,6 +219,7 @@ const Quiz = ({
 
   const incorrectAnswers = answerArray;
   const answers = incorrectAnswers;
+  console.log(isSubmitted);
 
   const isCorrect = correctAnswer === INT_TO_ABC_MAP[choice];
 

@@ -135,7 +135,6 @@ const CourseAcordian = ({
                   if (moduleIndex == 0) {
                     if (i == 0) {
                       disabled = false;
-
                       if (userCourseProgress?.modules[moduleIndex ? moduleIndex : 0]?.chapters[0]?.status == "none") {
                         handleCompleteChapter({ chapter: userCourseProgress?.modules[moduleIndex]?.chapters[0] });
                       }
@@ -231,6 +230,7 @@ const CourseAcordian = ({
                 currentModule={currentModule}
                 setcurrentQuiz={setcurrentQuiz}
                 currentQuiz={currentQuiz}
+                setSidebarOpen={setSidebarOpen}
                 setIsProgramSelected={setIsProgramSelected}
               />
               {module.program && (
@@ -248,6 +248,7 @@ const CourseAcordian = ({
                   setcurrentQuiz={setcurrentQuiz}
                   currentQuiz={currentQuiz}
                   isProgramSelected={isProgramSelected}
+                  setSidebarOpen={setSidebarOpen}
                   setIsProgramSelected={setIsProgramSelected}
                 />
               )}
@@ -276,13 +277,16 @@ const RenderProgram = ({
 
   const checkModuleQuizStatus = async ({ module }) => {
     await userCourseProgress?.modules?.map((progressModule) => {
+      console.log("progressModule", progressModule);
+      console.log("module", module);
       if (progressModule?._id == module?._id) {
+        console.log(progressModule);
         setcurrentQuizStatus(progressModule?.quizStatus);
         setprogramStatus(progressModule?.programStatus);
       }
     });
   };
-
+  console.log(programStatus);
   useEffect(() => {
     checkModuleQuizStatus({ module });
   }, [userCourseProgress]);
@@ -296,6 +300,7 @@ const RenderProgram = ({
           setIsProgramSelected(true);
           setcurrentModule(module);
           setisModuleChanged(!isModuleChanged);
+          setSidebarOpen(false);
         }}
       >
         <div className="flex items-center pt-2  mr-4">
@@ -367,6 +372,7 @@ const RenderQuiz = ({
           setcurrentModule(module);
           setcurrentQuiz(module?.quizzes);
           setisModuleChanged(!isModuleChanged);
+          setSidebarOpen(false);
         }}
       >
         <div className="flex items-center pt-2  mr-4">

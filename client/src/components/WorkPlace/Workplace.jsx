@@ -25,6 +25,7 @@ export default function WorkPlace() {
   const [userCourseProgress, setuserCourseProgress] = useState({});
   const [isQuizSelected, setisQuizSelected] = useState(false);
   const [isProgramSelected, setIsProgramSelected] = useState(false);
+  const [isProgramSubmited, setIsProgramSubmited] = useState(false);
   const [currentChapterStatus, setcurrentChapterStatus] = useState("none");
   const [currentModuleAllChapterStatus, setcurrentModuleAllChapterStatus] = useState("none");
   const [currentQuiz, setcurrentQuiz] = useState([]);
@@ -116,7 +117,8 @@ export default function WorkPlace() {
 
   useEffect(() => {
     getUserProgress();
-  }, [loggedInUserData, moduleContent]);
+  }, [loggedInUserData, moduleContent, isProgramSubmited]);
+
 
   return (
     <div className="w-full  mt-[10vh] h-full flex justify-between align-middle">
@@ -231,7 +233,7 @@ export default function WorkPlace() {
         <div className="flex w-full my-10 m-0 justify-center items-center align-middle">
           {
             isProgramSelected ?
-              <WorkPlaceProgram currentModule={currentModule} courseContent={courseContent} />
+              <WorkPlaceProgram setIsProgramSubmited={setIsProgramSubmited} isProgramSubmited={isProgramSubmited} user_id={loggedInUserData._id} loggedInUserData={loggedInUserData} currentModule={currentModule} courseContent={courseContent} />
               :
               isQuizSelected ? (
                 <div className="flex w-full text-[20px] courseContent justify-center align-middle  flex-col ">

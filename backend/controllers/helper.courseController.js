@@ -63,6 +63,7 @@ async function updateExistingCourse(existingCourse, courseDetails) {
 
     // Add module updates using dot notation
     updatedModules.forEach((module, index) => {
+        console.log(module.program.description)
         updateObject[`module.${index}.strapiId`] = module.strapiId;
         updateObject[`module.${index}.moduleTitle`] = module.moduleTitle;
 
@@ -145,24 +146,16 @@ function processQuizzes(newQuizzes, existingQuizzes = []) {
     });
 }
 
-async function processProgram(newProgram, existingProgram) {
+function processProgram(newProgram, existingProgram) {
     if (!newProgram) return null;
-    console.log(JSON.stringify(newProgram.description));
-
-    let description;
-    if (newProgram.description && newProgram.description.length > 0) {
-        description = newProgram.description
-    } else {
-        description = existingProgram ? existingProgram.description : [];
-    }
 
     if (existingProgram) {
         return {
             _id: existingProgram._id,
-            strapiId: newProgram.id,
+            strapiId: existingProgram.strapiId,
             duration: newProgram.duration,
             boilerplate_code: newProgram.boilerplate_code,
-            description: description,
+            description: newProgram.description,
             test_file_content: newProgram.test_file_content,
             solution: newProgram.solution,
         };
@@ -171,7 +164,7 @@ async function processProgram(newProgram, existingProgram) {
             strapiId: newProgram.id,
             duration: newProgram.duration,
             boilerplate_code: newProgram.boilerplate_code,
-            description: description,
+            description: newProgram.description,
             test_file_content: newProgram.test_file_content,
             solution: newProgram.solution,
         };
@@ -288,7 +281,6 @@ function updateProgramEnrollment(newProgram, existingProgram) {
 }
 
 async function createNewEnrollment(user, course) {
-    console.log("hi here");
     const userEnrolledCourse = {
         courseId: course._id,
         modules: course.module.map(module => ({
@@ -318,8 +310,6 @@ async function createNewEnrollment(user, course) {
             } : null
         }))
     };
-    console.log(userEnrolledCourse);
-
     user.enrolledCourses.push(userEnrolledCourse);
     await addUserToCourseIfNeeded(course, user._id);
     await user.save();
