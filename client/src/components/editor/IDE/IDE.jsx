@@ -97,7 +97,7 @@ const IDE = (props) => {
         response = await compile(input);
       }
       else{
-          response = await test(input, props?.program?.test_file_content);
+          response = await test(input, props?.program?.test_file_content,props?.submissionID, walletAddress, props?.course, props?.course_id, props?.user_id, props?.program_id, props?.module_id);
           console.log(response)
       }
       if (response?.error) {
