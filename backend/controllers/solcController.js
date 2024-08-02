@@ -51,7 +51,7 @@ exports.compiler = async (req, res) => {
       }
     };
 
-    const output = JSON.parse(solc.compile(JSON.stringify(input), { import: findImports }));   
+    const output = JSON.parse(solc.compile(JSON.stringify(input), { import: findImports }));
     if (output.errors) {
       const criticalErrors = output.errors.filter(err => err.severity === 'error');
       if (criticalErrors.length > 0) {
@@ -169,7 +169,7 @@ function parseTestResults(output) {
 }
 
 exports.test = async (req, res) => {
-  const { userCode, testFileContent,walletAddress = '', isCourse = false, user_id, course_id, program_id, module_id,submissionId:subId='' } = req.body;
+  const { userCode, testFileContent, walletAddress = '', isCourse = false, user_id, course_id, program_id, module_id, submissionId: subId = '' } = req.body;
 
   if (!userCode || !testFileContent) {
     return res.status(400).json({ error: 'Missing userCode or testFileContent' });
@@ -233,7 +233,7 @@ exports.test = async (req, res) => {
 
     const parsedResults = parseTestResults(result);
 
-    
+
     await fs.rm(submissionDir, { recursive: true, force: true });
 
     res.json(parsedResults);
