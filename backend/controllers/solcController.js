@@ -172,6 +172,7 @@ exports.test = async (req, res) => {
   const { userCode, testFileContent,walletAddress = '', isCourse = false, user_id, course_id, program_id, module_id,submissionId:subId='' } = req.body;
 
   if (!userCode || !testFileContent) {
+   
     return res.status(400).json({ error: 'Missing userCode or testFileContent' });
   }
 
@@ -233,9 +234,88 @@ exports.test = async (req, res) => {
 
     const parsedResults = parseTestResults(result);
 
-    
-    await fs.rm(submissionDir, { recursive: true, force: true });
+      if (isCourse == true) {
+        try {
+          const user = await User.findById(user_id);
+          if (!user) {
+            return res.status(404).json({ error: true, message: "User not found" });
+          }
+          const enrolledCourse = user.enrolledCourses.find(
+            course => course.courseId.toString() === course_id
+          );
+          if (!enrolledCourse) {
+            return res.status(404).json({ error: true, message: "Enrolled course not found" });
+          }
+          const module = enrolledCourse.modules.find(
+            mod => mod._id.toString() === module_id
+          );
+          if (!module) {
+            return res.status(404).json({ error: true, message: "Module not found" });
+          }
 
+          // Calculate number of passing and failing tests
+
+          const passedTests = parsedResults.summary.passedTests;
+          const failedTests = parsedResults.summary.failedTests;
+
+          // Update the program status
+          module.program.status = passedTests >= parsedResults.testResults.length / 2 ? "full" : "partial";
+          module.programStatus = passedTests >= parsedResults.testResults.length / 2 ? "full" : "partial";
+          module.status = passedTests >= parsedResults.testResults.length / 2 ? "full" : "partial";
+          module.program.code = userCode;
+          module.program.walletAddress = walletAddress;
+          module.program.passedCases = passedTests;
+          module.program.totalCases = parsedResults.testResults.length;
+          // module.program.testResults = results.map(result => ({
+          //   passed: result.passed,
+          //   description: result.description,
+          //   error: result.error
+          // }));
+          module.program.testResults=parsedResults.testResults;
+          module.program.code = userCode;
+
+          // Save the updated user document
+          await user.save();
+
+          console.log("Course submission updated");
+          return res.json({ passedTests, failedTests, results:parsedResults.testResults });
+        } catch (error) {
+          console.error("Error updating course submission:", error);
+          return res.status(500).json({ error: true, message: "Failed to update course submission", error });
+        }
+
+      } else {
+        const Submisison = await Submissions.findById(subId);
+        if (!Submisison)
+          return res.json(404).send({ error: true, message: "Invalid submission!" });
+
+        const Contest = await Contests.findById(Submisison.contest);
+        const currentDate = new Date();
+        const endDate = new Date(Contest.endDate);
+        if (currentDate > endDate) {
+          return res.status(200).json({ error: true, message: "Sorry. The Contest has ended!" });
+        }
+        // Calculate number of passing and failing tests
+        const passedTests = parsedResults.summary.passedTests;
+          const failedTests = parsedResults.summary.failedTests;
+        const xpForEachTestCase = 500 / parsedResults.testResults.length;
+        const xpEarned = parseInt(xpForEachTestCase * passedTests).toFixed(0);
+        //UPDATE THE SUBMISSION SCHEMA 
+        //SAVING WALLET ADDRESS
+        Submisison.walletAddress = walletAddress ?? '';
+        Submisison.passedCases = passedTests;
+        Submisison.totalCases = passedTests + failedTests;
+        Submisison.testResults = parsedResults.testResults;
+        Submisison.submittedCode = userCode;
+        Submisison.submittedTime = new Date();
+        Submisison.xp = xpEarned;
+        Submisison.status = "completed"
+
+        await Submisison.save();
+        // console.log("New Submisission updated");
+        // return res.json({ passedTests, failedTests, results });
+      }    
+    await fs.rm(submissionDir, { recursive: true, force: true });
     res.json(parsedResults);
   } catch (error) {
     console.error('Error processing submission:', error);
@@ -425,6 +505,7 @@ exports.test2 = async (req, res) => {
             }
 
             // Calculate number of passing and failing tests
+
             const passedTests = results.filter(result => result.passed).length;
             const failedTests = results.length - passedTests;
 
