@@ -25,6 +25,7 @@ export default function editor() {
    
     if(id!=null)
       getContestProgram(loggedInUserData?.accessToken,id).then(async(resp)=>{
+        console.log("resp",resp)
        if(resp.error==false)
         {
           setProgram(resp.data.Program);
