@@ -8,6 +8,7 @@ const WorkPlaceProgram = ({ currentModule, courseContent, user_id, isProgramSubm
   const [darkTheme, setDarkTheme] = useState(true);
   const [completed, setcompleted] = useState(false);
   const [userProgramData, setUserProgramData] = useState({})
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
     const enrolledCourse = loggedInUserData.enrolledCourses.find(course => course.courseId.toString() == courseContent._id)

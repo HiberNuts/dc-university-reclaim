@@ -1,4 +1,4 @@
-import React, { useContext,useEffect } from "react"; 
+import React, { useContext, useEffect } from "react";
 import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ParentContext } from "./contexts/ParentContext";
@@ -27,20 +27,18 @@ import Solution from "./components/Contest/Solution/Solution";
 
 function App() {
   const RedirectAs404 = ({ location }) => <Navigate to={Object.assign({}, location, { state: { is404: true } })} />;
-  
+
   //METHOD TO NAVIGATE TO PEOFILE/EDIT PAGE IF USER DOESN'T HAVE SHARD_ID
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
-  const {loggedInUserData}=useContext(ParentContext);
-  useEffect(()=>{
-    if(loggedInUserData!=null)
-    {
-      if(loggedInUserData?.shardId=="")
-      {
-           navigate("/profile/edit");
-      }  
+  const { loggedInUserData } = useContext(ParentContext);
+  useEffect(() => {
+    if (loggedInUserData != null) {
+      if (loggedInUserData?.shardId == "") {
+        navigate("/profile/edit");
+      }
     }
-  },[loggedInUserData,location.pathname])
+  }, [loggedInUserData, location.pathname])
 
 
   return (
@@ -49,7 +47,7 @@ function App() {
       <Routes>
         {/* Auth Pages */}
         <Route exact path="/" element={<Home />} />
-        <Route exact path="/:shardId" element={<Profile/>}/>
+        <Route exact path="/:shardId" element={<Profile />} />
         {/*Error Pages*/}
         <Route path="/courses" element={<AllCourses />} />
         <Route path="/previewcourses" element={<PreviewAllCourses />} />
@@ -57,10 +55,10 @@ function App() {
         <Route path="/previewworkplace/:id" element={<PreviewWorkplace />} />
         <Route path="/course/:id" element={<CourseDescription />} />
         <Route path="/emailverification" element={<EmailVerification />} />
-        <Route path="/contest/register/:title" element={<ContestRegsiter/>}/>
-        <Route path="/contests" element={<AllContests />}/>
-        <Route path="/contest/:title/solution" element={<Solution/>}/>
-        <Route path="/editor/:title/:id" element={<Editor/>}/>
+        <Route path="/contest/register/:title" element={<ContestRegsiter />} />
+        <Route path="/contests" element={<AllContests />} />
+        <Route path="/contest/:title/solution" element={<Solution />} />
+        <Route path="/editor/:title/:id" element={<Editor />} />
         {/* hello */}
         {/*Main Routes*/}
         {/*Private route section*/}
@@ -68,9 +66,9 @@ function App() {
           <Route path="/workplace/:id" element={<WorkPlace />} />
           {/* <Route path="/profile" element={<Profile />} /> */}
           <Route path="/profile/edit" element={<EditProfile />} />
-          <Route path="/allpreviewcontests" element={<AllPreviewContests />}/>
-          <Route path="/previewcontests/:id" element={<PreviewContest />}/>
-          <Route path="/previewcontests/editor/:id" element={<EditorPreview />}/>
+          <Route path="/allpreviewcontests" element={<AllPreviewContests />} />
+          <Route path="/previewcontests/:id" element={<PreviewContest />} />
+          <Route path="/previewcontests/editor/:id" element={<EditorPreview />} />
         </Route>
         <Route component={RedirectAs404}></Route>
       </Routes>
