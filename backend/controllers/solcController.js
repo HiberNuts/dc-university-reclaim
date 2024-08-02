@@ -169,10 +169,10 @@ function parseTestResults(output) {
 }
 
 exports.test = async (req, res) => {
-  const { userCode, testFileContent, walletAddress = '', isCourse = false, user_id, course_id, program_id, module_id, submissionId: subId = '' } = req.body;
+  const { userCode, testFileContent, walletAddress = '', isCourse = false, user_id, course_id, program_id, module_id, submissionId: subId = '', isPreview = true } = req.body;
 
   if (!userCode || !testFileContent) {
-   
+
     return res.status(400).json({ error: 'Missing userCode or testFileContent' });
   }
 
@@ -233,7 +233,7 @@ exports.test = async (req, res) => {
     }
 
     const parsedResults = parseTestResults(result);
-
+    if (!isPreview) {
       if (isCourse == true) {
         try {
           const user = await User.findById(user_id);
@@ -271,14 +271,14 @@ exports.test = async (req, res) => {
           //   description: result.description,
           //   error: result.error
           // }));
-          module.program.testResults=parsedResults.testResults;
+          module.program.testResults = parsedResults.testResults;
           module.program.code = userCode;
 
           // Save the updated user document
           await user.save();
 
           console.log("Course submission updated");
-          return res.json({ passedTests, failedTests, results:parsedResults.testResults });
+          return res.json({ passedTests, failedTests, results: parsedResults.testResults });
         } catch (error) {
           console.error("Error updating course submission:", error);
           return res.status(500).json({ error: true, message: "Failed to update course submission", error });
@@ -297,7 +297,7 @@ exports.test = async (req, res) => {
         }
         // Calculate number of passing and failing tests
         const passedTests = parsedResults.summary.passedTests;
-          const failedTests = parsedResults.summary.failedTests;
+        const failedTests = parsedResults.summary.failedTests;
         const xpForEachTestCase = 500 / parsedResults.testResults.length;
         const xpEarned = parseInt(xpForEachTestCase * passedTests).toFixed(0);
         //UPDATE THE SUBMISSION SCHEMA 
@@ -312,11 +312,13 @@ exports.test = async (req, res) => {
         Submisison.status = "completed"
 
         await Submisison.save();
-        // console.log("New Submisission updated");
-        // return res.json({ passedTests, failedTests, results });
-      }    
-    await fs.rm(submissionDir, { recursive: true, force: true });
-    res.json(parsedResults);
+        console.log("New Submisission updated");
+        return res.json({ passedTests, failedTests, results: parsedResults.testResults });
+      }
+    }
+    console.log("Preview submission done[+]")
+    return res.json({ results: parsedResults.testResults });
+
   } catch (error) {
     console.error('Error processing submission:', error);
     res.status(500).json({ error: 'Internal server error', details: error.message });

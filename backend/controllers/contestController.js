@@ -108,7 +108,7 @@ exports.getProgram = async (req, res) => {
     }
     const contest = await Contests.findById(submission.contest);
     const program = await Programs.findOne({ contestId: submission.contest });
-    console.log(program)   
+    console.log(program)
     console.log(submission.contest)
     if (!contest) {
       return res.status(200).send(formatResponse(true, "Contest not found for the submission"));
@@ -301,7 +301,6 @@ exports.getUserContestDetails = async (req, res) => {
 //WEBHOOKS
 exports.createModel = async (req, res) => {
   try {
-    console.log(req)
     if (req.body.model == 'contest')
       await createContest(req)
     if (req.body.model == "program")
@@ -346,9 +345,9 @@ const createContest = async (req) => {
       reward = []
     } = req.body.entry;
 
-    const availableContest=await Contests.findOne({strapiId})
-    if(availableContest) return
-     
+    const availableContest = await Contests.findOne({ strapiId })
+    if (availableContest) return
+
 
     const mappedRules = rules || [];
     const mappedWarnings = warnings || [];
@@ -445,8 +444,8 @@ const createProgram = async (req) => {
       solution = ''
     } = req.body.entry;
 
-    const availableProgram=await Programs.findOne({strapiId})
-    if(availableProgram) return
+    const availableProgram = await Programs.findOne({ strapiId })
+    if (availableProgram) return
 
     const contest = await Contests.findOne({ strapiId: strapiContestId });
     if (!contest) {
