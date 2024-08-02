@@ -8,7 +8,7 @@ import Split from "react-split";
 import { useAccount } from "wagmi";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { getUserData } from "../../../utils/api/UserAPI";
-import { compile,test } from "../../../utils/api/ContestAPI";
+import { compile, test } from "../../../utils/api/ContestAPI";
 import { solidityLanguageConfig, solidityTokensProvider } from "./EditorConfig";
 import { TRIANGLE_LOGO_EDITOR as TRI_IMG } from "../../../Constants/Assets";
 import GreenButton from "../../button/GreenButton";
@@ -82,24 +82,14 @@ const IDE = (props) => {
       },
     });
   };
-
-  const handleSubmitAndTest = async (preview = false) => {
+  //for compilation
+  const handleCompile = async () => {
     try {
       var response;
       setSubmitLoader(true);
       setTestCases(null);
       setIsDialogOpen(false);
-      const isPreviewComponent = preview || props?.preview || false;
-      const isCourseProgram = props.course ? true : false
-      // response = await compile(input, props?.program?.test_file_content, props?.submissionID, isPreviewComponent, walletAddress, props?.course, props?.course_id, props?.user_id, props?.program_id, props?.module_id);
-      
-      if(isPreviewComponent){
-        response = await compile(input);
-      }
-      else{
-          response = await test(input, props?.program?.test_file_content,props?.submissionID, walletAddress, props?.course, props?.course_id, props?.user_id, props?.program_id, props?.module_id);
-          console.log(response)
-      }
+      response = await compile(input);
       if (response?.error) {
         setCompileError(true);
         setOutput(response?.message);
@@ -108,9 +98,35 @@ const IDE = (props) => {
         return;
       }
       setCompileError(false);
+      setOutput("Compiled Successfully");
+      setSubmitLoader(false);
+    } catch (error) {
+      console.log("ERROR IN TESTING :", error);
+    }
+  }
+  //for submittitng (if preview true,then it will not update in DB)
+  const handleSubmitAndTest = async () => {
+    try {
+      var response;
+      setSubmitLoader(true);
+      setTestCases(null);
+      setIsDialogOpen(false);
+      const isPreviewComponent = props?.preview || false;
+      const isCourseProgram = props.course ? true : false
+      response = await test(input, props?.program?.test_file_content, props?.submissionID, walletAddress, props?.course, props?.course_id, props?.user_id, props?.program_id, props?.module_id, isPreviewComponent);
+
+      if (response?.error) {
+        setCompileError(true);
+        setOutput(response?.message);
+        setSubmitLoader(false);
+        if (response?.message === "Sorry. The Contest has ended!") toast.error(response?.message);
+        return;
+      }
+      setCompileError(false);
+      //setting the test cases
       setTestCases(response?.results);
-      setOutput(preview ? "Compiled Successfully" : "Compiled Successfully & Test Cases Submitted Successfully");
-      if (!preview) setSubmitted(true);
+      setOutput("Compiled Successfully & Test Cases Submitted Successfully");
+      if (!isPreviewComponent) setSubmitted(true);
       if (loggedInUserData?.shardId) {
         const getUserProfileData = async () => {
           const response = await getUserData(loggedInUserData?.shardId);
@@ -124,7 +140,7 @@ const IDE = (props) => {
       console.log("ERROR IN TESTING :", error);
     }
   };
-  
+
   const handleEditorChange = (value) => setInput(value);
 
   const handleEditorWillMount = (monaco) => setupMonaco(monaco);
@@ -220,7 +236,7 @@ const IDE = (props) => {
               <button
                 disabled={submitLoader}
                 className={`${submitLoader ? 'cursor-not-allowed' : ''} border-[1px] border-shardeumGreen rounded-[10px] px-8 py-[6px] mr-5 text-semibold hover:text-black ${props?.darkTheme ? 'bg-transparent text-shardeumGreen hover:bg-shardeumGreen' : 'bg-green-500 border-green-500 text-white'}`}
-                onClick={() => handleSubmitAndTest(true)}
+                onClick={() => handleCompile()}
               >
                 Compile
               </button>
