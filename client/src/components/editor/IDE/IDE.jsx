@@ -92,7 +92,7 @@ const IDE = (props) => {
       const isPreviewComponent = preview || props?.preview || false;
       const isCourseProgram = props.course ? true : false
       // response = await compile(input, props?.program?.test_file_content, props?.submissionID, isPreviewComponent, walletAddress, props?.course, props?.course_id, props?.user_id, props?.program_id, props?.module_id);
-
+      
       if(isPreviewComponent){
         response = await compile(input);
       }
