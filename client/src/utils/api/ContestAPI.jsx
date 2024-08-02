@@ -264,15 +264,15 @@ export const compile = async (code) => {
   }
 };
 
-export const test = async (userCode, testFileContent,submissionId,walletAddress,isCourse,course_id,user_id,program_id,module_id) => {
+export const test = async (userCode, testFileContent, submissionId, walletAddress, isCourse, course_id, user_id, program_id, module_id, isPreview = false) => {
   try {
-    console.log(userCode,testFileContent)
+    console.log(userCode, testFileContent)
 
-    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/test`, { userCode,testFileContent,submissionId,walletAddress,isCourse,course_id,user_id,program_id,module_id });
-      if (res.data.error) {
-        return { error: true, message: res.data.error };
-      }
-      return { error: false, message: "Submitted Successfully" };
+    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/test`, { userCode, testFileContent, submissionId, walletAddress, isCourse, course_id, user_id, program_id, module_id, isPreview });
+    if (res.data.error) {
+      return { error: true, message: res.data.error };
+    }
+    return res.data;
   } catch (error) {
     console.error("Compile Error-->", error);
     return { error: true, message: "Failed to compile" };
