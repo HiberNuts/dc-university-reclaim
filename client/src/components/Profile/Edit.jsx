@@ -1,7 +1,7 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import toast, { Toaster } from "react-hot-toast";
 import GreenButton from "../button/GreenButton";
-import {IMG_UPLOAD,REMOVE,TWITTER_PNG as TWITTER,GITHUB_PNG as GITHUB,YOUTUBE,LINKEDIN,DISCORD_PNG as DISCORD,DRAWER as HAMBURGER} from "../../Constants/Assets"
+import {IMG_UPLOAD,REMOVE,TWITTER_PNG as TWITTER,GITHUB_PNG as GITHUB,YOUTUBE,LINKEDIN,DISCORD_PNG as DISCORD,DRAWER as HAMBURGER,PREVIEW} from "../../Constants/Assets"
 import { useContext, useState } from "react";
 import { ParentContext } from "../../contexts/ParentContext";
 import axios from "axios";
@@ -61,9 +61,10 @@ const EditProfile = () => {
     portfolio: '',
   });
   const errorRef = useRef();
-  const [preview, setPreview] = useState(null)
+  const [preview, setPreview] = useState(PREVIEW)
 
   useEffect(() => {
+    if(loggedInUserData.image)
     setPreview(loggedInUserData.image)
   }, [loggedInUserData])
 

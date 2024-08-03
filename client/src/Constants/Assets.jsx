@@ -61,3 +61,5 @@ export const TWITTER_SVG = `${import.meta.env.VITE_DIGITAL_OCEAN_SPACE_URL}/Shar
 export const USERDP1 = `${import.meta.env.VITE_DIGITAL_OCEAN_SPACE_URL}/Sharderum-Frontend-Assets/userdp1.png`;
 export const WHITE_ARROW = `${import.meta.env.VITE_DIGITAL_OCEAN_SPACE_URL}/Sharderum-Frontend-Assets/whiteArrow.svg`;
 export const YOUTUBE = `${import.meta.env.VITE_DIGITAL_OCEAN_SPACE_URL}/Sharderum-Frontend-Assets/youtube.png`;
+export const PREVIEW = `${import.meta.env.VITE_DIGITAL_OCEAN_SPACE_URL}/Sharderum-Frontend-Assets/image 8.png`;
+
