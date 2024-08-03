@@ -54,13 +54,13 @@ export default function WorkPlace() {
       });
       setcurrentCourseProgress(data);
     } catch (error) {
-      console.error("Error fetching course progress:", error);
+      console.error("Error fetching  course progress:", error);
     }
   };
 
   useEffect(() => {
     getProgressPercentage();
-  }, [courseContent, userCourseProgress, loggedInUserData]);
+  }, [loggedInUserData, courseContent]);
 
   const getCourseInfo = async () => {
     const data = await getCoursebyName(params?.id);
@@ -117,7 +117,7 @@ export default function WorkPlace() {
 
   useEffect(() => {
     getUserProgress();
-  }, [loggedInUserData, moduleContent, isProgramSubmited]);
+  }, [loggedInUserData, isProgramSubmited]);
 
 
   return (
@@ -233,7 +233,8 @@ export default function WorkPlace() {
         <div className="flex w-full my-10 m-0 justify-center items-center align-middle">
           {
             isProgramSelected ?
-              <WorkPlaceProgram setIsProgramSubmited={setIsProgramSubmited} isProgramSubmited={isProgramSubmited} user_id={loggedInUserData._id} loggedInUserData={loggedInUserData} currentModule={currentModule} courseContent={courseContent} />
+              <WorkPlaceProgram setuserCourseProgress={setuserCourseProgress}
+                userCourseProgress={userCourseProgress} setIsProgramSubmited={setIsProgramSubmited} isProgramSubmited={isProgramSubmited} user_id={loggedInUserData._id} loggedInUserData={loggedInUserData} currentModule={currentModule} courseContent={courseContent} />
               :
               isQuizSelected ? (
                 <div className="flex w-full text-[20px] courseContent justify-center align-middle  flex-col ">

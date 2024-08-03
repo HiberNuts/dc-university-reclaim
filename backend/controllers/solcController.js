@@ -67,7 +67,6 @@ exports.compiler = async (req, res) => {
         abi: output.contracts['test.sol'][contractName].abi,
         bytecode: output.contracts['test.sol'][contractName].evm.bytecode.object
       };
-      console.log(`${contractName}: ${compiledContracts[contractName].bytecode}`);
     }
 
     return res.status(200).send({
@@ -110,6 +109,7 @@ async function runCommand(command, options) {
     }
     return stdout;
   } catch (error) {
+    console.log(error);
     if (error.stdout) {
       return error.stdout;
     }
@@ -191,17 +191,11 @@ exports.test = async (req, res) => {
     }
     const contractName = contractNameMatch[1];
 
-    // Write the user's contract to a file named after the contract
     const contractFileName = `${contractName}.sol`;
     await fs.writeFile(path.join(submissionDir, contractFileName), userCode);
-
-    // Update the test file to use the correct contract name and import path
-    let updatedTestContent = testFileContent.replace(/SimpleAuction/g, contractName);
-    updatedTestContent = updatedTestContent.replace(
-      /const \w+ = await ethers\.getContractFactory\("SimpleAuction"\)/,
-      `const ${contractName} = await ethers.getContractFactory("${contractName}")`
-    );
-    await fs.writeFile(path.join(submissionDir, 'test.js'), updatedTestContent);
+    // );
+    await fs.writeFile(path.join(submissionDir, 'test.js'), testFileContent);
+    console.log("called api");
 
     const hardhatConfig = `
     require("@nomicfoundation/hardhat-toolbox");
@@ -211,22 +205,26 @@ exports.test = async (req, res) => {
       paths: {
         sources: "./",
         tests: "./",
-        cache: "${CACHE_DIR.replace(/\\/g, '\\\\')}"
+        cache: "./"
       },
       networks: {
-        hardhat: {
-          chainId: 1337
-        }
+        // hardhat: {
+        //   chainId: 1337
+        // }
+        localhost: {
+          url: "http://127.0.0.1:8545"
+        },
       }
     };
     `;
     await fs.writeFile(path.join(submissionDir, 'hardhat.config.js'), hardhatConfig);
-
+    console.log(submissionDir);
     // await runCommand('npm install', { cwd: submissionDir });
 
     let result;
     try {
-      result = await runCommand('npx hardhat test', { cwd: submissionDir });
+      result = await runCommand('npx hardhat test --show-stack-traces', { cwd: submissionDir });
+      console.log(result);
     } catch (error) {
       console.error('Error running Hardhat tests:', error);
       result = error.stdout || error.message;
@@ -275,10 +273,10 @@ exports.test = async (req, res) => {
           module.program.code = userCode;
 
           // Save the updated user document
-          await user.save();
-
+          const updatedUser = await user.save();
+          const userCourseProgress = updatedUser.enrolledCourses.find(course => course.courseId.toString() === course_id);
           console.log("Course submission updated");
-          return res.json({ passedTests, failedTests, results: parsedResults.testResults });
+          return res.json({ passedTests, failedTests, results: parsedResults.testResults, userCourseProgress });
         } catch (error) {
           console.error("Error updating course submission:", error);
           return res.status(500).json({ error: true, message: "Failed to update course submission", error });

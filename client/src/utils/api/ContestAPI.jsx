@@ -266,7 +266,6 @@ export const compile = async (code) => {
 
 export const test = async (userCode, testFileContent, submissionId, walletAddress, isCourse, course_id, user_id, program_id, module_id, isPreview = false) => {
   try {
-    console.log(userCode, testFileContent)
 
     const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/test`, { userCode, testFileContent, submissionId, walletAddress, isCourse, course_id, user_id, program_id, module_id, isPreview });
     if (res.data.error) {

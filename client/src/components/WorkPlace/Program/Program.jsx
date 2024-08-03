@@ -3,8 +3,10 @@ import Problem from "../../editor/Problem/Problem.jsx";
 import IDE from "../../editor/IDE/IDE.jsx";
 import Split from "react-split";
 import 'react-resizable/css/styles.css';
+import SuccessModal from "../../Quiz/SuccessModal.jsx";
 
-const WorkPlaceProgram = ({ currentModule, courseContent, user_id, isProgramSubmited, setIsProgramSubmited, loggedInUserData }) => {
+const WorkPlaceProgram = ({ currentModule, courseContent, user_id, isProgramSubmited, setIsProgramSubmited, loggedInUserData, userCourseProgress,
+  setuserCourseProgress, }) => {
   const [darkTheme, setDarkTheme] = useState(true);
   const [completed, setcompleted] = useState(false);
   const [userProgramData, setUserProgramData] = useState({})
@@ -12,7 +14,7 @@ const WorkPlaceProgram = ({ currentModule, courseContent, user_id, isProgramSubm
 
   useEffect(() => {
     const enrolledCourse = loggedInUserData.enrolledCourses.find(course => course.courseId.toString() == courseContent._id)
-    const module = enrolledCourse.modules.find(
+    const module = enrolledCourse?.modules?.find(
       mod => mod._id.toString() === currentModule._id
     );
     if (module.program.status === "full") {
@@ -22,9 +24,16 @@ const WorkPlaceProgram = ({ currentModule, courseContent, user_id, isProgramSubm
       setcompleted(false)
     }
   }, [loggedInUserData, isProgramSubmited])
-  console.log(completed);
 
-
+  const handleCourseProgramUpdate = async (updatedCourseProgress) => {
+    if (updatedCourseProgress) {
+      setuserCourseProgress(updatedCourseProgress);
+      setIsProgramSubmited(true)
+    }
+    if (currentModule.programStatus == "full") {
+      setModalIsOpen(true);
+    }
+  };
   return (
     <div className={`${darkTheme && "bg-black text-white"} py-5 px-2 transition-all duration-200 ease-linear w-full`}>
       <Split
@@ -47,9 +56,10 @@ const WorkPlaceProgram = ({ currentModule, courseContent, user_id, isProgramSubm
           <Problem program={currentModule?.program} contest={courseContent} darkTheme={darkTheme} toggleTheme={() => setDarkTheme(theme => !theme)} />
         </div>
         <div className="">
-          <IDE setIsProgramSubmited={setIsProgramSubmited} isProgramSubmited={isProgramSubmited} course={true} isProgram user_id={user_id} course_id={courseContent._id} program_id={currentModule?.program._id} module_id={currentModule._id} program={currentModule?.program} darkTheme={darkTheme} completed={{ completed: completed, testResults: userProgramData.testResults, submittedCode: userProgramData.code }} />
+          <IDE setIsProgramSubmited={setIsProgramSubmited} isProgramSubmited={isProgramSubmited} course={true} isProgram user_id={user_id} course_id={courseContent._id} program_id={currentModule?.program._id} module_id={currentModule._id} program={currentModule?.program} darkTheme={darkTheme} completed={{ completed: completed, testResults: userProgramData.testResults, submittedCode: userProgramData.code }} handleCourseProgramUpdate={handleCourseProgramUpdate} />
         </div>
       </Split>
+      {<SuccessModal currentModule={currentModule} isOpen={modalIsOpen} setIsOpen={setModalIsOpen} />}
     </div>
   )
 }

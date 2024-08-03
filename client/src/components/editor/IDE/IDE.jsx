@@ -16,7 +16,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 const IDE = (props) => {
   const { loggedInUserData, setloggedInUserData } = useContext(ParentContext);
-  const { isConnected, address } = useAccount();
+  const { address } = useAccount();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [compileError, setCompileError] = useState(null);
@@ -114,7 +114,6 @@ const IDE = (props) => {
       const isPreviewComponent = props?.preview || false;
       const isCourseProgram = props.course ? true : false
       response = await test(input, props?.program?.test_file_content, props?.submissionID, walletAddress, props?.course, props?.course_id, props?.user_id, props?.program_id, props?.module_id, isPreviewComponent);
-
       if (response?.error) {
         setCompileError(true);
         setOutput(response?.message);
@@ -123,10 +122,15 @@ const IDE = (props) => {
         return;
       }
       setCompileError(false);
+
+      //Update the user course progress in workplace
+      if (props.course == true) {
+        props.handleCourseProgramUpdate(response.userCourseProgress)
+      }
       //setting the test cases
       setTestCases(response?.results);
       setOutput("Compiled Successfully & Test Cases Submitted Successfully");
-      if (!isPreviewComponent) setSubmitted(true);
+      if (!isPreviewComponent && !props.course) setSubmitted(true);
       if (loggedInUserData?.shardId) {
         const getUserProfileData = async () => {
           const response = await getUserData(loggedInUserData?.shardId);
@@ -146,9 +150,9 @@ const IDE = (props) => {
   const handleEditorWillMount = (monaco) => setupMonaco(monaco);
 
   const handleEditorDidMount = (editor, monaco) => {
-    // editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyC, () => { });
-    // editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyX, () => { });
-    // editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyV, () => { });
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyC, () => { });
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyX, () => { });
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyV, () => { });
     editor.updateOptions({ fontFamily: "Menlo", fontSize: 14 });
   };
 
@@ -174,7 +178,7 @@ const IDE = (props) => {
                 </div>
               </Dialog.Title>
               <div className="px-5 border-b pb-5">
-                <p className="pt-5 pb-2 text-[15px]">Once you submit this code, you cannot compile or submit again for this contest.</p>
+                <p className="pt-5 pb-2 text-[15px]">Once you submit this code, you cannot compile or submit again for this program.</p>
                 <p className="font-semibold pb-2 text-[15px]">This is your wallet address</p>
                 <div className="flex gap-2">
                   <input
@@ -190,7 +194,7 @@ const IDE = (props) => {
                 </div>
               </div>
               <div className="py-3 px-5 flex justify-end">
-                <GreenButton isHoveredReq={true} onClick={() => handleSubmitAndTest(false)} text={"Confirm Submission"} />
+                <GreenButton isHoveredReq={true} onClick={() => handleSubmitAndTest()} text={"Confirm Submission"} />
               </div>
             </Dialog.Panel>
           </Transition.Child>

@@ -160,8 +160,6 @@ const Quiz = ({
     setcorrectAnswer(currentQuiz?.answer);
   };
 
-
-
   const handleClickTry = () => {
     setScore(0);
     setChoice("");
@@ -216,14 +214,6 @@ const Quiz = ({
       setChoices([]);
     }
   }, [currentQuizCompleted]);
-
-  const incorrectAnswers = answerArray;
-  const answers = incorrectAnswers;
-  console.log(isSubmitted);
-
-  const isCorrect = correctAnswer === INT_TO_ABC_MAP[choice];
-
-  const checkAnswer = () => isCorrect && setScore(score + 1);
 
   return (
     <div className=" w-full gap-2 flex flex-col font-helvetica-neue-roman">
@@ -285,7 +275,6 @@ const Quiz = ({
         }
 
       </div>
-      {/* {<SuccessModal currentModule={currentModule} isOpen={modalIsOpen} setIsOpen={setModalIsOpen} />} */}
     </div>
   );
 };
