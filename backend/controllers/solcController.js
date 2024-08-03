@@ -1,20 +1,20 @@
-const util = require('util');  // Import the util module
 const solc = require('solc');
 const { ethers, network } = require('hardhat');
 const chai = require("chai");
 const { expect } = require("chai");
-//MODELS
 const db = require("../models");
-const path = require('path');
-const fs = require("fs");
-// const Contests = db.Contests;
+const User = require('../models/User');
+const hre = require("hardhat");
 const Programs = db.Programs;
 const Submissions = db.Submissions;
-const Contests=db.Contests;
-// import "@openzeppelin/contracts/access/Ownable.sol";
-// import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-// import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-
+const Contests = db.Contests;
+const crypto = require('crypto');
+const path = require('path');
+const { exec } = require('child_process');
+const { spawn } = require('child_process');
+const util = require('util');
+const fs = require('fs').promises;
+const execPromise = util.promisify(exec);
 
 exports.compiler = async (req, res) => {
   try {
@@ -67,7 +67,6 @@ exports.compiler = async (req, res) => {
         abi: output.contracts['test.sol'][contractName].abi,
         bytecode: output.contracts['test.sol'][contractName].evm.bytecode.object
       };
-      console.log(`${contractName}: ${compiledContracts[contractName].bytecode}`);
     }
 
     return res.status(200).send({
@@ -87,26 +86,268 @@ exports.compiler = async (req, res) => {
 
 
 
-exports.test = async (req, res) => {
+const TEMP_DIR = path.join(__dirname, 'temp');
+const CACHE_DIR = path.join(__dirname, 'cache');
+const PROJECT_ROOT = path.resolve(__dirname, '../');
 
-  const { userCode='',submissionId='',testFileContent='',isPreview=true,walletAddress='' } = req.body; 
+async function ensureDirectoryExists(dir) {
+  try {
+    await fs.mkdir(dir, { recursive: true });
+  } catch (error) {
+    console.error(`Error creating directory ${dir}:`, error);
+  }
+}
+
+async function runCommand(command, options) {
+  console.log(`Running command: ${command}`);
+  console.log(`Working directory: ${options.cwd}`);
 
   try {
+    const { stdout, stderr } = await execPromise(command, options);
+    if (stderr) {
+      console.error(`Command stderr: ${stderr}`);
+    }
+    return stdout;
+  } catch (error) {
+    console.log(error);
+    if (error.stdout) {
+      return error.stdout;
+    }
+    console.error(`Command failed: ${error.message}`);
+    throw error;
+  }
+}
+
+function parseTestResults(output) {
+  const lines = output.split('\n');
+  const testResults = [];
+  const summary = {
+    totalTests: 0,
+    passedTests: 0,
+    failedTests: 0,
+    duration: '',
+    compilationResult: '',
+  };
+
+  let currentTest = null;
+  let capturingError = false;
+
+  for (const line of lines) {
+    if (line.includes('Compiled')) {
+      summary.compilationResult = line.trim();
+    } else if (line.trim().startsWith('✔')) {
+      // Passed test
+      const description = line.split('✔')[1].trim();
+      testResults.push({
+        description,
+        passed: true,
+        error: null
+      });
+      summary.passedTests++;
+    } else if (line.trim().match(/^\d+\)/)) {
+      // Failed test
+      const description = line.split(')')[1].trim();
+      currentTest = {
+        description,
+        passed: false,
+        error: ''
+      };
+      testResults.push(currentTest);
+      summary.failedTests++;
+
+    } else if (line.match(/^\s+\d+ passing/)) {
+      break;
+      // Summary line for passing tests
+      const [, , time] = line.match(/(\d+) passing \(([^)]+)\)/);
+      summary.duration = time;
+    }
+  }
+
+  summary.totalTests = summary.passedTests + summary.failedTests;
+
+  return { testResults, summary };
+}
+
+exports.test = async (req, res) => {
+  const { userCode, testFileContent, walletAddress = '', isCourse = false, user_id, course_id, program_id, module_id, submissionId: subId = '', isPreview = true } = req.body;
+
+  if (!userCode || !testFileContent) {
+
+    return res.status(400).json({ error: 'Missing userCode or testFileContent' });
+  }
+
+  const submissionId = crypto.randomBytes(16).toString('hex');
+  const submissionDir = path.join(TEMP_DIR, submissionId);
+
+  try {
+    await ensureDirectoryExists(TEMP_DIR);
+    await ensureDirectoryExists(CACHE_DIR);
+    await ensureDirectoryExists(submissionDir);
+
+    // Extract the contract name from the user's code
+    const contractNameMatch = userCode.match(/contract\s+(\w+)/);
+    if (!contractNameMatch) {
+      return res.status(400).json({ error: 'Unable to determine contract name from the provided code' });
+    }
+    const contractName = contractNameMatch[1];
+
+    const contractFileName = `${contractName}.sol`;
+    await fs.writeFile(path.join(submissionDir, contractFileName), userCode);
+    // );
+    await fs.writeFile(path.join(submissionDir, 'test.js'), testFileContent);
+    console.log("called api");
+
+    const hardhatConfig = `
+    require("@nomicfoundation/hardhat-toolbox");
+    
+    module.exports = {
+      solidity: "0.8.24",
+      paths: {
+        sources: "./",
+        tests: "./",
+        cache: "./"
+      },
+      networks: {
+        // hardhat: {
+        //   chainId: 1337
+        // }
+        localhost: {
+          url: "http://127.0.0.1:8545"
+        },
+      }
+    };
+    `;
+    await fs.writeFile(path.join(submissionDir, 'hardhat.config.js'), hardhatConfig);
+    console.log(submissionDir);
+    // await runCommand('npm install', { cwd: submissionDir });
+
+    let result;
+    try {
+      result = await runCommand('npx hardhat test --show-stack-traces', { cwd: submissionDir });
+      console.log(result);
+    } catch (error) {
+      console.error('Error running Hardhat tests:', error);
+      result = error.stdout || error.message;
+    }
+
+    const parsedResults = parseTestResults(result);
+    if (!isPreview) {
+      if (isCourse == true) {
+        try {
+          const user = await User.findById(user_id);
+          if (!user) {
+            return res.status(404).json({ error: true, message: "User not found" });
+          }
+          const enrolledCourse = user.enrolledCourses.find(
+            course => course.courseId.toString() === course_id
+          );
+          if (!enrolledCourse) {
+            return res.status(404).json({ error: true, message: "Enrolled course not found" });
+          }
+          const module = enrolledCourse.modules.find(
+            mod => mod._id.toString() === module_id
+          );
+          if (!module) {
+            return res.status(404).json({ error: true, message: "Module not found" });
+          }
+
+          // Calculate number of passing and failing tests
+
+          const passedTests = parsedResults.summary.passedTests;
+          const failedTests = parsedResults.summary.failedTests;
+
+          // Update the program status
+          module.program.status = passedTests >= parsedResults.testResults.length / 2 ? "full" : "partial";
+          module.programStatus = passedTests >= parsedResults.testResults.length / 2 ? "full" : "partial";
+          module.status = passedTests >= parsedResults.testResults.length / 2 ? "full" : "partial";
+          module.program.code = userCode;
+          module.program.walletAddress = walletAddress;
+          module.program.passedCases = passedTests;
+          module.program.totalCases = parsedResults.testResults.length;
+          // module.program.testResults = results.map(result => ({
+          //   passed: result.passed,
+          //   description: result.description,
+          //   error: result.error
+          // }));
+          module.program.testResults = parsedResults.testResults;
+          module.program.code = userCode;
+
+          // Save the updated user document
+          const updatedUser = await user.save();
+          const userCourseProgress = updatedUser.enrolledCourses.find(course => course.courseId.toString() === course_id);
+          console.log("Course submission updated");
+          return res.json({ passedTests, failedTests, results: parsedResults.testResults, userCourseProgress });
+        } catch (error) {
+          console.error("Error updating course submission:", error);
+          return res.status(500).json({ error: true, message: "Failed to update course submission", error });
+        }
+
+      } else {
+        const Submisison = await Submissions.findById(subId);
+        if (!Submisison)
+          return res.json(404).send({ error: true, message: "Invalid submission!" });
+
+        const Contest = await Contests.findById(Submisison.contest);
+        const currentDate = new Date();
+        const endDate = new Date(Contest.endDate);
+        if (currentDate > endDate) {
+          return res.status(200).json({ error: true, message: "Sorry. The Contest has ended!" });
+        }
+        // Calculate number of passing and failing tests
+        const passedTests = parsedResults.summary.passedTests;
+        const failedTests = parsedResults.summary.failedTests;
+        const xpForEachTestCase = 500 / parsedResults.testResults.length;
+        const xpEarned = parseInt(xpForEachTestCase * passedTests).toFixed(0);
+        //UPDATE THE SUBMISSION SCHEMA 
+        //SAVING WALLET ADDRESS
+        Submisison.walletAddress = walletAddress ?? '';
+        Submisison.passedCases = passedTests;
+        Submisison.totalCases = passedTests + failedTests;
+        Submisison.testResults = parsedResults.testResults;
+        Submisison.submittedCode = userCode;
+        Submisison.submittedTime = new Date();
+        Submisison.xp = xpEarned;
+        Submisison.status = "completed"
+
+        await Submisison.save();
+        console.log("New Submisission updated");
+        return res.json({ passedTests, failedTests, results: parsedResults.testResults });
+      }
+    }
+    console.log("Preview submission done[+]")
+    return res.json({ results: parsedResults.testResults });
+
+  } catch (error) {
+    console.error('Error processing submission:', error);
+    res.status(500).json({ error: 'Internal server error', details: error.message });
+  }
+}
+
+exports.test2 = async (req, res) => {
+  const { userCode = '', submissionId = '', testFileContent = '', isPreview = true, walletAddress = '', isCourse = false, user_id, course_id, program_id, module_id } = req.body;
+
+  try {
+    const path = require('path');
+    const fs = require('fs');
+
     function findImports(importPath) {
-      // Check if the import is for an OpenZeppelin contract
       if (importPath.startsWith('@openzeppelin/')) {
-        const fullPath = path.resolve(__dirname, '..', 'node_modules', importPath);
+        const parts = importPath.split('/');
+        const fileName = parts[parts.length - 1];
+        const fullPath = path.resolve(__dirname, '..', 'node_modules', '@openzeppelin', 'contracts', ...parts.slice(2));
 
         if (fs.existsSync(fullPath)) {
           return { contents: fs.readFileSync(fullPath, 'utf8') };
         } else {
+          console.error(`File not found: ${fullPath}`);
           return { error: `File not found: ${importPath}` };
         }
       }
-
       // For other imports (if any)
       return { error: `File not found: ${importPath}` };
     }
+
+
 
     var input = {
       language: 'Solidity',
@@ -133,16 +374,20 @@ exports.test = async (req, res) => {
       });
     }
 
-    const contractNames = Object.keys(compiled.contracts['test.sol']);// Assuming the first contract is the main one
+    const contractNames = Object.keys(compiled.contracts['test.sol']);
     console.log('Contract Names', contractNames);
 
-    const [signer] = await ethers.getSigners();
-
+    const { ethers } = require('hardhat');
+    // Set up Hardhat Network
+    await hre.network.provider.send("hardhat_reset");
+    const provider = new ethers.JsonRpcProvider("http://127.0.0.1:8545");
+    const signer = await provider.getSigner()
+    console.log("ADDRESS", signer);
     const factories = {};
     for (const contractName in compiled.contracts['test.sol']) {
       const abi = compiled.contracts['test.sol'][contractName].abi;
       const bytecode = compiled.contracts['test.sol'][contractName].evm.bytecode.object;
-      factories[contractName] = new ethers.ContractFactory(abi, bytecode, signer);
+      factories[contractName] = await ethers.getContractFactory(abi, bytecode, signer);
     }
 
     function replaceContractFactory(code, factoryObjectName = 'factories') {
@@ -177,6 +422,7 @@ exports.test = async (req, res) => {
         const result = { description, passed: false, error: null };
         try {
           for (const beforeEachFn of beforeEachFns) {
+            console.log("before each called");
             await beforeEachFn();
           }
 
@@ -208,68 +454,128 @@ exports.test = async (req, res) => {
     };
 
     const modifiedTestContent = replaceContractFactory(testFileContent, 'factories');
+    console.log(modifiedTestContent);
     try {
       const [signer] = await ethers.getSigners();
       const testFunction = new Function('chai', 'ethers', 'expect', 'describe', 'it', 'beforeEach', 'afterEach', 'signer', 'network', `
-      return async () => {
-        const factories = {
-          ${Object.entries(compiled.contracts['test.sol']).map(([name, contract]) => `
-            '${name}': new ethers.ContractFactory(
-              ${JSON.stringify(contract.abi)},
-              "${contract.evm.bytecode.object}",
-              signer
-            )`).join(',\n')}
-        };
+        return async () => {
+          const factories = {
+            ${Object.entries(compiled.contracts['test.sol']).map(([name, contract]) => `
+              '${name}': new ethers.ContractFactory(
+                ${JSON.stringify(contract.abi)},
+                "${contract.evm.bytecode.object}",
+                signer
+              )`).join(',\n')}
+          };
 
-        ${modifiedTestContent}
-      }
-    `);
+          ${modifiedTestContent}
+        }
+      `);
 
-      await testFunction(chai, ethers, expect, global.describe, global.it, global.beforeEach, global.afterEach, signer, network)();
+
+      (async () => {
+        try {
+          await testFunction(chai, ethers, expect, describe, it, beforeEach, afterEach, signer, network)();
+        } catch (error) {
+          console.error("An error occurred during test execution:", error);
+        }
+      })();
+
 
       await Promise.all(testPromises);
       //IF IT IS NOT FOR PREVIEW TESTING
-      if(isPreview==false)
-      {
-        const Submisison = await Submissions.findById(submissionId);
-        if (!Submisison)
-          return res.json(404).send({ error: true, message: "Invalid submission!" });
+      if (isPreview == false) {
+        if (isCourse == true) {
+          try {
+            const user = await User.findById(user_id);
+            if (!user) {
+              return res.status(404).json({ error: true, message: "User not found" });
+            }
+            const enrolledCourse = user.enrolledCourses.find(
+              course => course.courseId.toString() === course_id
+            );
+            if (!enrolledCourse) {
+              return res.status(404).json({ error: true, message: "Enrolled course not found" });
+            }
+            const module = enrolledCourse.modules.find(
+              mod => mod._id.toString() === module_id
+            );
+            if (!module) {
+              return res.status(404).json({ error: true, message: "Module not found" });
+            }
 
-        const Contest=await Contests.findById(Submisison.contest);
-        const currentDate = new Date();
-        const endDate = new Date(Contest.endDate);
-        if (currentDate > endDate) {
-          return res.status(200).json({ error: true, message: "Sorry. The Contest has ended!" });
+            // Calculate number of passing and failing tests
+
+            const passedTests = results.filter(result => result.passed).length;
+            const failedTests = results.length - passedTests;
+
+            // Update the program status
+            module.program.status = passedTests >= results.length / 2 ? "full" : "partial";
+            module.programStatus = passedTests >= results.length / 2 ? "full" : "partial";
+            module.status = passedTests >= results.length / 2 ? "full" : "partial";
+            module.program.code = userCode;
+            module.program.walletAddress = walletAddress;
+            module.program.passedCases = passedTests;
+            module.program.totalCases = results.length;
+            module.program.testResults = results.map(result => ({
+              passed: result.passed,
+              description: result.description,
+              error: result.error
+            }));
+            module.program.code = userCode;
+
+            // Save the updated user document
+            await user.save();
+
+            console.log("Course submission updated");
+            return res.json({ passedTests, failedTests, results });
+          } catch (error) {
+            console.error("Error updating course submission:", error);
+            return res.status(500).json({ error: true, message: "Failed to update course submission", error });
+          }
+
+        } else {
+          const Submisison = await Submissions.findById(submissionId);
+          if (!Submisison)
+            return res.json(404).send({ error: true, message: "Invalid submission!" });
+
+          const Contest = await Contests.findById(Submisison.contest);
+          const currentDate = new Date();
+          const endDate = new Date(Contest.endDate);
+          if (currentDate > endDate) {
+            return res.status(200).json({ error: true, message: "Sorry. The Contest has ended!" });
+          }
+          // Calculate number of passing and failing tests
+          const passedTests = results.filter(result => result.passed).length;
+          const failedTests = results.length - passedTests;
+          const xpForEachTestCase = 500 / results.length;
+          const xpEarned = parseInt(xpForEachTestCase * passedTests).toFixed(0);
+          //UPDATE THE SUBMISSION SCHEMA 
+          //SAVING WALLET ADDRESS
+          Submisison.walletAddress = walletAddress ?? '';
+          Submisison.passedCases = passedTests;
+          Submisison.totalCases = passedTests + failedTests;
+          Submisison.testResults = results;
+          Submisison.submittedCode = userCode;
+          Submisison.submittedTime = new Date();
+          Submisison.xp = xpEarned;
+          Submisison.status = "completed"
+
+          await Submisison.save();
+          console.log("New Submisission updated");
+          return res.json({ passedTests, failedTests, results });
         }
-        // Calculate number of passing and failing tests
-        const passedTests = results.filter(result => result.passed).length;
-        const failedTests = results.length - passedTests;
-        const xpForEachTestCase=500/results.length;
-        const xpEarned=parseInt(xpForEachTestCase*passedTests).toFixed(0);
-         //UPDATE THE SUBMISSION SCHEMA 
-        //SAVING WALLET ADDRESS
-        Submisison.walletAddress = walletAddress ?? '';
-        Submisison.passedCases = passedTests;
-        Submisison.totalCases = passedTests + failedTests;
-        Submisison.testResults = results;
-        Submisison.submittedCode = userCode;
-        Submisison.submittedTime = new Date();
-        Submisison.xp = xpEarned;
-        Submisison.status = "completed"
 
-        await Submisison.save();
-        console.log("New Submisission updated");
-        return res.json({passedTests,failedTests, results });
       }
       console.log("Preview submission done[+]")
-      return res.json({results });
+      return res.json({ results });
     } catch (error) {
       console.error("Error running tests:", error);
-      res.status(200).json({ error:true,message: "Failed to run test cases"});
+      res.status(200).json({ error: true, message: "Failed to run test cases: " + error.message });
     }
   } catch (error) {
     console.error(error);
-    res.status(200).json({ error:true,message:error.message });
+    res.status(200).json({ error: true, message: error.message });
   }
   finally {
     // Clean up the mocked globals
@@ -279,6 +585,8 @@ exports.test = async (req, res) => {
     delete global.afterEach;
   }
 }
+
+
 exports.compileAndTest = async (req, res) => {
   const { userCode } = req.body;
   const Submisison = await Submissions.findById(req.body.submissionId);
@@ -315,7 +623,7 @@ exports.compileAndTest = async (req, res) => {
     const bytecode = compiled.contracts["test.sol"].TestContract.evm.bytecode.object;
 
     // Deploy contract to local Hardhat network
-    const provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545/");
+    const provider = ethers.provider;
     const signer = await provider.getSigner();
     // ethers.getSigner()
     const factory = new ethers.ContractFactory(abi, bytecode, signer);
@@ -338,8 +646,8 @@ exports.compileAndTest = async (req, res) => {
     // Calculate number of passing and failing tests
     const passedTests = testResults.filter(result => result.passed).length;
     const failedTests = testResults.length - passedTests;
-    const xpForEachTestCase=500/testResults.length;
-    const xpEarned=parseInt(xpForEachTestCase*passedTests).toFixed(0);
+    const xpForEachTestCase = 500 / testResults.length;
+    const xpEarned = parseInt(xpForEachTestCase * passedTests).toFixed(0);
     //UPDATE THE SUBMISSION SCHEMA 
     //SAVING WALLET ADDRESS
     Submisison.walletAddress = req.body?.walletAddress ?? '';

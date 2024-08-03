@@ -104,7 +104,7 @@ const CourseHeader = ({ props }) => {
           <div className="flex ">
             <img
               class="inline-block h-8 w-8 rounded-full ring-2 ring-white "
-              src="https://pbs.twimg.com/profile_images/1660782439340576768/9rIZjmMt_400x400.jpg"
+              src="https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/4238c25d47bc0b871b0b61ab6fcaeea6.png"
               alt=""
             />
             <p className="text-[18px] items-center text-center font-semibold ml-2 font-helvetica-neue">Shardeum Team</p>

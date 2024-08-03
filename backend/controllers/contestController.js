@@ -3,14 +3,13 @@ const Users = db.user;
 const Contests = db.Contests;
 const Programs = db.Programs;
 const Submissions = db.Submissions;
-const { getLeaderboard,generateLeaderboardFunction } = require('../utils/leaderboardCalculator')
+const { getLeaderboard, generateLeaderboardFunction } = require('../utils/leaderboardCalculator')
 const { formatResponse } = require('../utils/formatResponse');
-const { mapRichTextNodesToSchema } = require('../utils/mapRichText')
 //LATEST CONTEST
 exports.getLatestContest = async (req, res) => {
   try {
     const today = new Date();
-    const latestContest = await Contests.findOne({ softDelete:false,endDate: { $gte: today } }).sort({ endDate: 1 });
+    const latestContest = await Contests.findOne({ softDelete: false, endDate: { $gte: today } }).sort({ endDate: 1 });
     if (!latestContest) {
       return res.status(404).send(formatResponse(true, "No contests found"));
     }
@@ -25,7 +24,7 @@ exports.getUpcomingContests = async (req, res) => {
   try {
     const today = new Date().toISOString();
     const upcomingContests = await Contests.find({
-      softDelete:false,
+      softDelete: false,
       endDate: { $gt: today }
     })
       .sort({ endDate: 1 })
@@ -55,9 +54,9 @@ exports.getPastContests = async (req, res) => {
     const { page = 1, limit = 3 } = req.query; // Default to page 1 and limit 10 if not provided
     const today = new Date().toISOString();
 
-    const totalItems = await Contests.countDocuments({softDelete:false, endDate: { $lt: today } });
+    const totalItems = await Contests.countDocuments({ softDelete: false, endDate: { $lt: today } });
     const pastContests = await Contests.find({
-      softDelete:false,
+      softDelete: false,
       endDate: { $lt: today }
     })
       .sort({ endDate: -1, _id: 1 })
@@ -109,6 +108,8 @@ exports.getProgram = async (req, res) => {
     }
     const contest = await Contests.findById(submission.contest);
     const program = await Programs.findOne({ contestId: submission.contest });
+    console.log(program)
+    console.log(submission.contest)
     if (!contest) {
       return res.status(200).send(formatResponse(true, "Contest not found for the submission"));
     }
@@ -129,24 +130,23 @@ exports.getProgram = async (req, res) => {
   }
 };
 //GET SOLUTION
-exports.getSolution=async(req,res)=>{
-   try {
-    const contest=await Contests.findOne({title:req.query.title});
-    if(!contest)
-       return res.status(200).send(formatResponse(true,"Contest not found!")) ; 
+exports.getSolution = async (req, res) => {
+  try {
+    const contest = await Contests.findOne({ title: req.query.title });
+    if (!contest)
+      return res.status(200).send(formatResponse(true, "Contest not found!"));
     // Get the current date and time
     const now = new Date();
-    if(now>contest.endDate)
-      {
-      const program=await Programs.findOne({contestId:contest._id});
-        if(!program)  
-          return res.status(200).send(formatResponse(true,"Program not found!")) ;
-      return res.status(200).send(formatResponse(false,"Solution retrieved",{program:program,contest:contest})); 
-      }  
-    return res.status(200).send(formatResponse(true,"Contest is still going on. Solution is not yet published!!!"));
-   } catch (error) {
-       return res.status(500).send(formatResponse(true,"Internal Server Error"));
-   }
+    if (now > contest.endDate) {
+      const program = await Programs.findOne({ contestId: contest._id });
+      if (!program)
+        return res.status(200).send(formatResponse(true, "Program not found!"));
+      return res.status(200).send(formatResponse(false, "Solution retrieved", { program: program, contest: contest }));
+    }
+    return res.status(200).send(formatResponse(true, "Contest is still going on. Solution is not yet published!!!"));
+  } catch (error) {
+    return res.status(500).send(formatResponse(true, "Internal Server Error"));
+  }
 }
 //SUBMISSIONS
 exports.createSubmission = async (req, res) => {
@@ -161,7 +161,7 @@ exports.createSubmission = async (req, res) => {
     if (now < contest.startDate || now > contest.endDate) {
       return res.status(200).send(formatResponse(true, "The contest is not active at this time"));
     }
-    const isSubmissionExist = await Submissions.findOne({ contest: contest._id,user:req.userId });
+    const isSubmissionExist = await Submissions.findOne({ contest: contest._id, user: req.userId });
     if (isSubmissionExist) {
       return res.status(200).send(formatResponse(false, "User already registered for the contest!", { submissionId: isSubmissionExist._id }));
     }
@@ -197,20 +197,20 @@ exports.alreadyRegistered = async (req, res) => {
 exports.getSubmissionByContest = async (req, res) => {
   try {
     const submissions = await Submissions.find({ contest: req.body.contestId });
-  
+
     const users = await Users.find()
-    const userCompletedSubmission=submissions.map(submission=>{
-      const {username,shardId='NA',walletAddress}=users.find(user=>user._id.toHexString()==submission.user.toHexString())
-      const {totalCases='NA',passedCases='NA',xp='NA',rank,submittedTime='NA'}=submission
+    const userCompletedSubmission = submissions.map(submission => {
+      const { username, shardId = 'NA', walletAddress } = users.find(user => user._id.toHexString() == submission.user.toHexString())
+      const { totalCases = 'NA', passedCases = 'NA', xp = 'NA', rank, submittedTime = 'NA' } = submission
       return {
-          rank,
-          username,
-          shardId,
-          totalCases,
-          passedCases,
-          submittedTime,
-          xp,
-          walletAddress
+        rank,
+        username,
+        shardId,
+        totalCases,
+        passedCases,
+        submittedTime,
+        xp,
+        walletAddress
       }
     }).sort((a, b) => a.rank - b.rank)
     return res.status(200).send(userCompletedSubmission)
@@ -221,62 +221,60 @@ exports.getSubmissionByContest = async (req, res) => {
   }
 };
 //SOFT DELETE A CONTEST
-exports.deleteAContest=async(req,res)=>{
-   try {
-      const contestId=await Contests.findById(req.query.id);
-      if(!contestId)
-         return res.status(200).send(formatResponse(true,"Contest not exist in DB"));
-      if(contestId.softDelete==true)
-        return res.status(200).send(formatResponse(true,"Contest already soft deleted!"));
-      contestId.softDelete=true;
-      await contestId.save();
-      return res.status(200).send(formatResponse(false,"Contest is soft deleted."))  
-   } catch (error) {
-      return res.status(500).send(formatResponse(true,error.message));
-   }
+exports.deleteAContest = async (req, res) => {
+  try {
+    const contestId = await Contests.findById(req.query.id);
+    if (!contestId)
+      return res.status(200).send(formatResponse(true, "Contest not exist in DB"));
+    if (contestId.softDelete == true)
+      return res.status(200).send(formatResponse(true, "Contest already soft deleted!"));
+    contestId.softDelete = true;
+    await contestId.save();
+    return res.status(200).send(formatResponse(false, "Contest is soft deleted."))
+  } catch (error) {
+    return res.status(500).send(formatResponse(true, error.message));
+  }
 }
 
 
 
 
 //LEADERT BOARD
-exports.generateLeaderboard=async(req,res)=>{
+exports.generateLeaderboard = async (req, res) => {
   try {
-    const contestID=req.query.id;
+    const contestID = req.query.id;
     const allSubmissions = await Submissions.find({
       contest: contestID,
       status: "completed",
     });
-       if(allSubmissions.length>0)
-        {
-         let resp=await generateLeaderboardFunction(allSubmissions,contestID);
-         if(resp.error==false)
-          return res.status(200).send(formatResponse(false,resp.message));
-        else
-          return res.status(200).send(formatResponse(true,resp.message));
-        }
-       return res.send(formatResponse(false,"No one submitted yet for the contest",[]))
+    if (allSubmissions.length > 0) {
+      let resp = await generateLeaderboardFunction(allSubmissions, contestID);
+      if (resp.error == false)
+        return res.status(200).send(formatResponse(false, resp.message));
+      else
+        return res.status(200).send(formatResponse(true, resp.message));
+    }
+    return res.send(formatResponse(false, "No one submitted yet for the contest", []))
   } catch (error) {
-     res.status(500).send(formatResponse(true,error?.message));
+    res.status(500).send(formatResponse(true, error?.message));
   }
 }
-exports.leaderboard=async(req,res)=>{
-    try {
-       const contestID=req.query.id;
-       const allSubmissions = await Submissions.find({
-        contest: contestID,
-        status: "completed",
-        rank: { $ne: -1 }
-      });      
-       if(allSubmissions.length>0)
-        {
-          let ranks=await getLeaderboard(allSubmissions);
-          return res.send(formatResponse(false, "Leaderboard details fetched successfully",ranks));
-        }
-       return res.send(formatResponse(false,"No one submitted yet for the contest",[]))
-    } catch (error) {
-       res.status(500).send(formatResponse(true,error?.message));
+exports.leaderboard = async (req, res) => {
+  try {
+    const contestID = req.query.id;
+    const allSubmissions = await Submissions.find({
+      contest: contestID,
+      status: "completed",
+      rank: { $ne: -1 }
+    });
+    if (allSubmissions.length > 0) {
+      let ranks = await getLeaderboard(allSubmissions);
+      return res.send(formatResponse(false, "Leaderboard details fetched successfully", ranks));
     }
+    return res.send(formatResponse(false, "No one submitted yet for the contest", []))
+  } catch (error) {
+    res.status(500).send(formatResponse(true, error?.message));
+  }
 }
 exports.getUserContestDetails = async (req, res) => {
   try {
@@ -307,7 +305,8 @@ exports.createModel = async (req, res) => {
       await createContest(req)
     if (req.body.model == "program")
       await createProgram(req)
-    res.status(200).send(createdContest)
+
+    res.status(200).send("okk")
   }
   catch (error) {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
@@ -346,9 +345,12 @@ const createContest = async (req) => {
       reward = []
     } = req.body.entry;
 
+    const availableContest = await Contests.findOne({ strapiId })
+    if (availableContest) return
 
-    const mappedRules = rules[0]?.children ? mapRichTextNodesToSchema(rules[0].children) : '';
-    const mappedWarnings = warnings[0]?.children ? mapRichTextNodesToSchema(warnings[0].children) : '';
+
+    const mappedRules = rules || [];
+    const mappedWarnings = warnings || [];
 
     const createdContest = new Contests({
       strapiId,
@@ -392,8 +394,9 @@ const updateContest = async (req) => {
       reward = []
     } = req.body.entry;
 
-    const mappedRules = rules[0]?.children ? mapRichTextNodesToSchema(rules[0].children) : '';
-    const mappedWarnings = warnings[0]?.children ? mapRichTextNodesToSchema(warnings[0].children) : '';
+
+    const mappedRules = rules || [];
+    const mappedWarnings = warnings || [];
     const updateData = {
       title,
       description,
@@ -425,6 +428,9 @@ const updateContest = async (req) => {
   }
 };
 
+
+
+
 const createProgram = async (req) => {
   try {
     const {
@@ -434,9 +440,12 @@ const createProgram = async (req) => {
       boilerplate_code = '',
       description = [],
       test_cases = [],
-      test_file_content='',
-      solution=''
+      test_file_content = '',
+      solution = ''
     } = req.body.entry;
+
+    const availableProgram = await Programs.findOne({ strapiId })
+    if (availableProgram) return
 
     const contest = await Contests.findOne({ strapiId: strapiContestId });
     if (!contest) {
@@ -444,7 +453,7 @@ const createProgram = async (req) => {
       return;
     }
 
-    const mappedDescription = description[0]?.children ? mapRichTextNodesToSchema(description[0].children) : '';
+    const mappedDescription = description ? description : [];
 
     const createdProgram = new Programs({
       strapiId,
@@ -475,10 +484,10 @@ const updateProgram = async (req) => {
       boilerplate_code = '',
       description = [],
       test_cases = [],
-      test_file_content='',
-      solution=''
+      test_file_content = '',
+      solution = ''
     } = req.body.entry;
-    const mappedDescription = description[0]?.children ? mapRichTextNodesToSchema(description[0].children) : '';
+    const mappedDescription = description ? description : [];
 
     const updateData = {
       duration,
