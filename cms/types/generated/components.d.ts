@@ -63,6 +63,7 @@ export interface CourseMetadataModule extends Schema.Component {
     chapter: Attribute.Component<'course-metadata.chapter', true>;
     quizes: Attribute.Component<'course-metadata.quiz', true>;
     moduleTitle: Attribute.String;
+    program: Attribute.Component<'program.program'>;
   };
 }
 
@@ -94,6 +95,19 @@ export interface CourseMetadataWhatYouLlLearn extends Schema.Component {
   };
 }
 
+export interface ProgramProgram extends Schema.Component {
+  collectionName: 'components_program_programs';
+  info: {
+    displayName: 'program';
+  };
+  attributes: {
+    description: Attribute.Blocks;
+    boilerplate_code: Attribute.Text;
+    solution: Attribute.Text;
+    test_file_content: Attribute.Text;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
@@ -104,6 +118,7 @@ declare module '@strapi/types' {
       'course-metadata.module': CourseMetadataModule;
       'course-metadata.quiz': CourseMetadataQuiz;
       'course-metadata.what-you-ll-learn': CourseMetadataWhatYouLlLearn;
+      'program.program': ProgramProgram;
     }
   }
 }

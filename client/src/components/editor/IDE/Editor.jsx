@@ -1,4 +1,4 @@
-import { useEffect, useState,useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { useParams } from "react-router-dom";
 import Problem from "../Problem/Problem";
@@ -10,47 +10,44 @@ import { getContestProgram } from "../../../utils/api/ContestAPI";
 
 
 export default function editor() {
-  const  {id,title}=useParams();
+  const { id, title } = useParams();
   const { loggedInUserData } = useContext(ParentContext);
 
   // const [code, setCode] = useState("");
   // const [compiler, setCompiler] = useState(null);
-  const [darkTheme,setDarkTheme]=useState(true);
-  const [contest,setContest]=useState();
-  const [program,setProgram]=useState();
-  const [completed,setCompleted]=useState({completed:false});
-  const [loader,setLoader]=useState(true);
- 
-  useEffect(()=>{
-   
-    if(id!=null)
-      getContestProgram(loggedInUserData?.accessToken,id).then(async(resp)=>{
-       if(resp.error==false)
-        {
+  const [darkTheme, setDarkTheme] = useState(true);
+  const [contest, setContest] = useState();
+  const [program, setProgram] = useState();
+  const [completed, setCompleted] = useState({ completed: false });
+  const [loader, setLoader] = useState(true);
+
+  useEffect(() => {
+
+    if (id != null)
+      getContestProgram(loggedInUserData?.accessToken, id).then(async (resp) => {
+        if (resp.error == false) {
           setProgram(resp.data.Program);
           setContest(resp.data.Contest);
           setLoader(false);
         }
-        if(resp.error==true)
-        {
-          if(resp?.data?.code)
-            {
+        if (resp.error == true) {
+          if (resp?.data?.code) {
             setProgram(resp.data.Program);
             setContest(resp.data.Contest);
-            let submittedData={
-              completed:true,
-              submittedCode:resp.data.code,
-              testResults:resp.data.testResults
+            let submittedData = {
+              completed: true,
+              submittedCode: resp.data.code,
+              testResults: resp.data.testResults
             }
             setCompleted(submittedData);
             setLoader(false);
           }
         }
       });
-  },[id,title,loggedInUserData])
+  }, [id, title, loggedInUserData])
   return (
     <div className={`w-full h-screen overflow-auto ${darkTheme && "bg-black text-white"} transition-all duration-200 ease-linear py-14`}>
-      
+
       <Split
         className="flex"
         sizes={[50, 50]}
@@ -67,30 +64,30 @@ export default function editor() {
           return gutterElement;
         }}
       >
-            
-            <div className="h-screen overflow-scroll flex-1 relative">
-                <div
-                />
-                {
-                  loader?
-                  <div className="text-center text-white my-40">
-                      Loading...
-                  </div> 
-                  :
-                  <Problem darkTheme={darkTheme} toggleTheme={()=>setDarkTheme(theme=>!theme)} contest={contest} program={program}/>
-                }
-                </div>
-                <ResizableBox width={800} height={800}
-                minConstraints={[100, 100]} maxConstraints={[300, 300]}>
-                  {
-                    loader?
-                    <div className="text-center text-white my-40">
-                      Loading...
-                    </div>
-                    :
-                    <IDE completed={completed} submissionID={id} darkTheme={darkTheme} program={program}/>
-                  }
-                </ResizableBox>
+
+        <div className="h-screen overflow-scroll flex-1 relative">
+          <div
+          />
+          {
+            loader ?
+              <div className="text-center text-white my-40">
+                Loading...
+              </div>
+              :
+              <Problem darkTheme={darkTheme} toggleTheme={() => setDarkTheme(theme => !theme)} contest={contest} program={program} />
+          }
+        </div>
+        <ResizableBox width={800} height={800}
+          minConstraints={[100, 100]} maxConstraints={[300, 300]}>
+          {
+            loader ?
+              <div className="text-center text-white my-40">
+                Loading...
+              </div>
+              :
+              <IDE completed={completed} submissionID={id} darkTheme={darkTheme} program={program} />
+          }
+        </ResizableBox>
       </Split>
     </div>
   );

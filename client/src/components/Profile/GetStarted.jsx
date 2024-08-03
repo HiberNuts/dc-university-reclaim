@@ -35,7 +35,7 @@ export default function GetStarted() {
         </div>
       </div>
       <div className="flex flex-col w-full mt-10 ">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2  gap-5 mb-20">
           {allCourseInfo &&
             allCourseInfo?.slice(0,4).map((course, index) => {
               if (course.softDelete != true) {

@@ -1,23 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import CourseAcordian from "../CourseAcoridan/CourseAcordian.jsx";
-
 import { useParams } from "react-router-dom";
 import { courseProgressAPI, getCoursebyName, updateCourseProgressAPI } from "../../utils/api/CourseAPI";
 import "./WorkPlace.scss";
 import Quiz from "../Quiz/Quiz";
 import { ParentContext } from "../../contexts/ParentContext";
-import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import ScrollToTop from "../../ScrollToTop";
 import NftModal from "./component/NftModal";
 import { getUserCourseProgressPercentage } from "../../utils/api/CourseAPI";
 import DisplayChapter from "./component/DisplayChapter";
+import WorkPlaceProgram from "./Program/Program.jsx";
 
 export default function WorkPlace() {
   const params = useParams();
-  const navigate = useNavigate();
   const { loggedInUserData } = useContext(ParentContext);
-
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [moduleContent, setModuleContent] = useState([]);
   const [courseContent, setcourseContent] = useState({});
@@ -27,6 +24,8 @@ export default function WorkPlace() {
   const [isCourseDataChanged, setisCourseDataChanged] = useState(false);
   const [userCourseProgress, setuserCourseProgress] = useState({});
   const [isQuizSelected, setisQuizSelected] = useState(false);
+  const [isProgramSelected, setIsProgramSelected] = useState(false);
+  const [isProgramSubmited, setIsProgramSubmited] = useState(false);
   const [currentChapterStatus, setcurrentChapterStatus] = useState("none");
   const [currentModuleAllChapterStatus, setcurrentModuleAllChapterStatus] = useState("none");
   const [currentQuiz, setcurrentQuiz] = useState([]);
@@ -55,13 +54,13 @@ export default function WorkPlace() {
       });
       setcurrentCourseProgress(data);
     } catch (error) {
-      console.error("Error fetching course progress:", error);
+      console.error("Error fetching  course progress:", error);
     }
   };
 
   useEffect(() => {
     getProgressPercentage();
-  }, [courseContent, userCourseProgress]);
+  }, [loggedInUserData, courseContent]);
 
   const getCourseInfo = async () => {
     const data = await getCoursebyName(params?.id);
@@ -72,7 +71,6 @@ export default function WorkPlace() {
       setcurrentModule(data?.module[0]);
       setisCourseDataChanged(!isCourseDataChanged);
       await checkModuleCoursesStatus({ module: data?.module[0] });
-
       await getUserProgress();
       await checkChapterStatus({ chapter: data?.module[0]?.chapter[0] });
     }
@@ -80,45 +78,6 @@ export default function WorkPlace() {
 
   const handleChapterClick = async (chapter) => {
     setCurrentChapter(chapter._id === currentChapter._id ? currentChapter : chapter);
-  };
-
-  const handleCompleteChapter = async ({ chapter }) => {
-    const updatedProgress = userCourseProgress.modules.map((progressModule) => {
-      const updatedChapters = progressModule.chapters.map((progressChapter) => {
-        if (progressChapter._id === chapter._id) {
-          // Update the chapter status
-          return { ...progressChapter, status: "full" };
-        }
-        return progressChapter;
-      });
-      // Check if all chapters are full in the updated module
-      const isChapterFull = updatedChapters.every((c) => c.status === "full");
-
-      const updatedModule = {
-        ...progressModule,
-        chapters: updatedChapters,
-        chapterStatus: isChapterFull ? "full" : progressModule.chapterStatus,
-      };
-
-      return updatedModule;
-    });
-
-    // setuserCourseProgress({ ...userCourseProgress, modules: updatedProgress });
-    const updatesUserPorgress = {
-      ...userCourseProgress,
-      modules: updatedProgress,
-    };
-
-    const updatedUserProgress = await updateCourseProgressAPI({
-      updatesUserPorgress,
-      courseId: courseContent?._id,
-      userId: loggedInUserData?._id,
-      accessToken: loggedInUserData?.accessToken,
-    });
-    setuserCourseProgress(updatedUserProgress.updatedProgress);
-
-    checkChapterStatus({ chapter });
-    await checkModuleCoursesStatus({ currentModule });
   };
 
   const checkChapterStatus = async ({ chapter }) => {
@@ -152,30 +111,14 @@ export default function WorkPlace() {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
     };
-
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [loggedInUserData]);
 
   useEffect(() => {
     getUserProgress();
-  }, [loggedInUserData, moduleContent]);
+  }, [loggedInUserData, isProgramSubmited]);
 
-  // if (isMobile) {
-  //   return (
-  //     <div className="flex justify-center items-center h-screen">
-  //       <div className="text-center p-4">
-  //         <h1 className=" font-bold text-shardeumBlue font-helvetica-neue-bold text-[48px]">
-  //           Better Experience on Desktop
-  //         </h1>
-  //         <p className="font-helvetica-neue-roman fon-[30px]">
-  //           Please open this website on a desktop for a better experience.
-  //         </p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="w-full  mt-[10vh] h-full flex justify-between align-middle">
@@ -217,7 +160,6 @@ export default function WorkPlace() {
                   sidebarOpen={sidebarOpen}
                   setisModuleChanged={setisModuleChanged}
                   isModuleChanged={isModuleChanged}
-                  handleCompleteChapter={handleCompleteChapter}
                   module={module}
                   className="mt-10"
                   setCurrentChapter={setCurrentChapter}
@@ -234,6 +176,8 @@ export default function WorkPlace() {
                   setuserCourseProgress={setuserCourseProgress}
                   setcurrentQuiz={setcurrentQuiz}
                   currentQuiz={currentQuiz}
+                  setIsProgramSelected={setIsProgramSelected}
+                  isProgramSelected={isProgramSelected}
                 />
               </div>
             ))}
@@ -248,7 +192,7 @@ export default function WorkPlace() {
           </button>
         </div>
       </div>
-      <div className={`${isMobile ? 'px-8   mt-4' : 'ml-[25%] px-20 '} overflow-x-hidden w-full flex flex-col justify-center items-center`}>
+      <div className={`${isMobile ? 'px-8   mt-4' : `${isProgramSelected ? "ml-[25%]  px-0" : ' ml-[25%] px-20 '}`}  overflow-x-hidden w-full flex flex-col justify-center items-center`}>
         {isMobile && (
           <div className="toggle-sidebar-container w-full my-5 h-10">
             <button
@@ -267,9 +211,9 @@ export default function WorkPlace() {
             alignItems: "flex-start",
           }}
         >
-          <p className="text-black text-[24px] text-center mt-2">{courseContent?.title}</p>
+          <p className="text-black px-10 text-[24px] text-center mt-2">{courseContent?.title}</p>
           {currentCourseProgress && (
-            <div className="w-full  rounded-full h-4 mb-6">
+            <div className="w-full px-10 rounded-full h-4 mb-6">
               <div className="relative  border-2 border-black h-4 w-full rounded-2xl">
                 <div
                   style={{
@@ -286,40 +230,51 @@ export default function WorkPlace() {
             </div>
           )}
         </div>
-        <div className="flex w-full  my-10 m-0 justify-center items-center align-middle">
-          {isQuizSelected ? (
-            <div className="flex w-full text-[20px] courseContent justify-center align-middle  flex-col ">
-              <Quiz
-                courseId={courseContent?._id}
-                userId={loggedInUserData?._id}
-                accessToken={loggedInUserData?.accessToken}
-                currentModule={currentModule}
-                setuserCourseProgress={setuserCourseProgress}
-                userCourseProgress={userCourseProgress}
-                isModuleChanged={isModuleChanged}
-                moduleQuiz={currentModule?.quizzes ? currentModule?.quizzes : []}
-              />
-            </div>
-          ) : (
-            currentChapter && (
-              <DisplayChapter
-                currentModule={currentModule}
-                currentChapter={currentChapter}
-                setCurrentChapter={setCurrentChapter}
-                setisQuizSelected={setisQuizSelected}
-                currentChapterStatus={currentChapterStatus}
-                userCourseProgress={userCourseProgress}
-                setuserCourseProgress={setuserCourseProgress}
-                loggedInUserData={loggedInUserData}
-                checkChapterStatus={checkChapterStatus}
-                checkModuleCoursesStatus={checkModuleCoursesStatus}
-                courseId={courseContent?._id}
-                setcurrentChapterStatus={setcurrentChapterStatus}
-                setcurrentQuiz={setcurrentQuiz}
-                accessToken={loggedInUserData?.accessToken}
-              />
-            )
-          )}
+        <div className="flex w-full my-10 m-0 justify-center items-center align-middle">
+          {
+            isProgramSelected ?
+              <WorkPlaceProgram setuserCourseProgress={setuserCourseProgress}
+                userCourseProgress={userCourseProgress} setIsProgramSubmited={setIsProgramSubmited} isProgramSubmited={isProgramSubmited} user_id={loggedInUserData._id} loggedInUserData={loggedInUserData} currentModule={currentModule} courseContent={courseContent} />
+              :
+              isQuizSelected ? (
+                <div className="flex w-full text-[20px] courseContent justify-center align-middle  flex-col ">
+                  <Quiz
+                    setIsProgramSelected={setIsProgramSelected}
+                    isProgramSelected={isProgramSelected}
+                    handleChapterClick={handleChapterClick}
+                    courseId={courseContent?._id}
+                    userId={loggedInUserData?._id}
+                    accessToken={loggedInUserData?.accessToken}
+                    currentModule={currentModule}
+                    setuserCourseProgress={setuserCourseProgress}
+                    userCourseProgress={userCourseProgress}
+                    setisQuizSelected={setisQuizSelected}
+                    setisModuleChanged={setisModuleChanged}
+                    isModuleChanged={isModuleChanged}
+                    moduleQuiz={currentModule?.quizzes ? currentModule?.quizzes : []}
+                    setCurrentChapter={setCurrentChapter}
+                  />
+                </div>
+              ) : (
+                currentChapter && (
+                  <DisplayChapter
+                    currentModule={currentModule}
+                    currentChapter={currentChapter}
+                    setCurrentChapter={setCurrentChapter}
+                    setisQuizSelected={setisQuizSelected}
+                    currentChapterStatus={currentChapterStatus}
+                    userCourseProgress={userCourseProgress}
+                    setuserCourseProgress={setuserCourseProgress}
+                    loggedInUserData={loggedInUserData}
+                    checkChapterStatus={checkChapterStatus}
+                    checkModuleCoursesStatus={checkModuleCoursesStatus}
+                    courseId={courseContent?._id}
+                    setcurrentChapterStatus={setcurrentChapterStatus}
+                    setcurrentQuiz={setcurrentQuiz}
+                    accessToken={loggedInUserData?.accessToken}
+                  />
+                )
+              )}
         </div>
       </div>
     </div>

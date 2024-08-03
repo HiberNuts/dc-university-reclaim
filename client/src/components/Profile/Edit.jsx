@@ -1,7 +1,7 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import toast, { Toaster } from "react-hot-toast";
 import GreenButton from "../button/GreenButton";
-import {IMG_UPLOAD,REMOVE,TWITTER_PNG as TWITTER,GITHUB_PNG as GITHUB,YOUTUBE,LINKEDIN,DISCORD_PNG as DISCORD,DRAWER as HAMBURGER} from "../../Constants/Assets"
+import {IMG_UPLOAD,REMOVE,TWITTER_PNG as TWITTER,GITHUB_PNG as GITHUB,YOUTUBE,LINKEDIN,DISCORD_PNG as DISCORD,DRAWER as HAMBURGER,PREVIEW} from "../../Constants/Assets"
 import { useContext, useState } from "react";
 import { ParentContext } from "../../contexts/ParentContext";
 import axios from "axios";
@@ -61,9 +61,10 @@ const EditProfile = () => {
     portfolio: '',
   });
   const errorRef = useRef();
-  const [preview, setPreview] = useState(null)
+  const [preview, setPreview] = useState(PREVIEW)
 
   useEffect(() => {
+    if(loggedInUserData.image)
     setPreview(loggedInUserData.image)
   }, [loggedInUserData])
 
@@ -90,8 +91,8 @@ const EditProfile = () => {
         if (!emailRegex.test(value)) {
           errorMsg = 'Invalid email address';
         }
-        else if(value.length>20){
-          errorMsg = 'Email should not have more than 20 characters';
+        else if(value.length>50){
+          errorMsg = 'Email should not have more than 50 characters';
         }
         else
           errorMsg = ''
@@ -106,13 +107,13 @@ const EditProfile = () => {
         break;
       
       case 'description':
-          if(value.length>15){
-            errorMsg = 'Description should not contain more that 15 characters.';
+          if(value.length>100){
+            errorMsg = 'Description should not contain more that 100 characters.';
           }
           break;
       case 'username':
           if(value.length>25){
-            errorMsg = 'Name should not contain more than 20 characters';
+            errorMsg = 'Name should not contain more than 25 characters';
           }
           break;
       default:
@@ -226,7 +227,7 @@ const EditProfile = () => {
       <div className="edit_section grid grid-cols-1 space-y-5 md:space-y-0  md:grid-cols-5 py-10  md:py-20">
         <div className="col-span-1">
           <div className="flex flex-col space-y-7 justify-center items-center">
-            <LazyLoadImage src={preview} className="rounded-[16px] w-[180px] h-[180px] border-[2px] object-contain" />
+            <LazyLoadImage src={preview} className="rounded-[50%] object-cover object-center w-[180px] h-[180px] border-[2px]" />
             <label for="files" className="text-shardeumBlue bg-white cursor-pointer border-[2px] border-shardeumBlue rounded-[10px] py-[8px] px-[16px] flex space-x-1">
               <div className="py-1"><img src={IMG_UPLOAD} /></div>
               <div className="mt-[2px]"><span>Change Avatar</span></div>
