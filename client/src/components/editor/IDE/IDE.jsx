@@ -83,35 +83,35 @@ const IDE = (props) => {
     });
   };
   //for compilation
-  const handleCompile = async () => {
-    try {
-      var response;
-      setSubmitLoader(true);
-      setTestCases(null);
-      setIsDialogOpen(false);
-      response = await compile(input);
-      if (response?.error) {
-        setCompileError(true);
-        setOutput(response?.message);
-        setSubmitLoader(false);
-        if (response?.message === "Sorry. The Contest has ended!") toast.error(response?.message);
-        return;
-      }
-      setCompileError(false);
-      setOutput("Compiled Successfully");
-      setSubmitLoader(false);
-    } catch (error) {
-      console.log("ERROR IN TESTING :", error);
-    }
-  }
+  // const handleCompile = async () => {
+  //   try {
+  //     var response;
+  //     setSubmitLoader(true);
+  //     setTestCases(null);
+  //     setIsDialogOpen(false);
+  //     response = await compile(input);
+  //     if (response?.error) {
+  //       setCompileError(true);
+  //       setOutput(response?.message);
+  //       setSubmitLoader(false);
+  //       if (response?.message === "Sorry. The Contest has ended!") toast.error(response?.message);
+  //       return;
+  //     }
+  //     setCompileError(false);
+  //     setOutput("Compiled Successfully");
+  //     setSubmitLoader(false);
+  //   } catch (error) {
+  //     console.log("ERROR IN TESTING :", error);
+  //   }
+  // }
   //for submittitng (if preview true,then it will not update in DB)
-  const handleSubmitAndTest = async () => {
+  const handleSubmitAndTest = async (isCompile = true) => {
     try {
       var response;
       setSubmitLoader(true);
       setTestCases(null);
       setIsDialogOpen(false);
-      const isPreviewComponent = props?.preview || false;
+      const isPreviewComponent = props?.preview || isCompile || false;
       const isCourseProgram = props.course ? true : false
       response = await test(input, props?.program?.test_file_content, props?.submissionID, walletAddress, props?.course, props?.course_id, props?.user_id, props?.program_id, props?.module_id, isPreviewComponent);
       if (response?.error) {
@@ -129,9 +129,9 @@ const IDE = (props) => {
       }
       //setting the test cases
       setTestCases(response?.results);
-      setOutput("Compiled Successfully & Test Cases Submitted Successfully");
-      if (!isPreviewComponent && !props.course) setSubmitted(true);
-      if (loggedInUserData?.shardId) {
+      setOutput(isCompile ? "Compiled Successfully" : "Compiled Successfully & Test Cases Submitted Successfully");
+      if (!isPreviewComponent && !props.course && !isCompile) setSubmitted(true);
+      if (!isCompile && loggedInUserData?.shardId) {
         const getUserProfileData = async () => {
           const response = await getUserData(loggedInUserData?.shardId);
           if (!response.error) setloggedInUserData({ ...response.data, accessToken: loggedInUserData.accessToken });
@@ -194,7 +194,7 @@ const IDE = (props) => {
                 </div>
               </div>
               <div className="py-3 px-5 flex justify-end">
-                <GreenButton isHoveredReq={true} onClick={() => handleSubmitAndTest()} text={"Confirm Submission"} />
+                <GreenButton isHoveredReq={true} onClick={() => handleSubmitAndTest(false)} text={"Confirm Submission"} />
               </div>
             </Dialog.Panel>
           </Transition.Child>
@@ -240,7 +240,7 @@ const IDE = (props) => {
               <button
                 disabled={submitLoader}
                 className={`${submitLoader ? 'cursor-not-allowed' : ''} border-[1px] border-shardeumGreen rounded-[10px] px-8 py-[6px] mr-5 text-semibold hover:text-black ${props?.darkTheme ? 'bg-transparent text-shardeumGreen hover:bg-shardeumGreen' : 'bg-green-500 border-green-500 text-white'}`}
-                onClick={() => handleCompile()}
+                onClick={() => handleSubmitAndTest(true)}
               >
                 Compile
               </button>

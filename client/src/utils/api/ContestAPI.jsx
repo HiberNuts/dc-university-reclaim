@@ -268,12 +268,12 @@ export const test = async (userCode, testFileContent, submissionId, walletAddres
   try {
 
     const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/test`, { userCode, testFileContent, submissionId, walletAddress, isCourse, course_id, user_id, program_id, module_id, isPreview });
-    if (res.data.error) {
-      return { error: true, message: res.data.error };
+    if (res.data.errors) {
+      return { error: true, message: res.data.errors[0].replace(/\n/g, '<br\>') };
     }
     return res.data;
   } catch (error) {
-    console.error("Compile Error-->", error);
+    console.error("Compile Error--,>", error);
     return { error: true, message: "Failed to compile" };
   }
 }

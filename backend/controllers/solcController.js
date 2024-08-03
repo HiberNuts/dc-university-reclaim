@@ -16,9 +16,10 @@ const util = require('util');
 const fs = require('fs').promises;
 const execPromise = util.promisify(exec);
 
-exports.compiler = async (req, res) => {
+exports.compiler = async (req, res, next) => {
   try {
-    const { content } = req.body
+    console.log("COMPILING[+]")
+    const { userCode: content } = req.body
     function findImports(importPath) {
       // Check if the import is for an OpenZeppelin contract
       if (importPath.startsWith('@openzeppelin/')) {
@@ -68,12 +69,12 @@ exports.compiler = async (req, res) => {
         bytecode: output.contracts['test.sol'][contractName].evm.bytecode.object
       };
     }
-
-    return res.status(200).send({
-      success: true,
-      contracts: compiledContracts,
-      warnings: output.errors ? output.errors.filter(err => err.severity === 'warning').map(err => err.formattedMessage) : []
-    });
+    next();
+    // return res.status(200).send({
+    //   success: true,
+    //   contracts: compiledContracts,
+    //   warnings: output.errors ? output.errors.filter(err => err.severity === 'warning').map(err => err.formattedMessage) : []
+    // });
   } catch (error) {
     console.error("Error while compiling", error);
     res.status(500).send({
@@ -169,6 +170,7 @@ function parseTestResults(output) {
 }
 
 exports.test = async (req, res) => {
+  console.log("SUBMITTING TEST CASES[+]");
   const { userCode, testFileContent, walletAddress = '', isCourse = false, user_id, course_id, program_id, module_id, submissionId: subId = '', isPreview = true } = req.body;
 
   if (!userCode || !testFileContent) {
@@ -195,7 +197,7 @@ exports.test = async (req, res) => {
     await fs.writeFile(path.join(submissionDir, contractFileName), userCode);
     // );
     await fs.writeFile(path.join(submissionDir, 'test.js'), testFileContent);
-    console.log("called api");
+    console.log("CALLING HARDHAT");
 
     const hardhatConfig = `
     require("@nomicfoundation/hardhat-toolbox");
