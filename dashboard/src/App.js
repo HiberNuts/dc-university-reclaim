@@ -54,7 +54,6 @@ function App() {
         throw new Error(result.message || 'Failed to sync data');
       }
 
-      console.log(result);
     } catch (error) {
       console.error('Error syncing course data:', error);
       toast.error(`Error syncing course data`);

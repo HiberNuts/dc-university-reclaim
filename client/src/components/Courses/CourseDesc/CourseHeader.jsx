@@ -81,7 +81,7 @@ const CourseHeader = ({ props }) => {
 
   useEffect(() => {
     getuserProgress();
-  }, [loggedInUserData, props, isCourseEnrolled]);
+  }, [loggedInUserData, props]);
 
   return (
     <div className="flex flex-wrap w-full md:px-[100px]  py-[80px]  sm:px-[60px] px-[30px] justify-between gap-8 align-middle">

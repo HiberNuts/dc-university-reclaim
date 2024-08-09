@@ -4,14 +4,14 @@ const compression = require("compression");
 const cc = require("node-console-colors");
 const bodyParser = require('body-parser');
 
-//EXCEPTION HANDLING MIDDLEWARES
-// process.on('uncaughtException', function (error) {
-//   console.log(cc.set("fg_yellow", "Crashable UnHandled Exception", error.stack));
-// });
-// process.on('unhandledRejection', (reason, promise) => {
-//   console.log(cc.set("fg_yellow", 'Crashable UnHandled Rejection', reason.stack || reason));
-//   // Recommended: send the information to sentry.io
-// })
+// EXCEPTION HANDLING MIDDLEWARES
+process.on('uncaughtException', function (error) {
+  console.log(cc.set("fg_yellow", "Crashable UnHandled Exception", error.stack));
+});
+process.on('unhandledRejection', (reason, promise) => {
+  console.log(cc.set("fg_yellow", 'Crashable UnHandled Rejection', reason.stack || reason));
+  // Recommended: send the information to sentry.io
+})
 
 const app = express();
 
@@ -43,7 +43,6 @@ require("./routes/solcRoutes")(app);
 
 // simple route
 app.get("/", (req, res) => {
-  console.log(req.body)
   res.json({ message: "Welcome to backend of shardeum academy" });
 });
 

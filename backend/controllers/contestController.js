@@ -91,7 +91,6 @@ exports.getContestByID = async (req, res) => {
 //GET CONTEST BY TITLE
 exports.getContestByTitle = async (req, res) => {
   try {
-    // console.log("title-->",req.params.title);
     const contest = await Contests.find({ title: req.params.title });
     res.status(200).send(formatResponse(false, "Contest fetched successfully", contest));
   } catch (error) {
@@ -108,8 +107,6 @@ exports.getProgram = async (req, res) => {
     }
     const contest = await Contests.findById(submission.contest);
     const program = await Programs.findOne({ contestId: submission.contest });
-    console.log(program)
-    console.log(submission.contest)
     if (!contest) {
       return res.status(200).send(formatResponse(true, "Contest not found for the submission"));
     }

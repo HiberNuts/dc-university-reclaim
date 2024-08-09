@@ -17,7 +17,7 @@ const WorkPlaceProgram = ({ currentModule, courseContent, user_id, isProgramSubm
     const module = enrolledCourse?.modules?.find(
       mod => mod._id.toString() === currentModule._id
     );
-    if (module.program.status === "full") {
+    if (module?.program?.status === "full") {
       setcompleted(true)
       setUserProgramData(module.program)
     } else {

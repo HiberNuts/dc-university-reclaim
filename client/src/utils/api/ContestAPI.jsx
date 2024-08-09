@@ -28,7 +28,6 @@ export const checkAuthinStrapi = async (walletAddress = null) => {
     const { data } = await axios.get(
       `${import.meta.env.VITE_CMS_URL}${endpoint}`
     );
-    console.log("DATA FOR AUTH: ", data);
     // Check if any records were found
     if (data && data.data && data.data.length > 0) {
       return { exists: true, data: data.data };
@@ -81,7 +80,6 @@ export const getPastContestsStrapi = async () => {
 export const getAllPreviewContest = async () => {
   try {
     const { data } = await axios.get(`${import.meta.env.VITE_CMS_URL}/contests?publicationState=preview&filters[publishedAt][$null]=true&populate=deep`);
-    console.log("DATA :", data);
     return data;
   } catch (error) {
     return error;
@@ -91,7 +89,6 @@ export const getAllPreviewContest = async () => {
 export const getPreviewContest = async (contestID) => {
   try {
     const { data } = await axios.get(`${import.meta.env.VITE_CMS_URL}/contests/${contestID}?publicationState=preview&filters[publishedAt][$null]=true&populate=deep`);
-    console.log("DATA :", data);
     return data;
   } catch (error) {
     return error;
@@ -112,7 +109,6 @@ export const getProgramScreenData = async (contestID) => {
       program: programData.data
     };
 
-    console.log("COMBINED DATA:", combinedData);
     return combinedData;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -140,7 +136,6 @@ export const getLatestContest = async () => {
     const { data } = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/contest/latest`
     );
-    // console.log("BACKEND LATEST CONTEST-->",data);
     return data;
   } catch (error) {
     return { error: true, message: error?.message };
@@ -151,7 +146,6 @@ export const upcomingContests = async () => {
     const { data } = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/contest/upcoming/10`
     );
-    // console.log("BACKEND UPCOMING CONTEST-->",data);
     return data;
   } catch (error) {
     return { error: true, message: error?.message };
@@ -162,7 +156,6 @@ export const getPastContests = async (page = 1, limit = 3) => {
     const { data } = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/contest/getPastContests?page=${page}&limit=${limit}`
     );
-    // console.log("BACKEND PAST CONTEST-->",data);
     return data
   } catch (error) {
     return { error: true, message: error?.message };
@@ -173,7 +166,6 @@ export const getContestByTitle = async (title = null) => {
     const { data } = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/contest/getContest/${destructureSlug(title)}`
     );
-    // console.log("BACKEND CONTEST DATA BY TITLE-->",data);
     return data;
   } catch (error) {
     return { error: true, message: error?.message };
@@ -186,7 +178,6 @@ export const getContestProgram = async (AccessToken, submissionId) => {
         Authorization: `Bearer ${AccessToken}`,
       }
     });
-    // console.log("RESPOSNE FOR PROGRAM PAGE--->",data);
     return data;
   } catch (error) {
     return { error: true, message: error?.message };
@@ -219,13 +210,11 @@ export const registerContest = async (AccessToken, contestId = null) => {
 export const alreadyRegistered = async (AccessToken, contestId = null) => {
   try {
     if (contestId != null) {
-      console.log("CHECKING REGISTRATION OF  CONTEST[+]");
       const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/contest/alreadyRegistered`, { contest: contestId }, {
         headers: {
           Authorization: `Bearer ${AccessToken}`,
         }
       });
-      console.log("RESPOSNE FOR CHECKING[-] ", data);
       return data;
     }
   } catch (error) {
@@ -237,7 +226,6 @@ export const alreadyRegistered = async (AccessToken, contestId = null) => {
 export const getLeaderboard = async (contestID) => {
   try {
     const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/contest/leaderboard?id=${contestID}`);
-    //  console.log("LEADER BOARD RESPONSE-->",data);
     return data;
 
   } catch (error) {
@@ -282,7 +270,6 @@ export const compileAndSubmit = async (code, submissionID, address) => {
   try {
     const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/compile-and-test`, { userCode: code, submissionId: submissionID, walletAddress: address });
 
-    // console.log("RESPONSE FOR COMPILATION & TEST-->", res);
     return res.data;
 
   } catch (error) {

@@ -53,7 +53,6 @@ export default function ContestRegsiter() {
     }
     await registerContest(loggedInUserData?.accessToken, contestID).then((resp) => {
       try {
-        console.log("response for registration-->", resp);
         if (resp.error == false)
           navigate(`/editor/${title}/${resp.data.submissionId}`);
         else {

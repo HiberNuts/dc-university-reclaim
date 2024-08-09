@@ -3,7 +3,7 @@ import Button from "./Button";
 import AnswerList from "./AnswerList";
 import Question from "./Question";
 import ResultPage from "./ResultPage";
-import SuccessModal from "./SuccessModal";
+// import SuccessModal from "./SuccessModal";
 import toast, { Toaster } from "react-hot-toast";
 import { updateCourseProgressAPI } from "../../utils/api/CourseAPI";
 import LongArrow from "../../assets/LongArrow.svg";
@@ -21,15 +21,15 @@ const Quiz = ({
   setisQuizSelected,
   setisModuleChanged,
   isModuleChanged,
+  currentChapterStatus
 }) => {
   const [quizNo, setQuizNo] = useState(0);
-  const [choice, setChoice] = useState("");
+  // const [choice, setChoice] = useState("");
   const [score, setScore] = useState(0);
   const [isloading, setIsloading] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [answerArray, setAnswerArray] = useState([]);
   const [currentQuiz, setcurrentQuiz] = useState({});
-  const [correctAnswer, setcorrectAnswer] = useState("");
+  // const [correctAnswer, setcorrectAnswer] = useState("");
   const [choices, setChoices] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [currentQuizCompleted, setcurrentQuizCompleted] = useState(
@@ -56,8 +56,9 @@ const Quiz = ({
       if (module?._id === currentModule?._id) {
         // Update quizStatus to true for the entire module
         module.quizStatus = "full";
-        // module.status = "full";
-
+        if (module.program === null) {
+          module.status = "full";
+        }
         // Update all quiz statuses to 'full' for this module
         module.quizzes = module.quizzes.map((quiz) => ({
           ...quiz,
@@ -157,12 +158,12 @@ const Quiz = ({
   const getQuiz = async () => {
     extractABCDValues(moduleQuiz, quizNo);
     setcurrentQuiz(moduleQuiz[quizNo] ? moduleQuiz[quizNo] : {});
-    setcorrectAnswer(currentQuiz?.answer);
+    // setcorrectAnswer(currentQuiz?.answer);
   };
 
   const handleClickTry = () => {
     setScore(0);
-    setChoice("");
+    // setChoice("");
     setQuizNo(0);
     setIsSubmitted(false);
     setChoices([]);
@@ -179,7 +180,7 @@ const Quiz = ({
   useEffect(() => {
     extractABCDValues(moduleQuiz, quizNo);
     setcurrentQuiz(moduleQuiz[quizNo] ? moduleQuiz[quizNo] : {});
-    setcorrectAnswer(moduleQuiz[quizNo]?.answer);
+    // setcorrectAnswer(moduleQuiz[quizNo]?.answer);
   }, [quizNo, currentQuiz, moduleQuiz]);
 
   useEffect(() => {
@@ -262,7 +263,7 @@ const Quiz = ({
         </button>
 
         {
-          currentQuizCompleted && <button
+          currentModule.program && currentQuizCompleted && <button
             onClick={() => {
               setisQuizSelected(false)
               setIsProgramSelected(true)
