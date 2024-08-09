@@ -9,7 +9,6 @@ import { useEffect, useRef } from "react";
 const EditProfile = () => {
   const [img, setImg] = useState(null);
   const { loggedInUserData,setloggedInUserData } = useContext(ParentContext)
-  console.log(loggedInUserData)
   const [showError, setShowError] = useState(false)
   const [projects, setProjects] = useState([])
   const [projectValues, setProjectValues] = useState({ title: "", URL: "", description: "" })
@@ -159,7 +158,6 @@ const EditProfile = () => {
     const filteredData = notNullEntries.reduce((acc, curr) => {
       return { ...acc, [curr[0]]: curr[1] }
     }, {})
-    console.log(filteredData)
     if (img) {
       const formData = new FormData();
       formData.append("files", img);
@@ -187,11 +185,9 @@ const EditProfile = () => {
     )
       .then(res => {
         if (res.data.error) {
-          console.log("errr->", res.data)
           toast.error("This Shard ID is already in use")
         }
         else {
-          console.log(res.data)
           setloggedInUserData({...res.data.user,accessToken: loggedInUserData.accessToken})
           setShowError(false)
           toast.success("profile updated")

@@ -49,7 +49,6 @@ export const getAllCourse = async () => {
 export const getAllCourseWithPagination = async (page=1,limit=3) => {
   try {
     const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/course/allCourses/pagination?page=${page}&limit=${limit}`);
-    // console.log("RESPOSNE FOR COURSE PAGINATION-->",data);
     if (data.courses) {
       return data;
     } else {

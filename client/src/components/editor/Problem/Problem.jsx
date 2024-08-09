@@ -23,15 +23,13 @@ export default function Problem(props) {
     }
   }, [props?.contest])
   return (
-    <div className={`px-[40px] py-[64px] relative ${props.className}`}>
+    <div className={`px-[40px] relative ${props.className}`}>
       <div className="flex justify-between items-center">
-
         <p className={`text-3xl font-bold text-[26px] ${props.darkTheme && "text-[#CAFFEF]"}`}>{props?.contest?.title ?? '-'}</p>
         {props.darkTheme ? <IoSunny className="text-white text-lg cursor-pointer absolute top-5 right-5" onClick={props.toggleTheme} />
           : <IoMoon className=" text-lg cursor-pointer absolute top-5 right-5" onClick={props.toggleTheme} />
         }
       </div>
-
       {
         timeLeft.status &&
         <span>

@@ -22,14 +22,12 @@ const PreviewContest = () => {
     useEffect(() => {
         if (id != null) {
             getPreviewContest(id).then((response) => {
-                console.log("REPSOSN EFOR A PREVIEW COPNTEST: ", response);
                 if (response?.data && response?.data?.attributes);
                 {
                     setContest(response?.data);
                     setLoader(false);
 
                     setRules(response?.data?.attributes?.rules);
-                    console.log("-->", response?.data?.attributes?.warnings)
                     setWarnings(response?.data?.attributes?.warnings);
 
                     const updateTimer = () => {
@@ -47,7 +45,6 @@ const PreviewContest = () => {
     useEffect(() => {
         if (loggedInUserData?.walletAddress)
             checkAuthinStrapi(loggedInUserData?.walletAddress).then((response) => {
-                console.log("RESPONSE :", response)
                 if (response.exists == false) {
                     navigate("/")
                 }

@@ -25,10 +25,8 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
     );
     results = results.filter((item) => item !== undefined);
     let NFTS = results.map((single) => single.nftImage ?? '');
-    console.log("NFTS----", NFTS);
     setNfts(NFTS);
     setprofileCoursesData(results);
-    console.log("--data---,pro", results);
     setloading(false);
   };
 

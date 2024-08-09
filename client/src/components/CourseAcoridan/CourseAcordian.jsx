@@ -257,6 +257,8 @@ const CourseAcordian = ({
         </Accordion>
       </div>
     );
+  } else {
+    console.log("USER COURSE PROGRESS NOT FOUND");
   }
 };
 
@@ -277,16 +279,12 @@ const RenderProgram = ({
 
   const checkModuleQuizStatus = async ({ module }) => {
     await userCourseProgress?.modules?.map((progressModule) => {
-      console.log("progressModule", progressModule);
-      console.log("module", module);
       if (progressModule?._id == module?._id) {
-        console.log(progressModule);
         setcurrentQuizStatus(progressModule?.quizStatus);
         setprogramStatus(progressModule?.programStatus);
       }
     });
   };
-  console.log(programStatus);
   useEffect(() => {
     checkModuleQuizStatus({ module });
   }, [userCourseProgress]);

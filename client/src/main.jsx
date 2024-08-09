@@ -11,7 +11,7 @@ import {
   metaMaskWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { WagmiConfig, configureChains, createConfig } from "wagmi";
-import { mainnet, polygon, polygonMumbai, goerli, shardeumSphinx } from "wagmi/chains";
+import { mainnet, shardeumSphinx } from "wagmi/chains";
 import { RainbowKitProvider, connectorsForWallets, darkTheme } from "@rainbow-me/rainbowkit";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import "@rainbow-me/rainbowkit/styles.css";
@@ -20,7 +20,7 @@ import ScrollToTop from "./ScrollToTop";
 
 const { chains, publicClient } = configureChains(
   // [mainnet, goerli, polygonMumbai, polygon, shardeumSphinx],
-  [shardeumSphinx],
+  [shardeumSphinx, mainnet],
   [alchemyProvider({ apiKey: import.meta.env.VITE_ALCHEMY_URL }), publicProvider()]
 );
 

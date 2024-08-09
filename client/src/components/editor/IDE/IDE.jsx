@@ -8,7 +8,7 @@ import Split from "react-split";
 import { useAccount } from "wagmi";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { getUserData } from "../../../utils/api/UserAPI";
-import { compile, test } from "../../../utils/api/ContestAPI";
+import { test } from "../../../utils/api/ContestAPI";
 import { solidityLanguageConfig, solidityTokensProvider } from "./EditorConfig";
 import { TRIANGLE_LOGO_EDITOR as TRI_IMG } from "../../../Constants/Assets";
 import GreenButton from "../../button/GreenButton";
@@ -82,29 +82,6 @@ const IDE = (props) => {
       },
     });
   };
-  //for compilation
-  // const handleCompile = async () => {
-  //   try {
-  //     var response;
-  //     setSubmitLoader(true);
-  //     setTestCases(null);
-  //     setIsDialogOpen(false);
-  //     response = await compile(input);
-  //     if (response?.error) {
-  //       setCompileError(true);
-  //       setOutput(response?.message);
-  //       setSubmitLoader(false);
-  //       if (response?.message === "Sorry. The Contest has ended!") toast.error(response?.message);
-  //       return;
-  //     }
-  //     setCompileError(false);
-  //     setOutput("Compiled Successfully");
-  //     setSubmitLoader(false);
-  //   } catch (error) {
-  //     console.log("ERROR IN TESTING :", error);
-  //   }
-  // }
-  //for submittitng (if preview true,then it will not update in DB)
   const handleSubmitAndTest = async (isCompile = true) => {
     try {
       var response;
@@ -159,8 +136,8 @@ const IDE = (props) => {
   return (
     <div className="h-screen w-full border flex-1 z-10 rounded-[12px]">
       <Toaster />
-      <Transition className="absolute top-1/3 left-1/3" appear show={isDialogOpen} as={Fragment}>
-        <Dialog as="div" className="absolute z-10" onClose={() => setIsDialogOpen(false)}>
+      <Transition className="absolute h-screen top-1/3 left-1/3" appear show={isDialogOpen} as={Fragment}>
+        <Dialog as="div" className="absolute h-screen z-10" onClose={() => setIsDialogOpen(false)}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -248,7 +225,13 @@ const IDE = (props) => {
                 <button
                   disabled={submitLoader}
                   className={`${submitLoader ? 'cursor-not-allowed' : ''} border-[1px] border-shardeumGreen rounded-[10px] px-8 py-[6px] mr-5 font-semibold text-black ${props?.darkTheme ? 'bg-shardeumGreen' : 'bg-green-500 border-green-500 text-white hover:text-black'}`}
-                  onClick={() => setIsDialogOpen(true)}
+                  onClick={() => {
+                    if (props.course === true) {
+                      handleSubmitAndTest(false)
+                    } else {
+                      setIsDialogOpen(true)
+                    }
+                  }}
                 >
                   Submit
                 </button>
@@ -261,8 +244,8 @@ const IDE = (props) => {
             <OutputSection output={output} compileError={compileError} testCases={testCases} currentTestCase={currentTestCase} setCurrentTestCase={setCurrentTestCase} darkTheme={props?.darkTheme} />
           )}
         </div>
-      </Split>
-    </div>
+      </Split >
+    </div >
   );
 };
 

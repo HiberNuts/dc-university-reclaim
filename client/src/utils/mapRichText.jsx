@@ -28,8 +28,6 @@ export const mapRichTextNodesToSchema = (nodes) => {
       });
     }
   });
-
-  // Push any remaining code block
   if (codeBlock) {
     result.push({ type: 'code', content: codeBlock });
   }
@@ -43,6 +41,16 @@ export const renderContent = (item) => {
     case 'list':
       return (
         <div className={`ml-4 ${item.format === 'ordered' ? 'list-decimal' : 'list-disc'}`}>
+          {item.children.map((child, index) => (
+            <div key={index} className="ml-2">
+              {renderContent(child)}
+            </div>
+          ))}
+        </div>
+      );
+    case 'paragraph':
+      return (
+        <div className={` ${item.format === 'ordered' ? 'list-decimal' : 'list-disc'}`}>
           {item.children.map((child, index) => (
             <div key={index} className="ml-2">
               {renderContent(child)}
@@ -104,6 +112,7 @@ export const renderContent = (item) => {
           {item.image.caption && <figcaption className="text-center text-sm mt-2">{item.image.caption}</figcaption>}
         </figure>
       );
+      
     default:
       return null;
   }

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import CourseAcordian from "../CourseAcoridan/CourseAcordian.jsx";
 import { useParams } from "react-router-dom";
-import { courseProgressAPI, getCoursebyName, updateCourseProgressAPI } from "../../utils/api/CourseAPI";
+import { courseProgressAPI, getCoursebyName } from "../../utils/api/CourseAPI";
 import "./WorkPlace.scss";
 import Quiz from "../Quiz/Quiz";
 import { ParentContext } from "../../contexts/ParentContext";
@@ -36,23 +36,36 @@ export default function WorkPlace() {
   const isMobile = screenWidth < 768;
 
   const getUserProgress = async () => {
-    const data = await courseProgressAPI({
-      courseId: courseContent?._id,
-      accessToken: loggedInUserData?.accessToken,
-      userId: loggedInUserData?._id,
-    });
+    if (courseContent?._id && loggedInUserData?._id && loggedInUserData?.accessToken) {
+      const data = await courseProgressAPI({
+        courseId: courseContent?._id,
+        accessToken: loggedInUserData?.accessToken,
+        userId: loggedInUserData?._id,
+      });
+      if (data.enrolledCourse) {
+        if (data.enrolledCourse.courseId === courseContent._id) {
+          setuserCourseProgress(data.enrolledCourse || {});
+        } else {
+          toast.error("You are not enrolled in this course.");
+        }
+        setuserCourseProgress(data.enrolledCourse || {});
+      }
+    }
 
-    setuserCourseProgress(data?.enrolledCourse);
   };
 
   const getProgressPercentage = async () => {
     try {
-      const data = await getUserCourseProgressPercentage({
-        courseId: courseContent?._id,
-        userId: loggedInUserData?._id,
-        accessToken: loggedInUserData?.accessToken,
-      });
-      setcurrentCourseProgress(data);
+      if (courseContent) {
+        if (courseContent?._id && loggedInUserData?._id && loggedInUserData?.accessToken) {
+          const data = await getUserCourseProgressPercentage({
+            courseId: courseContent._id,
+            userId: loggedInUserData._id,
+            accessToken: loggedInUserData?.accessToken,
+          });
+          setcurrentCourseProgress(data);
+        }
+      }
     } catch (error) {
       console.error("Error fetching  course progress:", error);
     }
@@ -60,7 +73,7 @@ export default function WorkPlace() {
 
   useEffect(() => {
     getProgressPercentage();
-  }, [loggedInUserData, courseContent]);
+  }, [loggedInUserData, userCourseProgress]);
 
   const getCourseInfo = async () => {
     const data = await getCoursebyName(params?.id);
@@ -71,7 +84,6 @@ export default function WorkPlace() {
       setcurrentModule(data?.module[0]);
       setisCourseDataChanged(!isCourseDataChanged);
       await checkModuleCoursesStatus({ module: data?.module[0] });
-      await getUserProgress();
       await checkChapterStatus({ chapter: data?.module[0]?.chapter[0] });
     }
   };
@@ -107,17 +119,24 @@ export default function WorkPlace() {
   }, [userCourseProgress, currentChapter]);
 
   useEffect(() => {
-    getCourseInfo();
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [loggedInUserData]);
+    const init = async () => {
+      await getUserProgress();
+      await getCourseInfo();
+      const handleResize = () => {
+        setScreenWidth(window.innerWidth);
+      };
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
+    init()
+  }, [loggedInUserData, params.id]);
 
   useEffect(() => {
-    getUserProgress();
-  }, [loggedInUserData, isProgramSubmited]);
+    const init = async () => {
+      await getUserProgress();
+    }
+    init()
+  }, [isProgramSubmited, courseContent]);
 
 
   return (
@@ -152,7 +171,7 @@ export default function WorkPlace() {
           </div>
           <p className="text-white text-[24px] font-helvetica-neue-bold text-center mt-2">{courseContent?.title}</p>
           <div className="mt-10">
-            {moduleContent?.map((module, index) => (
+            {moduleContent && moduleContent.map((module, index) => (
               <div key={index}>
                 <CourseAcordian
                   moduleIndex={index}
@@ -253,6 +272,7 @@ export default function WorkPlace() {
                     isModuleChanged={isModuleChanged}
                     moduleQuiz={currentModule?.quizzes ? currentModule?.quizzes : []}
                     setCurrentChapter={setCurrentChapter}
+                    currentChapterStatus={currentChapterStatus}
                   />
                 </div>
               ) : (

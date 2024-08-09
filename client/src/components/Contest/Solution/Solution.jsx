@@ -13,16 +13,13 @@ export default function Solution() {
   const [contest, setContest] = useState(null);
   const [darkTheme, setDarkTheme] = useState(true);
   const [error, setError] = useState('');
-  console.log(program?.solution)
   useEffect(() => {
     getContestSolution(title).then((resp) => {
       if (resp.error == false) {
-        console.log(resp.data)
         setContest(resp.data.contest);
         setProgram(resp.data.program);
         if (resp.data.program?.solution == '') {
           setError("Solution is not added yet!");
-          console.log("Solution is not added in db")
           return;
         }
         setLoader(false);

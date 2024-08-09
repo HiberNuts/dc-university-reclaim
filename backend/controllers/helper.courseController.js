@@ -13,7 +13,6 @@ async function fetchCoursesFromCMS() {
 
 async function processCourse(courseData) {
     const courseDetails = extractCourseDetails(courseData);
-    // console.log("Extracted Course", courseDetails);
     const existingCourse = await Course.findOne({ strapiId: courseData.id });
 
     if (existingCourse) {
@@ -63,7 +62,6 @@ async function updateExistingCourse(existingCourse, courseDetails) {
 
     // Add module updates using dot notation
     updatedModules.forEach((module, index) => {
-        console.log(module.program.description)
         updateObject[`module.${index}.strapiId`] = module.strapiId;
         updateObject[`module.${index}.moduleTitle`] = module.moduleTitle;
 
@@ -204,7 +202,7 @@ async function createNewCourse(courseDetails) {
     courseDetails.module = courseDetails.module.map(createNewModule);
     const course = new Course(courseDetails);
     const savedCourse = await course.save();
-    console.log("New course created:", savedCourse._id);
+    console.log("New course created:", savedCourse?.title);
 }
 
 async function updateExistingEnrollment(user, course, enrolledCourseIndex) {
@@ -342,7 +340,7 @@ function calculateCompletionPercentages(courseProgress) {
         totalQuizzes += module.quizzes.length;
         completedQuizzes += module.quizzes.filter((quiz) => quiz.status === "full").length;
 
-        if (module.program) {
+        if (module.program !== null) {
             totalPrograms++;
             if (module.program.status === "full") {
                 completedPrograms++;
