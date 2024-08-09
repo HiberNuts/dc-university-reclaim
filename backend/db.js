@@ -30,8 +30,6 @@ async function initial() {
         new Role({ name: "moderator" }).save(),
         new Role({ name: "admin" }).save(),
       ]);
-
-      console.log("Roles have been initialized.");
     }
   } catch (error) {
     console.error("Error initializing roles:", error);

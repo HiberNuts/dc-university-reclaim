@@ -170,7 +170,6 @@ exports.update = async (req, res) => {
     }
 
     apiContactsInstance.createContact(createContact).then(function (data) {
-      console.log('API called successfully. user added to news Letter ' + JSON.stringify(data));
     }, function (error) {
       if (JSON.parse(error?.response?.text).code === "duplicate_parameter") {
       } else {
@@ -321,9 +320,6 @@ exports.resend = async (req, res) => {
 
     apiInstance.sendTransacEmail(sendSmtpEmail).then(
       function (data) {
-        console.log(
-          "API called successfully. Returned data: " + JSON.stringify(data)
-        );
         res.status(200).send({ message: "Sent verification mail again" });
       },
       function (error) {
