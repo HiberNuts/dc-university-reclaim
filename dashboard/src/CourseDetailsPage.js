@@ -132,12 +132,18 @@ function CourseDetailsPage() {
           {params?.row?.enrolledCourses[i]?.nftStatus.toString() || "Not found"}
         </div>
       }
-
-
+    },
+    {
+      field: 'courseCompleted', headerName: 'courseCompleted', flex: 0.15, renderCell: (params) => {
+        const i = params?.row?.enrolledCourses?.findIndex(x => x.courseId === course._id)
+        return <div>
+          {params?.row?.enrolledCourses[i]?.courseCompleted.toString() || "Not found"}
+        </div>
+      }
     },
     {
       field: 'blockStatus',
-      headerName: 'Block/Unblock',
+      headerName: 'Block/Unblock',  
       flex: 0.15,
       renderCell: (params) => (
         <IconButton
@@ -202,7 +208,6 @@ function CourseDetailsPage() {
         return { id: userId, ...userResult };
       })
     );
-
     setuserData(newUsers);
     setIsLoading(false);
 
@@ -334,7 +339,7 @@ function CourseDetailsPage() {
         <Button disabled={csvLoading} variant='contained' className='text-lg' onClick={handleExportCSV}>{csvLoading ? "Generating your file please wait" : "Export as CSV"} </Button>
       </div>
       {/* <div style={{ height: '400px', width: '100%', overflow: 'auto' }} className="tablediv"> */}
-      <Box sx={{ width: '100%', overflow: "scroll" }}>
+      {/* <Box sx={{ width: '100%', overflow: "scroll" }}>
         <DataGrid
           // pagination
           sx={{
@@ -353,7 +358,23 @@ function CourseDetailsPage() {
           pageSize={10}
           slots={{ toolbar: GridToolbar }}
         />
-      </Box>
+      </Box> */}
+      <Box sx={{ height: 400, width: '100%' }}>
+            <DataGrid
+                rows={userData}
+                columns={columns}
+                initialState={{
+                    pagination: {
+                        paginationModel: {
+                            pageSize: 5,
+                        },
+                    },
+                }}
+                pageSizeOptions={[5]}
+                checkboxSelection
+                disableRowSelectionOnClick
+            />
+        </Box>
       <div>
         <Button disabled={pagination.page === 1} onClick={handlePrevPage}>Previous Page</Button>
         <span>Page {pagination.page} of {pagination.totalPages}</span>
