@@ -42,12 +42,40 @@ const Profile = ({ isOpen, closeModal }) => {
   const { loggedInUserData, setuserDataIsUpdated, userDataIsUpdated, setloggedInUserData } = useContext(ParentContext);
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      toast.success("Profile copied to clipboard");
-    }).catch(err => {
-      alert('Failed to copy URL');
-      toast.error('Error copying profile ');
-    });
+    // navigator.clipboard.writeText(window.location.href).then(() => {
+    //   toast.success("Profile copied to clipboard");
+    // }).catch(err => {
+    //   alert('Failed to copy URL');
+    //   toast.error('Error copying profile ');
+    // });
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        toast.success("Profile copied to clipboard");
+      }).catch(err => {
+        alert('Failed to copy URL');
+        toast.error('Error copying profile ');
+      })
+      } else {
+      const textArea = document.createElement("textarea");
+      textArea.value = window.location.href
+          
+      textArea.style.position = "absolute";
+      textArea.style.left = "-999999px";
+          
+      document.body.prepend(textArea);
+      textArea.select();
+
+      try {
+          document.execCommand('copy');
+          toast.success("Profile copied to clipboard");
+      } catch (error) {
+          toast.error('Error copying profile ');
+          console.error(error);
+      } finally {
+          textArea.remove();
+      }
+  }
   };
 
   useEffect(() => {
