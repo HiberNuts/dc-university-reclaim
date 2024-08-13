@@ -4,7 +4,7 @@ const Community = lazy(() => import("./Community"));
 const FeatureCourses = lazy(() => import("./FeatureCourses"));
 const FaqHome = lazy(() => import("./FaqHome"));
 const Stats = lazy(() => import("./Stats"));
-const Contest=lazy(()=>import('./Contest'))
+const Contest = lazy(() => import('./Contest'))
 import Unique from "./Unique";
 
 export default function Main() {
@@ -14,9 +14,9 @@ export default function Main() {
     >
       <main className="w-full bg-shardeumWhite">
         <Hero />
-        {/* <Stats /> */}
+        <Stats />
         <FeatureCourses />
-        <Contest/>
+        <Contest />
         <Unique />
 
         <Community />

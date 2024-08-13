@@ -20,7 +20,7 @@ import ScrollToTop from "./ScrollToTop";
 
 const { chains, publicClient } = configureChains(
   // [mainnet, goerli, polygonMumbai, polygon, shardeumSphinx],
-  [shardeumSphinx, mainnet],
+  [mainnet, shardeumSphinx],
   [alchemyProvider({ apiKey: import.meta.env.VITE_ALCHEMY_URL }), publicProvider()]
 );
 
