@@ -1,17 +1,11 @@
 const solc = require('solc');
-const { ethers, network } = require('hardhat');
-const chai = require("chai");
-const { expect } = require("chai");
 const db = require("../models");
 const User = require('../models/User');
-const hre = require("hardhat");
-const Programs = db.Programs;
 const Submissions = db.Submissions;
 const Contests = db.Contests;
 const crypto = require('crypto');
 const path = require('path');
 const { exec } = require('child_process');
-const { spawn } = require('child_process');
 const util = require('util');
 const fs = require('fs').promises;
 const execPromise = util.promisify(exec);
@@ -196,15 +190,16 @@ exports.test = async (req, res) => {
       paths: {
         sources: "./",
         tests: "./",
-        cache: "./"
+        cache: "./cache",
+        artifacts: "./artifacts"
       },
       networks: {
-        // hardhat: {
-        //   chainId: 1337
-        // }
-        localhost: {
-          url: "http://127.0.0.1:8545"
-        },
+        hardhat: {
+          chainId: 1337
+        }
+        // localhost: {
+        //   url: "http://127.0.0.1:8545"
+        // },
       }
     };
     `;
@@ -212,7 +207,7 @@ exports.test = async (req, res) => {
 
     let result;
     try {
-      result = await runCommand('npx hardhat test --show-stack-traces', { cwd: submissionDir });
+      result = await runCommand('npx hardhat test', { cwd: submissionDir });
     } catch (error) {
       console.error('Error running Hardhat tests:', error);
       result = error.stdout || error.message;
