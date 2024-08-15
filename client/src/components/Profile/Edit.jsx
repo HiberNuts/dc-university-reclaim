@@ -265,7 +265,7 @@ const EditProfile = () => {
                 </div>
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Occupation</label>
-                  <select className="p-[16px] rounded-[12px] border-[0.5px]" id="occupation" defaultValue={loggedInUserData?.occupation ?? ''} onChange={changehandler}>
+                  <select className="p-[16px] rounded-[12px] border-[0.5px]" id="occupation" value={loggedInUserData?.occupation ?? ''} onChange={changehandler}>
                     <option disabled className="opacity-[50%]">Please Select</option>
                     <option>Private</option>
                     <option>Government</option>
@@ -274,7 +274,7 @@ const EditProfile = () => {
                 </div>
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
                   <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">Work Experience</label>
-                  <select className="p-[16px] rounded-[12px] border-[0.5px]" id="experience" onChange={changehandler}>
+                  <select className="p-[16px] rounded-[12px] border-[0.5px]" id="experience" value={loggedInUserData?.experience ?? ''} onChange={changehandler}>
                     <option disabled className="opacity-[50%]">Please Select</option>
                     <option>Fresher</option>
                     <option>Less than 2 years</option>

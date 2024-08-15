@@ -43,7 +43,7 @@ const ProfileCourseCard = ({ props, loggedInUserData, userData }) => {
           opacity: scrollYProgress,
           boxShadow: "0px 4px 20px 0px rgba(195, 200, 255, 0.30)",
         }}
-        className="flex card-container font-helvetica-neue max-h-[600px] bg-white border-[3px] shadow flex-col justify-center align-middle w-[400px] rounded-[16px]"
+        className="flex card-container col-span-1 font-helvetica-neue max-h-[600px] bg-white border-[3px] shadow flex-col justify-center align-middle rounded-[16px]"
       >
         <div className="image-section h-full gap-4 flex flex-col justify-between  p-[15px]">
           <div className="flex justify-center  align-middle items-center">
