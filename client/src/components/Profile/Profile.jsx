@@ -1,8 +1,4 @@
-import React, { useState, useEffect, useContext, lazy, Suspense } from "react";
-import { faCaretSquareDown, faHandPointRight, faRepeat } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Fragment } from "react";
-import { Listbox, Transition } from "@headlessui/react";
+import React, { useState, useEffect, useContext, lazy, } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -10,28 +6,15 @@ import toast, { Toaster } from "react-hot-toast";
 import { ParentContext } from "../../contexts/ParentContext";
 import { getUserData, getUserContestDetails } from "../../utils/api/UserAPI";
 import ProfileBadge from "./ProfileBadge";
-const ProfileCourses = lazy(() => import("./ProfileCourses"));
 import { JOB, MAIL, PORTFOLIO, LEVEL, TWITTER_PNG as TWITTER, GITHUB_PNG as GITHUB, YOUTUBE, LINKEDIN, DISCORD_PNG as DISCORD, LEADERBOARD_TRIANGLE as TRIANGLE_IMG, FLASH, PARTICIPATION, STAR_SVG as STAR, BADGES, PRIZE } from "../../Constants/Assets";
 import editImg from "../../assets/CTA.png"
-import ProfileButton from "../button/ProfileButton";
 import { Link } from "react-router-dom";
 import ProfileProjects from "./ProfileProjects";
 import ShareButton from "../button/shareButton";
-
-const ProfileLinks = ({ img, title }) => {
-  return (
-    <div className="text-white flex gap-3 text-[16px] font-[500]">
-      <img src={img} alt="icon" />
-      <span>{title}</span>
-    </div>
-  );
-};
+const ProfileCourses = lazy(() => import("./ProfileCourses"));
 
 const Profile = ({ isOpen, closeModal }) => {
   const { shardId } = useParams();
-  const [isEditing, setisEditing] = useState(false);
-  const [userData, setUserData] = useState({});
-  const [error, setError] = useState(null); // State for managing errors
   const [userProfile, setUserProfile] = useState(null);
   const [userContestData, setUserContestData] = useState(null);
   const [formData, setFormData] = useState({
@@ -39,15 +22,9 @@ const Profile = ({ isOpen, closeModal }) => {
     email: "",
     designation: "Web3 Beginner",
   });
-  const { loggedInUserData, setuserDataIsUpdated, userDataIsUpdated, setloggedInUserData } = useContext(ParentContext);
+  const { loggedInUserData} = useContext(ParentContext);
 
   const copyToClipboard = () => {
-    // navigator.clipboard.writeText(window.location.href).then(() => {
-    //   toast.success("Profile copied to clipboard");
-    // }).catch(err => {
-    //   alert('Failed to copy URL');
-    //   toast.error('Error copying profile ');
-    // });
 
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(window.location.href).then(() => {
@@ -56,26 +33,26 @@ const Profile = ({ isOpen, closeModal }) => {
         alert('Failed to copy URL');
         toast.error('Error copying profile ');
       })
-      } else {
+    } else {
       const textArea = document.createElement("textarea");
       textArea.value = window.location.href
-          
+
       textArea.style.position = "absolute";
       textArea.style.left = "-999999px";
-          
+
       document.body.prepend(textArea);
       textArea.select();
 
       try {
-          document.execCommand('copy');
-          toast.success("Profile copied to clipboard");
+        document.execCommand('copy');
+        toast.success("Profile copied to clipboard");
       } catch (error) {
-          toast.error('Error copying profile ');
-          console.error(error);
+        toast.error('Error copying profile ');
+        console.error(error);
       } finally {
-          textArea.remove();
+        textArea.remove();
       }
-  }
+    }
   };
 
   useEffect(() => {
@@ -91,11 +68,9 @@ const Profile = ({ isOpen, closeModal }) => {
         }
         );
 
-        if (response?.data?.email == "default") {
+        if (response?.data?.email === "default") {
           setFormData({ ...formData, name: "", email: "" });
-          setisEditing(true);
         } else {
-          setUserData(response.data);
           // setloggedInUserData({ ...response.data, accessToken: loggedInUserData.accessToken });
           setFormData({ ...response.data, name: response.data.username });
         }
@@ -111,7 +86,7 @@ const Profile = ({ isOpen, closeModal }) => {
   useEffect(() => {
     const getUserProfileData = async () => {
       getUserData(shardId).then((response) => {
-        if (response.error == false) {
+        if (response.error === false) {
           if (response?.data != null)
             setUserProfile(response?.data);
         }
@@ -121,7 +96,7 @@ const Profile = ({ isOpen, closeModal }) => {
       try {
         if (shardId)
           getUserContestDetails(shardId).then((resp) => {
-            if (resp?.error == false) {
+            if (resp?.error === false) {
               setUserContestData(resp.data);
             }
           })
@@ -164,8 +139,9 @@ const Profile = ({ isOpen, closeModal }) => {
   };
   return (
     <div className="">
+      <Toaster />
       <div className="bg-shardeumTeelGreen min-h-[180px] overflow-hidden relative profile_header">
-        <img src={TRIANGLE_IMG} className="absolute right-10" />
+        <img alt="trail" src={TRIANGLE_IMG} className="absolute right-10" />
       </div>
       <div className="grid grid-cols-8 min-h-screen ">
         <div className="col-span-8 w-full  lg:col-span-2 bg-shardeumBlue relative">
@@ -179,7 +155,7 @@ const Profile = ({ isOpen, closeModal }) => {
           </div>
           <div className="name mt-[150px] px-16">
             <p className='my-2 text-[24px] text-left leading-tight text-white text-overflow-ellipsis font-helvetica-neue-bold'>{userProfile?.username}</p>
-            
+
             <div className="flex flex-col">
               {
                 userProfile?.designation &&
@@ -212,31 +188,31 @@ const Profile = ({ isOpen, closeModal }) => {
               <div className="flex gap-5  mt-2">
                 {
                   userProfile?.twitter &&
-                  <a target="_blank" href={'https://x.com/' + userProfile?.twitter ?? '#'}>
+                  <a target="_blank" href={'https://x.com/' + userProfile?.twitter ?? '#'} rel="noreferrer">
                     <img src={TWITTER} />
                   </a>
                 }
                 {
                   userProfile?.github &&
-                  <a target="_blank" href={'https://github.com/' + userProfile?.github ?? '#'}>
+                  <a target="_blank" href={'https://github.com/' + userProfile?.github ?? '#'} rel="noreferrer">
                     <img src={GITHUB} />
                   </a>
                 }
                 {
                   userProfile?.linkedIn &&
-                  <a target="_blank" href={'https://linkedin.com/in/' + userProfile?.linkedIn ?? '#'}>
+                  <a target="_blank" href={'https://linkedin.com/in/' + userProfile?.linkedIn ?? '#'} rel="noreferrer">
                     <img src={LINKEDIN} />
                   </a>
                 }
                 {
                   userProfile?.youtube &&
-                  <a target="_blank" href={'https://youtube.com/' + userProfile?.youtube ?? '#'}>
+                  <a target="_blank" href={'https://youtube.com/' + userProfile?.youtube ?? '#'} rel="noreferrer">
                     <img src={YOUTUBE} />
                   </a>
                 }
                 {
                   userProfile?.discord &&
-                  <a target="_blank" href={'https://discord.com/' + userProfile?.discord ?? '#'}>
+                  <a target="_blank" href={'https://discord.com/' + userProfile?.discord ?? '#'} rel="noreferrer">
                     <img src={DISCORD} />
                   </a>
                 }
@@ -246,23 +222,23 @@ const Profile = ({ isOpen, closeModal }) => {
                 <div className="mt-10 absolute top-[-1.5rem] right-[1rem]">
                   <Link to={'/profile/edit'}>
 
-                    <LazyLoadImage src={editImg}/>
+                    <LazyLoadImage src={editImg} />
                   </Link>
                 </div>
               }
               <div className="mt-10">
-                  <ShareButton text={"Share Profile"} isHoveredReq={true} onClick={copyToClipboard}/>
+                <ShareButton text={"Share Profile"} isHoveredReq={true} onClick={copyToClipboard} />
               </div>
               <div className="mt-10">
                 <p className="font-[500] text-[12px] text-white tracking-[2px]">ABOUT ME</p>
-              <p className=' text-[16px] font-[400] text-left leading-[28px] text-white text-overflow-ellipsis'>
-              {userProfile?.description}
-            </p>
+                <p className=' text-[16px] font-[400] text-left leading-[28px] text-white text-overflow-ellipsis'>
+                  {userProfile?.description}
+                </p>
               </div>
-              
+
             </div>
           </div>
-          
+
         </div>
         <div className="col-span-8 lg:col-span-6">
           <div className="border-t-2 border-b-[1px] py-2 grid grid-cols-5">
@@ -336,10 +312,6 @@ const Profile = ({ isOpen, closeModal }) => {
 
 export default Profile;
 
-
-
-
-//V1 PROFILE SCREEN
 // return (
 //   <div className="w-full  bg-shardeumWhite font-helvetica-neue  h-full flex justify-between align-middle">
 //     <Toaster />

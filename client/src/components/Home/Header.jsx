@@ -4,7 +4,6 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import navLogoBlack from "../../assets/navlogoBlack.svg";
 import navLogoWhite from "../../assets/navlogoWhite.svg";
 import "./Home.css";
-const Burger = lazy(() => import("./Burger"));
 import ProfileDropDown from "./ProfileDropdown";
 import axios from "axios";
 import { useAccount } from "wagmi";
@@ -12,6 +11,7 @@ import { ParentContext } from "../../contexts/ParentContext";
 import GreenButton from "../button/GreenButton";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { getUserContestDetails } from "../../utils/api/UserAPI";
+const Burger = lazy(() => import("./Burger"));
 
 export default function Header() {
   const navigate = useNavigate();

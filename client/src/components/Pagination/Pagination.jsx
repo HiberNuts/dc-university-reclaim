@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React  from 'react';
 import LEFT from "../../assets/pagination_left.png";
 import RIGHT from "../../assets/pagination_right.png"
 const Pagination = ({ totalItems,itemsPerPage,currentPage=1,setCurrentPage}) => {

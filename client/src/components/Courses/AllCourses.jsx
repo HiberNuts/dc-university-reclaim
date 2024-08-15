@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import SkeletonLoader from "./SkeletonLoader";
-import { Toaster, toast } from "react-hot-toast";
 import CourseCard from "./CourseCard/CourseCard";
-import { ParentContext } from "../../contexts/ParentContext";
-import { getAllCourse, getAllCourseWithPagination } from "../../utils/api/CourseAPI";
+import { getAllCourseWithPagination } from "../../utils/api/CourseAPI";
 import Pagination from "../Pagination/Pagination";
 export default function AllCourses() {
   const [allCourseInfo, setallCourseInfo] = useState([]);
@@ -12,8 +10,6 @@ export default function AllCourses() {
   const [totalItems, setTotalItems] = useState(0);
   const coursesPerPage = 3;
   const [currentPage, setCurrentPage] = useState(1);
-  // const [minIndex, setMinIndex] = useState(0);
-  // const [maxIndex, setMaxIndex] = useState(6);
 
   const getAllCourseInfo = async () => {
     setloading(true);

@@ -1,4 +1,3 @@
-import * as monaco from 'monaco-editor'
 
 export const solidityLanguageConfig = {
 	comments: {

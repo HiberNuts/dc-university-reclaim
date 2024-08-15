@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from "react";
-const Main = lazy(() => import("./Main"));
 import logo from "../../assets/navlogoBlack.svg";
+const Main = lazy(() => import("./Main"));
 export default function Home() {
   return (
     <div className="wrapper flex  justify-center">

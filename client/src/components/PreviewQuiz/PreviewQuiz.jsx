@@ -9,7 +9,6 @@ import { updateCourseProgressAPI } from "../../utils/api/CourseAPI";
 
 const PreviewQuiz = ({
   moduleQuiz,
-  isModuleChanged,
   currentModule,
   userCourseProgress,
   setuserCourseProgress,
@@ -18,13 +17,11 @@ const PreviewQuiz = ({
   accessToken,
 }) => {
   const [quizNo, setQuizNo] = useState(0);
-  const [choice, setChoice] = useState("");
   const [score, setScore] = useState(0);
   const [isloading, setIsloading] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [answerArray, setAnswerArray] = useState([]);
   const [currentQuiz, setcurrentQuiz] = useState({});
-  const [correctAnswer, setcorrectAnswer] = useState("");
   const [choices, setChoices] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [currentQuizCompleted, setcurrentQuizCompleted] = useState(
@@ -150,19 +147,9 @@ const PreviewQuiz = ({
   const getQuiz = async () => {
     extractABCDValues(moduleQuiz, quizNo);
     setcurrentQuiz(moduleQuiz[quizNo] ? moduleQuiz[quizNo] : {});
-    setcorrectAnswer(currentQuiz?.answer);
   };
-
-  const handleClickNext = () => {
-    checkAnswer();
-    setQuizNo(quizNo + 1);
-    setAnswerArray([]);
-    extractABCDValues(moduleQuiz, quizNo);
-  };
-
   const handleClickTry = () => {
     setScore(0);
-    setChoice("");
     setQuizNo(0);
     setIsSubmitted(false);
     setChoices([]);
@@ -179,7 +166,6 @@ const PreviewQuiz = ({
   useEffect(() => {
     extractABCDValues(moduleQuiz, quizNo);
     setcurrentQuiz(moduleQuiz[quizNo] ? moduleQuiz[quizNo] : {});
-    setcorrectAnswer(moduleQuiz[quizNo]?.answer);
   }, [quizNo, currentQuiz, moduleQuiz]);
 
   useEffect(() => {
@@ -193,9 +179,9 @@ const PreviewQuiz = ({
         : false
     );
     if (currentQuizCompleted == true) {
-      let finalAnswers = [];
+      const finalAnswers = [];
       moduleQuiz.forEach((m) => {
-     
+
         finalAnswers.push(ABC_TO_INT_MAP[m.answer]);
       });
       setChoices(finalAnswers);
@@ -204,9 +190,9 @@ const PreviewQuiz = ({
 
   useEffect(() => {
     if (currentQuizCompleted == true) {
-      let finalAnswers = [];
+      const finalAnswers = [];
       moduleQuiz.forEach((m) => {
-       
+
         finalAnswers.push(ABC_TO_INT_MAP[m.answer]);
       });
       setChoices(finalAnswers);
@@ -215,12 +201,6 @@ const PreviewQuiz = ({
     }
   }, [currentQuizCompleted]);
 
-  const incorrectAnswers = answerArray;
-  const answers = incorrectAnswers;
-
-  const isCorrect = correctAnswer === INT_TO_ABC_MAP[choice];
-
-  const checkAnswer = () => isCorrect && setScore(score + 1);
 
   return (
     <div className=" w-full font-helvetica-neue-roman">
@@ -255,7 +235,7 @@ const PreviewQuiz = ({
       {!currentQuizCompleted && isSubmitted && (
         <ResultPage score={score} quizzes={moduleQuiz} onClickTry={handleClickTry} answerArray={answerArray} />
       )}
-  
+
       {<SuccessModal currentModule={currentModule} isOpen={modalIsOpen} setIsOpen={setModalIsOpen} />}
     </div>
   );

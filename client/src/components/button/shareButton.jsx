@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { ArrowIcon } from "../../assets/ArrowIcon";
 import ShareIcon from "../../assets/shareIcon";
 
 const ShareButton = ({ text, onClick, isHoveredReq, boxShadow }) => {

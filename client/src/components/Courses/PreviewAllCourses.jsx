@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useEffect} from "react";
 import SkeletonLoader from "./SkeletonLoader";
-import { Toaster, toast } from "react-hot-toast";
-import CourseCard from "./CourseCard/CourseCard";
+
 import axios from "axios";
 import PreviewCourseCard from "./CourseCard/PreviewCourseCard";
 
@@ -20,7 +19,6 @@ export default function PreviewAllCourses() {
     getAllCourseInfo();
   }, []);
 
-  const [Query, setQuery] = useState("");
 
   const LogoSvg = () => {
     return (
@@ -78,7 +76,7 @@ export default function PreviewAllCourses() {
               boxShadow: "6px 6px 0px 0px rgba(0, 0, 0, 0.15)",
             }}
             placeholder=" &#128270; Search course"
-            onChange={(event) => setQuery(event.target.value)}
+
           />
         </div>
       </div>

@@ -4,6 +4,7 @@ import { CustomFigure } from "./customCourseElement";
 import { updateCourseProgressAPI } from "../../../utils/api/CourseAPI";
 import toast, { Toaster } from "react-hot-toast";
 import LongArrow from "../../../assets/LongArrow.svg";
+import { CopyBlock, dracula } from "react-code-blocks";
 const DisplayChapter = ({
   currentModule,
   currentChapter,
@@ -20,7 +21,7 @@ const DisplayChapter = ({
   accessToken,
 }) => {
   const handleNextChapterClick = async ({ chapter }) => {
-    let chapterIndex = currentModule?.chapter.findIndex((c) => c._id == chapter._id);
+    const chapterIndex = currentModule?.chapter.findIndex((c) => c._id == chapter._id);
     if (chapterIndex == currentModule?.chapter.length - 1) {
       setisQuizSelected(true);
       setcurrentQuiz(currentModule?.quizzes);
@@ -31,7 +32,7 @@ const DisplayChapter = ({
     }
   };
   const handlePrevChapterClick = async ({ chapter }) => {
-    let chapterIndex = currentModule?.chapter.findIndex((c) => c._id == chapter._id);
+    const chapterIndex = currentModule?.chapter.findIndex((c) => c._id == chapter._id);
     if (chapterIndex == 0) {
       window.scrollTo(0, 0);
     } else {
@@ -103,11 +104,6 @@ const DisplayChapter = ({
                 ol: (props) => <ol className="list-decimal p-[0px] m-[0px]">{props?.children}</ol>,
                 ul: (props) => <ul className="list-disc p-[0px] m-[0px]">{props?.children}</ul>,
                 pre: (props) => <span className="font-mono overflow-scroll">{props.children}</span>,
-                // pre: (props) => <CodeBlock
-                //   text={props.children}
-                //   language="javascript"
-
-                // />
                 code: (props) => <CopyBlock
                   showLineNumbers
 

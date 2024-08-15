@@ -1,34 +1,11 @@
-import React, { useLayoutEffect, useState } from "react";
+import React from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
-const useTruncatedElement = ({ ref }) => {
-  const [isTruncated, setIsTruncated] = useState(false);
-  const [isShowingMore, setIsShowingMore] = useState(false);
 
-  useLayoutEffect(() => {
-    const { offsetHeight, scrollHeight } = ref.current || {};
 
-    if (offsetHeight && scrollHeight && offsetHeight < scrollHeight) {
-      setIsTruncated(true);
-    } else {
-      setIsTruncated(false);
-    }
-  }, [ref]);
-
-  const toggleIsShowingMore = () => setIsShowingMore((prev) => !prev);
-
-  return {
-    isTruncated,
-    isShowingMore,
-    toggleIsShowingMore,
-  };
-};
 
 const CourseCertificate = ({ props, title }) => {
   const ref = React.useRef(null);
-  const { isTruncated, isShowingMore, toggleIsShowingMore } = useTruncatedElement({
-    ref,
-  });
 
   const x = useMotionValue(200);
   const y = useMotionValue(200);
