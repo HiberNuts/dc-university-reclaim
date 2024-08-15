@@ -1,26 +1,22 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import SkeletonLoader from "./SkeletonLoader";
-import { Toaster, toast } from "react-hot-toast";
 import CourseCard from "./CourseCard/CourseCard";
-import { ParentContext } from "../../contexts/ParentContext";
-import { getAllCourse,getAllCourseWithPagination } from "../../utils/api/CourseAPI";
+import { getAllCourseWithPagination } from "../../utils/api/CourseAPI";
 import Pagination from "../Pagination/Pagination";
 export default function AllCourses() {
   const [allCourseInfo, setallCourseInfo] = useState([]);
   const [loading, setloading] = useState(false);
   //FOR PAGINATION
-  const [totalItems,setTotalItems]=useState(0);
-  const coursesPerPage =3;
+  const [totalItems, setTotalItems] = useState(0);
+  const coursesPerPage = 3;
   const [currentPage, setCurrentPage] = useState(1);
-  // const [minIndex, setMinIndex] = useState(0);
-  // const [maxIndex, setMaxIndex] = useState(6);
 
   const getAllCourseInfo = async () => {
     setloading(true);
-    await getAllCourseWithPagination(currentPage,coursesPerPage).then((resp)=>{
-            setTotalItems(resp.totalItems);
-            setallCourseInfo(resp.courses);
-            setloading(false);
+    await getAllCourseWithPagination(currentPage, coursesPerPage).then((resp) => {
+      setTotalItems(resp.totalItems);
+      setallCourseInfo(resp.courses);
+      setloading(false);
     })
   };
 
@@ -94,8 +90,8 @@ export default function AllCourses() {
         {loading ? (
           <SkeletonLoader />
         ) : (
-         <div className="w-full">
-            <div className="flex w-full justify-evenly gap-x-[10px] gap-y-[64px]">
+          <div className="w-full">
+            <div className="flex flex-wrap w-full justify-evenly gap-x-[10px] gap-y-[64px]">
               {allCourseInfo &&
                 allCourseInfo?.reverse()
                   ?.filter((course) => {
@@ -105,17 +101,17 @@ export default function AllCourses() {
                       return course;
                     }
                   })
-                ?.map((course, index) => {
-                  return course.softDelete != true ? <CourseCard key={index} props={course} /> : "";
-                })}
-             </div>
-             <div className="flex justify-center items-center  mt-10">
-                    <Pagination totalItems={totalItems} itemsPerPage={coursesPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
-                    <br/>    
-                    <br/>    
-                    <br/>    
-              </div>
-         </div>  
+                  ?.map((course, index) => {
+                    return course.softDelete != true ? <CourseCard key={index} props={course} /> : "";
+                  })}
+            </div>
+            <div className="flex justify-center items-center  mt-10">
+              <Pagination totalItems={totalItems} itemsPerPage={coursesPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+              <br />
+              <br />
+              <br />
+            </div>
+          </div>
         )}
       </div>
     </div>

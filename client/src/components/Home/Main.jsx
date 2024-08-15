@@ -1,11 +1,11 @@
 import React, { Suspense, lazy } from "react";
+import Unique from "./Unique";
 const Hero = lazy(() => import("./Hero"));
 const Community = lazy(() => import("./Community"));
 const FeatureCourses = lazy(() => import("./FeatureCourses"));
 const FaqHome = lazy(() => import("./FaqHome"));
 const Stats = lazy(() => import("./Stats"));
-const Contest=lazy(()=>import('./Contest'))
-import Unique from "./Unique";
+const Contest = lazy(() => import('./Contest'))
 
 export default function Main() {
   return (
@@ -14,9 +14,9 @@ export default function Main() {
     >
       <main className="w-full bg-shardeumWhite">
         <Hero />
-        {/* <Stats /> */}
+        <Stats />
         <FeatureCourses />
-        <Contest/>
+        <Contest />
         <Unique />
 
         <Community />

@@ -22,7 +22,7 @@ export default function ContestCard(props)
         if(props?.startDate)
         {
           const updateTimer = () => {
-            var status = checkTimeLeft(props?.startDate, props?.endDate);
+            const status = checkTimeLeft(props?.startDate, props?.endDate);
             setTimeLeft(status);
           };
           updateTimer();

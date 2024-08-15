@@ -1,5 +1,4 @@
 import React from "react";
-import check from "../../../assets/check1.png";
 
 const TickSvg = () => {
     return (

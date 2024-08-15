@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 import toast, { Toaster } from 'react-hot-toast';
 import { Box, Button } from "@mui/material";
 import { DataCard } from "../DataCard/DataCard";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 
 const ContestDetails = () => {
     const { contestId } = useParams()
@@ -15,47 +15,38 @@ const ContestDetails = () => {
             .then(res => setContest(res.data.data))
             .catch(er => toast.error(er))
         axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/contest/getSubmissionByContest`, { contestId })
-            .then(res => 
-                {
-                if(!res.data.length) return
+            .then(res => {
+                if (!res.data.length) return
                 setDataRows(
-                res.data.map((user,index) => {
-                return {
-                    id:index+1,
-                    ...user
-                }
-            }))
-        }
-        )
+                    res.data.map((user, index) => {
+                        return {
+                            id: index + 1,
+                            ...user
+                        }
+                    }))
+            }
+            )
             .catch(er => console.log(er))
     }, [])
-    // const rows = [
-    //     { id: 1, username: 'john_doe', email: 'john.doe@example.com', isVerified: true, walletAddress: '0xAbC1234567890DeF1234567890abcdef12345678', designation: 'Software Engineer', portfolio: 'https://johnsportfolio.com' },
-    //     { id: 2, username: 'jane_smith', email: 'jane.smith@example.com', isVerified: false, walletAddress: '0xBcD234567890EfG234567890abCdef1234567890', designation: 'Product Manager', portfolio: 'https://janesmith.com' },
-    //     { id: 3, username: 'alice_jones', email: 'alice.jones@example.com', isVerified: true, walletAddress: '0xCdE34567890fGh34567890aBcdef123456789012', designation: 'UX Designer', portfolio: 'https://alicejonesdesigns.com' },
-    //     { id: 4, username: 'bob_brown', email: 'bob.brown@example.com', isVerified: false, walletAddress: '0xDeF4567890gHi4567890abCdef12345678901234', designation: 'Data Scientist', portfolio: 'https://bobbrowndata.com' },
-    //     { id: 5, username: 'carol_white', email: 'carol.white@example.com', isVerified: true, walletAddress: '0xEfG567890hIj567890aBcdef1234567890123456', designation: 'Marketing Specialist', portfolio: 'https://carolwhite.com' }
-    // ];
 
-
-    const generateLeaderboard=()=>{
+    const generateLeaderboard = () => {
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/contest/leaderboard/generate?id=${contestId}`,)
-        .then(res=>{
-            if(res.data.error==false)
-                toast.success(res.data.message)
-            else
-                toast.error(res.data.message)
-        })
-        .catch(er=>toast.error(er.message))
+            .then(res => {
+                if (res.data.error === false)
+                    toast.success(res.data.message)
+                else
+                    toast.error(res.data.message)
+            })
+            .catch(er => toast.error(er.message))
     }
-    const softDelete=()=>{
-       axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/contest/softDelete?id=${contestId}`)
-       .then(res=>{
-            if(res.data.error==false)
-            toast.success(res.data.message);
-            else
-            toast.error(res.data.message);
-       }) 
+    const softDelete = () => {
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/contest/softDelete?id=${contestId}`)
+            .then(res => {
+                if (res.data.error == false)
+                    toast.success(res.data.message);
+                else
+                    toast.error(res.data.message);
+            })
     }
     const columns = [
         { field: 'rank', headerName: 'Rank', flex: 1 },
@@ -142,9 +133,9 @@ const ContestDetails = () => {
                 </Button>
             </div>
 
-            <Button variant="contained" style={{marginTop:"1rem"}} color="error" onClick={generateLeaderboard}>
-                    Generate leader board
-                </Button>
+            <Button variant="contained" style={{ marginTop: "1rem" }} color="error" onClick={generateLeaderboard}>
+                Generate leader board
+            </Button>
 
             <div
                 style={{

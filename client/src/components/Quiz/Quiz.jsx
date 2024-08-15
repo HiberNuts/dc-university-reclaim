@@ -194,7 +194,7 @@ const Quiz = ({
         : false
     );
     if (currentQuizCompleted == true) {
-      let finalAnswers = [];
+      const finalAnswers = [];
       moduleQuiz.forEach((m) => {
 
         finalAnswers.push(ABC_TO_INT_MAP[m.answer]);
@@ -205,7 +205,7 @@ const Quiz = ({
 
   useEffect(() => {
     if (currentQuizCompleted == true) {
-      let finalAnswers = [];
+      const finalAnswers = [];
       moduleQuiz.forEach((m) => {
 
         finalAnswers.push(ABC_TO_INT_MAP[m.answer]);

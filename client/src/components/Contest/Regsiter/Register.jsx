@@ -3,7 +3,6 @@ import GreenButton from "../../button/GreenButton";
 import toast, { Toaster } from "react-hot-toast";
 import Leaderboard from "../Leaderboard/Leaderboard";
 import { useParams, useNavigate } from "react-router-dom";
-import { CodeBlock, dracula } from 'react-code-blocks';
 import React, { useEffect, useState, useContext } from "react";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { formatTimestamp, checkTimeLeft } from "../../../utils/time";
@@ -47,16 +46,16 @@ export default function ContestRegsiter() {
   }, [loggedInUserData]);
 
   const handleRegister = async () => {
-    if (btn == "View Solution") {
+    if (btn === "View Solution") {
       navigate(`/contest/${generateSlug(contest?.title)}/solution`)
       return;
     }
     await registerContest(loggedInUserData?.accessToken, contestID).then((resp) => {
       try {
-        if (resp.error == false)
+        if (resp.error === false)
           navigate(`/editor/${title}/${resp.data.submissionId}`);
         else {
-          if (resp.message == "Unauthorized")
+          if (resp.message === "Unauthorized")
             toast.error("Please login to Register for the contest!");
           else
             toast.error(resp.message);
@@ -75,7 +74,7 @@ export default function ContestRegsiter() {
   useEffect(() => {
     if (contest != null) {
       const updateTimer = () => {
-        var status = checkTimeLeft(contest?.startDate, contest?.endDate);
+        const status = checkTimeLeft(contest?.startDate, contest?.endDate);
         setTimeLeft(status);
       };
       updateTimer();

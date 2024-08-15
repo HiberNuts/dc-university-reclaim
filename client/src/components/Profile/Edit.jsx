@@ -147,7 +147,7 @@ const EditProfile = () => {
       toast.error("Please enter valid email to continue!");
       return;
     }
-    var url;
+    let url;
     const notNullEntries = Object.entries(data).filter(entry => entry[1].trim() && loggedInUserData[entry[0]]!=entry[1].trim())
 
     if(!notNullEntries.length && !img && (!projects.length || JSON.stringify(projects)==JSON.stringify(loggedInUserData.projects))){

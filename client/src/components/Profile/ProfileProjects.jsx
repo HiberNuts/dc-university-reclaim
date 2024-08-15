@@ -1,9 +1,8 @@
-import { useContext } from "react"
+
 import ProfileProjectCard from "./ProfileProjectCard"
-import { ParentContext } from "../../contexts/ParentContext"
 
 const ProfileProjects = ({projects=[]}) => {
-    if(projects.length==0)
+    if(projects.length===0)
          return <></>
     return <div className="w-full">
         <div className="border-b-2 border-b-dimgray">

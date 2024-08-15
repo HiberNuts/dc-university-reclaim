@@ -84,13 +84,11 @@ const IDE = (props) => {
   };
   const handleSubmitAndTest = async (isCompile = true) => {
     try {
-      var response;
       setSubmitLoader(true);
       setTestCases(null);
       setIsDialogOpen(false);
       const isPreviewComponent = props?.preview || isCompile || false;
-      const isCourseProgram = props.course ? true : false
-      response = await test(input, props?.program?.test_file_content, props?.submissionID, walletAddress, props?.course, props?.course_id, props?.user_id, props?.program_id, props?.module_id, isPreviewComponent);
+      const response = await test(input, props?.program?.test_file_content, props?.submissionID, walletAddress, props?.course, props?.course_id, props?.user_id, props?.program_id, props?.module_id, isPreviewComponent);
       if (response?.error) {
         setCompileError(true);
         setOutput(response?.message);
@@ -101,7 +99,7 @@ const IDE = (props) => {
       setCompileError(false);
 
       //Update the user course progress in workplace
-      if (props.course == true) {
+      if (props.course === true) {
         props.handleCourseProgramUpdate(response.userCourseProgress)
       }
       //setting the test cases
@@ -182,7 +180,7 @@ const IDE = (props) => {
           <FaCode className="mr-3" />
           <p className={`text-overflow-ellipsis font-helvetica-neue ${props?.darkTheme ? 'text-[#CAFFEF]' : 'text-black'}`}>Code Editor</p>
         </div>
-        <img src={TRI_IMG} className="absolute z-20 right-5 top-2" />
+        <img alt="tri" src={TRI_IMG} className="absolute z-20 right-5 top-2" />
       </div>
       <Split
         className="flex flex-col h-[90%]"

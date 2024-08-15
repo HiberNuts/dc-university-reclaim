@@ -61,8 +61,12 @@ export const renderContent = (item) => {
     case 'list-item':
       return (
         <div className="flex items-start mb-1">
-          <span className="mr-2">{item.format === 'ordered' ? `${index + 1}.` : '•'}</span>
-          <div>{item.children.map((child, index) => renderContent(child))}</div>
+
+          <div>{item.children.map((child, index) => {
+            return (<div>
+              <span className="mr-2">{item.format === 'ordered' ? `${index + 1}.` : '•'}</span>
+              {renderContent(child)}</div>)
+          })}</div>
         </div>
       );
     case 'text':
@@ -112,7 +116,7 @@ export const renderContent = (item) => {
           {item.image.caption && <figcaption className="text-center text-sm mt-2">{item.image.caption}</figcaption>}
         </figure>
       );
-      
+
     default:
       return null;
   }

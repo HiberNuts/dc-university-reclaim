@@ -56,12 +56,7 @@ export default function AllContests() {
       }
     });
   }, [currentPage]);
-  const slides = [
-    <ContestCard key={0} />,
-    <ContestCard key={1} />,
-    <ContestCard key={2} />,
-    // Add more slide components as needed
-  ];
+
   const scrollRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: scrollRef,
@@ -89,69 +84,69 @@ export default function AllContests() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {pastContests.length > 0
               ? pastContests.map((single) => (
-                  <motion.div
-                    ref={scrollRef}
-                    style={{
-                      scale: scrollYProgress,
-                      opacity: scrollYProgress,
-                      boxShadow: "0px 4px 20px 0px rgba(195, 200, 255, 0.30)",
-                    }}
-                    className="flex flex-col card-container space-y-3 border-2  bg-white p-5 my-10 mx-5 shadow rounded-[20px] "
-                  >
-                    <div className="">
-                      <LazyLoadImage
-                        className="w-full h-[300px]  rounded-[16px]"
-                        src={single.image}
-                      />
-                    </div>
-                    <div>
-                      <p className="text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold font-bold">
-                        {single.title}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[16px] mt-2 text-black font-helvetica-neue-roman leading-[25px] opacity-[70%]">
-                        {single?.description?.slice(0, 100) +
-                          (single?.description?.length > 100 ? "..." : "")}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[14px] ">
-                        <span className="flex gap-x-1 pr-2">
-                          <div className="pt-[2px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold">
-                            <LazyLoadImage src={CALENDER} />
-                          </div>
-                          <div className="">
-                            {formatTimestamp(single.endDate)}
-                          </div>
-                        </span>
-                      </p>
-                    </div>
-                    <div className="pt-3 h-full flex items-end">
-                      <GreenButton
-                        text={"View Solution"}
-                        isHoveredReq={true}
-                        onClick={() =>
-                          navigate(
-                            `/contest/register/${generateSlug(single?.title)}`
-                          )
-                        }
-                      />
-                    </div>
-                  </motion.div>
-                ))
+                <motion.div
+                  ref={scrollRef}
+                  style={{
+                    scale: scrollYProgress,
+                    opacity: scrollYProgress,
+                    boxShadow: "0px 4px 20px 0px rgba(195, 200, 255, 0.30)",
+                  }}
+                  className="flex flex-col card-container space-y-3 border-2  bg-white p-5 my-10 mx-5 shadow rounded-[20px] "
+                >
+                  <div className="">
+                    <LazyLoadImage
+                      className="w-full h-[300px]  rounded-[16px]"
+                      src={single.image}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold font-bold">
+                      {single.title}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[16px] mt-2 text-black font-helvetica-neue-roman leading-[25px] opacity-[70%]">
+                      {single?.description?.slice(0, 100) +
+                        (single?.description?.length > 100 ? "..." : "")}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[14px] ">
+                      <span className="flex gap-x-1 pr-2">
+                        <div className="pt-[2px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold">
+                          <LazyLoadImage src={CALENDER} />
+                        </div>
+                        <div className="">
+                          {formatTimestamp(single.endDate)}
+                        </div>
+                      </span>
+                    </p>
+                  </div>
+                  <div className="pt-3 h-full flex items-end">
+                    <GreenButton
+                      text={"View Solution"}
+                      isHoveredReq={true}
+                      onClick={() =>
+                        navigate(
+                          `/contest/register/${generateSlug(single?.title)}`
+                        )
+                      }
+                    />
+                  </div>
+                </motion.div>
+              ))
               : Array.from({ length: 3 }).map((_, index) => (
-                  <PastContestCardLoader className="my-10" />
-                ))}
+                <PastContestCardLoader className="my-10" />
+              ))}
           </div>
         ) : (
           <div className="w-full flex items-center justify-center p-10">
             <LazyLoadImage
-                  style={{ width: "50px", height: "50px" }}
-                  alt=""
-                  src="https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/4238c25d47bc0b871b0b61ab6fcaeea6.png"
-                  width="280px"
-                />
+              style={{ width: "50px", height: "50px" }}
+              alt=""
+              src="https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/4238c25d47bc0b871b0b61ab6fcaeea6.png"
+              width="280px"
+            />
             <p className="font-bold text-[30px] ml-5">No contests</p>
           </div>
         )}

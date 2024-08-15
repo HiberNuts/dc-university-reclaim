@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./WorkPlace.scss";
 import { ParentContext } from "../../contexts/ParentContext.jsx";
-import { useNavigate } from "react-router-dom";
 import ScrollToTop from "../../ScrollToTop.jsx";
 import DisplayChapter from "./component/DisplayChapter.jsx";
 import axios from "axios";
@@ -12,7 +11,6 @@ import PreviewQuiz from "../PreviewQuiz/PreviewQuiz.jsx";
 
 export default function PreviewWorkplace() {
   const params = useParams();
-  const navigate = useNavigate();
   const { loggedInUserData } = useContext(ParentContext);
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -27,10 +25,12 @@ export default function PreviewWorkplace() {
   const [currentChapterStatus, setcurrentChapterStatus] = useState("none");
   const [currentModuleAllChapterStatus, setcurrentModuleAllChapterStatus] = useState("none");
   const [currentQuiz, setcurrentQuiz] = useState([]);
-  const [nftModalIsOpen, setnftModalIsOpen] = useState(false);
-  const [currentCourseProgress, setcurrentCourseProgress] = useState({});
 
   const isMobile = screenWidth < 768;
+
+  useEffect(() => {
+    setScreenWidth(window.innerWidth)
+  }, [])
 
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function PreviewWorkplace() {
     getCourseInfo();
   }, [params]);
 
-  
+
   const handleChapterClick = async (chapter) => {
     setCurrentChapter(chapter._id === currentChapter._id ? currentChapter : chapter);
   };
@@ -68,17 +68,6 @@ export default function PreviewWorkplace() {
   return (
     <div className="w-full  mt-[10vh] h-full flex justify-between align-middle">
       <ScrollToTop />
-      {/* <NftModal
-        toast={toast}
-        userCourseProgress={userCourseProgress}
-        courseId={courseContent?._id}
-        courseName={courseContent?.title}
-        userId={loggedInUserData?._id}
-        accessToken={loggedInUserData?.accessToken}
-        loggedInUserData={loggedInUserData}
-        isOpen={nftModalIsOpen}
-        setIsOpen={setnftModalIsOpen}
-      /> */}
       <div className="bg-shardeumBlue px-[15px] py-[48px] lg:w-[25%] md:w-[30%] sm:w-[30%] fixed h-[90vh] left-0 flex flex-col align-middle items-center scroll-m-0 overflow-y-auto">
         <div className="">
           <div>
@@ -123,12 +112,7 @@ export default function PreviewWorkplace() {
           </div>
 
           <button
-            disabled={currentCourseProgress?.overallCompletionPercentage === 100 ? false : true}
-            onClick={() => setnftModalIsOpen(true)}
-            className={`${currentCourseProgress?.overallCompletionPercentage === 100
-              ? "bg-shardeumWhite text-black  hover:scale-105"
-              : "text-white border-2 border-shardeumGreen"
-              }   rounded-[10px] font-semibold h-[50px] flex justify-center  px-[32px] py-[22px]  transition ease-in-out items-center  align-middle   text-[18px] w-full text-center mt-2`}
+
           >
             Claim your reward 🔥
           </button>

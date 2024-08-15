@@ -7,7 +7,7 @@ export default function Leaderboard({data})
     const [columns,setColumns]=useState([]);
     const [showAll,setShowAll]=useState(3);
     useEffect(()=>{
-        let cols = data.length > 0 ? Object.keys(data[0]) : [];
+        const cols = data.length > 0 ? Object.keys(data[0]) : [];
         setColumns(cols);
     },[data])
    return(

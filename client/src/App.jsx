@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ParentContext } from "./contexts/ParentContext";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 
 import Home from "./components/Home/Home";
 import Footer from "./components/Footer";
@@ -34,7 +34,7 @@ function App() {
   const { loggedInUserData } = useContext(ParentContext);
   useEffect(() => {
     if (loggedInUserData != null) {
-      if (loggedInUserData?.shardId == "") {
+      if (loggedInUserData?.shardId === "") {
         navigate("/profile/edit");
       }
     }

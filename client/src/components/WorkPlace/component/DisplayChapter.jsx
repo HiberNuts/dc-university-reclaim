@@ -21,11 +21,11 @@ const DisplayChapter = ({
   courseId,
   setcurrentQuiz,
   accessToken,
-  
+
 }) => {
   const handleNextChapterClick = async ({ chapter }) => {
-    let chapterIndex = currentModule?.chapter.findIndex((c) => c._id == chapter._id);
-    if (chapterIndex == currentModule?.chapter.length - 1) {
+    const chapterIndex = currentModule?.chapter.findIndex((c) => c._id === chapter._id);
+    if (chapterIndex === currentModule?.chapter.length - 1) {
       setisQuizSelected(true);
       setcurrentQuiz(currentModule?.quizzes);
       window.scrollTo(0, 0);
@@ -35,8 +35,8 @@ const DisplayChapter = ({
     }
   };
   const handlePrevChapterClick = async ({ chapter }) => {
-    let chapterIndex = currentModule?.chapter.findIndex((c) => c._id == chapter._id);
-    if (chapterIndex == 0) {
+    const chapterIndex = currentModule?.chapter.findIndex((c) => c._id === chapter._id);
+    if (chapterIndex === 0) {
       window.scrollTo(0, 0);
     } else {
       setCurrentChapter(currentModule?.chapter[chapterIndex - 1]);
@@ -120,18 +120,18 @@ const DisplayChapter = ({
             />
             <div className="flex w-full mt-10 justify-end">
               <button
-                disabled={currentChapterStatus == "full" ? true : false}
+                disabled={currentChapterStatus === "full" ? true : false}
                 onClick={() => handleCompleteChapter({ chapter })}
                 className={`bg-shardeumRed rounded-[10px] h-[48px] flex justify-center  px-[32px] py-[22px]  transition ease-in-out items-center font-semibold align-middle text-center text-white text-[16px] `}
               >
                 <span className="items-center text-center ">
-                  {currentChapterStatus == "full" ? "Completed" : "Mark as complete"}
+                  {currentChapterStatus === "full" ? "Completed" : "Mark as complete"}
                 </span>
               </button>
             </div>
 
             <div className="w-full mt-10 flex justify-between align-middle items-center">
-              {currentModule?.chapter.findIndex((c) => c._id == chapter._id) == 0 ? (
+              {currentModule?.chapter.findIndex((c) => c._id === chapter._id) === 0 ? (
                 <div></div>
               ) : (
                 <button
@@ -140,18 +140,18 @@ const DisplayChapter = ({
                   }}
                   className={`bg-shardeumRed h-[58px] w-[58px] flex justify-center align-middle  hover:bg-shardeumGreen rounded-[10px]  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
                 >
-                  <img className="rotate-180" src={LongArrow} />
+                  <img className="rotate-180" alt="long arrow" src={LongArrow} />
                 </button>
               )}
 
-              {currentChapterStatus == "full" && (
+              {currentChapterStatus === "full" && (
                 <button
                   onClick={() => {
                     handleNextChapterClick({ chapter });
                   }}
                   className={`bg-shardeumRed h-[58px] w-[58px] flex justify-center align-middle  hover:bg-shardeumGreen rounded-[10px]  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
                 >
-                  <img className={``} src={LongArrow} />
+                  <img alt="long arrow" src={LongArrow} />
                 </button>
               )}
             </div>
