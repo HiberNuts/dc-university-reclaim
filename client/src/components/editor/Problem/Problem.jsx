@@ -2,9 +2,6 @@ import React from "react"
 import { IoSunny } from "react-icons/io5";
 import { IoMoon } from "react-icons/io5";
 import { checkTimeLeft } from "../../../utils/time";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faHourglassStart, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';
-import { CodeBlock, dracula } from 'react-code-blocks';
 import { CiTimer } from "react-icons/ci";
 import { useState, useEffect } from "react";
 import { renderContent } from "../../../utils/mapRichText";
@@ -14,7 +11,7 @@ export default function Problem(props) {
   useEffect(() => {
     if (props?.contest != null) {
       const updateTimer = () => {
-        var status = checkTimeLeft(props?.contest?.startDate, props?.contest?.endDate);
+        const status = checkTimeLeft(props?.contest?.startDate, props?.contest?.endDate);
         setTimeLeft(status);
       };
       updateTimer();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import navLogoWhite from "../assets/navlogoWhite.svg";
 import discord from "../assets/discord.svg";
 import twitter from "../assets/twitter.svg";
@@ -13,20 +13,12 @@ import GreenButton from "./button/GreenButton";
 export default function Footer() {
   const location = useLocation();
   const [email, setemail] = useState("")
-  const [profileRoute, setprofileRoute] = useState(false);
-  const [loader, setloader] = useState(false)
 
-  useEffect(() => {
-    if (location.pathname == "/profile") {
-      setprofileRoute(true);
-    } else {
-      setprofileRoute(false);
-    }
-  }, [location]);
+
+
 
   const joinNewsLetter = async () => {
     try {
-      setloader(true)
       if (email.length > 2) {
         const data = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL
@@ -37,10 +29,8 @@ export default function Footer() {
         })
         setemail("")
       }
-      setloader(false)
 
     } catch (error) {
-      setloader(false)
       toast.success(error.response.data.message || "Something went wrong")
       setemail("")
     }

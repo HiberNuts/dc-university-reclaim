@@ -1,26 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import timeIcon from "../../../assets/timeIcon.svg";
 import profileIcon from "../../../assets/profileIcon.svg";
 import levelIcon from "../../../assets/levelIcon.svg";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { generateSlug } from "../../../utils/generateSlug";
-import { ParentContext } from "../../../contexts/ParentContext";
-import { courseProgressAPI, enrollCourseAPI } from "../../../utils/api/CourseAPI";
-import { useAccount } from "wagmi";
-import { toast, Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import GreenButton from "../../button/GreenButton";
 const PreviewCourseHeader = ({ props }) => {
-    const { loggedInUserData } = useContext(ParentContext);
     const navigate = useNavigate();
-    const { isConnected } = useAccount();
-    const [isCourseEnrolled, setisCourseEnrolled] = useState(false);
-
-
-
-    // useEffect(() => {
-    //   getuserProgress();
-    // }, [loggedInUserData, props, isCourseEnrolled]);
 
     return (
         <div className="flex flex-wrap w-full md:px-[100px]  py-[80px]  sm:px-[60px] px-[30px] justify-between gap-8 align-middle">

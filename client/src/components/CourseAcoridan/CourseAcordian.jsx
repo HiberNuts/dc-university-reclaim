@@ -10,8 +10,6 @@ const AccordionContext = React.createContext({});
 const useAccordion = () => React.useContext(AccordionContext);
 
 function Accordion({ children, multiple, defaultIndex }) {
-  const childrenArray = React.Children.toArray(children);
-  const allIndices = childrenArray.map((_, index) => index);
   const [activeIndex, setActiveIndex] = React.useState(multiple ? [defaultIndex] : 0);
 
   function onChangeIndex(index) {
@@ -272,6 +270,7 @@ const RenderProgram = ({
   setisQuizSelected,
   isProgramSelected,
   setIsProgramSelected,
+  setSidebarOpen
 }) => {
   const [programStatus, setprogramStatus] = useState("");
 
@@ -279,7 +278,7 @@ const RenderProgram = ({
 
   const checkModuleQuizStatus = async ({ module }) => {
     await userCourseProgress?.modules?.map((progressModule) => {
-      if (progressModule?._id == module?._id) {
+      if (progressModule?._id === module?._id) {
         setcurrentQuizStatus(progressModule?.quizStatus);
         setprogramStatus(progressModule?.programStatus);
       }
@@ -292,7 +291,7 @@ const RenderProgram = ({
   return (
     <div>
       <button
-        disabled={currentQuizStatus == "full" ? false : true}
+        disabled={currentQuizStatus === "full" ? false : true}
         onClick={() => {
           setisQuizSelected(false);
           setIsProgramSelected(true);
@@ -302,17 +301,17 @@ const RenderProgram = ({
         }}
       >
         <div className="flex items-center pt-2  mr-4">
-          {currentQuizStatus == "none" ? (
+          {currentQuizStatus === "none" ? (
             <div className="rounded-full items-center w-[30px] h-[30px]">
               <LockIcon />
             </div>
-          ) : programStatus == "full" ? (
+          ) : programStatus === "full" ? (
             <div className="rounded-full  w-[30px] h-[30px]">
               <TickIcon />
             </div>
           ) : (
             <div
-              className={`rounded-full ${isProgramSelected && module._id == currentModule._id
+              className={`rounded-full ${isProgramSelected && module._id === currentModule._id
                 ? "border-2 border-black bg-white"
                 : "border-2 border-black bg-white "
                 } bg-shardeumBlue  w-[30px] h-[30px]`}
@@ -321,7 +320,7 @@ const RenderProgram = ({
 
           <label
             htmlFor="red-checkbox"
-            className={`ml-2 text-[16px] items-start text-start ${isProgramSelected && module._id == currentModule._id ? "text-shardeumOrange font-bold" : "text-white"
+            className={`ml-2 text-[16px] items-start text-start ${isProgramSelected && module._id === currentModule._id ? "text-shardeumOrange font-bold" : "text-white"
               }    cursor-pointer`}
           >
             Program
@@ -344,6 +343,7 @@ const RenderQuiz = ({
   currentQuiz,
   setcurrentQuiz,
   setIsProgramSelected,
+  setSidebarOpen
 }) => {
   const [quizStatus, setquizStatus] = useState("");
   const [currentChaptersStatus, setcurrentChaptersStatus] = useState("none");

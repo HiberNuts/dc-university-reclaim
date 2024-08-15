@@ -4,19 +4,17 @@ import ProfileCourseCard from "./ProfileCourseCard";
 import GetStarted from "./GetStarted";
 
 const ProfileCourses = ({ loggedInUserData, userData }) => {
-  const [profileCoursesID, setprofileCoursesID] = useState([]);
   const [loading, setloading] = useState(false);
   const [profileCoursesData, setprofileCoursesData] = useState([]);
   const [nfts, setNfts] = useState([]);
 
   const getCourseById = async () => {
     setloading(true);
-    let list = [];
-    userData?.enrolledCourses?.map((course) => {
+    const list = [];
+    userData?.enrolledCourses?.forEach((course) => {
       list.push(course.courseId);
     });
-    setprofileCoursesID(list);
-    var results = await Promise.all(
+    let results = await Promise.all(
       list.map(async (item) => {
         const data = await getCoursebyIdAPI(item)
         return data;
@@ -24,7 +22,7 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
       })
     );
     results = results.filter((item) => item !== undefined);
-    let NFTS = results.map((single) => single.nftImage ?? '');
+    const NFTS = results.map((single) => single.nftImage ?? '');
     setNfts(NFTS);
     setprofileCoursesData(results);
     setloading(false);
@@ -38,7 +36,7 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
     <div>
       {
         loading ? <></>
-          : nfts.length == 0 ? <></> :
+          : nfts.length === 0 ? <></> :
             <div>
               <p className='my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-3'>NFTs earned</p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 my-10">

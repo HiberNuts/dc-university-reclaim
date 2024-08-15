@@ -1,5 +1,5 @@
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
-import { DataGrid, GridToolbar, useGridApiRef } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { DataCard } from './Components/DataCard/DataCard';
 import { Box, Button, IconButton, Switch } from '@mui/material';
 import axios from 'axios';
@@ -15,11 +15,8 @@ function CourseDetailsPage() {
   const { course } = state;
   const navigate = useNavigate();
 
-  const gridRef = useGridApiRef();
   const [userData, setuserData] = useState([])
-  const [userDetails, setUserDetails] = useState(userData);
   const [softDeleteStatus, setSoftDeleteStatus] = useState(course.softDelete);
-  const [isLoading, setIsLoading] = useState(false);
 
   const [csvLoading, setcsvLoading] = useState(false)
 
@@ -65,7 +62,7 @@ function CourseDetailsPage() {
   const hardDelete = async () => {
     try {
       const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/course/getCourse?id=${params.courseId}`)
-      if (response.status == 200) {
+      if (response.status === 200) {
         toast("course Deleted")
         navigate(-1)
       }
@@ -143,7 +140,7 @@ function CourseDetailsPage() {
     },
     {
       field: 'blockStatus',
-      headerName: 'Block/Unblock',  
+      headerName: 'Block/Unblock',
       flex: 0.15,
       renderCell: (params) => (
         <IconButton
@@ -197,7 +194,6 @@ function CourseDetailsPage() {
 
 
   const getUserData = async ({ page }) => {
-    setIsLoading(true);
 
     // Calculate the next set of user IDs to fetch
     const nextPageUserIds = course?.usersEnrolled.slice((page - 1) * pagination.limit, page * pagination.limit);
@@ -209,7 +205,6 @@ function CourseDetailsPage() {
       })
     );
     setuserData(newUsers);
-    setIsLoading(false);
 
   }
 
@@ -360,21 +355,21 @@ function CourseDetailsPage() {
         />
       </Box> */}
       <Box sx={{ height: 400, width: '100%' }}>
-            <DataGrid
-                rows={userData}
-                columns={columns}
-                initialState={{
-                    pagination: {
-                        paginationModel: {
-                            pageSize: 5,
-                        },
-                    },
-                }}
-                pageSizeOptions={[5]}
-                checkboxSelection
-                disableRowSelectionOnClick
-            />
-        </Box>
+        <DataGrid
+          rows={userData}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
+            },
+          }}
+          pageSizeOptions={[5]}
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
+      </Box>
       <div>
         <Button disabled={pagination.page === 1} onClick={handlePrevPage}>Previous Page</Button>
         <span>Page {pagination.page} of {pagination.totalPages}</span>

@@ -9,12 +9,9 @@ import 'react-resizable/css/styles.css';
 import { getContestProgram } from "../../../utils/api/ContestAPI";
 
 
-export default function editor() {
+export default function Editor() {
   const { id, title } = useParams();
   const { loggedInUserData } = useContext(ParentContext);
-
-  // const [code, setCode] = useState("");
-  // const [compiler, setCompiler] = useState(null);
   const [darkTheme, setDarkTheme] = useState(true);
   const [contest, setContest] = useState();
   const [program, setProgram] = useState();
@@ -25,16 +22,16 @@ export default function editor() {
 
     if (id != null)
       getContestProgram(loggedInUserData?.accessToken, id).then(async (resp) => {
-        if (resp.error == false) {
+        if (resp.error === false) {
           setProgram(resp.data.Program);
           setContest(resp.data.Contest);
           setLoader(false);
         }
-        if (resp.error == true) {
+        if (resp.error === true) {
           if (resp?.data?.code) {
             setProgram(resp.data.Program);
             setContest(resp.data.Contest);
-            let submittedData = {
+            const submittedData = {
               completed: true,
               submittedCode: resp.data.code,
               testResults: resp.data.testResults

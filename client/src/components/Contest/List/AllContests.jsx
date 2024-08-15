@@ -50,12 +50,6 @@ export default function AllContests() {
             }
         })
     }, [currentPage])
-    const slides = [
-        <ContestCard key={0} />,
-        <ContestCard key={1} />,
-        <ContestCard key={2} />
-        // Add more slide components as needed
-    ];
     const scrollRef = useRef(null);
     const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 2"] });
 

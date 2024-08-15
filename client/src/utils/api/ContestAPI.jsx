@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "react-hot-toast";
 import { getCurrentDate } from "../time";
 import { destructureSlug } from "../generateSlug";
 

@@ -6,7 +6,6 @@ import { ResizableBox } from 'react-resizable';
 import 'react-resizable/css/styles.css';
 import Problem from "../../editor/Problem/Problem";
 import IDE from "../../editor/IDE/IDE";
-import { mapRichTextNodesToSchema } from "../../../utils/mapRichText";
 import { ParentContext } from "../../../contexts/ParentContext";
 import { useNavigate } from "react-router-dom";
 
@@ -18,14 +17,14 @@ const EditorPreviewContest = () => {
   const [contest, setContest] = useState(null);
   const [program, setProgram] = useState(null);
   const [darkTheme, setDarkTheme] = useState(true);
-  let completion = {
+  const completion = {
     completed: false,
     // submittedCode:resp.data.code,
     // testResults:resp.data.testResults
   }
 
   const mapContestForProblemComponentFromStrapi = (contest) => {
-    let obj = {};
+    const obj = {};
     obj.title = contest.title;
     obj.startDate = contest?.startDate;
     obj.endDate = contest?.endDate;
