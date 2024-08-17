@@ -98,7 +98,7 @@ export default function ContestRegsiter() {
     <div className="bg-white pb-10">
       <Toaster />
       <div className="contest-header grid grid-cols-1 md:grid-cols-2 px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[50px] bg-[#CAFFEF]">
-        <div className='order-2 md:order-1 pr-2'>
+        <div className='order-2 md:order-1 pr-2 relative'>
           <p className='my-2 text-[64px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold'>{contest.title}</p>
           <p className='my-2 text-[18px] text-black font-helvetica-neue-roman leading-[31.5px] opacity-[70%] '>{contest.description}</p>
           <div className='grid grid-cols-1 space-y-[6px]'>
@@ -138,6 +138,10 @@ export default function ContestRegsiter() {
               />
             }
           </div>
+          <div className="hidden lg:block absolute z-10 bottom-[2rem] right-[-30%] border-2 p-3 rounded-lg">
+                  <div className="text-[16px] text-right leading-[18px]  text-overflow-ellipsis font-helvetica-neue-bold">Prize Money</div>
+                  <div className="text-[42px] text-right leading-[42px]  text-overflow-ellipsis font-helvetica-neue-bold text-shardeumRed">$ {contest.prize}</div>
+            </div>
         </div>
         <div className='order-1 md:order-2 flex justify-center md:justify-end items-center'>
           <LazyLoadImage
