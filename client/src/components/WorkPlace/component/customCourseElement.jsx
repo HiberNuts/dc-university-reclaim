@@ -1,4 +1,3 @@
-import React, { useEffect, useRef } from "react";
 import ReactPlayer from "react-player";
 
 export const CustomFigure = (props) => {
@@ -17,7 +16,7 @@ export const CustomFigure = (props) => {
 
   return (
     <div className="w-full flex justify-center align-middle items-center">
-      {props.class == "media" ? (
+      {props.class === "media" ? (
         <div className="w-full flex justify-center align-middle">
           <ReactPlayer
             width={"100%"}
@@ -30,8 +29,6 @@ export const CustomFigure = (props) => {
       ) : (
         <div className={`w-[${extractedNumber}%] items-center flex justify-center flex-col`}>{props?.children}</div>
       )}
-
-      {/* <div className={`w-[23.21%]`}>{props?.children}</div> */}
     </div>
   );
 };

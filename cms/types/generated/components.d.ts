@@ -1,5 +1,28 @@
 import type { Schema, Attribute } from '@strapi/strapi';
 
+export interface ContestMetaTestCases extends Schema.Component {
+  collectionName: 'components_contest_meta_test_cases';
+  info: {
+    displayName: 'test_cases';
+    description: '';
+  };
+  attributes: {
+    description: Attribute.Text;
+    code: Attribute.Text;
+  };
+}
+
+export interface ContestPrizePrize extends Schema.Component {
+  collectionName: 'components_contest_prize_prizes';
+  info: {
+    displayName: 'prize';
+  };
+  attributes: {
+    rank: Attribute.Integer;
+    prize: Attribute.String;
+  };
+}
+
 export interface CourseMetadataChapter extends Schema.Component {
   collectionName: 'components_course_metadata_chapters';
   info: {
@@ -40,6 +63,7 @@ export interface CourseMetadataModule extends Schema.Component {
     chapter: Attribute.Component<'course-metadata.chapter', true>;
     quizes: Attribute.Component<'course-metadata.quiz', true>;
     moduleTitle: Attribute.String;
+    program: Attribute.Component<'program.program'>;
   };
 }
 
@@ -71,14 +95,30 @@ export interface CourseMetadataWhatYouLlLearn extends Schema.Component {
   };
 }
 
+export interface ProgramProgram extends Schema.Component {
+  collectionName: 'components_program_programs';
+  info: {
+    displayName: 'program';
+  };
+  attributes: {
+    description: Attribute.Blocks;
+    boilerplate_code: Attribute.Text;
+    solution: Attribute.Text;
+    test_file_content: Attribute.Text;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
+      'contest-meta.test-cases': ContestMetaTestCases;
+      'contest-prize.prize': ContestPrizePrize;
       'course-metadata.chapter': CourseMetadataChapter;
       'course-metadata.faq': CourseMetadataFaq;
       'course-metadata.module': CourseMetadataModule;
       'course-metadata.quiz': CourseMetadataQuiz;
       'course-metadata.what-you-ll-learn': CourseMetadataWhatYouLlLearn;
+      'program.program': ProgramProgram;
     }
   }
 }

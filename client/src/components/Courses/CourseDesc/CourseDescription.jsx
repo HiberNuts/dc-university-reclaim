@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import CourseHeader from "./CourseHeader";
 import CourseAbout from "./CourseAbout";
 import CourseSkills from "./CourseSkills";
@@ -7,13 +7,11 @@ import CourseLearn from "./CourseLearn";
 import CourseFAQ from "./CourseFAQ";
 import CourseCertificate from "./CourseCertificate";
 import { useParams } from "react-router-dom";
-import { ParentContext } from "../../../contexts/ParentContext";
 import { getCoursebyName } from "../../../utils/api/CourseAPI";
 
 const CourseDescription = () => {
   const params = useParams();
   const [courseData, setcourseData] = useState({});
-  const { getCourseByName } = useContext(ParentContext);
 
   const getCourseInfo = async () => {
     const data = await getCoursebyName(params?.id);

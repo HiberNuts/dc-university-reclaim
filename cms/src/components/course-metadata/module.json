@@ -20,6 +20,12 @@
     },
     "moduleTitle": {
       "type": "string"
+    },
+    "program": {
+      "displayName": "program",
+      "type": "component",
+      "repeatable": false,
+      "component": "program.program"
     }
   }
 }

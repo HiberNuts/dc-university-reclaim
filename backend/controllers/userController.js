@@ -8,7 +8,14 @@ const Token = db.userToken;
 const _ = require("lodash");
 const brevo = require("@getbrevo/brevo");
 const { MintPOLNft } = require("../dNFT/link");
-
+const AWS = require("aws-sdk");
+const { updateExistingEnrollment, createNewEnrollment, calculateOverallPercentage, calculateCompletionPercentages } = require("./helper.courseController");
+const spacesEndpoint = new AWS.Endpoint(process.env.DO_SPACE_ENDPOINT);
+const s3 = new AWS.S3({
+  endpoint: spacesEndpoint,
+  accessKeyId: process.env.DO_SPACE_ACCESS_KEY,
+  secretAccessKey: process.env.DO_SPACE_SECRET_KEY,
+});
 let defaultClient = brevo.ApiClient.instance;
 
 let apiKey = defaultClient.authentications["api-key"];
@@ -50,6 +57,16 @@ exports.getAllUser = async (req, res) => {
   res.json({ user, totalPages, currentPage: page, hasNextPage: endIndex < totalUsers })
 };
 
+exports.getUserData = async (req, res) => {
+  try {
+    const userData = await User.findOne({ shardId: req.params.shardId });
+    res.status(200).send({ error: false, data: userData });
+  } catch (error) {
+    res.status(500).send({ error: true, message: error.message });
+  }
+
+}
+
 exports.joinNewsLetter = (req, res) => {
   try {
     const email = req.query.email;
@@ -57,7 +74,6 @@ exports.joinNewsLetter = (req, res) => {
     createContact.listIds = [183];
 
     apiContactsInstance.createContact(createContact).then(function (data) {
-      console.log('API called successfully. user added to news Letter ' + JSON.stringify(data));
       res.status(200).send({ message: "Your email has been successfully added to our newsletter subscription list – welcome to the Shardeum community!" })
     }, function (error) {
       if (JSON.parse(error?.response?.text).code === "duplicate_parameter") {
@@ -80,168 +96,35 @@ exports.courseEnrolled = async (req, res) => {
       return res.status(404).send({ message: "User not found" });
     }
 
-    // Check if the course is already enrolled by the user
-    const enrolledCourseIndex = user.enrolledCourses.findIndex((course) => String(course.courseId) === courseId);
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).send({ message: "Course not found" });
+    }
+
+    const enrolledCourseIndex = user.enrolledCourses.findIndex(
+      (course) => String(course.courseId) === courseId
+    );
+
     if (enrolledCourseIndex !== -1) {
-      const existingCourseProgress = user.enrolledCourses[enrolledCourseIndex];
-
-      // retrieve new course data
-      let newCourse = await Course.findOne({ _id: courseId });
-      existingCourseProgress.modules.forEach((existingModule) => {
-        const newModule = newCourse.module.find(
-          (module) => String(module.strapiId) === String(existingModule.strapiId)
-        );
-        if (newModule) {
-          existingModule.chapters.forEach((existingChapter) => {
-            const newChapter = newModule.chapter.find(
-              (chapter) => String(chapter.strapiId) === String(existingChapter.strapiId)
-            );
-
-            if (!newChapter) {
-              // Remove the chapter from existingModule if it's not found in the newModule
-              console.log(newChapter);
-              existingModule.chapters = existingModule.chapters.filter(
-                (chapter) => String(chapter.strapiId) !== String(existingChapter.strapiId)
-              );
-            }
-          });
-
-          newModule.chapter.forEach((existingChapter) => {
-            const isNewChapter = !existingModule.chapters.some(
-              (chapter) => String(chapter.strapiId) === String(existingChapter.strapiId)
-            );
-            // console.log(`Chapter ${existingChapter._id} is new: ${isNewChapter}`);
-
-            if (isNewChapter) {
-              // Handle addition of new chapter
-              // ...
-              // console.log(isNewChapter)
-              existingModule.chapters.push({
-                _id: existingChapter._id,
-                strapiId: existingChapter.strapiId,
-                status: "none",
-              });
-            }
-          });
-
-          // console.log((existingModule.quizzes).length, newModule.quizzes.length);
-
-          // Compare quizzes within modules
-          existingModule.quizzes.forEach((existingQuiz) => {
-            const newQuiz = newModule.quizzes.find((quiz) => String(quiz.strapiId) === String(existingQuiz.strapiId));
-            if (newQuiz) {
-              // Compare quiz properties and update them if changed
-              // For example:
-              // existingQuiz.status = newQuiz.status;
-              existingQuiz.answer = newQuiz.answer;
-              // ...
-            } else {
-              // Remove the quiz from existingModule if it's not found in the newModule
-              existingModule.quizzes = existingModule.quizzes.filter(
-                (quiz) => String(quiz.strapiId) !== String(existingQuiz.strapiId)
-              );
-            }
-          });
-
-          newModule.quizzes.forEach((existingQuiz) => {
-            const isNewQuiz = !existingModule.quizzes.some(
-              (quiz) => String(quiz.strapiId) === String(existingQuiz.strapiId)
-            );
-
-
-            if (isNewQuiz) {
-
-              existingModule.quizzes.push({
-                _id: existingQuiz._id,
-                strapiId: existingQuiz.strapiId,
-                status: "none",
-              });
-            }
-          });
-        } else {
-
-          existingCourseProgress.modules = existingCourseProgress.modules.filter(
-            (module) => String(module.strapiId) !== String(existingModule.strapiId)
-          );
-        }
-      });
-
-      newCourse.module.forEach((newModule) => {
-        const isModuleAlreadyExists = existingCourseProgress.modules.some(
-          (existingModule) => String(existingModule.strapiId) === String(newModule.strapiId)
-        );
-        if (!isModuleAlreadyExists) {
-
-          let res = {};
-          res._id = newModule._id;
-          res.strapiId = newModule.strapiId;
-          res.chapters = newModule.chapter.map((chapter) => {
-            return { _id: chapter._id, strapiId: chapter.strapiId };
-          });
-          res.quizzes = newModule.quizzes.map((quiz) => {
-            return {
-              _id: quiz._id,
-              answer: quiz.answer,
-              strapiId: quiz.strapiId,
-            };
-          });
-
-          existingCourseProgress.modules.push(res);
-        }
-      });
-
-      if (!newCourse.usersEnrolled.some((userId) => userId.equals(user._id))) {
-        newCourse.usersEnrolled.push(user._id);
-
-        await newCourse.save();
-      } else {
-        console.log("User already added in the course's usersEnrolled array");
-      }
-
+      await updateExistingEnrollment(user, course, enrolledCourseIndex);
       return res.status(200).send({
-        message: "User is already enrolled in this course but updated user-progress if there was change in Course",
+        message: "User enrollment updated successfully",
       });
-    }
-
-    let course = await Course.findOne({ _id: courseId });
-
-    if (!course.usersEnrolled.some((userId) => userId.equals(user._id))) {
-      course.usersEnrolled.push(user._id);
-      await course.save();
-      console.log("User added to the course's usersEnrolled array");
     } else {
-      console.log("User already added in the course's usersEnrolled array");
+      await createNewEnrollment(user, course);
+      return res.status(200).send({
+        message: "User enrolled in the course successfully",
+        courseId: courseId,
+      });
     }
-
-    let userEnrolledCourse = {};
-    userEnrolledCourse.courseId = courseId;
-
-    userEnrolledCourse.modules = course.module.map((module) => {
-      let res = {};
-      res._id = module._id;
-      res.strapiId = module.strapiId;
-
-      res.chapters = module.chapter.map((chapter) => {
-        return { _id: chapter._id, strapiId: chapter.strapiId };
-      });
-      res.quizzes = module.quizzes.map((quiz) => {
-        return { _id: quiz._id, answer: quiz.answer, strapiId: quiz.strapiId };
-      });
-      return res;
-    });
-
-    user.enrolledCourses.push(userEnrolledCourse);
-    await user.save();
-
-    res.status(200).send({
-      message: "User enrolled in the course successfully",
-      courseId: courseId,
-    });
   } catch (error) {
-    console.error("Error while login", error);
+    console.error("Error in course enrollment:", error);
     res.status(500).send({ message: error.message || "Internal Server Error" });
   }
 };
+
+
+
 
 exports.userProgress = async (req, res) => {
   try {
@@ -279,6 +162,11 @@ exports.updateCourseProgress = async (req, res) => {
 
     if (enrolledCourseIndex !== -1) {
       user.enrolledCourses[enrolledCourseIndex] = updatedEnrolledCourse;
+      const { overallCompletionPercentage } = await this.checkifUserCompletedCourse(updatedEnrolledCourse)
+      if (overallCompletionPercentage >= 99 && user.enrolledCourses[enrolledCourseIndex].courseCompleted == false) {
+        user.enrolledCourses[enrolledCourseIndex].courseCompleted = true
+      }
+    
       await user.save();
       res.status(200).send({
         message: "Course progress updated successfully",
@@ -298,133 +186,76 @@ exports.userCourseProgressPercentage = async (req, res) => {
     const userId = req.userId;
     const courseId = req.body.courseId;
 
-    let user = await User.findOne({ _id: userId });
+    const user = await User.findOne({ _id: userId });
+    const enrolledCourse = user.enrolledCourses.find((course) => String(course.courseId) === courseId);
 
-    const enrolledCourseIndex = user.enrolledCourses.findIndex((course) => String(course.courseId) === courseId);
-
-    // console.log("Provided courseId:", courseId);
-    // console.log("Stored courseId:", String(user.enrolledCourses[0].courseId));
-
-    if (enrolledCourseIndex !== -1) {
-      const courseProgress = user.enrolledCourses[enrolledCourseIndex].modules;
-
-      let totalModules = courseProgress.length;
-      let completedModules = 0;
-
-      let totalQuizzes = 0;
-      let completedQuizzes = 0;
-
-      let totalChapters = 0;
-      let completedChapters = 0;
-
-      courseProgress.forEach((module) => {
-        if (module.status === "full") {
-          completedModules++;
-
-          totalChapters += module.chapters.length;
-          completedChapters += module.chapters.filter((chapter) => chapter.status === "full").length;
-
-          totalQuizzes += module.quizzes.length;
-          completedQuizzes += module.quizzes.filter((quiz) => quiz.status === "full").length;
-        } else {
-          totalChapters += module.chapters.length;
-          completedChapters += module.chapters.filter((chapter) => chapter.status === "full").length;
-
-          totalQuizzes += module.quizzes.length;
-          completedQuizzes += module.quizzes.filter((quiz) => quiz.status === "full").length;
-        }
-      });
-      // console.log(completedModules, completedChapters, completedQuizzes, "completed");
-      // console.log(totalModules, totalChapters, totalQuizzes, "total");
-
-      // Calculate percentages
-      const moduleCompletionPercentage = (completedModules / totalModules) * 100 || 0;
-      const chapterCompletionPercentage = (completedChapters / totalChapters) * 100 || 0;
-      const quizCompletionPercentage = (completedQuizzes / totalQuizzes) * 100 || 0;
-
-      // Calculate overall course completion percentage
-      const overallCompletionPercentage =
-        (moduleCompletionPercentage + chapterCompletionPercentage + quizCompletionPercentage) / 3;
-
-      res.status(200).send({
-        message: "Course progress percentages calculated successfully",
-        moduleCompletionPercentage,
-        chapterCompletionPercentage,
-        quizCompletionPercentage,
-        overallCompletionPercentage,
-      });
-    } else {
-      res.status(404).send({ message: "Enrolled course not found" });
+    if (!enrolledCourse) {
+      return res.status(404).send({ message: "Enrolled course not found" });
     }
+
+    const courseProgress = enrolledCourse.modules;
+    const {
+      moduleCompletionPercentage,
+      chapterCompletionPercentage,
+      quizCompletionPercentage,
+      programCompletionPercentage
+    } = calculateCompletionPercentages(courseProgress);
+
+    const overallCompletionPercentage = calculateOverallPercentage([
+      moduleCompletionPercentage,
+      chapterCompletionPercentage,
+      quizCompletionPercentage,
+      programCompletionPercentage
+    ]);
+
+    res.status(200).send({
+      message: "Course progress percentages calculated successfully",
+      moduleCompletionPercentage,
+      chapterCompletionPercentage,
+      quizCompletionPercentage,
+      programCompletionPercentage,
+      overallCompletionPercentage,
+    });
   } catch (error) {
     console.error("Error while fetching user course progress", error);
     res.status(500).send({ message: error.message || "Internal Server Error" });
   }
 };
 
-const checkifUserCompletedCourse = async (params) => {
+
+const checkifUserCompletedCourse = async (updatedEnrolledCourse) => {
   try {
-    const userId = params.userId;
-    const courseId = params.courseId;
+    // const { userId, courseId } = params;
 
-    let user = await User.findOne({ _id: userId });
+    // const user = await User.findOne({ _id: userId });
+    // if (!user) {
+    //   return { message: "User not found" };
+    // }
 
-    const enrolledCourseIndex = user.enrolledCourses.findIndex((course) => String(course.courseId) === courseId);
+    // const enrolledCourse = user.enrolledCourses.find((course) => String(course.courseId) === courseId);
+    // if (!enrolledCourse) {
+    //   return { message: "Enrolled course not found" };
+    // }
 
-    if (enrolledCourseIndex !== -1) {
-      const courseProgress = user.enrolledCourses[enrolledCourseIndex].modules;
+    const courseProgress = updatedEnrolledCourse.modules;
+    const {
+      moduleCompletionPercentage,
+      chapterCompletionPercentage,
+      quizCompletionPercentage,
+      programCompletionPercentage,
+      overallCompletionPercentage
+    } = calculateCompletionPercentages(courseProgress);
 
-      let totalModules = courseProgress.length;
-      let completedModules = 0;
-
-      let totalQuizzes = 0;
-      let completedQuizzes = 0;
-
-      let totalChapters = 0;
-      let completedChapters = 0;
-
-      courseProgress.forEach((module) => {
-        if (module.status === "full") {
-          completedModules++;
-
-          totalChapters += module.chapters.length;
-          completedChapters += module.chapters.filter((chapter) => chapter.status === "full").length;
-
-          totalQuizzes += module.quizzes.length;
-          completedQuizzes += module.quizzes.filter((quiz) => quiz.status === "full").length;
-        } else {
-          totalChapters += module.chapters.length;
-          completedChapters += module.chapters.filter((chapter) => chapter.status === "full").length;
-
-          totalQuizzes += module.quizzes.length;
-          completedQuizzes += module.quizzes.filter((quiz) => quiz.status === "full").length;
-        }
-      });
-      // console.log(completedModules, completedChapters, completedQuizzes, "completed");
-      // console.log(totalModules, totalChapters, totalQuizzes, "total");
-
-      // Calculate percentages
-      const moduleCompletionPercentage = (completedModules / totalModules) * 100 || 0;
-      const chapterCompletionPercentage = (completedChapters / totalChapters) * 100 || 0;
-      const quizCompletionPercentage = (completedQuizzes / totalQuizzes) * 100 || 0;
-
-      // Calculate overall course completion percentage
-      const overallCompletionPercentage =
-        (moduleCompletionPercentage + chapterCompletionPercentage + quizCompletionPercentage) / 3;
-
-      return {
-        message: "Course progress percentages calculated successfully",
-        moduleCompletionPercentage,
-        chapterCompletionPercentage,
-        quizCompletionPercentage,
-        overallCompletionPercentage,
-        user,
-      };
-    } else {
-      return { message: "Enrolled course not found" };
-    }
+    return {
+      message: "Course progress percentages calculated successfully",
+      moduleCompletionPercentage,
+      chapterCompletionPercentage,
+      quizCompletionPercentage,
+      programCompletionPercentage,
+      overallCompletionPercentage,
+    };
   } catch (error) {
-    console.error(error);
+    console.error("Error in checkifUserCompletedCourse:", error);
     return { message: error.message || "Internal Server Error" };
   }
 };
@@ -471,7 +302,6 @@ exports.mintNft = async (req, res) => {
 
           await apiInstance.sendTransacEmail(sendSmtpEmail).then(
             function (data) {
-              console.log("API called successfully. Returned data: " + JSON.stringify(data));
               console.log("successfully sent email");
             },
             function (error) {
@@ -493,3 +323,244 @@ exports.mintNft = async (req, res) => {
     // res.status(400).send({ message: "Error while minting NFT", minted: false });
   }
 };
+
+exports.deleteImage = (req, res) => {
+  const params = {
+    Bucket: process.env.DO_SPACE_BUCKET,
+    Key: req.body.key
+  };
+
+  s3.deleteObject(params, function (err, data) {
+    if (err) {
+      res.send(err)
+    } else {
+      res.send(data);
+    }
+  })
+}
+
+exports.checkifUserCompletedCourse = checkifUserCompletedCourse;
+
+
+
+
+
+// exports.oldcourseEnrolled = async (req, res) => {
+  
+//   const { courseId } = req.body;
+
+//   try {
+//     const user = await User.findById(req.userId);
+//     if (!user) {
+//       return res.status(404).send({ message: "User not found" });
+//     }
+//     const enrolledCourseIndex = user.enrolledCourses.findIndex((course) => String(course.courseId) === courseId);
+//     if (enrolledCourseIndex !== -1) {
+//       const existingCourseProgress = user.enrolledCourses[enrolledCourseIndex];
+
+//       let newCourse = await Course.findOne({ _id: courseId });
+//       existingCourseProgress.modules.forEach((existingModule) => {
+//         const newModule = newCourse.module.find(
+//           (module) => String(module.strapiId) === String(existingModule.strapiId)
+//         );
+//         if (newModule) {
+//           existingModule.chapters.forEach((existingChapter) => {
+//             const newChapter = newModule.chapter.find(
+//               (chapter) => String(chapter.strapiId) === String(existingChapter.strapiId)
+//             );
+
+//             if (!newChapter) {
+//               console.log(newChapter);
+//               existingModule.chapters = existingModule.chapters.filter(
+//                 (chapter) => String(chapter.strapiId) !== String(existingChapter.strapiId)
+//               );
+//             }
+//           });
+
+//           newModule.chapter.forEach((existingChapter) => {
+//             const isNewChapter = !existingModule.chapters.some(
+//               (chapter) => String(chapter.strapiId) === String(existingChapter.strapiId)
+//             );
+
+//             if (isNewChapter) {
+//               existingModule.chapters.push({
+//                 _id: existingChapter._id,
+//                 strapiId: existingChapter.strapiId,
+//                 status: "none",
+//               });
+//             }
+//           });
+
+//           existingModule.quizzes.forEach((existingQuiz) => {
+//             const newQuiz = newModule.quizzes.find((quiz) => String(quiz.strapiId) === String(existingQuiz.strapiId));
+//             if (newQuiz) {
+
+//               existingQuiz.answer = newQuiz.answer;
+
+//             } else {
+//               existingModule.quizzes = existingModule.quizzes.filter(
+//                 (quiz) => String(quiz.strapiId) !== String(existingQuiz.strapiId)
+//               );
+//             }
+//           });
+
+//           newModule.quizzes.forEach((existingQuiz) => {
+//             const isNewQuiz = !existingModule.quizzes.some(
+//               (quiz) => String(quiz.strapiId) === String(existingQuiz.strapiId)
+//             );
+
+
+//             if (isNewQuiz) {
+
+//               existingModule.quizzes.push({
+//                 _id: existingQuiz._id,
+//                 strapiId: existingQuiz.strapiId,
+//                 status: "none",
+//               });
+//             }
+//           });
+//         } else {
+
+//           existingCourseProgress.modules = existingCourseProgress.modules.filter(
+//             (module) => String(module.strapiId) !== String(existingModule.strapiId)
+//           );
+//         }
+//       });
+
+//       newCourse.module.forEach((newModule) => {
+//         const isModuleAlreadyExists = existingCourseProgress.modules.some(
+//           (existingModule) => String(existingModule.strapiId) === String(newModule.strapiId)
+//         );
+//         if (!isModuleAlreadyExists) {
+
+//           let res = {};
+//           res._id = newModule._id;
+//           res.strapiId = newModule.strapiId;
+//           res.chapters = newModule.chapter.map((chapter) => {
+//             return { _id: chapter._id, strapiId: chapter.strapiId };
+//           });
+//           res.quizzes = newModule.quizzes.map((quiz) => {
+//             return {
+//               _id: quiz._id,
+//               answer: quiz.answer,
+//               strapiId: quiz.strapiId,
+//             };
+//           });
+
+//           existingCourseProgress.modules.push(res);
+//         }
+//       });
+
+//       if (!newCourse.usersEnrolled.some((userId) => userId.equals(user._id))) {
+//         newCourse.usersEnrolled.push(user._id);
+
+//         await newCourse.save();
+//       } else {
+//         console.log("User already added in the course's usersEnrolled array");
+//       }
+
+//       return res.status(200).send({
+//         message: "User is already enrolled in this course but updated user-progress if there was change in Course",
+//       });
+//     }
+
+//     let course = await Course.findOne({ _id: courseId });
+
+//     if (!course.usersEnrolled.some((userId) => userId.equals(user._id))) {
+//       course.usersEnrolled.push(user._id);
+//       await course.save();
+//       console.log("User added to the course's usersEnrolled array");
+//     } else {
+//       console.log("User already added in the course's usersEnrolled array");
+//     }
+
+//     let userEnrolledCourse = {};
+//     userEnrolledCourse.courseId = courseId;
+
+//     userEnrolledCourse.modules = course.module.map((module) => {
+//       let res = {};
+//       res._id = module._id;
+//       res.strapiId = module.strapiId;
+
+//       res.chapters = module.chapter.map((chapter) => {
+//         return { _id: chapter._id, strapiId: chapter.strapiId };
+//       });
+//       res.quizzes = module.quizzes.map((quiz) => {
+//         return { _id: quiz._id, answer: quiz.answer, strapiId: quiz.strapiId };
+//       });
+//       return res;
+//     });
+
+//     user.enrolledCourses.push(userEnrolledCourse);
+//     await user.save();
+
+//     res.status(200).send({
+//       message: "User enrolled in the course successfully",
+//       courseId: courseId,
+//     });
+//   } catch (error) {
+//     console.error("Error while login", error);
+//     res.status(500).send({ message: error.message || "Internal Server Error" });
+//   }
+// };
+
+
+// exports.olduserCourseProgressPercentage = async (req, res) => {
+//   try {
+//     const userId = req.userId;
+//     const courseId = req.body.courseId;
+
+//     let user = await User.findOne({ _id: userId });
+
+//     const enrolledCourseIndex = user.enrolledCourses.findIndex((course) => String(course.courseId) === courseId);
+//     if (enrolledCourseIndex !== -1) {
+//       const courseProgress = user.enrolledCourses[enrolledCourseIndex].modules;
+
+//       let totalModules = courseProgress.length;
+//       let completedModules = 0;
+
+//       let totalQuizzes = 0;
+//       let completedQuizzes = 0;
+
+//       let totalChapters = 0;
+//       let completedChapters = 0;
+
+//       courseProgress.forEach((module) => {
+//         if (module.status === "full") {
+//           completedModules++;
+
+//           totalChapters += module.chapters.length;
+//           completedChapters += module.chapters.filter((chapter) => chapter.status === "full").length;
+
+//           totalQuizzes += module.quizzes.length;
+//           completedQuizzes += module.quizzes.filter((quiz) => quiz.status === "full").length;
+//         } else {
+//           totalChapters += module.chapters.length;
+//           completedChapters += module.chapters.filter((chapter) => chapter.status === "full").length;
+
+//           totalQuizzes += module.quizzes.length;
+//           completedQuizzes += module.quizzes.filter((quiz) => quiz.status === "full").length;
+//         }
+//       });
+
+//       const moduleCompletionPercentage = (completedModules / totalModules) * 100 || 0;
+//       const chapterCompletionPercentage = (completedChapters / totalChapters) * 100 || 0;
+//       const quizCompletionPercentage = (completedQuizzes / totalQuizzes) * 100 || 0;
+//       const overallCompletionPercentage =
+//         (moduleCompletionPercentage + chapterCompletionPercentage + quizCompletionPercentage) / 3;
+
+//       res.status(200).send({
+//         message: "Course progress percentages calculated successfully",
+//         moduleCompletionPercentage,
+//         chapterCompletionPercentage,
+//         quizCompletionPercentage,
+//         overallCompletionPercentage,
+//       });
+//     } else {
+//       res.status(404).send({ message: "Enrolled course not found" });
+//     }
+//   } catch (error) {
+//     console.error("Error while fetching user course progress", error);
+//     res.status(500).send({ message: error.message || "Internal Server Error" });
+//   }
+// };

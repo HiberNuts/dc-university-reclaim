@@ -10,6 +10,15 @@ const quizSchema = new mongoose.Schema({
   strapiId: Number,
 });
 
+const programSchema = new mongoose.Schema({
+  strapiId: { type: Number },
+  duration: { type: String },
+  boilerplate_code: { type: String },
+  description: { type: Array },
+  test_file_content: { type: String },
+  solution: { type: String },
+})
+
 const chapterSchema = new mongoose.Schema({
   title: String,
   content: String,
@@ -20,6 +29,7 @@ const moduleSchema = new mongoose.Schema({
   moduleTitle: String,
   chapter: [chapterSchema],
   quizzes: [quizSchema],
+  program: programSchema,
   strapiId: Number,
 });
 

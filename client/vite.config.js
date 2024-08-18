@@ -11,7 +11,7 @@ export default defineConfig(({ command, mode }) => {
       __APP_ENV__: JSON.stringify(env.APP_ENV)
     },
     build: {
-      sourcemap: "hidden"
+      sourcemap: false
     }
   }
 })

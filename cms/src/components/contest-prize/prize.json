@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_contest_prize_prizes",
+  "info": {
+    "displayName": "prize"
+  },
+  "options": {},
+  "attributes": {
+    "rank": {
+      "type": "integer"
+    },
+    "prize": {
+      "type": "string"
+    }
+  }
+}

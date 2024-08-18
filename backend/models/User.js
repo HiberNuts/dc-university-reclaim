@@ -30,6 +30,35 @@ const quizSchema = new mongoose.Schema({
   strapiId: Number,
 });
 
+const testResultSchema = new mongoose.Schema({
+  passed: { type: Boolean },
+  description: { type: String },
+  error: { type: String }
+})
+
+const programSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Chapter",
+  },
+  status: {
+    type: String,
+    enum: ["none", "partial", "full"],
+    default: "none",
+  },
+  strapiId: Number,
+  code: { type: String },
+  rank: { type: Number, default: -1 },
+  amountEarned: { type: String },
+  xp: { type: Number },
+  walletAddress: { type: String },
+  passedCases: { type: Number },
+  totalCases: { type: Number },
+  testResults: { type: [testResultSchema] },
+  submittedTime: { type: Date },
+  submittedCode: { type: String },
+})
+
 const moduleSchema = new mongoose.Schema({
   _id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -50,9 +79,14 @@ const moduleSchema = new mongoose.Schema({
     enum: ["none", "partial", "full"],
     default: "none",
   },
-
+  programStatus: {
+    type: String,
+    enum: ["none", "partial", "full"],
+    default: "none",
+  },
   chapters: [chapterSchema],
   quizzes: [quizSchema],
+  program: programSchema,
   strapiId: Number,
 });
 
@@ -60,6 +94,10 @@ const enrolledCourseSchema = new mongoose.Schema({
   courseId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course",
+  },
+  courseCompleted: {
+    type: Boolean,
+    default: false,
   },
   nftStatus: {
     type: Boolean,
@@ -108,6 +146,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: "https://sample.com/link",
     },
+    shardId: {
+      type: String,
+      default: ''
+    },
     designation: {
       type: String,
       required: true,
@@ -119,6 +161,37 @@ const userSchema = new mongoose.Schema(
         ref: "Role",
       },
     ],
+    image: {
+      type: String
+    },
+    description: {
+      type: String
+    },
+    occupation: {
+      type: String,
+
+    },
+    experience: {
+      type: String,
+    },
+    twitter: {
+      type: String
+    },
+    linkedIn: {
+      type: String
+    },
+    youtube: {
+      type: String
+    },
+    github: {
+      type: String
+    },
+    discord: {
+      type: String
+    },
+    projects: {
+      type: Array
+    }
   },
   {
     timestamps: true,

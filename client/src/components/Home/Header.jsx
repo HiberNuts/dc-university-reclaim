@@ -4,13 +4,14 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import navLogoBlack from "../../assets/navlogoBlack.svg";
 import navLogoWhite from "../../assets/navlogoWhite.svg";
 import "./Home.css";
-const Burger = lazy(() => import("./Burger"));
 import ProfileDropDown from "./ProfileDropdown";
 import axios from "axios";
 import { useAccount } from "wagmi";
 import { ParentContext } from "../../contexts/ParentContext";
 import GreenButton from "../button/GreenButton";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { getUserContestDetails } from "../../utils/api/UserAPI";
+const Burger = lazy(() => import("./Burger"));
 
 export default function Header() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export default function Header() {
   const { loggedInUserData, setloggedInUserData } = useContext(ParentContext);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [xp, setXP] = useState(0);
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
@@ -40,11 +42,14 @@ export default function Header() {
     try {
       const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, { walletAddress: address });
       setloggedInUserData(res?.data);
+      if (!res?.data?.shardId || res?.data?.shardId == "" || res.data?.shardId.length < 5) {
+        navigate("/profile/edit")
+      }
       if (res?.data?.email === "default") {
-        navigate("/profile");
+        navigate("/profile/edit")
       }
     } catch (error) {
-    
+
     }
   };
 
@@ -56,10 +61,26 @@ export default function Header() {
       setloggedInUserData({});
     }
   }, [address]);
-
+  useEffect(() => {
+    const getUserContestData = async () => {
+      try {
+        if (loggedInUserData?.shardId)
+          getUserContestDetails(loggedInUserData?.shardId).then((resp) => {
+            if (resp?.error == false) {
+              if (resp.data?.XPEarned)
+                setXP(resp.data?.XPEarned);
+            }
+          })
+      } catch (error) {
+        console.log("Error in fetching profile user data & contest->", error.message)
+      }
+    }
+    if (loggedInUserData?.shardId)
+      getUserContestData();
+  }, [loggedInUserData])
   const styleNavEl = `text-[18px] font-helvetica-neue-md before:bg-white before:left-0 ${homeRoute
-      ? "hover:text-white text-white font-helvetica-neue-md"
-      : "hover:text-black text-black hover:before:bg-black "
+    ? "hover:text-white text-white font-helvetica-neue-md"
+    : "hover:text-black text-black hover:before:bg-black "
     }  before:transition-transform hover:before:scale-x-100 before:scale-x-0  before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full `;
   const activeNavEl = `text-[18px] font-helvetica-neue-md before:left-0 ${homeRoute ? "text-white before:bg-white " : ". before:bg-black text-black"
     }   before:transition-transform  before:scale-x-100 before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full`;
@@ -95,6 +116,9 @@ export default function Header() {
               <li className={targetLinks[2] === "courses" ? activeNavEl : styleNavEl}>
                 <Link to="/courses">Courses</Link>
               </li>
+              {/* <li className={targetLinks[2] === "contests" ? activeNavEl : styleNavEl}>
+                <Link to="/contests">Contests</Link>
+              </li> */}
               <li>
                 <ConnectButton.Custom>
                   {({
@@ -136,6 +160,8 @@ export default function Header() {
                                 chain={chain}
                                 openChainModal={openChainModal}
                                 openAccountModal={openAccountModal}
+                                xp={xp}
+                                homeRoute={homeRoute}
                               />
                             </div>
                           );
@@ -165,20 +191,6 @@ export default function Header() {
               }
             >
               <Link onClick={toggleNavbar} to="/" className="items-center flex    justify-center align-middle">
-                <svg
-                  className=" w-8 h-8"
-                  xmlns="http://www.w3.org/2000/svg"
-                  data-name="Layer 2"
-                  viewBox="0 0 48 48"
-                  id="Home"
-                >
-                  <path
-                    d="m38.22 17-1.95-1.59v-5.25a1.4 1.4 0 1 0-2.79 0v2.93L28.43 9a7 7 0 0 0-8.86 0l-9.79 8a6.92 6.92 0 0 0-2.56 5.38v11.3a7 7 0 0 0 7 7h19.57a7 7 0 0 0 7-7V22.34A6.92 6.92 0 0 0 38.22 17ZM19.81 37.83v-9.68a4.2 4.2 0 0 1 8.39 0v9.68ZM38 33.64a4.2 4.2 0 0 1-4.19 4.19H31v-9.68a7 7 0 0 0-14 0v9.68h-2.8a4.2 4.2 0 0 1-4.2-4.19v-11.3a4.19 4.19 0 0 1 1.54-3.25l9.79-8a4.21 4.21 0 0 1 5.3 0l9.79 8A4.19 4.19 0 0 1 38 22.34Z"
-                    fill="#ff8066"
-                    className="color000000 svgShape"
-                  ></path>
-                </svg>
-
                 <span className="items-center text-center"> Home</span>
               </Link>
             </div>
@@ -187,20 +199,16 @@ export default function Header() {
                 "hover:bg-shardeumBlue hover:text-white text-[20px] font-semibold w-full flex-row justify-center align-middle  text-black    rounded-md px-2 py-2 "
               }
             >
+              {/* <Link onClick={toggleNavbar} to="contests" className="items-center flex    justify-center align-middle">
+                <span className="items-center text-center"> Contests</span>
+              </Link> */}
+            </div>
+            <div
+              className={
+                "hover:bg-shardeumBlue hover:text-white text-[20px] font-semibold w-full flex-row justify-center align-middle  text-black    rounded-md px-2 py-2 "
+              }
+            >
               <Link onClick={toggleNavbar} to="courses" className="items-center flex    justify-center align-middle">
-                <svg className=" w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="blockchain">
-                  <defs>
-                    <linearGradient id="a" x1="5.406" x2="18.594" y1="18.625" y2="5.438" gradientUnits="userSpaceOnUse">
-                      <stop offset="0" stop-color="#ff8066" class="stopColor5433ff svgShape"></stop>
-                      <stop offset="1" stop-color="#ff4620" class="stopColor20bdff svgShape"></stop>
-                    </linearGradient>
-                  </defs>
-                  <path
-                    fill="url(#a)"
-                    d="m4.324,6.52c.108-.084.207-.179.328-.247l5.999-3.374c.832-.469,1.865-.469,2.697,0l6,3.375c.121.068.219.162.327.246l-7.676,4.605-7.676-4.605Zm6.926,5.905L3.435,7.736c-.109.297-.185.608-.185.934v6.66c0,.992.537,1.91,1.401,2.396l6,3.375c.19.107.392.183.599.241v-8.917Zm1.5,0v8.917c.206-.058.409-.134.599-.241l6-3.375c.864-.486,1.401-1.404,1.401-2.396v-6.66c0-.326-.077-.636-.185-.934l-7.815,4.689Z"
-                  ></path>
-                </svg>
-
                 <span className="items-center text-center"> Courses</span>
               </Link>
             </div>

@@ -1,67 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import "./Home.css";
 import discord from "../../assets/discord.svg";
 import twiter from "../../assets/twitter.svg";
 import github from "../../assets/github.svg";
-import { useScroll } from "framer-motion";
 import { Link } from "react-router-dom";
 
 export default function Community() {
-  const scrollRef = useRef(null);
-  const { scrollYProgress } = useScroll({ container: scrollRef });
-  const [isImageVisible, setImageVisible] = useState(false);
-  const [animation, setAnimation] = useState(false);
-
-  const [imageUrl, setimageUrl] = useState(
-    "https://img.freepik.com/free-vector/vector-illustration-mountain-landscape_1441-72.jpg?size=626&ext=jpg&ga=GA1.1.1016455232.1698944705&semt=sph"
-  );
-
-  const [imageIndex, setimageIndex] = useState(1);
-
-  const handleBlockClick = (index) => {
-    setimageIndex(index);
-  };
-
-  const returnImageUrl = (index) => {
-    if (index === 1) {
-      return "https://img.freepik.com/free-vector/vector-illustration-mountain-landscape_1441-72.jpg?size=626&ext=jpg&ga=GA1.1.1016455232.1698944705&semt=sph";
-    }
-    if (index === 2) {
-      return "https://img.freepik.com/free-vector/nature-scene-rural-land-agriculture-grassland-abtract-silhouette-asian-farmers-working-rice-field-illustration_1150-37317.jpg?size=626&ext=jpg&ga=GA1.1.1016455232.1698944705&semt=sph";
-    }
-    if (index === 3) {
-      return "https://img.freepik.com/free-vector/landscape-man-canoe-river_24877-76260.jpg?size=626&ext=jpg&ga=GA1.1.1016455232.1698944705&semt=sph";
-    }
-    if (index === undefined) {
-      return "https://img.freepik.com/free-vector/vector-illustration-mountain-landscape_1441-72.jpg?size=626&ext=jpg&ga=GA1.1.1016455232.1698944705&semt=sph";
-    }
-  };
-
-  const variants = {
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        ease: "easeOut",
-        duration: 0.3,
-      },
-    },
-    hide: {
-      y: -20,
-      opacity: 0,
-    },
-  };
-
-  const [currentImage, setCurrentImage] = useState("default.jpg");
-
-  const changeImage = (newImage) => {
-    setCurrentImage(newImage);
-  };
-
-  useEffect(() => {
-    setimageUrl(returnImageUrl(imageIndex));
-  }, [imageIndex]);
-
   const LogoSvg = () => {
     return (
       <svg width="380" height="456" viewBox="0 0 430 456" fill="none" xmlns="http://www.w3.org/2000/svg">

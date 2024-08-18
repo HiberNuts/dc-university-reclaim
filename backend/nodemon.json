@@ -1,0 +1,7 @@
+{
+    "ignore": [
+        "controllers/cache/*",
+        "controllers/temp/*",
+        "cache/*"
+    ]
+}
