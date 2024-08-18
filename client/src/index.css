@@ -112,4 +112,5 @@ body::-webkit-scrollbar-thumb:hover {
   background-image: url('https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/Sharderum-Frontend-Assets/confetti.png');
   background-repeat: no-repeat; 
   background-size: cover;
+  background-position: calc(2.5rem)
 }

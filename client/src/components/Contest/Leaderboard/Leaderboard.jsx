@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useNavigate } from "react-router-dom";
 
 export default function Leaderboard({data})
 {
@@ -30,9 +31,11 @@ export default function Leaderboard({data})
                                 ))}
                             </tr>
                         </thead>
-                        <tbody className="text-[20px]">
+                        <tbody className="text-[20px] cursor-pointer">
                             {data.slice(0,showAll).map((item, index) => (
-                                    <tr className={`text-center  border-b-[0.5px] ${index<3?'top_3':''} ${index==0?'bg-shardeumGreen':index==1?'bg-[#FBFF1E]':index==2?'bg-[#1EFFFA]':''}`} key={index}>
+                                    <tr className={`text-center  border-b-[0.5px] ${index<3?'top_3':''} ${index==0?'bg-shardeumGreen':index==1?'bg-[#FBFF1E]':index==2?'bg-[#1EFFFA]':''}`} key={index}
+                                    onClick={()=>window.open(`/${item["User Name"]}`,'_blank')}
+                                    >
                                     {columns.map((column) => (
                                         column=="Avatar"?
                                             <td className="px-4 py-5 flex justify-center" key={column}>
