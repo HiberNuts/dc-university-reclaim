@@ -22,6 +22,7 @@ const verifyToken = async (req, res, next) => {
     req.userId = decoded.id;
     next();
   } catch (err) {
+    console.log("Token error", err)
     res.status(401).send({ message: "Unauthorized!", errorMessage: err.message });
   }
 };

@@ -340,9 +340,9 @@ function calculateCompletionPercentages(courseProgress) {
         totalQuizzes += module.quizzes.length;
         completedQuizzes += module.quizzes.filter((quiz) => quiz.status === "full").length;
 
-        if (module.program !== null) {
+        if (module.program !== undefined) {
             totalPrograms++;
-            if (module.program.status === "full") {
+            if (module?.program?.status === "full") {
                 completedPrograms++;
             }
         }
@@ -351,7 +351,9 @@ function calculateCompletionPercentages(courseProgress) {
     const moduleCompletionPercentage = calculatePercentage(completedModules, totalModules);
     const chapterCompletionPercentage = calculatePercentage(completedChapters, totalChapters);
     const quizCompletionPercentage = calculatePercentage(completedQuizzes, totalQuizzes);
-    const programCompletionPercentage = calculatePercentage(completedPrograms, totalPrograms);
+    const programCompletionPercentage = totalPrograms > 0
+        ? calculatePercentage(completedPrograms, totalPrograms)
+        : 100;
 
     const overallCompletionPercentage = calculateOverallPercentage([
         moduleCompletionPercentage,
@@ -364,16 +366,16 @@ function calculateCompletionPercentages(courseProgress) {
         moduleCompletionPercentage,
         chapterCompletionPercentage,
         quizCompletionPercentage,
-        programCompletionPercentage,
+        programCompletionPercentage: programCompletionPercentage || 0,
         overallCompletionPercentage
     };
 }
 function calculatePercentage(completed, total) {
-    return (completed / total) * 100 || 0;
+    return total > 0 ? (completed / total) * 100 : 0;
 }
 
 function calculateOverallPercentage(percentages) {
-    const validPercentages = percentages.filter(p => !isNaN(p) && p !== null);
+    const validPercentages = percentages.filter(p => p !== null && !isNaN(p));
     return validPercentages.length > 0
         ? validPercentages.reduce((sum, percentage) => sum + percentage, 0) / validPercentages.length
         : 0;

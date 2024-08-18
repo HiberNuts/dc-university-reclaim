@@ -383,15 +383,17 @@ exports.toggleBlock = async (req, res) => {
 
 exports.updateuser = async (req, res) => {
   try {
-    const shardId=await User.find({shardId:req.body.shardId,_id:{$ne:req.userId}})
-    if(req.body.shardId && shardId.length){
-      return res
-      .status(200)
-      .send({ message: "ShardID already exists!!", error:true });
+    if (req.body?.shardId) {
+      const shardId = await User.find({ shardId: req.body.shardId, _id: { $ne: req.userId } })
+      if (req.body.shardId && shardId.length) {
+        return res
+          .status(200)
+          .send({ message: "ShardID already exists!!", error: true });
+      }
     }
     await User.updateOne({ _id: req.body.id }, { $set: { ...req.body } })
-    const updatedUser=await User.findOne({ _id: req.body.id })
-    return res.status(200).send({error:false,user:updatedUser})
+    const updatedUser = await User.findOne({ _id: req.body.id })
+    return res.status(200).send({ error: false, user: updatedUser })
   }
   catch (error) {
     res
