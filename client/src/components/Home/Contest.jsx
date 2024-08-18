@@ -23,7 +23,7 @@ export default function Contest() {
             <p className="text-shardeumBlue flex-row font-helvetica-neue-md w-[100%] my-[20px]  cursor-pointer hover:scale-105 flex justify-center align-middle gap-2 text-[26px] items-center  text-center">
                <Link className="flex items-center justify-center h-full align-middle" to="/contests">
                   <span>View all</span>
-                  <img src={shortRightArrow} className="h-8 w-8 flex-col flex justify-center align-middle" />
+                  <img src={shortRightArrow} alt="shortRightArrow" className="h-8 w-8 flex-col flex justify-center align-middle" />
                </Link>
             </p>
          </div>

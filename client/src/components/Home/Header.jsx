@@ -116,9 +116,9 @@ export default function Header() {
               <li className={targetLinks[2] === "courses" ? activeNavEl : styleNavEl}>
                 <Link to="/courses">Courses</Link>
               </li>
-              <li className={targetLinks[2] === "contests" ? activeNavEl : styleNavEl}>
+              {/* <li className={targetLinks[2] === "contests" ? activeNavEl : styleNavEl}>
                 <Link to="/contests">Contests</Link>
-              </li>
+              </li> */}
               <li>
                 <ConnectButton.Custom>
                   {({
@@ -199,9 +199,9 @@ export default function Header() {
                 "hover:bg-shardeumBlue hover:text-white text-[20px] font-semibold w-full flex-row justify-center align-middle  text-black    rounded-md px-2 py-2 "
               }
             >
-              <Link onClick={toggleNavbar} to="contests" className="items-center flex    justify-center align-middle">
+              {/* <Link onClick={toggleNavbar} to="contests" className="items-center flex    justify-center align-middle">
                 <span className="items-center text-center"> Contests</span>
-              </Link>
+              </Link> */}
             </div>
             <div
               className={
