@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "authentications",
+  "info": {
+    "singularName": "authentication",
+    "pluralName": "authentications",
+    "displayName": "Authentication"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "wallet_address": {
+      "type": "string"
+    }
+  }
+}

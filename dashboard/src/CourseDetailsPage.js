@@ -1,5 +1,5 @@
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
-import { DataGrid, GridToolbar, useGridApiRef } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { DataCard } from './Components/DataCard/DataCard';
 import { Box, Button, IconButton, Switch } from '@mui/material';
 import axios from 'axios';
@@ -15,11 +15,8 @@ function CourseDetailsPage() {
   const { course } = state;
   const navigate = useNavigate();
 
-  const gridRef = useGridApiRef();
   const [userData, setuserData] = useState([])
-  const [userDetails, setUserDetails] = useState(userData);
   const [softDeleteStatus, setSoftDeleteStatus] = useState(course.softDelete);
-  const [isLoading, setIsLoading] = useState(false);
 
   const [csvLoading, setcsvLoading] = useState(false)
 
@@ -65,7 +62,7 @@ function CourseDetailsPage() {
   const hardDelete = async () => {
     try {
       const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/course/getCourse?id=${params.courseId}`)
-      if (response.status == 200) {
+      if (response.status === 200) {
         toast("course Deleted")
         navigate(-1)
       }
@@ -132,8 +129,14 @@ function CourseDetailsPage() {
           {params?.row?.enrolledCourses[i]?.nftStatus.toString() || "Not found"}
         </div>
       }
-
-
+    },
+    {
+      field: 'courseCompleted', headerName: 'courseCompleted', flex: 0.15, renderCell: (params) => {
+        const i = params?.row?.enrolledCourses?.findIndex(x => x.courseId === course._id)
+        return <div>
+          {params?.row?.enrolledCourses[i]?.courseCompleted.toString() || "Not found"}
+        </div>
+      }
     },
     {
       field: 'blockStatus',
@@ -191,7 +194,6 @@ function CourseDetailsPage() {
 
 
   const getUserData = async ({ page }) => {
-    setIsLoading(true);
 
     // Calculate the next set of user IDs to fetch
     const nextPageUserIds = course?.usersEnrolled.slice((page - 1) * pagination.limit, page * pagination.limit);
@@ -202,9 +204,7 @@ function CourseDetailsPage() {
         return { id: userId, ...userResult };
       })
     );
-
     setuserData(newUsers);
-    setIsLoading(false);
 
   }
 
@@ -334,7 +334,7 @@ function CourseDetailsPage() {
         <Button disabled={csvLoading} variant='contained' className='text-lg' onClick={handleExportCSV}>{csvLoading ? "Generating your file please wait" : "Export as CSV"} </Button>
       </div>
       {/* <div style={{ height: '400px', width: '100%', overflow: 'auto' }} className="tablediv"> */}
-      <Box sx={{ width: '100%', overflow: "scroll" }}>
+      {/* <Box sx={{ width: '100%', overflow: "scroll" }}>
         <DataGrid
           // pagination
           sx={{
@@ -352,6 +352,22 @@ function CourseDetailsPage() {
           rowHeight={60}
           pageSize={10}
           slots={{ toolbar: GridToolbar }}
+        />
+      </Box> */}
+      <Box sx={{ height: 400, width: '100%' }}>
+        <DataGrid
+          rows={userData}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
+            },
+          }}
+          pageSizeOptions={[5]}
+          checkboxSelection
+          disableRowSelectionOnClick
         />
       </Box>
       <div>

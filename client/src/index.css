@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+  box-sizing: border-box;
+}
+
 @font-face {
   font-family: "helvetica-neue-bold";
   src: url("./assets/HelveticaNeueLTProBdCn.otf");
@@ -66,4 +70,47 @@ body {
   border-radius: 10px;
 
   /* border-image-source: linear-gradient(269.78deg, #ff4400 0%, #be1d92 36.28%, #8d00ff 63.24%, #0406a5 101.62%); */
+}
+
+
+/* Hide horizontal scrollbar */
+::-webkit-scrollbar {
+  width: 0; /* Hide vertical scrollbar */
+  height: 8px; /* Set a height for horizontal scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  display: none; /* Hide the horizontal scrollbar thumb */
+}
+
+/* Show vertical scrollbar */
+body {
+  overflow-x: hidden; /* Disable horizontal scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Optionally style the vertical scrollbar if needed */
+body::-webkit-scrollbar-thumb {
+  background: #888; /* Customize scrollbar thumb color */
+  border-radius: 4px; /* Customize scrollbar thumb shape */
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Customize scrollbar thumb color on hover */
+}
+
+.leaderboard_title,.profile_header{
+  background-image: url('https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/Sharderum-Frontend-Assets/backdrop_heading.png');
+}
+.background_dots{
+  background-image: url('https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/Sharderum-Frontend-Assets/submission_bg.svg');
+}
+.table_head{
+  background-image: url("https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/Sharderum-Frontend-Assets/table_head.png");
+}
+.top_3{
+  background-image: url('https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/Sharderum-Frontend-Assets/confetti.png');
+  background-repeat: no-repeat; 
+  background-size: cover;
+  background-position: calc(2.5rem)
 }

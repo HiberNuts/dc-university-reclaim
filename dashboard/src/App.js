@@ -1,25 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { DataCard } from './Components/DataCard/DataCard';
-import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { PieChart } from '@mui/x-charts/PieChart';
-import { Button } from '@mui/material';
 import './App.css';
 import AllUSerDetails from './AllUserDetails';
 
 function App() {
   const [courses, setCourses] = useState([]);
-  const [selectedCourse, setSelectedCourse] = useState(null);
   const navigate = useNavigate();
-  const [pagedata, setPageData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
-    if (token) {
-      setIsAuthenticated(!!token);
+    if (!token) {
+      navigate("/")
     }
   }, []);
 
@@ -34,51 +28,33 @@ function App() {
       );
       const result = await response.json();
       setCourses(result.courses);
-      setLoading(false);
     } catch (error) {
       console.error('Error fetching course data:', error);
-      setLoading(false);
     }
   };
 
-  const syncCourseData = async () => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/course/syncData`
-      );
-      const result = await response.json();
+  // const syncCourseData = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.REACT_APP_BACKEND_URL}/api/course/syncData`
+  //     );
+  //     const result = await response.json();
 
-      if (response.ok) {
-        toast.success('Course data synced successfully!');
-      } else {
-        throw new Error(result.message || 'Failed to sync data');
-      }
+  //     if (response.ok) {
+  //       toast.success('Course data synced successfully!');
+  //     } else {
+  //       throw new Error(result.message || 'Failed to sync data');
+  //     }
 
-      console.log(result);
-    } catch (error) {
-      console.error('Error syncing course data:', error);
-      toast.error(`Error syncing course data`);
-    }
-  };
+  //   } catch (error) {
+  //     console.error('Error syncing course data:', error);
+  //     toast.error(`Error syncing course data`);
+  //   }
+  // };
 
   // ...
 
   const handleCourseClick = async (course) => {
-    setSelectedCourse(course);
-    // const usersEnrolled = course.usersEnrolled || [];
-    // const userData = await Promise.all(
-    //   usersEnrolled.map(async (userId) => {
-    //     const userResponse = await fetch(
-    //       `${process.env.REACT_APP_BACKEND_URL}/api/auth/user?userId=${userId}`
-    //     );
-    //     const userResult = await userResponse.json();
-    //     return {
-    //       id: userId,
-    //       ...userResult,
-    //     };
-    //   })
-    // );
-
     // Navigate to a new page with course and user details
     navigate(`/course-details/${course._id}`, {
       state: { course },
@@ -107,7 +83,6 @@ function App() {
 
   return (
     <div className="Dashboard" style={{ textAlign: 'center' }}>
-      <Toaster position="top-center" reverseOrder={false} />
       <div
         style={{
           color: '#3A4CFF',
@@ -121,7 +96,7 @@ function App() {
           <span style={{ color: '#FF8743' }}>{courses.length}</span>
         </p>
       </div>
-      <Button
+      {/* <Button
         className="sync-button"
         onClick={syncCourseData}
         contained
@@ -137,7 +112,7 @@ function App() {
         }}
       >
         Sync Courses
-      </Button>
+      </Button> */}
 
       <div
         className="Dashboard-grid"

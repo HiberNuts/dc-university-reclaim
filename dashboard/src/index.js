@@ -7,12 +7,13 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
-
+import Contest from './Components/contest/Contest';
 import CourseDetailsPage from './CourseDetailsPage';
 import Login from './Components/Login/Login';
 import Layout from './Components/Layout/Layout';
 import ProtectedRoute from './routes/ProtectedRoute';
 import Administrators from './Components/Adminstrators/Administrators';
+import ContestDetails from './Components/contest/ContestDetails';
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,26 @@ const router = createBrowserRouter([
       <ProtectedRoute>
         <Layout>
           <Administrators />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/contests',
+    element: (
+      <ProtectedRoute>
+        <Layout>
+          <Contest />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/contest-details/:contestId',
+    element: (
+      <ProtectedRoute>
+        <Layout>
+          <ContestDetails />
         </Layout>
       </ProtectedRoute>
     ),

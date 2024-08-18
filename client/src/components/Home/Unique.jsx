@@ -3,10 +3,6 @@ import "./Home.css";
 // import { useScroll } from "framer-motion";
 import { motion } from "framer-motion";
 const Unique = () => {
-  // const scrollRef = useRef(null);
-  // const { scrollYProgress } = useScroll({ container: scrollRef });
-  // const [isImageVisible, setImageVisible] = useState(false);
-  // const [animation, setAnimation] = useState(false);
 
   const [imageUrl, setimageUrl] = useState(
     "https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/f0f7cd4635a169f02ca5bdc4b84578d9.jpg"
@@ -31,27 +27,6 @@ const Unique = () => {
     if (index === undefined) {
       return "https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/f0f7cd4635a169f02ca5bdc4b84578d9.jpg";
     }
-  };
-
-  const variants = {
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        ease: "easeOut",
-        duration: 0.3,
-      },
-    },
-    hide: {
-      y: -20,
-      opacity: 0,
-    },
-  };
-
-  const [currentImage, setCurrentImage] = useState("default.jpg");
-
-  const changeImage = (newImage) => {
-    setCurrentImage(newImage);
   };
 
   const TickSvg = () => {

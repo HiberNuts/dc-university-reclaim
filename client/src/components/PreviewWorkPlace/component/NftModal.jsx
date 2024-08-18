@@ -90,7 +90,7 @@ const NftModal = ({ toast, isOpen, setIsOpen, courseName, loggedInUserData, cour
                     <a target="_blank"
                       href={`https://explorer-sphinx.shardeum.org/transaction/${TxHash}`}
                       className="text-md text-gray-500"
-                      style={{ wordWrap: 'break-word', overflow: 'hidden' }}
+                      style={{ wordWrap: 'break-word', overflow: 'hidden' }} rel="noreferrer"
                     >
                       https://explorer-sphinx.shardeum.org/transaction/{TxHash}
                     </a>
@@ -135,7 +135,7 @@ const NftModal = ({ toast, isOpen, setIsOpen, courseName, loggedInUserData, cour
                 </div>
                 <a
                   target="_blank"
-                  href={`http://twitter.com/intent/tweet?text=Just%20aced%20${courseName}%20at%20%23ShardeumUniversity!%20%F0%9F%8E%93%20Gained%20amazing%20insights%20into%20%23Web3.%20Ready%20to%20put%20these%20blockchain%20skills%20to%20use!%20Check%20out%20their%20courses%20for%20top-notch%20learning.%20%F0%9F%9A%80%20%40Shardeum`}
+                  href={`http://twitter.com/intent/tweet?text=Just%20aced%20${courseName}%20at%20%23ShardeumUniversity!%20%F0%9F%8E%93%20Gained%20amazing%20insights%20into%20%23Web3.%20Ready%20to%20put%20these%20blockchain%20skills%20to%20use!%20Check%20out%20their%20courses%20for%20top-notch%20learning.%20%F0%9F%9A%80%20%40Shardeum`} rel="noreferrer"
                 >
                   <div className="mt-4 flex ">
                     <span className="mr-2">Share your success on twitter ✨</span>

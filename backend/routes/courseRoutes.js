@@ -6,6 +6,7 @@ module.exports = function (app) {
     next();
   });
 
+  app.get("/api/course/allCourses/pagination", controller.getAllCoursesWithPagination);
   app.get("/api/course/allCourses", controller.getAllCourses);
   app.get("/api/course/allCoursesDash", controller.getAllCoursesDash);
   app.get("/api/course/syncData", controller.syncData);
@@ -13,4 +14,7 @@ module.exports = function (app) {
   app.get("/api/course/getCourse/:title", controller.getCourseByName);
   app.delete("/api/course/getCourse", controller.deleteCourseById);
   app.get("/api/course/softDelete", controller.softDelete);
+  app.post("/api/webhook/course/create", controller.createModel);
+  app.post("/api/webhook/course/update", controller.createModel);
+
 };

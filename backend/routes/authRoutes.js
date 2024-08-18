@@ -26,5 +26,5 @@ module.exports = function(app) {
   app.get("/api/auth/getUserData",[authJwt.verifyToken], controller.getUserData)
   app.get("/api/auth/user", controller.getUser);
   app.post("/api/auth/toggleBlock", controller.toggleBlock);
-
+  app.post("/api/auth/updateuser",[authJwt.verifyToken], controller.updateuser);  
 };

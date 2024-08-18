@@ -16,6 +16,7 @@ module.exports = function (app) {
   app.get("/api/test/admin", [authJwt.verifyToken, authJwt.isAdmin], controller.adminBoard);
 
   app.get("/api/user/allxyz", controller.getAllUser);
+  app.get("/api/user/:shardId", controller.getUserData);
 
   app.post("/api/user/courseEnrolled", [authJwt.verifyToken], controller.courseEnrolled);
 
@@ -24,4 +25,5 @@ module.exports = function (app) {
   app.post("/api/user/progressPercentage", [authJwt.verifyToken], controller.userCourseProgressPercentage);
   app.post("/api/user/mintNft", [authJwt.verifyToken], controller.mintNft);
   app.get("/api/user/newsletter", controller.joinNewsLetter);
+  app.post("/api/user/deleteImage",  controller.deleteImage);
 };

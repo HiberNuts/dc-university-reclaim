@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_program_programs",
+  "info": {
+    "displayName": "program"
+  },
+  "options": {},
+  "attributes": {
+    "description": {
+      "type": "blocks"
+    },
+    "boilerplate_code": {
+      "type": "text"
+    },
+    "solution": {
+      "type": "text"
+    },
+    "test_file_content": {
+      "type": "text"
+    }
+  }
+}

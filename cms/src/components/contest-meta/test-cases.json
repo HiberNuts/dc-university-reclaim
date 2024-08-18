@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_contest_meta_test_cases",
+  "info": {
+    "displayName": "test_cases",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "description": {
+      "type": "text"
+    },
+    "code": {
+      "type": "text"
+    }
+  }
+}

@@ -1,25 +1,14 @@
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { DataCard } from './Components/DataCard/DataCard';
 import { Box, Button, IconButton, Switch } from '@mui/material';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
 import { saveAs } from 'file-saver';
 
 function AllUSerDetails() {
-    const location = useLocation();
-    const { state } = location;
-    const params = useParams();
-    const navigate = useNavigate();
     const [pagination, setPagination] = useState({ page: 1, limit: 10, totalPages: 1 }); // Initial pagination values
-
     const [loader, setloader] = useState(false)
-
     const [csvLoading, setcsvLoading] = useState(false)
-
     const [userDetails, setUserDetails] = useState([]);
-
     const getUserData = async () => {
         setloader(true)
         try {
@@ -35,6 +24,7 @@ function AllUSerDetails() {
             setloader(false)
         }
     }
+    console.log(userDetails);
 
     const [blockStatuses, setBlockStatuses] = useState(() => {
         const storedBlockStatuses = JSON.parse(
@@ -43,7 +33,7 @@ function AllUSerDetails() {
         return storedBlockStatuses || {};
     });
 
-    const handleBlockToggle = async (userId, blockStatus) => {
+    const handleBlockToggle = async (userId) => {
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_BACKEND_URL} / api / auth / toggleBlock ? userId = ${userId}`
@@ -94,8 +84,7 @@ function AllUSerDetails() {
                 </IconButton>
             ),
         },
-        { field: 'isBlocked', headerName: 'Blocked', flex: 0.2 },
-
+        { field: 'isBlocked', headerName: 'Blocked', flex: 0.2 }
     ];
 
     useEffect(() => {
@@ -151,7 +140,7 @@ function AllUSerDetails() {
                 <div>
                     <Button disabled={csvLoading} variant='contained' className='text-lg' onClick={handleExportCSV}>{csvLoading ? "Generating your file please wait" : "Export as CSV"} </Button>
                 </div>
-                <DataGrid
+                {userDetails.length > 0 && <DataGrid
                     sx={{
                         backgroundColor: 'white',
                         boxShadow: 2,
@@ -169,7 +158,8 @@ function AllUSerDetails() {
 
                     onPaginationModelChange={handlePageChange}
                     slots={{ toolbar: GridToolbar }}
-                />
+                />}
+
                 <div>
                     <Button disabled={pagination.page === 1} onClick={handlePrevPage}>Previous Page</Button>
                     <span>Page {pagination.page} of {pagination.totalPages}</span>

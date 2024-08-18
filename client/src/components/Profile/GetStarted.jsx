@@ -23,12 +23,10 @@ export default function GetStarted() {
     <>
       <div className='flex justify-between border-b-2 border-b-dimgray pb-4'>
         <div>
-          <p className="font-helvetica-neue-bold text-[32px]">
-            Get Started With our Courses
-          </p>
+        <p className='my-2 text-[20px] lg:text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold  pb-3'>Get Started with our Courses</p>
         </div>
         <div className='self-center'>
-          <p className="text-shardeumBlue   cursor-pointer hover:scale-105  text-[18px] font-bold ">
+          <p className="text-shardeumBlue   cursor-pointer hover:scale-105  text-[16px] font-bold ">
             <Link to="/courses" class>
               View More{' '}
               <FontAwesomeIcon className="mt-1" icon={faAngleRight} />{' '}
@@ -36,10 +34,10 @@ export default function GetStarted() {
           </p>
         </div>
       </div>
-      <div className="flex flex-col w-full ">
-        <div className="flex w-full justify-center flex-wrap gap-5 mb-20">
+      <div className="flex flex-col w-full mt-10 ">
+        <div className="grid grid-cols-1 md:grid-cols-2  gap-5 mb-20">
           {allCourseInfo &&
-            allCourseInfo?.map((course, index) => {
+            allCourseInfo?.slice(0,4).map((course, index) => {
               if (course.softDelete != true) {
 
                 return <CourseCard key={index} props={course} />;
