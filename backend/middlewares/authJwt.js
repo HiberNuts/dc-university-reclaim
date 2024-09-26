@@ -19,6 +19,7 @@ const verifyToken = async (req, res, next) => {
     token = token.slice(7);
 
     const decoded = jwt.verify(token, config.SECRET);
+    console.log("decoded", decoded)
     req.userId = decoded.id;
     next();
   } catch (err) {
