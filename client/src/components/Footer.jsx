@@ -24,6 +24,7 @@ export default function Footer() {
           `${import.meta.env.VITE_BACKEND_URL
           }/user/newsletter?email=${email}`
         )
+        console.log("NEWS letter data", data)
         toast(data?.data?.message, {
           icon: "👏"
         })
