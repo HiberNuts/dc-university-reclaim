@@ -1,17 +1,17 @@
 const db = require("../models");
 const Admin = db.admin;
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken'); 
+const jwt = require('jsonwebtoken');
 
 // Configurations
-const JWT_SECRET = process.env.SECRET; 
+const JWT_SECRET = process.env.SECRET;
 
 // Admin Registration
 exports.register = async (req, res) => {
     try {
-        
+
         const { adminEmail, password } = req.body;
-        
+
         if (!adminEmail || !password) {
             return res.status(400).send("Email and password are required.");
         }
@@ -39,7 +39,7 @@ exports.login = async (req, res) => {
         }
 
         const admin = await Admin.findOne({ adminEmail });
-    
+
 
         if (!admin || !(await admin.comparePassword(password))) {
             return res.status(401).send("Invalid email or password.");
@@ -47,16 +47,16 @@ exports.login = async (req, res) => {
 
         const token = jwt.sign({ id: admin._id }, JWT_SECRET, { expiresIn: '1h' });
 
-        res.status(200).json({ message: "Logged in successfully", token: token});
+        res.status(200).json({ message: "Logged in successfully", token: token });
     } catch (error) {
         res.status(500).send("Error in login.");
-    }   
+    }
 };
 
 //Get Admin
 exports.getAdmin = async (req, res) => {
     try {
-        
+
         const admins = await Admin.find({}).select('adminEmail -_id');
 
         if (admins.length === 0) {
