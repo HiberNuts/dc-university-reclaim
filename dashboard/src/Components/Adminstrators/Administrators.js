@@ -38,12 +38,18 @@ const Administrators = () => {
 
   const registerAdmin = async () => {
     try {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        alert("Unauthorized to add admins");
+        return;
+      }
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/admin/register`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify({
             adminEmail: email,
@@ -99,25 +105,31 @@ const Administrators = () => {
 
   const deleteAdmin = async (adminEmail) => {
     try {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        alert("Unauthorized to add admins");
+        return;
+      }
       console.log(JSON.stringify({ adminEmail: adminEmail }))
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/admin/deleteAdmin`, 
+        `${process.env.REACT_APP_BACKEND_URL}/api/admin/deleteAdmin`,
         {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify({ adminEmail: adminEmail }),
         }
       );
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       toast.success('Admin deleted successfully');
-  
-      
+
+
       fetchAdmins();
     } catch (error) {
       console.error('Error deleting admin:', error);
@@ -140,7 +152,7 @@ const Administrators = () => {
           <ListItem
             key={index}
             secondaryAction={
-              <IconButton edge="end" aria-label="delete" style={{ color: 'tomato'}} onClick={() => deleteAdmin(adminEmail)}>
+              <IconButton edge="end" aria-label="delete" style={{ color: 'tomato' }} onClick={() => deleteAdmin(adminEmail)}>
                 <MdDelete />
               </IconButton>
             }
