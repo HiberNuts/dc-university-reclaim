@@ -68,18 +68,17 @@ exports.getUserData = async (req, res) => {
 }
 
 exports.joinNewsLetter = (req, res) => {
-  console.log("INSIDE newsletter");
-  console.log(req.query);
   try {
-    const email = req.query.email;
+    if (!req.params.email) {
+      res.status(400).json({ message: "Email is required" });
+    }
+    const email = req.params.email;
     createContact.email = email;
     createContact.listIds = [183];
 
     apiContactsInstance.createContact(createContact).then(function (data) {
-      console.log(data);
       res.status(200).send({ message: "Your email has been successfully added to our newsletter subscription list – welcome to the Shardeum community!" })
     }, function (error) {
-      console.log(error);
       if (JSON.parse(error?.response?.text).code === "duplicate_parameter") {
         res.status(400).json({ message: "Looks like you're already subscribed – thanks for staying connected with Shardeum!" })
       } else {
@@ -87,6 +86,7 @@ exports.joinNewsLetter = (req, res) => {
       }
     });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: "Something went wrong" })
   }
 }

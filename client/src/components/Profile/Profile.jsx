@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, lazy, } from "react";
+import React, { useState, useEffect, useContext, } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -11,7 +11,7 @@ import editImg from "../../assets/CTA.png"
 import { Link } from "react-router-dom";
 import ProfileProjects from "./ProfileProjects";
 import ShareButton from "../button/shareButton";
-const ProfileCourses = lazy(() => import("./ProfileCourses"));
+import ProfileCourses from "./ProfileCourses"
 
 const Profile = ({ isOpen, closeModal }) => {
   const { shardId } = useParams();
@@ -22,7 +22,7 @@ const Profile = ({ isOpen, closeModal }) => {
     email: "",
     designation: "Web3 Beginner",
   });
-  const { loggedInUserData} = useContext(ParentContext);
+  const { loggedInUserData } = useContext(ParentContext);
 
   const copyToClipboard = () => {
 

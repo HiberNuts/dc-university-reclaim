@@ -22,15 +22,15 @@ export default function Footer() {
       if (email.length > 2) {
         const data = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL
-          }/user/newsletter?email=${email}`
+          }/user/newsletter/${email}`
         )
-        console.log("NEWS letter data", data)
-        toast(data?.data?.message, {
-          icon: "👏"
-        })
-        setemail("")
+        if (data.data.message) {
+          toast(data.data.message, {
+            icon: "👏"
+          })
+          setemail("")
+        }
       }
-
     } catch (error) {
       toast.success(error.response.data.message || "Something went wrong")
       setemail("")
@@ -103,7 +103,7 @@ export default function Footer() {
         <div className="sm:flex sm:items-center sm:justify-between">
           <span className="text-sm text-white sm:text-center">
             © 2024{" "}
-            <a href="" className="hover:underline ">
+            <a href="https://university.shardeum.org" className="hover:underline ">
               Shardeum Foundation
             </a>
             . All Rights Reserved.

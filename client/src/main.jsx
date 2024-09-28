@@ -19,7 +19,6 @@ import { ParentProvider } from "./contexts/ParentContext";
 import ScrollToTop from "./ScrollToTop";
 
 const { chains, publicClient } = configureChains(
-  // [mainnet, goerli, polygonMumbai, polygon, shardeumSphinx],
   [mainnet, shardeumSphinx],
   [alchemyProvider({ apiKey: import.meta.env.VITE_ALCHEMY_URL }), publicProvider()]
 );

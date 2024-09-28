@@ -16,10 +16,9 @@ const verifyToken = async (req, res, next) => {
       return res.status(401).send({ message: "Invalid token format!" });
     }
 
-    token = token.slice(7);
+    token = token.replace(/^Bearer\s+/, '').trim();
 
-    const decoded = jwt.verify(token, config.SECRET);
-    console.log("decoded", decoded)
+    const decoded = jwt.verify(token, config.SECRET, { algorithms: ['HS256'] });
     req.userId = decoded.id;
     next();
   } catch (err) {

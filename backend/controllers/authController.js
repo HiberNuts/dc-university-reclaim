@@ -8,6 +8,8 @@ var jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const brevo = require("@getbrevo/brevo");
+const { recoverMessageAddress } = require('viem')
+
 let defaultClient = brevo.ApiClient.instance;
 
 let apiKey = defaultClient.authentications["api-key"];
@@ -87,8 +89,30 @@ exports.signup = async (req, res) => {
 
 exports.signin = async (req, res) => {
   try {
+    const recoveredAddress = await recoverMessageAddress({
+      message: "Sign in to Shardeum university",
+      signature: req.body.signature,
+    })
+
+    if (!recoveredAddress) {
+      return res.status(401).send({
+        type: "user-blocked",
+        message: "user is blocked, cannot sign in",
+        user,
+      });
+    }
+
+    if (recoveredAddress !== req.body.walletAddress) {
+      return res.status(401).send({
+        type: "user-blocked",
+        message: "user is blocked, cannot sign in",
+        user,
+      });
+
+    }
+
     let user = await User.findOne({
-      walletAddress: req.body.walletAddress,
+      walletAddress: recoveredAddress,
     }).populate("roles", "-__v");
 
     /*

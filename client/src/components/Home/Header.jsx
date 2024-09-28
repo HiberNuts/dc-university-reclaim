@@ -6,11 +6,14 @@ import navLogoWhite from "../../assets/navlogoWhite.svg";
 import "./Home.css";
 import ProfileDropDown from "./ProfileDropdown";
 import axios from "axios";
-import { useAccount } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 import { ParentContext } from "../../contexts/ParentContext";
 import GreenButton from "../button/GreenButton";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { getUserContestDetails } from "../../utils/api/UserAPI";
+import toast, { Toaster } from "react-hot-toast";
+import { disconnect } from "@wagmi/core";
+
 const Burger = lazy(() => import("./Burger"));
 
 export default function Header() {
@@ -18,6 +21,7 @@ export default function Header() {
   const location = useLocation();
   const [homeRoute, sethomeRoute] = useState(true);
   const { address, isConnected } = useAccount();
+  const { isLoading, signMessageAsync } = useSignMessage()
 
   const { loggedInUserData, setloggedInUserData } = useContext(ParentContext);
 
@@ -40,16 +44,30 @@ export default function Header() {
 
   const signinUser = async () => {
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, { walletAddress: address });
-      setloggedInUserData(res?.data);
-      if (!res?.data?.shardId || res?.data?.shardId == "" || res.data?.shardId.length < 5) {
-        navigate("/profile/edit")
-      }
-      if (res?.data?.email === "default") {
-        navigate("/profile/edit")
-      }
-    } catch (error) {
+      signMessageAsync({ message: "Sign in to Shardeum university" }).then(async (data) => {
+        if (!data) {
+          toast.error("Please sign the message to continue")
+        }
+        const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, { walletAddress: address, signature: data });
+        setloggedInUserData(res?.data);
+        if (!res?.data?.shardId || res?.data?.shardId == "" || res.data?.shardId.length < 5) {
+          navigate("/profile/edit")
+        }
+        if (res?.data?.email === "default") {
+          navigate("/profile/edit")
+        }
+      }).catch((error) => {
+        console.log("Error in signing in user->", error.message)
+        navigate("/")
+        setloggedInUserData({});
+        disconnect()
+      })
 
+    } catch (error) {
+      console.log("Error in signing in user->", error.message)
+      navigate("/")
+      setloggedInUserData({});
+      disconnect()
     }
   };
 
@@ -61,6 +79,7 @@ export default function Header() {
       setloggedInUserData({});
     }
   }, [address]);
+
   useEffect(() => {
     const getUserContestData = async () => {
       try {
@@ -95,6 +114,7 @@ export default function Header() {
       className={`header  font-helvetica-neue-md flex justify-center align-middle flex-col z-50  w-full  ${homeRoute ? "bg-shardeumBlue sticky" : "bg-shardeumWhite border-b-[1px] border-b-black"
         } ${location.pathname.includes("/workplace") ? "fixed" : ""} ${location.pathname.includes("/previewworkplace") ? "fixed" : ""} `}
     >
+      <Toaster />
       <Suspense fallback={<div className="header  z-50 border-gray w-full bg-shardeumBlue"></div>}>
         <nav className="sm:px-[100px] px-[8px] items-center text-center h-full ">
           <div className="flex items-center h-full justify-between">
@@ -120,7 +140,7 @@ export default function Header() {
                 <Link to="/contests">Contests</Link>
               </li> */}
               <li>
-                <ConnectButton.Custom>
+                {<ConnectButton.Custom>
                   {({
                     account,
                     chain,
@@ -149,8 +169,11 @@ export default function Header() {
                         })}
                       >
                         {(() => {
+                          if (!ready || isLoading) {
+                            return <GreenButton isHoveredReq={true} text={"Connecting"} />; // Show loader when not ready
+                          }
                           if (!connected) {
-                            return <GreenButton isHoveredReq={true} onClick={openConnectModal} text={"Login"} />;
+                            return <GreenButton disabled={isLoading} isHoveredReq={true} onClick={openConnectModal} text={"Login"} />;
                           }
                           return (
                             <div style={{ display: "flex", gap: 12 }}>
@@ -169,7 +192,7 @@ export default function Header() {
                       </div>
                     );
                   }}
-                </ConnectButton.Custom>
+                </ConnectButton.Custom>}
               </li>
               {/* <ConnectButton chainStatus={"none"} label="Login" showBalance={"false"} /> */}
             </ul>
@@ -244,6 +267,7 @@ export default function Header() {
                         if (!connected) {
                           return (
                             <button
+                              disabled={isLoading}
                               onClick={openConnectModal}
                               className={`bg-shardeumBlue flex justify-center align-middle hover:bg-shardeumGreen rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[18px] w-[150px] h-[40px]`}
                             >

@@ -21,7 +21,7 @@
     "@thirdweb-dev/chains": "^0.1.58",
     "@thirdweb-dev/sdk": "^4.0.94",
     "@typechain/ethers-v6": "^0.5.1",
-    "aws-sdk": "^2.1654.0",
+    "aws-sdk": "2.1311.0",
     "axios": "^1.6.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
@@ -36,7 +36,8 @@
     "node-console-colors": "^1.1.5",
     "nodemailer": "^6.9.6",
     "nodemon": "^3.0.1",
-    "solc": "^0.8.24"
+    "solc": "^0.8.24",
+    "viem": "^2.21.15"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.5",

@@ -53,7 +53,6 @@ export default function WorkPlace() {
     }
 
   };
-
   const getProgressPercentage = async () => {
     try {
       if (courseContent) {

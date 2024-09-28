@@ -53,10 +53,11 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
           </p>
           <div className="grid grid-cols-[400px] md:grid-cols-[repeat(2,400px)] lg:grid-cols-[repeat(3,400px)] gap-5 my-10 ">
             {nfts.map(
-              (single) =>
+              (single, index) =>
                 single != "" && (
-                  <div className="col-span-1 flex justify-center items-center  px-2 rounded-[16px] min-h-[350px] hover:px-5 transition-width duration-1000">
+                  <div key={index} className="col-span-1 flex justify-center items-center  px-2 rounded-[16px] min-h-[350px] hover:px-5 transition-width duration-1000">
                     <img
+                      alt=""
                       src={single}
                       className="cursor-pointer h-[448px] w-full"
                     />
