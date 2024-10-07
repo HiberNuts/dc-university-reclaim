@@ -25,6 +25,30 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "gilroy-medium";
+  src: url("./assets/Gilroy-Medium.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "gilroy-semibold";
+  src: url("./assets/Gilroy-SemiBold.ttf");
+  font-display: swap;
+}
+@font-face {
+  font-family: "gilroy-bold";
+  src: url("./assets/Gilroy-Bold.ttf");
+  font-display: swap;
+}
+@font-face {
+  font-family: "orbitron-medium";
+  src: url("./assets/Orbitron-Medium.ttf");
+  font-display: swap;
+}
+
+
+
 .animate-scale {
   animation: scale 1s infinite alternate;
   transform-origin: center;
