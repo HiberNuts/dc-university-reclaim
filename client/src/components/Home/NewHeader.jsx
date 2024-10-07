@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../../assets/Logo.svg";
+import logo from "../../assets/LogoName.svg";
+import image41 from "../../assets/image-41.png";
 import "./Home.css";
 
 export default function NewHeader() {
@@ -12,8 +13,8 @@ export default function NewHeader() {
         </Link>
         <div className="h-[92px] flex-shrink-0 overflow-hidden">
 
-        <div className="size-[226px]  bg-[#79797B]/30  rounded-full blur-3xl flex-shrink-0">
-
+        <div className="size-[226px] ">
+            <img src={image41} alt="DecentraClasses Logo" className=" w-[262px] opacity-40 mix-blend-soft-light" />
         </div>
         </div>
         <div className="flex items-center space-x-6">

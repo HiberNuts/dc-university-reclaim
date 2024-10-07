@@ -51,6 +51,10 @@ module.exports = {
         "helvetica-neue-md": ["helvetica-neue-md"],
         "helvetica-neue-roman": ["helvetica-neue-roman"],
         'helvetica-neue-LT': ['Helvetica Neue LT Pro', 'sans-serif'],
+        gilroy: ['gilroy-medium', 'sans-serif'],
+        gilroysemibold: ['gilroy-semibold', 'sans-serif'],
+        gilroybold: ['gilroy-bold', 'sans-serif'],
+        orbitron: ['orbitron-medium', 'sans-serif'],
       },
       borderRadius: {
         xl: "20px",

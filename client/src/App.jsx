@@ -75,7 +75,7 @@ function App() {
         <Route component={RedirectAs404}></Route>
       </Routes>
 
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
