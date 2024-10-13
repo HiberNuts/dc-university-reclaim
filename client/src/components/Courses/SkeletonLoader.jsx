@@ -2,11 +2,11 @@ import React from "react";
 
 const SkeletonLoader = () => {
   return (
-    <div class="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto min-h-[500px]">
-      <div class="animate-pulse flex flex-col space-x-4">
-        <div class="h-[200px] bg-slate-700 w-full"></div>
+    <div class="border border-blue-300 shadow rounded-md p-4  w-full mx-auto min-h-[250px]">
+      <div class="animate-pulse flex flex-row space-x-4">
+        <div class="h-[200px] bg-slate-700 flex-1"></div>
 
-        <div class="flex-1">
+        <div class="flex-[3]">
 
           <div class="flex-1 space-y-6 py-1 mb-10">
             <div class="h-2 bg-slate-700 rounded"></div>
