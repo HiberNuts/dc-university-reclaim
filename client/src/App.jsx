@@ -7,6 +7,7 @@ import {  useLocation, useNavigate } from "react-router-dom";
 import Home from "./components/Home/Home";
 import Footer from "./components/Footer";
 import Header from "./components/Home/Header";
+import NewFooter from "./components/NewFooter";
 import NewHeader from "./components/Home/NewHeader";
 import PrivateRoute from "./routes/PrivateRoute";
 import AllCourses from "./components/Courses/AllCourses";
@@ -76,6 +77,7 @@ function App() {
       </Routes>
 
       {/* <Footer /> */}
+      <NewFooter />
     </>
   );
 }
