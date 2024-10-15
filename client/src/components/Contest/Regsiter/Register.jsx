@@ -10,6 +10,7 @@ import { generateSlug } from "../../../utils/generateSlug";
 import { getContestByTitle, registerContest, alreadyRegistered, getLeaderboard } from "../../../utils/api/ContestAPI";
 import ContestDetailsLoader from "../ContestLoaders/ContestDetailsLoader";
 import { renderContent } from "../../../utils/mapRichText";
+import DCButton from "../../button/DCButton";
 
 
 export default function ContestRegsiter() {
@@ -95,53 +96,78 @@ export default function ContestRegsiter() {
     }
   }, [contest, btn])
   return contest ? (
-    <div className="bg-white pb-10">
+    <div className="bg-black pb-10">
       <Toaster />
-      <div className="contest-header grid grid-cols-1 md:grid-cols-2 px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[50px] bg-[#CAFFEF]">
+      <div className="contest-header grid grid-cols-1 md:grid-cols-2 px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[50px] bg-black">
         <div className='order-2 md:order-1 pr-2 relative'>
-          <p className='my-2 text-[64px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold'>{contest.title}</p>
-          <p className='my-2 text-[18px] text-black font-helvetica-neue-roman leading-[31.5px] opacity-[70%] '>{contest.description}</p>
-          <div className='grid grid-cols-1 space-y-[6px]'>
-            <p className='text-[16px] '>
-              <span className="leading-[28px] text-overflow-ellipsis font-bold">Difficulty Level:</span><span className=" pl-1">  {contest.level}</span>
-            </p>
-            <p className='my-2 text-[16px] '>
-              <span className="leading-[28px] text-overflow-ellipsis font-bold">Participants:</span> <span className="pl-1">  {contest.participants}</span>
-            </p>
-            {
-              !timeLeft.status &&
-              <p className='my-2 text-[16px] '>
-                <span className="leading-[28px] text-overflow-ellipsis font-bold">Start:</span><span className="pl-1"> {formatTimestamp(contest.startDate)}</span>
-              </p>
-            }
-            {
-              !timeLeft.status &&
-              <p className='my-2 text-[16px] '>
-                <span className="leading-[28px] text-overflow-ellipsis font-bold">End:</span><span className="pl-1"> {formatTimestamp(contest.endDate)}</span>
-              </p>
-            }
-            {timeLeft.status && (
-              <p className='my-2 text-[16px]'>
-                <span className="leading-[28px] text-overflow-ellipsis font-bold">Ends in:</span> <span className="text-red-500 pl-1"> {timeLeft?.timeleft}</span>
-              </p>
-            )}
-            <div>
-            </div>
+          <div className="relative text-left w-fit mt-[-1.00px] 
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-bold text-transparent text-[30px] tracking-[0] leading-[50px] whitespace-nowrap">
+            {contest?.title}
           </div>
+          <p className="relative self-stretch font-gilroy text-[#b1b0b9] text-base tracking-[0] leading-7">
+            {contest.description}
+          </p>
+          <div className="grid grid-cols-2 my-5">
+            {
+              !timeLeft.status &&
+              <div className="flex flex-col">
+                <p className="relative self-stretch font-semibold text-[#b1b0b9] text-[12px] tracking-[0] leading-7">
+                  START:
+                </p>
+                <p className="relative self-stretch font-gilroy text-[#b1b0b9] text-base tracking-[0] leading-7">
+                  {formatTimestamp(contest.startDate)}</p>
+              </div>
+            }
+            <div className="flex flex-col">
+              <p className="relative self-stretch font-semibold text-[#b1b0b9] text-[12px] tracking-[0] leading-7">
+                DIFFICULTY LEVEL:
+              </p>
+              <p className="relative self-stretch font-gilroy text-[#b1b0b9] text-base tracking-[0] leading-7">
+                {contest.level}</p>
+            </div>
+            {
+              !timeLeft.status &&
+              <div className="flex flex-col">
+                <p className="relative self-stretch font-semibold text-[#b1b0b9] text-[12px] tracking-[0] leading-7">
+                  END:
+                </p>
+                <p className="relative self-stretch font-gilroy text-[#b1b0b9] text-base tracking-[0] leading-7">
+                  {formatTimestamp(contest.endDate)}</p>
+              </div>
+            }
+            <div className="flex flex-col">
+              <p className="relative self-stretch font-semibold text-[#b1b0b9] text-[12px] tracking-[0] leading-7">
+                PARTICIPANTS:
+              </p>
+              <p className="relative self-stretch font-gilroy text-[#b1b0b9] text-base tracking-[0] leading-7">
+                {contest.participants}</p>
+            </div>
+            {
+              timeLeft.status &&
+              <div className="flex flex-col">
+                <p className="relative self-stretch font-semibold text-[#b1b0b9] text-[12px] tracking-[0] leading-7">
+                  ENDS IN:
+                </p>
+                <p className="relative self-stretch font-gilroy text-[#b1b0b9] text-base tracking-[0] leading-7">
+                  {timeLeft?.timeleft}</p>
+              </div>
+            }
+
+          </div>
+
           <div className='py-2 mt-10'>
             {
               btn != "" &&
-              <GreenButton
-                text={btn}
-                isHoveredReq={true}
+              <DCButton
+                btnContent={btn}
                 onClick={handleRegister}
               />
             }
           </div>
           <div className="hidden lg:block absolute z-10 bottom-[2rem] right-[-30%] border-2 p-3 rounded-lg">
-                  <div className="text-[16px] text-right leading-[18px]  text-overflow-ellipsis font-helvetica-neue-bold">Prize Money</div>
-                  <div className="text-[42px] text-right leading-[42px]  text-overflow-ellipsis font-helvetica-neue-bold text-shardeumRed">$ {contest.prize}</div>
-            </div>
+            <div className="text-[16px] text-right leading-[18px]  text-overflow-ellipsis font-helvetica-neue-bold">Prize Money</div>
+            <div className="text-[42px] text-right leading-[42px]  text-overflow-ellipsis font-helvetica-neue-bold text-shardeumRed">$ {contest.prize}</div>
+          </div>
         </div>
         <div className='order-1 md:order-2 flex justify-center md:justify-end items-center'>
           <LazyLoadImage
@@ -164,15 +190,18 @@ export default function ContestRegsiter() {
       <div className="contest-details grid grid-cols-2 lg:grid-cols-3 px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[30px]">
         <div className='col-span-2 md:pr-8'>
           <div className='contest-details-title'>
-            <p className='my-2 text-[64px]  leading-tight text-overflow-ellipsis font-helvetica-neue-bold'>
+            <div className="relative text-left w-fit mt-[-1.00px] 
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-bold text-transparent text-[30px] tracking-[0] leading-[50px] whitespace-nowrap">
               Contest Details
-            </p>
+            </div>
           </div>
           <div className='contest-details-description'>
-            <p className='text-[18px] mt-2 text-black font-helvetica-neue-roman leading-[31.5px] opacity-[70%]'>{contest?.details}</p>
+            <p className="relative self-stretch font-gilroy text-[#b1b0b9] text-base tracking-[0] leading-7">
+              {contest?.details}
+            </p>
           </div>
           <div className='contest-details-rules py-5'>
-            <p className='text-[18px] font-semibold'>Rules:</p>
+            <p className="relative self-stretch font-semibold text-[#b1b0b9] text-[12px] tracking-[0] leading-7">RULES:</p>
             <ul className='mx-1'>
               {contest.rules.map((item, index) => (
                 <React.Fragment key={index}>{renderContent(item)}</React.Fragment>
@@ -180,7 +209,7 @@ export default function ContestRegsiter() {
             </ul>
           </div>
           <div className='contest-details-rules py-5'>
-            <p className='text-[18px] font-semibold'>Winnings:</p>
+            <p className="relative self-stretch font-semibold text-[#b1b0b9] text-[12px] tracking-[0] leading-7">WINNINGS:</p>
             <ul className='mx-1'>
               {contest.warnings.map((item, index) => (
                 <React.Fragment key={index}>{renderContent(item)}</React.Fragment>

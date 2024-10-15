@@ -9,7 +9,11 @@ import { truncate } from '../../utils/truncate'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { formatTimestamp } from '../../utils/time'
 import { FaRegCalendarAlt } from "react-icons/fa";
+import DCButton from '../button/DCButton'
+
+
 export const CourseCard = ({ title, description, image, date = null, btnContent = "Start Learning" }) => {
+
   return (
     <div className="flex flex-col w-[408px] items-start justify-center gap-6 pt-5 pb-6 px-5 relative bg-[#121212] rounded-[20px] overflow-hidden border border-solid border-[#79797b80]">
       <div className="absolute w-[226px] h-[226px] top-[414px] left-[91px] bg-[#79797b] rounded-[113px] blur-[169.5px] opacity-45" />
@@ -52,12 +56,7 @@ export const CourseCard = ({ title, description, image, date = null, btnContent 
           </p>
         </div>
       }
-      <button className="all-[unset] box-border flex justify-between pl-6 pr-3 py-3 self-stretch w-full flex-[0_0_auto] bg-gradient-to-b from-[#3A59FE] to-[#5d89ff] rounded-lg items-center relative">
-        <div className="relative w-fit font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
-          {btnContent}
-        </div>
-        <img className="relative w-6 h-[26px]" alt="Arrow left" src={arrowLeft} />
-      </button>
+      <DCButton btnContent={btnContent} />
     </div>
   );
 };

@@ -40,7 +40,7 @@ export const renderContent = (item) => {
   switch (item.type) {
     case 'list':
       return (
-        <div className={`ml-4 ${item.format === 'ordered' ? 'list-decimal' : 'list-disc'}`}>
+        <div className={`text-white/50 ml-4 ${item.format === 'ordered' ? 'list-decimal' : 'list-disc'}`}>
           {item.children.map((child, index) => (
             <div key={index} className="ml-2">
               {renderContent(child)}
@@ -77,7 +77,10 @@ export const renderContent = (item) => {
       if (item.code) {
         textElement = <code className="bg-gray-100 p-1 rounded">{textElement}</code>;
       }
-      return textElement;
+      return (
+        <span className="relative self-stretch font-gilroy text-[#b1b0b9] text-base tracking-[0] leading-7">
+          {textElement}
+        </span>)
     case 'heading':
       const HeadingTag = `h${item.level}`;
       return <HeadingTag className="font-bold my-2">{item.children.map((child, index) => renderContent(child))}</HeadingTag>;

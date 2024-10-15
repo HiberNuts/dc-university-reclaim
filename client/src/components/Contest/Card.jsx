@@ -12,7 +12,7 @@ import seperator from '../../assets/seperator.svg'
 import image41 from '../../assets/image-41.png'
 
 import arrowLeft from '../../assets/arrow-left.svg'
-
+import DCButton from "../button/DCButton";
 export default function ContestCard(props) {
   const navigate = useNavigate();
   const scrollRef = useRef(null);
@@ -112,12 +112,10 @@ export default function ContestCard(props) {
                   </p>
                 </div>
               </div>
-              <button className="all-[unset] box-border inline-flex justify-center gap-7 pl-7 pr-4 py-3 flex-[0_0_auto] bg-[#070707] rounded-lg items-center relative">
-                <div className="relative w-fit font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
-                  Register
-                </div>
-                <img className="relative w-6 h-[26px]" alt="Arrow left" src={arrowLeft} />
-              </button>
+              <DCButton
+                btnContent="Register"
+                onClick={handleClick}
+              />
             </div>
           </div>
           <div className="absolute w-[408px] h-[330px] top-0 left-0 bg-[#202020] rounded-[20px] overflow-hidden">

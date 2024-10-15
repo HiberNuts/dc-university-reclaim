@@ -17,6 +17,8 @@ import PastContestCardLoader from "../ContestLoaders/PastContestCardLoader";
 import AllContestLoader from "../ContestLoaders/AllContestLoader";
 import vector from "../../../assets/vector.svg"
 import { CourseCard } from "../../Home/CohortsAndLearning";
+import DCButton from "../../button/DCButton";
+
 export default function AllContests() {
   const [latestContests, setLatestContests] = useState([
     <AllContestLoader />,
