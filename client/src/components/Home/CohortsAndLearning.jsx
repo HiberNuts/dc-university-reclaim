@@ -6,7 +6,10 @@ import arrowLeft from '../../assets/arrow-left.svg'
 import { useState, useEffect } from 'react'
 import { getAllCourse } from '../../utils/api/CourseAPI'
 import { truncate } from '../../utils/truncate'
-const CourseCard = ({ title, description, image }) => {
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { formatTimestamp } from '../../utils/time'
+import { FaRegCalendarAlt } from "react-icons/fa";
+export const CourseCard = ({ title, description, image, date = null, btnContent = "Start Learning" }) => {
   return (
     <div className="flex flex-col w-[408px] items-start justify-center gap-6 pt-5 pb-6 px-5 relative bg-[#121212] rounded-[20px] overflow-hidden border border-solid border-[#79797b80]">
       <div className="absolute w-[226px] h-[226px] top-[414px] left-[91px] bg-[#79797b] rounded-[113px] blur-[169.5px] opacity-45" />
@@ -34,9 +37,24 @@ const CourseCard = ({ title, description, image }) => {
           {truncate(description)}
         </p>
       </div>
+      {
+        date &&
+        <div className="">
+          <p className="text-[14px] text-[#b1b0b9]">
+            <span className="flex gap-x-1 pr-2">
+              <div className="pt-[2px] leading-tight text-[#b1b0b9] text-overflow-ellipsis font-helvetica-neue-bold">
+                <FaRegCalendarAlt />
+              </div>
+              <div className="">
+                {formatTimestamp(date)}
+              </div>
+            </span>
+          </p>
+        </div>
+      }
       <button className="all-[unset] box-border flex justify-between pl-6 pr-3 py-3 self-stretch w-full flex-[0_0_auto] bg-gradient-to-b from-[#3A59FE] to-[#5d89ff] rounded-lg items-center relative">
         <div className="relative w-fit font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
-          Start Learning
+          {btnContent}
         </div>
         <img className="relative w-6 h-[26px]" alt="Arrow left" src={arrowLeft} />
       </button>

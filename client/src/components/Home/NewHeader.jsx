@@ -104,7 +104,7 @@ export default function NewHeader() {
 
   return (
     <header
-      className={`bg-black text-white py-5 px-20 ${isHomeRoute ? "sticky" : "border-b border-[#5D89FF]"
+      className={`bg-black text-white py-5 px-20 ${isHomeRoute ? "sticky" : ""
         } ${location.pathname.includes("/workplace") ? "fixed" : ""} ${location.pathname.includes("/previewworkplace") ? "fixed" : ""
         }`}
     >
