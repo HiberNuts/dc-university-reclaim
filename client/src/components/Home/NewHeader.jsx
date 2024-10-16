@@ -104,13 +104,13 @@ export default function NewHeader() {
 
   return (
     <header
-      className={`bg-black text-white py-5 px-20 ${isHomeRoute ? "sticky" : ""
-        } ${location.pathname.includes("/workplace") ? "fixed" : ""} ${location.pathname.includes("/previewworkplace") ? "fixed" : ""
-        }`}
+      className={`bg-black  backdrop-blur-md text-white py-5 px-20 sticky top-0 z-[999] ${
+        location.pathname.includes("/workplace") || location.pathname.includes("/previewworkplace") ? "fixed w-full" : ""
+      }`}
     >
       <Toaster />
-      <Suspense fallback={<div className="bg-black text-white py-5 px-20"></div>}>
-        <nav className="container mx-auto flex justify-between items-center px-10 border-[0.1px] border-[#5D89FF] rounded-xl h-[92px]">
+      <Suspense fallback={<div className="bg-black  text-white py-5 px-20"></div>}>
+        <nav className="container bg-opacity-25 mx-auto flex justify-between items-center px-10 border-[0.1px] border-[#5D89FF] rounded-xl h-[92px]">
           {/* Logo Section */}
           <Link to="/" className="flex items-center">
             <img src={logo} alt="DecentraClasses Logo" className="h-9 w-[262px]" />
