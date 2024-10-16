@@ -86,7 +86,7 @@ export default function AllContests() {
         <img className="relative w-full h-[42px]" alt="Vector" src={vector} />
       </div>
       <div className="past-contents-container  min-h-[300px] pt-5 md:pt-20 px-1 md:px-28 relative">
-        <div className="absolute top-0 left-0 border-2 border-white">
+        <div className="absolute top-0 left-0">
           <LazyLoadImage
             className=" z-10 rotate-[60deg]"
             src={line}

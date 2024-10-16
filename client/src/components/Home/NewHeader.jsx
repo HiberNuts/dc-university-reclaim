@@ -104,28 +104,28 @@ export default function NewHeader() {
 
   return (
     <header
-      className={`bg-black  backdrop-blur-md text-white py-5 px-20 sticky top-0 z-[999] ${
+      className={`bg-black/60  backdrop-blur text-white my-5 mx-20 sticky top-4 z-[999] rounded-xl ${
         location.pathname.includes("/workplace") || location.pathname.includes("/previewworkplace") ? "fixed w-full" : ""
       }`}
     >
       <Toaster />
-      <Suspense fallback={<div className="bg-black  text-white py-5 px-20"></div>}>
-        <nav className="container bg-opacity-25 mx-auto flex justify-between items-center px-10 border-[0.1px] border-[#5D89FF] rounded-xl h-[92px]">
+      <Suspense fallback={<div className="bg-black  text-white my-5 mx-20 rounded-xl"></div>}>
+        <nav className="container mx-auto flex justify-between items-center px-10 border-[0.1px] border-[#5D89FF] rounded-xl h-[92px]">
           {/* Logo Section */}
           <Link to="/" className="flex items-center">
             <img src={logo} alt="DecentraClasses Logo" className="h-9 w-[262px]" />
           </Link>
 
           {/* Decorative Image */}
-          <div className="h-[92px] flex-shrink-0 overflow-hidden">
-            <div className="size-[226px]">
+          {/* <div className="h-[92px] flex-shrink-0 overflow-hidden">
+            <div className="size-[226px] rounded-full">
               <img
                 src={image41}
                 alt="Decorative"
-                className="w-[262px] opacity-40 mix-blend-soft-light"
+                className="w-[262px] opacity-30 mix-blend-overlay rounded-full"
               />
             </div>
-          </div>
+          </div> */}
 
           {/* Navigation Links and Login/Profile */}
           <div className="flex items-center space-x-6">

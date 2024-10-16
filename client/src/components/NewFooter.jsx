@@ -102,10 +102,11 @@ export default function NewFooter() {
         <img src={divider} alt="DecentraClasses"  className=" mt-16 mb-10" />
         
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm">© 2024 Decentraclasses. All rights reserved.</p>
-          <div className="flex space-x-4 mt-4 md:mt-0">
-            <Link to="#" className="text-sm hover:underline">Terms and Conditions</Link>
-            <Link to="#" className="text-sm hover:underline">Privacy Policy</Link>
+          <p className="text-lg">© 2024 Decentraclasses. All rights reserved.</p>
+          <div className="flex space-x-4 mt-4 md:mt-0 max-h-6 justify-center">
+            <Link to="#" className="text-[16px] hover:underline">Terms and Conditions</Link>
+            <div className="w-[2px] h- bg-[#5D89FF]"></div>
+            <Link to="#" className="text-[16px] hover:underline">Privacy Policy</Link>
           </div>
         </div>
       </div>
