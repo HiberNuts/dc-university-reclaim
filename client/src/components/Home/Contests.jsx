@@ -23,16 +23,16 @@ const Contests = () => {
     })
   }, [])
   return (
-    <div className="flex flex-col items-start gap-10 px-20 py-[100px] relative self-stretch w-full flex-[0_0_auto]">
-      <div className="absolute w-[400px] h-[400px] top-[123px] left-[1010px] bg-[#3a59fe] rounded-[200px] blur-[300px] opacity-45" />
+    <div className="flex flex-col items-start gap-10 px-2 md:px-20 py-[100px] relative self-stretch w-full flex-[0_0_auto]">
+      <div className="absolute w-[400px] h-[400px] top-[123px] right-10 pointer-events-none bg-[#3a59fe] rounded-[200px] blur-[300px] opacity-45" />
       <div className="flex items-center justify-between relative self-stretch w-full flex-[0_0_auto]">
         <div className="relative w-fit mt-[-1.00px] 
             bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-bold font-orbitron text-transparent text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
           Contests
         </div>
         <div className="inline-flex gap-4 flex-[0_0_auto] items-center relative">
-          <img className="relative w-8 h-8" alt="Chevron" src={chevron2} />
-          <img className="relative w-8 h-8" alt="Chevron" src={chevron} />
+          <img className="relative w-8 h-8 cursor-pointer" alt="Chevron" src={chevron2} />
+          <img className="relative w-8 h-8 cursor-pointer" alt="Chevron" src={chevron} />
           <button className="all-[unset] box-border inline-flex justify-center gap-7 pl-7 pr-4 py-3 flex-[0_0_auto] bg-[#070707] rounded-lg border border-solid border-[#5d89ff80] items-center relative">
             <div className="relative w-fit font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
               View All

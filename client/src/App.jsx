@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ParentContext } from "./contexts/ParentContext";
-import {  useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Home from "./components/Home/Home";
 import Footer from "./components/Footer";
@@ -44,7 +44,7 @@ function App() {
 
 
   return (
-    <>
+    <div className="bg-black">
       {/* <Header /> */}
       <NewHeader />
       <Routes>
@@ -78,7 +78,7 @@ function App() {
 
       {/* <Footer /> */}
       <NewFooter />
-    </>
+    </div>
   );
 }
 

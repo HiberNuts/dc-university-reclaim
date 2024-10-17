@@ -41,13 +41,13 @@ export default function NewFooter() {
   }
 
   return (
-    <footer className="bg-black text-white p-20 relative">
+    <footer className="bg-black text-white px-2 py-10 md:p-20 relative">
       <div className="absolute inset-0  opacity-30">
         <img src={footerBackground} alt="DecentraClasses" className="w-full h-full object-cover" />
       </div>
       <Toaster />
       <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row justify-between ">
+        <div className="flex flex-col gap-5 md:gap-0 md:flex-row justify-between items-center ">
           <div className="flex flex-col">
             <LazyLoadImage
               src={logoWhite}
@@ -64,8 +64,8 @@ export default function NewFooter() {
               ))}
             </div>
           </div>
-          
-          <div className="flex flex-col md:flex-row justify-between gap-20">
+
+          <div className="flex flex-row justify-between gap-20">
             {['Lorem Ipsum', 'Lorem Ipsum'].map((title, index) => (
               <div key={index}>
                 <h3 className="font-bold mb-4">{title}</h3>
@@ -76,31 +76,31 @@ export default function NewFooter() {
                 </ul>
               </div>
             ))}
-            
-            
+
+
           </div>
-          <div className="flex flex-col">
-              <h3 className="font-orbitron font-bold text-[24px] mb-8">Stay in the know with our newsletter</h3>
-              <div className="flex gap-5">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter a valid email address"
-                  className="flex-grow px-6 rounded-md text-shardeumBlue bg-transparent border-2 border-[#5D89FF]/50"
-                />
-                <button className="all-[unset] box-border inline-flex items-center justify-center gap-7 pl-7 pr-4 py-4 relative flex-[0_0_auto] bg-gradient-to-b from-[#3A59FE] to-[#5d89ff]  rounded-lg max-h-[50px]">
-                    <div className="relative w-fit font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
-                      Subscribe
-                    </div>
-                    <img className="relative w-6 h-[26px]" alt="Arrow left" src={arrowLeft} />
-                  </button>
-              </div>
+          <div className="flex flex-col items-center">
+            <h3 className="font-orbitron font-bold text-[24px] mb-8">Stay in the know with our newsletter</h3>
+            <div className="flex flex-col md:flex-row gap-5">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter a valid email address"
+                className="flex-grow px-6 rounded-md text-shardeumBlue bg-transparent border-2 border-[#5D89FF]/50"
+              />
+              <button className="all-[unset] box-border inline-flex items-center justify-center gap-7 pl-7 pr-4 py-4 relative flex-[0_0_auto] bg-gradient-to-b from-[#3A59FE] to-[#5d89ff]  rounded-lg max-h-[50px]">
+                <div className="relative w-fit font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
+                  Subscribe
+                </div>
+                <img className="relative w-6 h-[26px]" alt="Arrow left" src={arrowLeft} />
+              </button>
             </div>
+          </div>
         </div>
-        
-        <img src={divider} alt="DecentraClasses"  className=" mt-16 mb-10" />
-        
+
+        <img src={divider} alt="DecentraClasses" className=" mt-16 mb-10" />
+
         <div className="flex flex-col md:flex-row justify-between items-center">
           <p className="text-lg">© 2024 Decentraclasses. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 md:mt-0 max-h-6 justify-center">

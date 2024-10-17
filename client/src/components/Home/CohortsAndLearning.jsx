@@ -15,7 +15,7 @@ import DCButton from '../button/DCButton'
 export const CourseCard = ({ title, description, image, date = null, btnContent = "Start Learning" }) => {
 
   return (
-    <div className="flex flex-col w-[408px] items-start justify-center gap-6 pt-5 pb-6 px-5 relative bg-[#121212] rounded-[20px] overflow-hidden border border-solid border-[#79797b80]">
+    <div className="flex flex-col w-full items-start justify-center gap-6 pt-5 pb-6 px-5 relative bg-[#121212] rounded-[20px] overflow-hidden border border-solid border-[#79797b80]">
       <div className="absolute w-[226px] h-[226px] top-[414px] left-[91px] bg-[#79797b] rounded-[113px] blur-[169.5px] opacity-45" />
       <div className="absolute w-[408px] h-[502px] top-0 left-0 overflow-hidden">
         <div className="relative w-[1280px] h-[502px] opacity-5">
@@ -76,33 +76,37 @@ const CohortsAndLearning = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-start gap-10 pt-40 pb-[100px] px-20 relative self-stretch w-full flex-[0_0_auto]">
-      <img className="absolute w-[1440px] h-[1089px] top-[-5px] left-0" alt="Line" src={line} />
-      <div className="absolute w-[400px] h-[400px] top-[254px] left-[520px] bg-[#4064cd] rounded-[200px] blur-[300px] opacity-45" />
+    <div className="flex flex-col items-center gap-10 pt-40 pb-[100px] px-2 md:px-20 relative self-stretch w-full flex-[0_0_auto]">
+      <img className="absolute w-[1440px] h-[1089px] top-[-5px] left-0 pointer-events-none" alt="Line" src={line} />
+      <div className="absolute w-[400px] h-[400px] top-[254px] right-10 bg-[#4064cd] rounded-[200px] blur-[300px] opacity-45" />
       <div className="relative w-fit mt-[-1.00px] 
           bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
         Interactive Learning and Cohorts
       </div>
-      <div className="flex items-start justify-between relative self-stretch w-full flex-[0_0_auto]">
-        {["DeFi", "Solidity", "NFTs", "DAOs", "Zk Proofs", "Security", "Rust"].map((item, index) => (
-          <div key={index} className="flex flex-col w-[150px] items-center justify-center gap-8 p-5 relative rounded-[60px] overflow-hidden border border-solid border-[#5d89ff80] shadow-[0px_0px_10px_#3a59fe] [background:linear-gradient(180deg,rgba(14,60,200,0.5)_0%,rgb(17.85,17.85,17.85)_100%)]">
-            <div className="relative w-fit mt-[-1.00px] font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
-              {item}
+      <div className='flex items-center'>
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 md:gap-5">
+          {["DeFi", "Solidity", "NFTs", "DAOs", "Zk Proofs", "Security", "Rust"].map((item, index) => (
+            <div key={index} className="flex flex-col w-[150px] items-center justify-center gap-8 p-5 relative rounded-[60px] overflow-hidden border border-solid border-[#5d89ff80] shadow-[0px_0px_10px_#3a59fe] [background:linear-gradient(180deg,rgba(14,60,200,0.5)_0%,rgb(17.85,17.85,17.85)_100%)]">
+              <div className="relative w-fit mt-[-1.00px] font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
+                {item}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* Course cards */}
-      <div className="gap-7 flex items-start relative self-stretch w-full flex-[0_0_auto]">
+      <div className="gap-7 grid col-span-1 md:grid-cols-3">
         {allCourseInfo && allCourseInfo.reverse().slice(0, 3).map((course, index) => (
           course.softDelete !== true ? (
-            <CourseCard
-              key={index}
-              title={course.title}
-              description={course.description}
-              image={course.banner} // Assuming 'banner' is the image property
-            />
+            <div className='col-span-1'>
+              <CourseCard
+                key={index}
+                title={course.title}
+                description={course.description}
+                image={course.banner} // Assuming 'banner' is the image property
+              />
+            </div>
           ) : null
         ))}
       </div>
