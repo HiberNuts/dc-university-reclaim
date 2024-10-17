@@ -14,6 +14,8 @@ import linkedinIcon from "../assets/Linkedin.svg";
 import arrowLeft from "../assets/arrow-left.svg";
 import divider from "../assets/Divide-footer.svg";
 import footerBackground from "../assets/footer-bg.png";
+import footerBg from "../assets/dc-footer-bg.png";
+import footerPattern from "../assets/footer-pattern.png";
 
 export default function NewFooter() {
   const location = useLocation();
@@ -42,9 +44,14 @@ export default function NewFooter() {
 
   return (
     <footer className="bg-black text-white px-2 py-10 md:p-20 relative">
-      <div className="absolute inset-0  opacity-30">
-        <img src={footerBackground} alt="DecentraClasses" className="w-full h-full object-cover" />
+      <div className="absolute inset-0  opacity-20 pointer-events-none">
+        <img src={footerBg} alt="DecentraClasses" className="w-full h-full object-cover" />
       </div>
+      <div className="w-full absolute inset-0 opacity-40 pointer-events-none">
+        <img src={footerPattern} alt="DecentraClasses" className="w-full h-full object-cover" />
+      </div>
+      <div className="size-[400px]  bg-[#3A59FE] overflow-hidden absolute pointer-events-none -top-10 left-[50%] z-0 blur-[200px] opacity-20"></div>
+
       <Toaster />
       <div className="container mx-auto">
         <div className="flex flex-col gap-5 md:gap-0 md:flex-row justify-between items-center ">

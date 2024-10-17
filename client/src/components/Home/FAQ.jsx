@@ -6,49 +6,49 @@ const FAQItem = ({ question, answer }) => {
 
   return (
     <div className="pb-4 mb-6 border border-solid border-[#5d89ff80] bg-gradient-to-b from-[#070707]/50 to-[#5D89FF]/30  rounded-lg ">
-    <motion.div
-      onClick={() => setIsOpen(!isOpen)}
-      className="flex justify-between items-center pt-4 px-10  cursor-pointer"
-      
-    >
-      <h3 className="text-white text-[20px] font-gilroybold">{question}</h3>
-      <motion.svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="text-[#3A59FE]"
-        animate={{ rotate: isOpen ? 180 : 0 }}
-        transition={{ duration: 0.3 }}
+      <motion.div
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex justify-between items-center pt-4 px-10  cursor-pointer"
+
       >
-        <polyline points="6 9 12 15 18 9"></polyline>
-      </motion.svg>
-    </motion.div>
-    <AnimatePresence initial={false}>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ 
-            duration: 0.3, 
-            ease: [0.04, 0.62, 0.23, 0.98],
-            opacity: { duration: 0.2 }
-          }}
-          className="overflow-hidden"
+        <h3 className="text-white text-[20px] font-gilroy">{question}</h3>
+        <motion.svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-[#3A59FE]"
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
         >
-          <div className="px-10 pt-6 pb-3  rounded-b-lg">
-            <p className="text-[#B1B0B9] text-lg font-gilroy">{answer}</p>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  </div>
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </motion.svg>
+      </motion.div>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{
+              duration: 0.3,
+              ease: [0.04, 0.62, 0.23, 0.98],
+              opacity: { duration: 0.2 }
+            }}
+            className="overflow-hidden"
+          >
+            <div className="px-10 pt-6 pb-3  rounded-b-lg">
+              <p className="text-[#B1B0B9] text-lg font-gilroy">{answer}</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 };
 
