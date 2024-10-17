@@ -79,9 +79,9 @@ body {
   /* font-family: "helvetica-neue-roman"; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgba(252, 250, 239, 1);
+  background-color: rgba(7, 7, 7, 1);
   word-break: keep-all;
-  color: black;
+  color: white;
 }
 
 .wrapper {

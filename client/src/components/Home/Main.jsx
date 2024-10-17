@@ -10,6 +10,7 @@ const Contests = lazy(() => import("./Contests"));
 const KeyFeatures = lazy(() => import("./KeyFeatures"));
 const Testimonials = lazy(() => import("./Testimonials"));
 const JoinCommunity = lazy(() => import("./JoinCommunity"));
+const FAQ = lazy(() => import("./FAQ"));
 const Community = lazy(() => import("./Community"));
 const FeatureCourses = lazy(() => import("./FeatureCourses"));
 const FaqHome = lazy(() => import("./FaqHome"));
@@ -60,6 +61,9 @@ export default function Main() {
 
         {/* join community */}
         <JoinCommunity />
+
+        {/* FAQ */}
+        <FAQ />
       </div>
     </Suspense>
   );

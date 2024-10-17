@@ -18,6 +18,7 @@ import AllContestLoader from "../ContestLoaders/AllContestLoader";
 import vector from "../../../assets/vector.svg"
 import { CourseCard } from "../../Home/CohortsAndLearning";
 import DCButton from "../../button/DCButton";
+import line from "../../../assets/line.svg"
 
 export default function AllContests() {
   const [latestContests, setLatestContests] = useState([
@@ -84,10 +85,17 @@ export default function AllContests() {
       <div className="py-5 ">
         <img className="relative w-full h-[42px]" alt="Vector" src={vector} />
       </div>
-      <div className="past-contents-container  min-h-[300px] pt-5 md:pt-20 px-1 md:px-28">
+      <div className="past-contents-container  min-h-[300px] pt-5 md:pt-20 px-1 md:px-28 relative">
+        <div className="absolute top-0 left-0">
+          <LazyLoadImage
+            className=" z-10 rotate-[60deg]"
+            src={line}
+          />
+        </div>
+        <div className="size-[400px] bg-[#4064CD] rounded-full absolute top-24 blur-[200px] left-1/2 -translate-x-1/2 "></div>
         <div className="flex justify-center items-center">
           <div className="relative text-center w-fit mt-[-1.00px] 
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[30px] tracking-[0] leading-[50px] whitespace-nowrap">
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[30px] tracking-[0] leading-[50px] whitespace-nowrap mb-10">
             Past Contest
           </div>
         </div>
