@@ -2,7 +2,7 @@ import React from "react";
 
 const PastContestCardLoader = () => {
   return (
-    <div class="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto min-h-[500px]">
+    <div class="border border-blue-300 shadow rounded-md p-4 w-full min-h-[500px]">
       <div class="animate-pulse flex flex-col space-x-4">
         <div class="h-[230px] bg-slate-700 w-full rounded-lg"></div>
 

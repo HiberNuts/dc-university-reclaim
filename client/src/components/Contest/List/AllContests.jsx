@@ -101,14 +101,14 @@ export default function AllContests() {
             </div>
           </div>
           {pastContestExists ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 pb-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pb-10 w-full">
               {pastContests.length > 0
                 ? pastContests.map((single) => (
                   <CourseCard title={single.title} description={single?.description} image={single.image} date={single.endDate} btnContent={"View Details"}
                   />
                 ))
                 : Array.from({ length: 3 }).map((_, index) => (
-                  <PastContestCardLoader className="my-10" />
+                  <PastContestCardLoader className="my-10 col-span-1 w-full" />
                 ))}
 
 

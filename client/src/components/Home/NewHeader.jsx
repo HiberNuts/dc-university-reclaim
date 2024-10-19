@@ -130,10 +130,10 @@ export default function NewHeader() {
 
           {/* Navigation Links and Login/Profile */}
           <div className="flex items-center space-x-6">
-            <Link to="/courses" className="hover:text-gray font-semibold text-mini">
+            <Link to="/courses" className={`hover:text-blue-500 font-semibold text-mini ${location.pathname.includes("/courses") ? 'text-blue-500' : 'text-white'}`}>
               Courses
             </Link>
-            <Link to="/contests" className="hover:text-gray font-semibold text-mini">
+            <Link to="/contests" className={`hover:text-blue-500 font-semibold text-mini ${location.pathname.includes("/contests") ? 'text-blue-500' : 'text-white'}`}>
               Contests
             </Link>
 

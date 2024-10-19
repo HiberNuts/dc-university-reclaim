@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import SkeletonLoader from "./SkeletonLoader";
-import CourseCard from "./CourseCard/CourseCard";
+// import CourseCard from "./CourseCard/CourseCard";
 import { getAllCourseWithPagination } from "../../utils/api/CourseAPI";
 import Pagination from "../Pagination/Pagination";
+import vector from "../../assets/vector.svg"
+import { CourseCard } from "../Home/CohortsAndLearning";
+import PastContestCardLoader from "../Contest/ContestLoaders/PastContestCardLoader";
 export default function AllCourses() {
   const [allCourseInfo, setallCourseInfo] = useState([]);
   const [loading, setloading] = useState(false);
   //FOR PAGINATION
   const [totalItems, setTotalItems] = useState(0);
-  const coursesPerPage = 3;
+  const coursesPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
 
   const getAllCourseInfo = async () => {
@@ -62,36 +65,44 @@ export default function AllCourses() {
   };
 
   return (
-    <div className=" bg-shardeumWhite md:py-[64px] md:px-[100px] py-[34px] px-[60px] justify-center w-full items-center align-middle">
+    <div className=" bg-black md:py-[64px] md:px-[100px] py-[34px] px-[10px] justify-center w-full items-center align-middle">
       <div className="sm:absolute sm:block hidden z-0 left-0">
         <LogoSvg />
       </div>
       <div className="corse_header z-10 gap-[32px] md:mb-[72px] mb-[42px] w-full items-center flex flex-col justify-center align-middle">
-        <p className="font-helvetica-neue-bold sm:text-[64px] text-[42px] items-center text-center  ">
-          Explore Our Courses
-        </p>
-        <p className=" font-helvetica-neue-roman text-center text-[18px]">
-          Learn how to build on Shardeum and Join the Community
-        </p>
-        <div className="md:w-[80%] h-[48px] text-center items-center flex justify-center align-middle">
-          <input
-            className="w-full z-30 border-2 border-shardeumBlue align-middle h-[56px] items-center pl-5 focus:border-2 focus:outline-none focus:border-shardeumGreen focus:ring-shardeumGreen active:border-shardeumGreen"
-            style={{
-              borderRadius: "10px",
-              fontSize: "20px",
-              boxShadow: "6px 6px 0px 0px rgba(0, 0, 0, 0.15)",
-            }}
-            placeholder=" &#128270; Search course"
-            onChange={(event) => setQuery(event.target.value)}
-          />
+        <div className="relative w-fit mt-[-1.00px]
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[22px] md:text-[32px] tracking-[0] leading-[50px] whitespace-nowrap">
+          Courses Curated for you
         </div>
+        <div className="overflow-hidden">
+          <div className="hidden md:block size-[400px] rounded-full bg-[#3A59FE] overflow-hidden absolute pointer-events-none top-0 left-[40%] z-0 blur-[200px] opacity-40"></div>
+        </div>
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 md:gap-5">
+          {["DeFi", "Solidity", "NFTs", "DAOs", "Zk Proofs", "Security", "Rust"].map((item, index) => (
+            <div key={index} className="flex flex-col w-[150px] items-center justify-center gap-8 p-5 relative rounded-[60px] overflow-hidden border border-solid border-[#5d89ff80] shadow-[0px_0px_10px_#3a59fe] [background:linear-gradient(180deg,rgba(14,60,200,0.5)_0%,rgb(17.85,17.85,17.85)_100%)]">
+              <div className="relative w-fit mt-[-1.00px] font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
+                {item}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="py-5 ">
+        <img className="relative w-full rotate-180 h-[42px]" alt="Vector" src={vector} />
       </div>
       <div className="all-course w-full flex justify-start align-middle">
         {loading ? (
-          <SkeletonLoader />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 w-full">
+            {
+              Array.from({ length: 3 }).map((_, index) => (
+                <PastContestCardLoader className="my-10 col-span-1 w-full" />
+              )
+              )
+            }
+          </div>
         ) : (
           <div className="w-full">
-            <div className="flex flex-wrap w-full justify-evenly gap-x-[10px] gap-y-[64px]">
+            <div className="grid col-span-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {allCourseInfo &&
                 allCourseInfo?.reverse()
                   ?.filter((course) => {
@@ -102,7 +113,7 @@ export default function AllCourses() {
                     }
                   })
                   ?.map((course, index) => {
-                    return course.softDelete != true ? <CourseCard key={index} props={course} /> : "";
+                    return course.softDelete != true ? <div className="col-span-1"> <CourseCard title={course?.title} description={course?.description} image={course?.banner} /></div> : "";
                   })}
             </div>
             <div className="flex justify-center items-center  mt-10">
