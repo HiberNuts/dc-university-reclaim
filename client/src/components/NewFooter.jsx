@@ -50,7 +50,10 @@ export default function NewFooter() {
       <div className="w-full absolute inset-0 opacity-40 pointer-events-none">
         <img src={footerPattern} alt="DecentraClasses" className="w-full h-full object-cover" />
       </div>
-      <div className="size-[400px]  bg-[#3A59FE] overflow-hidden absolute pointer-events-none -top-10 left-[50%] z-0 blur-[200px] opacity-20"></div>
+      <div className="overflow-hidden">
+        <div className="size-24 md:size-[400px]  bg-[#3A59FE] overflow-hidden absolute pointer-events-none -top-10 left-5 md:left-[50%] z-0 blur-[200px] opacity-20"></div>
+
+      </div>
 
       <Toaster />
       <div className="container mx-auto">

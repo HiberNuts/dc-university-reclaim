@@ -5,7 +5,7 @@ import arrowLeft from '../../assets/arrow-left.svg'
 const DCButton = ({ btnContent = "", onClick, variant = "default" }) => {
     if (variant == "primary")
         return (
-            <button className="all-[unset] box-border inline-flex items-center justify-center gap-7 pl-7 pr-4 py-4 relative flex-[0_0_auto] bg-[#070707] rounded-lg">
+            <button onClick={onClick} className="all-[unset] box-border inline-flex items-center justify-center gap-7 pl-7 pr-4 py-4 relative flex-[0_0_auto] bg-[#070707] rounded-lg">
                 <div className="relative w-fit font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
                     {btnContent}
                 </div>

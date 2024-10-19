@@ -72,7 +72,7 @@ export const renderContent = (item) => {
     case 'text':
       let textElement = item.text;
       if (item.bold) {
-        textElement = <strong>{textElement}</strong>;
+        textElement = <strong className=" self-stretch font-gilroybold text-[#b1b0b9]">{textElement}</strong>;
       }
       if (item.code) {
         textElement = <code className="bg-gray-100 p-1 rounded">{textElement}</code>;
@@ -92,7 +92,7 @@ export const renderContent = (item) => {
       );
     case 'quote':
       return (
-        <blockquote className="border-l-4 border-gray-300 pl-4 py-2 my-4 italic">
+        <blockquote className="border-l-4 border-gray-300 pl-4 py-2 my-4 italic font-gilroy text-[#b1b0b9] text-base">
           {item.children.map((child, index) => renderContent(child))}
         </blockquote>
       );

@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import { HEADER_XP, HEADER_USER } from "../../Constants/Assets";
 const ProfileDropDown = ({ account, openAccountModal, toggleNavbar, loggedInUserData, xp = 0, homeRoute = false }) => {
   return (
-    <div className=" z-50 min-w-56 text-right">
+    <div className=" z-50 min-w-40 md:min-w-56 text-right">
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button>
             <div className={`flex gap-4 border-2 rounded-[24px] px-5 py-2 cursor-pointer ${homeRoute ? 'text-white' : 'text-white'}`}>
-              <div className="flex gap-2">
+              <div className="hidden md:flex gap-2">
                 <img src={HEADER_XP} />
                 <span className="pt-[2px]">{xp} XP</span>
               </div>

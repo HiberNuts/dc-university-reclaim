@@ -2,9 +2,9 @@ import React from "react"
 import { IoSunny } from "react-icons/io5";
 import { IoMoon } from "react-icons/io5";
 import { checkTimeLeft } from "../../../utils/time";
-import { CiTimer } from "react-icons/ci";
 import { useState, useEffect } from "react";
 import { renderContent } from "../../../utils/mapRichText";
+import { LuTimer } from "react-icons/lu";
 export default function Problem(props) {
   const [timeLeft, setTimeLeft] = useState({ status: false });
 
@@ -20,27 +20,31 @@ export default function Problem(props) {
     }
   }, [props?.contest])
   return (
-    <div className={`px-[40px] relative ${props.className}`}>
+    <div className={`px-[40px] relative ${props.className}  border-r-[0.1px] border-r-[#5D89FF] min-h-screen`}>
+      <div className="size-[400px] rounded-full bg-[#3A59FE] overflow-hidden absolute pointer-events-none top-20 -right-80 z-0 blur-[100px] opacity-40"></div>
       <div className="flex justify-between items-center">
-        <p className={`text-3xl font-bold text-[26px] ${props.darkTheme && "text-[#CAFFEF]"}`}>{props?.contest?.title ?? '-'}</p>
+        <p className="relative self-stretch mt-[-1.00px] font-gilroy font-semibold text-white text-[24px] tracking-[0] leading-[30px]">
+
+          {props?.contest?.title ?? '-'}</p>
         {props.darkTheme ? <IoSunny className="text-white text-lg cursor-pointer absolute top-5 right-5" onClick={props.toggleTheme} />
           : <IoMoon className=" text-lg cursor-pointer absolute top-5 right-5" onClick={props.toggleTheme} />
         }
       </div>
       {
         timeLeft.status &&
-        <span>
-          <div className="flex gap-1">
-            <div className="flex justify-center items-center text-[20px]"><CiTimer /></div>
-            <span className="px-2">{timeLeft.timeleft}</span>
+        <span className="">
+          <div className="flex gap-1 py-4">
+            <div className="flex justify-center items-center text-[20px]"><LuTimer /></div>
+            <span className="px-2 relative self-stretch mt-[-1.00px] font-gilroy  text-white text-[18px] tracking-[0] leading-[30px]">{timeLeft.timeleft}</span>
           </div>
         </span>
       }
-      <br />
-      <span className="rounded-[40px] border-[1px] py-[14px] px-[16px]  mt-4">
-        <span className="font-bold text-[16px]">Difficulty level:</span>
-        <span className="font-[500] text-[16px] text-[#FF4C0F] ml-1">{props?.contest?.level}</span>
-      </span>
+      <div className="flex flex-col w-fit items-center justify-center gap-8 p-5 relative rounded-[60px] overflow-hidden border border-solid border-[#5d89ff80] shadow-[0px_0px_10px_#3a59fe] [background:linear-gradient(180deg,rgba(14,60,200,0.5)_0%,rgb(17.85,17.85,17.85)_100%)]">
+        <div className="relative w-fit mt-[-1.00px] font-gilroy text-white text-md tracking-[0] leading-[18px] whitespace-nowrap">
+          Difficulty Level : {props?.contest?.level}
+        </div>
+      </div>
+
       <br />
       <br />
       {props?.program?.description.map((item, index) => (

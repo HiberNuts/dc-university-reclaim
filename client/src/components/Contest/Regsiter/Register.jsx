@@ -102,8 +102,9 @@ export default function ContestRegsiter() {
       <Toaster />
       <div className="contest-header grid grid-cols-1 md:grid-cols-2 px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[50px] bg-black">
         <div className='order-2 md:order-1 pr-2 relative'>
-
-          <div className="size-[400px] rounded-full bg-[#3A59FE] overflow-hidden absolute top-0 left-[70%] z-0 blur-[100px] opacity-40"></div>
+          <div className="overflow-hidden">
+            <div className="hidden md:block size-[400px] rounded-full bg-[#3A59FE] overflow-hidden absolute pointer-events-none top-0 left-[70%] z-0 blur-[100px] opacity-40"></div>
+          </div>
           <div className="relative text-left w-fit mt-[-1.00px] 
           bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-bold text-transparent text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
             {contest?.title}
@@ -169,16 +170,17 @@ export default function ContestRegsiter() {
               />
             }
           </div>
-          <div className="hidden lg:block absolute z-10 bottom-[2rem] right-[-30%] border-2 p-3 rounded-lg">
-            <div className="text-[16px] text-right leading-[18px]  text-overflow-ellipsis font-helvetica-neue-bold">Prize Money</div>
-            <div className="text-[42px] text-right leading-[42px]  text-overflow-ellipsis font-helvetica-neue-bold text-shardeumRed">$ {contest.prize}</div>
-          </div>
+
         </div>
-        <div className='order-1 md:order-2 flex justify-center md:justify-end items-center'>
+        <div className='order-1 md:order-2 flex justify-center md:justify-end items-center relative'>
           <LazyLoadImage
             className="h-[375px] py-2 rounded-[20px] z-10"
             src={contest?.image}
           />
+          <div className="hidden lg:block absolute z-50 bottom-16 right-0 border-[0.1px] bg-black border-[#5D89FF] p-3 rounded-md">
+            <div className="text-[16px] text-right leading-[18px]  text-overflow-ellipsis relative self-stretch font-gilroy text-white" >Prize Money</div>
+            <div className="text-[42px] text-right leading-[42px]  text-overflow-ellipsis font-helvetica-neue-bold text-shardeumRed">$ {contest.prize}</div>
+          </div>
         </div>
       </div>
       {
@@ -193,19 +195,19 @@ export default function ContestRegsiter() {
         </div>
       }
       <div className="contest-details relative grid grid-cols-2 lg:grid-cols-3 px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[30px] ">
-        <div className="absolute top-16 right-40">
+        <div className="absolute top-16 right-40 pointer-events-none">
           <LazyLoadImage
             className="h-[218px] w-[200px] py-2 rounded-[20px] z-10"
             src={cube}
           />
         </div>
-        <div className="absolute top-1/2 right-[200px] blur-[3px] ">
+        <div className="absolute top-1/2 right-[200px] blur-[3px] pointer-events-none ">
           <LazyLoadImage
             className="h-[118px] w-[109px] rotate-[-180deg] z-10"
             src={cube}
           />
         </div>
-        <div className="absolute top-0 right-0">
+        <div className="absolute top-0 right-0 pointer-events-none">
           <LazyLoadImage
             className=" py-2 z-10"
             src={line}

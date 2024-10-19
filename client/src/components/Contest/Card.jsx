@@ -36,9 +36,8 @@ export default function ContestCard(props) {
     }
   }, [props])
   return (
-    <div className={`relative [border-radius:12px_12px_20px_20px] overflow-hidden bg-[linear-gradient(180deg,rgb(7,7,7,0.5)_20%,rgb(92.65,136.59,255))] ${props?.className ?? 'w-full'}`}>
-      <div className="absolute inset-0  border-2 border-transparent [border-image:linear-gradient(to_bottom,rgb(93,137,255),rgba(93,137,255,0))_1] pointer-events-none">
-      </div>
+    <div className={`relative border-[0.1px] border-[#5D89FF] [border-radius:12px_12px_20px_20px] overflow-hidden bg-[linear-gradient(180deg,rgb(7,7,7,0.5)_20%,rgb(92.65,136.59,255))] ${props?.className ?? 'w-full'}`}>
+
 
       <div className="absolute  w-full h-[390px] pointer-events-none">
         <img className="absolute w-[438px] h-[254px] bottom-10 right-10 pointer-events-none" alt="Line" src={line3} />
