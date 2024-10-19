@@ -15,6 +15,7 @@ const Community = lazy(() => import("./Community"));
 const FeatureCourses = lazy(() => import("./FeatureCourses"));
 const FaqHome = lazy(() => import("./FaqHome"));
 const Stats = lazy(() => import("./Stats"));
+const ProofOfLearn = lazy(() => import("./ProofOfLearn"));
 // const Contest = lazy(() => import('./Contest'))
 
 export default function Main() {
@@ -55,6 +56,9 @@ export default function Main() {
 
         {/* key features */}
         <KeyFeatures />
+
+        {/* proof of learn */}
+        <ProofOfLearn />
 
         {/* testimonials */}
         <Testimonials />
