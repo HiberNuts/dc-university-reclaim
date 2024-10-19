@@ -28,7 +28,7 @@ const KeyFeatures = () => {
     <div className="flex flex-col items-center gap-10 px-0 py-20 relative self-stretch w-full flex-[0_0_auto]">
       <img className="absolute w-[945px] h-[1567px] bottom-[-388px] left-0 pointer-events-none" alt="Line" src={line4} />
       <div className="relative w-fit mt-[-1.00px]
-           bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
+           bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent lg:text-[40px] text-[30px] tracking-[0] leading-[50px] whitespace-nowrap">
         Key Features
       </div>
       {/* key features card */}

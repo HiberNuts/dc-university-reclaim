@@ -3,7 +3,7 @@ import logo from "../../assets/navlogoBlack.svg";
 const Main = lazy(() => import("./Main"));
 export default function Home() {
   return (
-    <div className="wrapper flex  justify-center">
+    <div className="wrapper flex  justify-center overflow-x-hidden">
       <Suspense
         fallback={
           <div className="w-screen bg-[#FCFAEF]  h-screen items-center flex justify-center align-middle">

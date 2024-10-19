@@ -114,7 +114,7 @@ export default function NewHeader() {
         <nav className="container mx-auto flex justify-between items-center px-2 md:px-10 w-full border-[0.1px] border-[#5D89FF] rounded-xl h-[92px]">
           {/* Logo Section */}
           <Link to="/" className="flex items-center">
-            <img src={logo} alt="DecentraClasses Logo" className="h-9 w-[262px]" />
+            <img src={logo} alt="DecentraClasses Logo" className="h-9 lg:w-[262px] w-[170px]" />
           </Link>
 
           {/* Decorative Image */}
