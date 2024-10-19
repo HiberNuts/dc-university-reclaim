@@ -10,6 +10,10 @@ import { courseProgressAPI, enrollCourseAPI } from "../../../utils/api/CourseAPI
 import { useAccount } from "wagmi";
 import { toast, Toaster } from "react-hot-toast";
 import GreenButton from "../../button/GreenButton";
+import AVATAR from "../../../assets/image-47.png";
+import seperator from '../../../assets/seperator.svg'
+
+import DCButton from "../../button/DCButton";
 const CourseHeader = ({ props }) => {
   const { loggedInUserData } = useContext(ParentContext);
   const navigate = useNavigate();
@@ -84,82 +88,113 @@ const CourseHeader = ({ props }) => {
   }, [loggedInUserData, props]);
 
   return (
-    <div className="flex flex-wrap w-full md:px-[100px]  py-[80px]  sm:px-[60px] px-[30px] justify-between gap-8 align-middle">
+    <div className="flex flex-wrap w-full  py-5  px-2 md:px-20 justify-between gap-8 mt-10">
       <Toaster position="top-center" reverseOrder={false} />
+      <div className="w-full border-t-2 border-l-2 border-r-2 border-[#5D89FF] rounded-t-xl">
+        <div className="w-full grid grid-cols-3 md:grid-cols-5">
+          <div className="hidden md:block col-span-1 "></div>
+          <div className="col-span-3 ">
+            <div className="banner-div rounded-xl w-full ">
+              {/* <div className=""> */}
+              <img
+                className=" h-60 w-full"
+                src={props?.banner}
+              />
+              {/* </div> */}
+            </div>
+          </div>
+          <div className="hidden md:block  col-span-1 "></div>
+        </div>
+      </div>
       <div className="description-div lg:flex-1 flex-wrap flex flex-col gap-[32px]  justify-between">
         <div className="header-div">
-          <div
-            className=" text-shardeumBlue  md:text-[80px]"
-            style={{
-              lineHeight: "70px",
-              fontSize: "64px",
-              fontWeight: 700,
-            }}
-          >
-            <p className="font-helvetica-neue-bold">{props?.title}</p>
+          <div className="relative text-wrap text-center mt-[-1.00px] 
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-semibold text-transparent text-[24px] md:text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
+            {props?.title}
           </div>
-          <p className="text-[18px] mt-6  font-helvetica-neue-roman">{props?.description}</p>
-        </div>
-        <div className="author-div flex ">
-          <div className="flex ">
-            <img
-              class="inline-block h-8 w-8 rounded-full ring-2 ring-white "
-              src="https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/4238c25d47bc0b871b0b61ab6fcaeea6.png"
-              alt=""
-            />
-            <p className="text-[18px] items-center text-center font-semibold ml-2 font-helvetica-neue">Shardeum Team</p>
-          </div>
-        </div>
-        <div className="flex w-full">
-          <div className="flex gap-4">
-            <div className="flex gap-2">
-              <img className="w-5 h-5 mt-1" src={timeIcon} />
-              <span className="font-helvetica-neue font-normal">{props?.duration} Hrs</span>
-            </div>
-            <p>|</p>
-            <div className="flex gap-2">
-              <img className="w-5 h-5 mt-1" src={profileIcon} />
-              <span className="font-helvetica-neue font-normal">{props?.__v} Students</span>
-            </div>
-            <p>|</p>
-            <div className="flex gap-2">
-              <img className="w-5 h-5 mt-1" src={levelIcon} />
-              <span className="font-helvetica-neue font-normal">{props?.level}</span>
+          <div className="flex flex-col pt-10 pb-5">
+            <div className="flex flex-row gap-3">
+              <div>
+                <img src={AVATAR} className="w-12 h-12 rounded-md" />
+              </div>
+              <div className="flex flex-col">
+                <p>Rick Astley</p>
+                <p>Block chain engineer at Decentraclass/com</p>
+              </div>
             </div>
           </div>
+          <div className="py-5 flex flex-col md:flex-row">
+            <div className="flex-1 pb-6 md:pb-0">
+              {isCourseEnrolled ? (
+                <div>
+                  <DCButton
+                    onClick={() => {
+                      if (isConnected) {
+                        navigate(`/workplace/${generateSlug(props?.title)}`);
+                      } else {
+                        toast("Login to continue!", {
+                          icon: "🌟",
+                        });
+                      }
+                    }}
+                    btnContent={"Continue"}
+                  />
+                </div>
+              ) : (
+                <div>
+                  <DCButton onClick={enrollCourse} btnContent={"Start Course"} />
+                </div>
+              )}
+            </div>
+            <div className="flex-1items-end">
+              <div className="grid grid-cols-3 gap-8 items-center w-full rounded-xl">
+                <div className="flex flex-row">
+                  <div className="flex-1 inline-flex flex-col  gap-2">
+                    <div className="font-gilroy text-[#efedf5] text-md text-center tracking-[1.44px] leading-3 whitespace-nowrap">
+                      {props?.duration} Hrs.
+                    </div>
+                    <div className="font-gilroysemibold text-neutral-50 text-md text-center leading-[30px] whitespace-nowrap">
+                      ( DURATION )
+                    </div>
+                  </div>
+                  <div>
+                    <img className="relative flex-1 grow h-12" alt="Seperator" src={seperator} />
+                  </div>
+                </div>
+                <div className="flex flex-row">
+                  <div className="flex-1 inline-flex flex-col  gap-2">
+                    <div className="font-gilroysemibold text-[#efedf5] text-md text-center tracking-[1.44px] leading-3 whitespace-nowrap">
+                      10
+                    </div>
+                    <div className="font-orbitron font-semibold text-neutral-50 text-md text-center leading-[30px] whitespace-nowrap">
+                      ( CHAPTER )
+                    </div>
+                  </div>
+                  <div>
+                    <img className="relative flex-1 grow h-12" alt="Seperator" src={seperator} />
+                  </div>
+                </div>
+                <div className="flex flex-row">
+                  <div className="flex-1 inline-flex flex-col  gap-2">
+                    <div className="font-gilroysemibold text-[#efedf5] text-md text-center tracking-[1.44px] leading-3 whitespace-nowrap">
+                      {props?.level}
+                    </div>
+                    <div className="font-orbitron font-semibold text-neutral-50 text-md text-center leading-[30px] whitespace-nowrap">
+                      ( LEVEL )
+                    </div>
+                  </div>
+                  <div>
+                    <img className="relative flex-1 grow h-12" alt="Seperator" src={seperator} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p className="relative self-stretch font-gilroy text-[#b1b0b9] text-[18px] tracking-[0] leading-7 mt-5">
+            {props?.description}</p>
         </div>
-        {isCourseEnrolled ? (
-          <div>
-            <GreenButton
-              boxShadow={true}
-              onClick={() => {
-                if (isConnected) {
-                  navigate(`/workplace/${generateSlug(props?.title)}`);
-                } else {
-                  toast("Login to continue!", {
-                    icon: "🌟",
-                  });
-                }
-              }}
-              text={"Continue"}
-              iconRight={faAngleRight}
-            />
-          </div>
-        ) : (
-          <div>
-            <GreenButton onClick={enrollCourse} text={"Start Course"} iconRight={faAngleRight} />
-          </div>
-        )}
       </div>
-      <div className="banner-div rounded-xl lg:flex-1 flex w-full justify-center align-middle">
-        {/* <div className=""> */}
-        <img
-          style={{ borderRadius: "200px !important" }}
-          className="w-[600px] sm:h-[400px] h-auto object-contain rounded-[12px]"
-          src={props?.banner}
-        />
-        {/* </div> */}
-      </div>
+
     </div>
   );
 };

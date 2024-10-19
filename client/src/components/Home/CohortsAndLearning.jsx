@@ -12,7 +12,7 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import DCButton from '../button/DCButton'
 
 
-export const CourseCard = ({ title, description, image, date = null, btnContent = "Start Learning" }) => {
+export const CourseCard = ({ title, description, image, date = null, btnContent = "Start Learning", onClick }) => {
 
   return (
     <div className="flex flex-col w-full items-start justify-center gap-6 pt-5 pb-6 px-5 relative bg-[#121212] rounded-[20px] overflow-hidden border border-solid border-[#79797b80]">
@@ -56,7 +56,7 @@ export const CourseCard = ({ title, description, image, date = null, btnContent 
           </p>
         </div>
       }
-      <DCButton btnContent={btnContent} />
+      <DCButton btnContent={btnContent} onClick={onClick} />
     </div>
   );
 };

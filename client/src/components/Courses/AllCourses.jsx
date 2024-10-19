@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SkeletonLoader from "./SkeletonLoader";
+import { useNavigate } from "react-router-dom";
 // import CourseCard from "./CourseCard/CourseCard";
 import { getAllCourseWithPagination } from "../../utils/api/CourseAPI";
 import Pagination from "../Pagination/Pagination";
@@ -7,6 +7,8 @@ import vector from "../../assets/vector.svg"
 import { CourseCard } from "../Home/CohortsAndLearning";
 import PastContestCardLoader from "../Contest/ContestLoaders/PastContestCardLoader";
 export default function AllCourses() {
+  const navigate = useNavigate();
+
   const [allCourseInfo, setallCourseInfo] = useState([]);
   const [loading, setloading] = useState(false);
   //FOR PAGINATION
@@ -26,6 +28,10 @@ export default function AllCourses() {
   useEffect(() => {
     getAllCourseInfo();
   }, [currentPage]);
+
+  const handleClickCourse = (props) => {
+    navigate(`/course/${props?.title.split(" ").join("-")}`)
+  }
 
   const [Query, setQuery] = useState("");
 
@@ -113,7 +119,7 @@ export default function AllCourses() {
                     }
                   })
                   ?.map((course, index) => {
-                    return course.softDelete != true ? <div className="col-span-1"> <CourseCard title={course?.title} description={course?.description} image={course?.banner} /></div> : "";
+                    return course.softDelete != true ? <div className="col-span-1"> <CourseCard title={course?.title} description={course?.description} image={course?.banner} onClick={() => handleClickCourse(course)} /></div> : "";
                   })}
             </div>
             <div className="flex justify-center items-center  mt-10">

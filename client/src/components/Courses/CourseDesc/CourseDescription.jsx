@@ -23,7 +23,7 @@ const CourseDescription = () => {
   }, [params]);
 
   return (
-    <div className="w-full bg-shardeumWhite justify-center items-center  align-middle flex flex-col">
+    <div className="w-full bg-dark justify-center items-center  align-middle flex flex-col">
       <CourseHeader props={courseData ? courseData : {}} />
       <CourseAbout props={courseData?.aboutCourse} />
       <CourseSkills props={courseData?.skills} />
