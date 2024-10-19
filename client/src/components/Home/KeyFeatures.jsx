@@ -58,7 +58,7 @@ const KeyFeatures = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col w-[860px] items-start gap-8 p-8 rounded-[20px] border border-solid border-[#5d89ff80] [background:linear-gradient(180deg,rgba(14,60,200,0.5)_0%,rgba(30.76,30.76,30.76,0.5)_100%)] relative overflow-hidden">
+              {/* <div className="flex flex-col w-[860px] items-start gap-8 p-8 rounded-[20px] border border-solid border-[#5d89ff80] [background:linear-gradient(180deg,rgba(14,60,200,0.5)_0%,rgba(30.76,30.76,30.76,0.5)_100%)] relative overflow-hidden">
                 <div className="absolute w-[400px] h-[400px] top-[302px] left-[42px] bg-[#79797b] rounded-[200px] blur-[300px] opacity-45" />
                 <div className="absolute w-[860px] h-[392px] top-0 left-0">
                   <div className="relative w-[1280px] h-[412px] opacity-5">
@@ -120,10 +120,27 @@ const KeyFeatures = () => {
                     labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
                   </p>
                 </div>
+              </div> */}
+
+              {/* Updated content area */}
+        <div className="flex w-[840px] gap-10">
+          {['Contests', 'Contests'].map((title, index) => (
+            <div key={index} className="bg-gradient-to-bl from-[#0E3CC8]/50 to-[#1F1F1F]/50 rounded-lg px-8 pt-8 border border-blue-500/30">
+              <h3 className="text-xl font-bold mb-3">{title}</h3>
+              <p className="text-gray-400 mb-8">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                exercitation ullamco
+              </p>
+              <div className="bg-[#434343] h-28 rounded-t-[20px] flex items-center justify-center text-gray-500">
+                ILLUSTRATION
               </div>
-              <div className="absolute w-[55px] h-24 top-[-41px] left-[978px] overflow-hidden">
-                <div className="relative w-[84px] h-[111px] top-[-9px] -left-4">
-                  <div className="absolute w-[84px] h-[111px] top-0 left-0">
+            </div>
+              ))}
+            </div>
+            <div className="absolute w-[55px] h-24 top-[-41px] left-[978px] overflow-hidden">
+              <div className="relative w-[84px] h-[111px] top-[-9px] -left-4">
+                  {/* <div className="absolute w-[84px] h-[111px] top-0 left-0">
                     <div className="relative w-[55px] h-24 top-[9px] left-4 bg-[url(assets/image-53.png)] bg-cover bg-[50%_50%]">
                       <img className="absolute w-[35px] h-5 top-[41px] left-0.5" alt="Line" src={line71} />
                       <img className="absolute w-[34px] h-[19px] top-12 left-px" alt="Line" src={line72} />
@@ -134,8 +151,8 @@ const KeyFeatures = () => {
                       <img className="absolute w-5 h-[30px] top-[65px] left-3.5" alt="Line" src={line77} />
                       <img className="absolute w-[9px] h-[60px] top-0 left-[34px]" alt="Line" src={line78} />
                     </div>
-                  </div>
-                  <img className="absolute w-[42px] h-[95px] top-[9px] left-4" alt="Group" src={group1481} />
+                  </div> */}
+                  {/* <img className="absolute w-[42px] h-[95px] top-[9px] left-4" alt="Group" src={group1481} /> */}
                 </div>
               </div>
             </div>
@@ -202,7 +219,7 @@ const KeyFeatures = () => {
               <img className="absolute w-[60px] h-[60px] top-[-107px] left-[-720px]" alt="Icon" src={icon5} />
             </div>
           </div>
-          <img className="absolute w-[439px] h-0.5 top-[33px] left-[684px]" alt="Line" src={line66} />
+          {/* <img className="absolute w-[439px] h-0.5 top-[33px] left-[684px]" alt="Line" src={line66} /> */}
         </div>
       </div>
     </div>
