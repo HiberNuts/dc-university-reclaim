@@ -9,6 +9,7 @@ import image512 from '../../assets/image-51-2.png';
 import image515 from '../../assets/image-51-5.png';
 import arrowLeft from '../../assets/arrow-left.svg';
 import cube from '../../assets/cube.png';
+import { motion } from 'framer-motion';
 
 const NewHero = () => {
     return (
@@ -111,40 +112,46 @@ const NewHero = () => {
             <div className="relative w-fit font-gilroysemibold text-[#5d89ff] text-sm text-center tracking-[1.68px] leading-[14px] whitespace-nowrap">
               RECOGNISED BY
             </div>
-            <div className="flex items-center gap-[60px] relative self-stretch w-full flex-[0_0_auto] opacity-50">
-              <div className="relative w-[100px] h-7 bg-[url(assets/image-51-8.png)] bg-cover bg-[50%_50%]" />
-              <div className="relative w-[100px] h-7 bg-[url(assets/image-51-10.png)] bg-cover bg-[50%_50%]" />
-              <div className="relative w-[100px] h-7 bg-[url(assets/image-51-7.png)] bg-cover bg-[50%_50%]" />
-              <div className="relative w-[100px] h-7 bg-[url(assets/image-51.png)] bg-cover bg-[50%_50%]" />
-              <div className="relative w-[100px] h-7 bg-[url(assets/image.png)] bg-cover bg-[50%_50%]" />
-              <div className="relative w-[100px] h-7 bg-[url(assets/image-51-6.png)] bg-cover bg-[50%_50%]" />
-              <div className="relative w-[100px] h-7 bg-[url(assets/image-51-9.png)] bg-cover bg-[50%_50%]" />
-              <div className="relative w-[100px] h-7 bg-[url(assets/image-51-11.png)] bg-cover bg-[50%_50%]" />
-              <div className="relative w-[100px] h-7 mr-[-100.00px]">
-                <img className="absolute w-20 h-7 top-0 left-0 object-cover" alt="Image" src={image513} />
-              </div>
-              <div className="relative w-[100px] h-7 mr-[-260.00px] overflow-hidden">
-                <img
-                  className="left-[-2400px] absolute w-[102px] h-7 top-[1762px] object-cover"
-                  alt="Image"
-                  src={image514}
-                />
-              </div>
-              <div className="relative w-[100px] h-7 mr-[-420.00px] overflow-hidden">
-                <img
-                  className="left-[-2560px] absolute w-[102px] h-7 top-[1762px] object-cover"
-                  alt="Image"
-                  src={image512}
-                />
-              </div>
-              <div className="relative w-[100px] h-7 mr-[-580.00px] overflow-hidden">
-                <img
-                  className="left-[-2720px] absolute w-[102px] h-7 top-[1762px] object-cover"
-                  alt="Image"
-                  src={image515}
-                />
-              </div>
-            </div>
+            <motion.div 
+              className="flex items-center gap-[60px] relative self-stretch w-full flex-[0_0_auto] opacity-50"
+              animate={{
+                x: [0, -1400],
+              }}
+              transition={{
+                x: {
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  duration: 20,
+                  ease: "linear",
+                },
+              }}
+            >
+              {/* Duplicate the content to create a seamless loop */}
+              {[...Array(2)].map((_, index) => (
+                <div key={index} className="flex items-center gap-[60px]">
+                  <div className="relative w-[100px] h-7 bg-[url(assets/image-51-8.png)] bg-cover bg-[50%_50%]" />
+                  <div className="relative w-[100px] h-7 bg-[url(assets/image-51-10.png)] bg-cover bg-[50%_50%]" />
+                  <div className="relative w-[100px] h-7 bg-[url(assets/image-51-7.png)] bg-cover bg-[50%_50%]" />
+                  <div className="relative w-[100px] h-7 bg-[url(assets/image-51.png)] bg-cover bg-[50%_50%]" />
+                  <div className="relative w-[100px] h-7 bg-[url(assets/image.png)] bg-cover bg-[50%_50%]" />
+                  <div className="relative w-[100px] h-7 bg-[url(assets/image-51-6.png)] bg-cover bg-[50%_50%]" />
+                  <div className="relative w-[100px] h-7 bg-[url(assets/image-51-9.png)] bg-cover bg-[50%_50%]" />
+                  <div className="relative w-[100px] h-7 bg-[url(assets/image-51-11.png)] bg-cover bg-[50%_50%]" />
+                  <div className="relative w-[100px] h-7">
+                    <img className="absolute w-20 h-7 top-0 left-0 object-cover" alt="Image" src={image513} />
+                  </div>
+                  <div className="relative w-[100px] h-7 overflow-hidden">
+                    <img className="absolute w-[102px] h-7 object-cover" alt="Image" src={image514} />
+                  </div>
+                  <div className="relative w-[100px] h-7 overflow-hidden">
+                    <img className="absolute w-[102px] h-7 object-cover" alt="Image" src={image512} />
+                  </div>
+                  <div className="relative w-[100px] h-7 overflow-hidden">
+                    <img className="absolute w-[102px] h-7 object-cover" alt="Image" src={image515} />
+                  </div>
+                </div>
+              ))}
+            </motion.div>
           </div>
         </div>
     );
