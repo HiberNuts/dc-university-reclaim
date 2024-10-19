@@ -89,31 +89,33 @@ exports.signup = async (req, res) => {
 
 exports.signin = async (req, res) => {
   try {
-    const recoveredAddress = await recoverMessageAddress({
-      message: "Sign in to Shardeum university",
-      signature: req.body.signature,
-    })
-
-    if (!recoveredAddress) {
-      return res.status(401).send({
-        type: "user-blocked",
-        message: "user is blocked, cannot sign in",
-        user,
-      });
-    }
-
-    if (recoveredAddress !== req.body.walletAddress) {
-      return res.status(401).send({
-        type: "user-blocked",
-        message: "user is blocked, cannot sign in",
-        user,
-      });
-
-    }
-
+    // console.log("!")
+    // const recoveredAddress = await recoverMessageAddress({
+    //   message: "Sign in to Shardeum university",
+    //   signature: req.body.signature,
+    // })
     let user = await User.findOne({
-      walletAddress: recoveredAddress,
+      walletAddress: req.body.walletAddress,
     }).populate("roles", "-__v");
+
+    // if (!recoveredAddress) {
+    //   return res.status(401).send({
+    //     type: "user-blocked",
+    //     message: "user is blocked, cannot sign in",
+    //     user,
+    //   });
+    // }
+
+    // if (recoveredAddress !== req.body.walletAddress) {
+    //   return res.status(401).send({
+    //     type: "user-blocked",
+    //     message: "user is blocked, cannot sign in",
+    //     user,
+    //   });
+
+    // }
+
+
 
     /*
      * there are 4 valid msg_types for signin api request
