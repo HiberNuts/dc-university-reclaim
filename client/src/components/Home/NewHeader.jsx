@@ -43,34 +43,35 @@ export default function NewHeader() {
   }, [location]);
 
   const signinUser = async () => {
-    try {
-      const data = await signMessageAsync({
-        message: "Sign in to Shardeum University",
-      });
-      if (!data) {
-        toast.error("Please sign the message to continue");
-        return;
+    if (!loggedInUserData?.shardId) {
+      console.log("signinUser->", loggedInUserData)
+      try {
+        signMessageAsync({ message: "Sign in to Shardeum university" }).then(async (data) => {
+          if (!data) {
+            toast.error("Please sign the message to continue")
+          }
+          const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, { walletAddress: address, signature: data });
+          setloggedInUserData(res?.data);
+          if (!res?.data?.shardId || res?.data?.shardId == "" || res.data?.shardId.length < 5) {
+            navigate("/profile/edit")
+          }
+          if (res?.data?.email === "default") {
+            navigate("/profile/edit")
+          }
+        }).catch((error) => {
+          console.log("Error in signing in user->", error.message)
+          navigate("/")
+          setloggedInUserData({});
+          disconnect()
+        })
+
+
+      } catch (error) {
+        console.log("Error in signing in user->", error.message)
+        navigate("/")
+        setloggedInUserData({});
+        disconnect()
       }
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/signin`,
-        { walletAddress: address, signature: data }
-      );
-      setloggedInUserData(res?.data);
-      if (
-        !res?.data?.shardId ||
-        res?.data?.shardId === "" ||
-        res.data?.shardId.length < 5
-      ) {
-        navigate("/profile/edit");
-      }
-      if (res?.data?.email === "default") {
-        navigate("/profile/edit");
-      }
-    } catch (error) {
-      console.log("Error in signing in user->", error.message);
-      navigate("/");
-      setloggedInUserData({});
-      disconnect();
     }
   };
 
