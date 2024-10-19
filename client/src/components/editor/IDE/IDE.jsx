@@ -13,6 +13,7 @@ import { solidityLanguageConfig, solidityTokensProvider } from "./EditorConfig";
 import { TRIANGLE_LOGO_EDITOR as TRI_IMG } from "../../../Constants/Assets";
 import GreenButton from "../../button/GreenButton";
 import toast, { Toaster } from "react-hot-toast";
+import DCButton from "../../button/DCButton";
 
 const IDE = (props) => {
   const { loggedInUserData, setloggedInUserData } = useContext(ParentContext);
@@ -145,23 +146,23 @@ const IDE = (props) => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
-              <Dialog.Title as="h3" className="flex font-medium leading-6 text-gray-900 bg-shardeumPink px-5 py-5 background_dots">
-                <div className="flex-1 text-5xl font-helvetica-neue-bold">Confirm your submission</div>
+            <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-black text-left align-middle shadow-xl transition-all">
+              <Dialog.Title as="h3" className="flex font-medium leading-6 text-gray-900 bg-black px-5 py-5 background_dots">
+                <div className="flex-1 relative self-stretch mt-[-1.00px] font-gilroy font-semibold text-white text-5xl tracking-[0] leading-[30px]">Confirm your submission</div>
                 <div className="flex-1 text-[20px] cursor-pointer font-semibold flex justify-end items-end">
                   <span onClick={() => setIsDialogOpen(false)}><IoMdClose /></span>
                 </div>
               </Dialog.Title>
               <div className="px-5 border-b pb-5">
-                <p className="pt-5 pb-2 text-[15px]">Once you submit this code, you cannot compile or submit again for this program.</p>
-                <p className="font-semibold pb-2 text-[15px]">This is your wallet address</p>
+                <p className="pt-5 pb-2 relative self-stretch font-gilroy text-[#b1b0b9] text-base tracking-[0] leading-7">Once you submit this code, you cannot compile or submit again for this program.</p>
+                <p className="pb-2 relative self-stretch font-gilroy text-[#b1b0b9] text-base tracking-[0] leading-7">This is your wallet address</p>
                 <div className="flex gap-2">
                   <input
                     type="text"
                     value={walletAddress}
                     onChange={(e) => setWalletAddress(e.target.value)}
                     disabled={!editWalletAddress}
-                    className={`w-full border-[1px] px-2 py-2 rounded-[12px] ${editWalletAddress ? 'border-shardeumBlue' : ''}`}
+                    className={`w-full border-[1px] px-2 py-2 rounded-[12px] ${editWalletAddress ? 'border-shardeumBlue text-black' : ''}`}
                   />
                   <p onClick={() => setEditWalletAddress(!editWalletAddress)} className="cursor-pointer border-[1px] border-shardeumBlue text-shardeumBlue text-[20px] p-4 rounded-[12px] flex justify-center items-center">
                     <RiPencilFill />
@@ -169,7 +170,12 @@ const IDE = (props) => {
                 </div>
               </div>
               <div className="py-3 px-5 flex justify-end">
-                <GreenButton isHoveredReq={true} onClick={() => handleSubmitAndTest(false)} text={"Confirm Submission"} />
+                <DCButton
+                  variant="primary"
+                  btnContent="Confirm Submission"
+                  onClick={() => handleSubmitAndTest(false)}
+                />
+                {/* <GreenButton isHoveredReq={true} onClick={() => handleSubmitAndTest(false)} text={"Confirm Submission"} /> */}
               </div>
             </Dialog.Panel>
           </Transition.Child>

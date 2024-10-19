@@ -294,7 +294,7 @@ const EditProfile = () => {
           </div>
         </div>
         <div className="col-span-4">
-          <div className="box-1  bg-white rounded-3xl border-[1px] p-2 md:p-10">
+          <div className="box-1  bg-black rounded-3xl border-[1px] p-2 md:p-10">
             <div>
               <p className="my-2 text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-5">
                 Basic Information
@@ -307,9 +307,8 @@ const EditProfile = () => {
                   <input
                     id="shardId"
                     defaultValue={loggedInUserData?.shardId ?? ""}
-                    className={`p-[16px] rounded-[12px] border-[0.5px] ${
-                      loggedInUserData?.shardId && "cursor-not-allowed"
-                    }`}
+                    className={`p-[16px] rounded-[12px] border-[0.5px] text-black ${loggedInUserData?.shardId && "cursor-not-allowed"
+                      }`}
                     placeholder="Enter your username"
                     onChange={changehandler}
                     disabled={loggedInUserData?.shardId}
@@ -328,7 +327,7 @@ const EditProfile = () => {
                     Your Name
                   </label>
                   <input
-                    className="p-[16px] rounded-[12px] border-[0.5px]"
+                    className="p-[16px] rounded-[12px] border-[0.5px] text-black"
                     placeholder="Enter your Name"
                     id="username"
                     defaultValue={loggedInUserData?.username ?? ""}
@@ -362,7 +361,7 @@ const EditProfile = () => {
                     Occupation
                   </label>
                   <select
-                    className="p-[16px] rounded-[12px] border-[0.5px]"
+                    className="p-[16px] rounded-[12px] border-[0.5px] text-black"
                     id="occupation"
                     value={loggedInUserData?.occupation ?? ""}
                     onChange={changehandler}
@@ -380,7 +379,7 @@ const EditProfile = () => {
                     Work Experience
                   </label>
                   <select
-                    className="p-[16px] rounded-[12px] border-[0.5px]"
+                    className="p-[16px] rounded-[12px] border-[0.5px] text-black"
                     id="experience"
                     value={loggedInUserData?.experience ?? ""}
                     onChange={changehandler}
@@ -399,7 +398,7 @@ const EditProfile = () => {
                       Email Address
                     </label>
                     <input
-                      className="p-[16px] rounded-[12px] border-[0.5px] "
+                      className="p-[16px] rounded-[12px] border-[0.5px] text-black"
                       placeholder="Enter your email ID"
                       id="email"
                       type="email"
@@ -418,7 +417,7 @@ const EditProfile = () => {
                       Email Address
                     </label>
                     <input
-                      className="p-[16px] rounded-[12px] border-[0.5px] cursor-not-allowed"
+                      className="p-[16px] rounded-[12px] border-[0.5px] text-black cursor-not-allowed"
                       disabled
                       placeholder="Enter your email ID"
                       id="email"
