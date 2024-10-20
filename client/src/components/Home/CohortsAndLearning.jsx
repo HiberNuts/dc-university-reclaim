@@ -12,7 +12,7 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import DCButton from '../button/DCButton'
 
 
-export const CourseCard = ({ title, description, image, date = null, btnContent = "Start Learning", onClick }) => {
+export const CourseCard = ({ title, description, image, date = null, btnContent = "Start Learning", onClick, resumeCourse = null }) => {
 
   return (
     <div className="flex flex-col w-full items-start justify-center gap-6 pt-5 pb-6 px-5 relative bg-[#121212] rounded-[20px] overflow-hidden border border-solid border-[#79797b80]">
@@ -37,26 +37,34 @@ export const CourseCard = ({ title, description, image, date = null, btnContent 
         <p className="relative self-stretch mt-[-1.00px] font-gilroybold text-white text-xl tracking-[0] leading-[30px]">
           {title}
         </p>
-        <p className="relative self-stretch font-gilroy text-[#b1b0b9] text-base tracking-[0] leading-7 h-28 overflow-hidden">
-          {truncate(description, 60)}
-        </p>
+        {
+          resumeCourse ?
+            resumeCourse :
+            <div className='flex flex-col w-full'>
+              <p className="relative self-stretch font-gilroy text-[#b1b0b9] text-base tracking-[0] leading-7 h-28 overflow-hidden">
+                {truncate(description, 60)}
+              </p>
+              {
+                date &&
+                <div className="">
+                  <p className="text-[14px] text-[#b1b0b9]">
+                    <span className="flex gap-x-1 pr-2">
+                      <div className="pt-[2px] leading-tight text-[#b1b0b9] text-overflow-ellipsis font-helvetica-neue-bold">
+                        <FaRegCalendarAlt />
+                      </div>
+                      <div className="">
+                        {formatTimestamp(date)}
+                      </div>
+                    </span>
+                  </p>
+                </div>
+              }
+              <DCButton btnContent={btnContent} onClick={onClick} />
+            </div>
+
+        }
       </div>
-      {
-        date &&
-        <div className="">
-          <p className="text-[14px] text-[#b1b0b9]">
-            <span className="flex gap-x-1 pr-2">
-              <div className="pt-[2px] leading-tight text-[#b1b0b9] text-overflow-ellipsis font-helvetica-neue-bold">
-                <FaRegCalendarAlt />
-              </div>
-              <div className="">
-                {formatTimestamp(date)}
-              </div>
-            </span>
-          </p>
-        </div>
-      }
-      <DCButton btnContent={btnContent} onClick={onClick} />
+
     </div>
   );
 };

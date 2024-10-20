@@ -38,8 +38,9 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
         <></>
       ) : nfts.length == 0 ? (
         <div>
-          <p className="my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-3">
-            NFTs earned
+          <p className="relative text-left  mt-[-1.00px]
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
+            NFTs
           </p>
           <div className="text-center p-10 flex justify-center items-center">
             <LazyLoadImage className="w-[50px] mr-5" alt="" src={notFoundImage} />
@@ -48,18 +49,19 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
         </div>
       ) : (
         <div>
-          <p className="my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-3">
-            NFTs earned
+          <p className="relative text-left  mt-[-1.00px]
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
+            NFTs
           </p>
-          <div className="grid grid-cols-[400px] md:grid-cols-[repeat(2,400px)] lg:grid-cols-[repeat(3,400px)] gap-5 my-10 ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 my-5 ">
             {nfts.map(
               (single, index) =>
                 single != "" && (
-                  <div key={index} className="col-span-1 flex justify-center items-center  px-2 rounded-[16px] min-h-[350px] hover:px-5 transition-width duration-1000">
+                  <div key={index} className="col-span-1 border-[0.1px] border-[#5D89FF] flex justify-center items-center  rounded-[16px] min-h-[350px] hover:px-5 transition-width duration-1000">
                     <img
                       alt=""
                       src={single}
-                      className="cursor-pointer h-[448px] w-full"
+                      className="cursor-pointer h-[448px] w-full rounded-[16px]"
                     />
                   </div>
                 )
@@ -72,8 +74,9 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
       ) : userData?.enrolledCourses?.length > 0 ? (
         userData._id == loggedInUserData._id ? (
           <div className="">
-            <p className="my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-3">
-              Resume your courses
+            <p className="relative text-left  mt-[-1.00px]
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
+              Resume course
             </p>
             <div className="grid grid-cols-[400px] md:grid-cols-[repeat(2,400px)] lg:grid-cols-[repeat(3,400px)] gap-5 my-10 w-full mb-10">
               {profileCoursesData?.map((course, index) => {
@@ -92,8 +95,9 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
           </div>
         ) : (
           <div className="">
-            <p className="my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-3">
-              Completed courses
+            <p className="relative text-left  mt-[-1.00px]
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
+              Completed Courses
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-5 my-10 ">
               {profileCoursesData?.map((course, index) => {

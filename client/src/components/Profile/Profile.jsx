@@ -12,6 +12,16 @@ import { Link } from "react-router-dom";
 import ProfileProjects from "./ProfileProjects";
 import ShareButton from "../button/shareButton";
 import ProfileCourses from "./ProfileCourses"
+import NOICE_BG from "../../assets/noice.svg";
+import AVATAR_BG from '../../assets/avatar_bg.png'
+import BATCH_LINE from '../../assets/badge_line.png'
+import BATCH_XP from '../../assets/new_badge_1.png'
+import BATCH_PARTICIPATION from '../../assets/new_badge_2.png'
+import BATCH_CONTESTS_WON from '../../assets/new_badge_3.png'
+import BATCH_PRIZE_EARNED from '../../assets/new_badge_4.png'
+import BATCH_BADGES from '../../assets/new_badge_5.png'
+import { RxDividerVertical } from "react-icons/rx";
+import { BsSendFill } from "react-icons/bs";
 
 const Profile = ({ isOpen, closeModal }) => {
   const { shardId } = useParams();
@@ -140,20 +150,130 @@ const Profile = ({ isOpen, closeModal }) => {
   return (
     <div className="">
       <Toaster />
-      <div className="bg-shardeumTeelGreen min-h-[180px] overflow-hidden relative profile_header">
-        <img alt="trail" src={TRIANGLE_IMG} className="absolute right-10" />
+      <div className="bg-dark min-h-[180px] overflow-hidden relative profile_header">
+        {/* <img alt="trail" src={TRIANGLE_IMG} className="absolute right-10" /> */}
+
       </div>
-      <div className="grid grid-cols-8 min-h-screen ">
-        <div className="col-span-8 w-full  lg:col-span-2 bg-shardeumBlue relative">
-          <div className="absolute top-0 left-0 right-0 flex justify-center">
+      <div className="grid grid-cols-8 min-h-screen px-2 md:px-10 gap-4">
+        <div className="col-span-8 w-full  lg:col-span-2 bg-[#121212] relative border-[0.1px] border-[#5D89FF] rounded-lg">
+          {/* <div className="absolute top-0 left-0 right-0 flex justify-center">
             <div className="relative top-[-100px]">
               <LazyLoadImage
                 src={userProfile?.image ?? 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg'}
                 className="rounded-[50%] object-cover object-center w-[200px] h-[200px] border-4 border-shardeumPurple"
               />
             </div>
+          </div> */}
+          <div className="avatar-bg-background relative">
+            <img src={AVATAR_BG} className="w-full rounded-lg" />
+            <div className="absolute -bottom-10 left-[35%]">
+              <LazyLoadImage
+                src={userProfile?.image ?? 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg'}
+                className="rounded-md object-cover object-center w-[100px] h-[100px] border-[0.1px] border-[#5D89FF]"
+              />
+            </div>
           </div>
-          <div className="name mt-[150px] px-16">
+          <div className="px-4">
+            <div className="mt-10 flex justify-center ">
+              <p className="relative  w-fit mt-[-1.00px] 
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-bold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">{userProfile?.username}</p>
+            </div>
+            <div className="flex flex-row items-center justify-center gap-0">
+              {userProfile?.experience && (
+                <p className="relative text-[14px] tracking-[0] leading-7 font-gilroy text-[#B7C2FD]">
+                  {userProfile?.experience} Level
+                </p>
+              )}
+
+              {userProfile?.experience && userProfile?.designation && (
+                <RxDividerVertical className="text-darkslategray-100" />
+              )}
+
+              {userProfile?.designation && (
+                <p className="relative text-[14px] tracking-[0] leading-7 font-gilroy text-[#B7C2FD]">
+                  {userProfile?.designation}
+                </p>
+              )}
+            </div>
+            {
+              userProfile?.portfolio &&
+              <div className="text-center">
+                <a href={userProfile?.portfolio} target="_blank" className="relative text-[12px] underline tracking-[0] leading-7 font-gilroy text-[#B7C2FD]s">{userProfile?.portfolio}</a>
+              </div>
+            }
+            {
+              userProfile != null && (loggedInUserData?._id == userProfile?._id) &&
+              <div className="flex flex-col justify-center md:flex-row gap-4 my-10">
+                <button
+                  className={`flex-1 bg-gradient-to-b from-[#3A59FE] to-[#5d89ff] rounded-md  flex justify-center  px-6 py-1   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
+                >
+                  <Link to={'/profile/edit'}>
+                    Edit Profile
+                  </Link>
+                </button>
+                <button
+                  className={`flex-1 bg-black border-[0.1px] border-[#5D89FF]  rounded-md  flex justify-center  px-8 py-1   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
+                >
+                  Share Profile
+                </button>
+              </div>
+            }
+            <div className="">
+              <p className="relative self-stretch font-gilroy text-[#b1b0b9] text-base tracking-[0] leading-0 text-[12px]">
+                {userProfile?.description}
+              </p>
+            </div>
+            {
+              userProfile != null && (loggedInUserData?._id != userProfile?._id) &&
+              <div className="py-4">
+                <button
+                  className={`w-full bg-gradient-to-b from-[#3A59FE] to-[#5d89ff] rounded-md  flex flex-row justify-center  px-6 py-2   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
+                >
+                  <div className="flex-1 text-left">
+                    <p className="text-[17px]">Share Profile</p>
+                  </div>
+                  <div className="bg-black h-8 w-8 flex justify-center items-center p-1 rounded-sm">
+                    <BsSendFill className="text-white text-xl" />
+                  </div>
+                </button>
+              </div>
+            }
+            <div className="flex justify-center items-center py-5">
+              <div className="flex gap-5  mt-2">
+                {
+                  userProfile?.twitter &&
+                  <a target="_blank" href={'https://x.com/' + userProfile?.twitter ?? '#'} rel="noreferrer">
+                    <img src={TWITTER} />
+                  </a>
+                }
+                {
+                  userProfile?.github &&
+                  <a target="_blank" href={'https://github.com/' + userProfile?.github ?? '#'} rel="noreferrer">
+                    <img src={GITHUB} />
+                  </a>
+                }
+                {
+                  userProfile?.linkedIn &&
+                  <a target="_blank" href={'https://linkedin.com/in/' + userProfile?.linkedIn ?? '#'} rel="noreferrer">
+                    <img src={LINKEDIN} />
+                  </a>
+                }
+                {
+                  userProfile?.youtube &&
+                  <a target="_blank" href={'https://youtube.com/' + userProfile?.youtube ?? '#'} rel="noreferrer">
+                    <img src={YOUTUBE} />
+                  </a>
+                }
+                {
+                  userProfile?.discord &&
+                  <a target="_blank" href={'https://discord.com/' + userProfile?.discord ?? '#'} rel="noreferrer">
+                    <img src={DISCORD} />
+                  </a>
+                }
+              </div>
+            </div>
+          </div>
+          {/* <div className="name mt-[150px] px-16">
             <p className='my-2 text-[24px] text-left leading-tight text-white text-overflow-ellipsis font-helvetica-neue-bold'>{userProfile?.username}</p>
 
             <div className="flex flex-col">
@@ -218,13 +338,13 @@ const Profile = ({ isOpen, closeModal }) => {
                 }
               </div>
               {
-                userProfile != null && (loggedInUserData?._id == userProfile?._id) &&
-                <div className="mt-10 absolute top-[-1.5rem] right-[1rem]">
-                  <Link to={'/profile/edit'}>
+                // userProfile != null && (loggedInUserData?._id == userProfile?._id) &&
+                // <div className="mt-10 absolute top-[-1.5rem] right-[1rem]">
+                //   <Link to={'/profile/edit'}>
 
-                    <LazyLoadImage src={editImg} />
-                  </Link>
-                </div>
+                //     <LazyLoadImage src={editImg} />
+                //   </Link>
+                // </div>
               }
               <div className="mt-10">
                 <ShareButton text={"Share Profile"} isHoveredReq={true} onClick={copyToClipboard} />
@@ -237,72 +357,100 @@ const Profile = ({ isOpen, closeModal }) => {
               </div>
 
             </div>
-          </div>
+          </div> */}
 
         </div>
         <div className="col-span-8 lg:col-span-6">
-          <div className="border-t-2 border-b-[1px] py-2 grid grid-cols-5">
-            <div className="col-span-1 border-r-2 border-r-[#8a8f96] text-center">
-              <p className="hidden lg:block text-[16px]">XP Points</p>
-              <p className="flex justify-center">
-                <img src={FLASH} />
-                <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.XPEarned ?? '-'}</p>
-              </p>
+          <div className="grid grid-cols-5 gap-2 mb-5">
+            <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
+              <div className="py-3">
+                <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">XP POINTS</p>
+              </div>
+              <img src={BATCH_LINE} />
+              <div className="flex flex-row justify-center py-4">
+                <img src={BATCH_XP} />
+                <p className="font-orbitron  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.XPEarned ?? '-'}</p>
+              </div>
             </div>
-            <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
-              <p className="hidden lg:block text-[16px]">Contests participated</p>
-              <p className="flex justify-center">
-                <img src={PARTICIPATION} />
-                <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.contestParticipated ?? '-'}</p>
-              </p>
+            <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
+              <div className="py-3">
+                <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">PARTICIPATED</p>
+              </div>
+              <img src={BATCH_LINE} />
+              <div className="flex flex-row justify-center py-4">
+                <img src={BATCH_PARTICIPATION} />
+                <p className="font-orbitron  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.contestParticipated ?? '-'}</p>
+              </div>
             </div>
-            <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
-              <p className="hidden lg:block text-[16px]">Contests won</p>
-              <p className="flex justify-center">
-                <img src={STAR} />
-                <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.contestWon ?? '-'}</p>
-              </p>
+            <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
+              <div className="py-3">
+                <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">CONTESTS WON</p>
+              </div>
+              <img src={BATCH_LINE} />
+              <div className="flex flex-row justify-center py-4">
+                <img src={BATCH_CONTESTS_WON} />
+                <p className="font-orbitron  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.contestWon ?? '-'}</p>
+              </div>
             </div>
-            <div className="col-span-1 border-r-2 border-r-[#8a8f96]  text-center">
-              <p className="hidden lg:block text-[16px]">Prize won</p>
-              <p className="flex justify-center">
-                <img src={PRIZE} />
-                <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{userContestData?.AmountEarned ?? '-'}</p>
-              </p>
+            <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
+              <div className="py-3">
+                <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">Prize Earned</p>
+              </div>
+              <img src={BATCH_LINE} />
+              <div className="flex flex-row justify-center py-4">
+                <img src={BATCH_PRIZE_EARNED} />
+                <p className="font-orbitron  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.AmountEarned ?? '-'}</p>
+              </div>
             </div>
-            <div className="col-span-1 text-center">
-              <p className="hidden lg:block text-[16px]">Badges</p>
-              <p className="flex justify-center">
-                <img src={BADGES} />
-                <p className="text-[24px] leading-tight text-overflow-ellipsis px-2">{(userContestData?.contestWon > 0 && userContestData?.contestParticipated > 10) ? '2' : userContestData?.contestWon > 0 ? '1' : '-'}</p>
-              </p>
+            <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
+              <div className="py-3">
+                <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">Badges</p>
+              </div>
+              <img src={BATCH_LINE} />
+              <div className="flex flex-row justify-center py-4">
+                <img src={BATCH_BADGES} />
+                <p className="font-orbitron  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{(userContestData?.contestWon > 0 && userContestData?.contestParticipated > 10) ? '2' : userContestData?.contestWon > 0 ? '1' : '-'}</p>
+              </div>
             </div>
           </div>
+
           {
             loggedInUserData?.shardId == userProfile?.shardId && loggedInUserData?.email != "default" && loggedInUserData?.isVerified == false &&
-            <div className="py-2 px-2 lg:px-10 pt-5 text-white">
+            <div className="py-2 px-2 pt-5 text-white">
               <p>Email not yet  verified. Please <span className="text-blue-500 cursor-pointer" onClick={handleResendVerificationEmail}> click </span>to verify it.</p>
             </div>
           }
-          {userContestData != null && userProfile != null &&
+          <div className="flex flex-row gap-4">
+            <div className="flex-1 bg-[#121212] rounded-lg">
+              <div className="p-6">
+                {userContestData != null && userProfile != null &&
+                  <ProfileBadge data={userContestData} courseData={userProfile} />
+                }
+              </div>
+            </div>
+            <div className="flex-1 bg-[#121212] rounded-lg">
+              {
+                userProfile?.projects &&
+                <div className="p-6">
+                  <ProfileProjects projects={userProfile?.projects ?? []} />
+                </div>
+              }
+            </div>
+          </div>
+          {/* {userContestData != null && userProfile != null &&
             <div className="py-2 px-2 lg:px-10">
               <ProfileBadge data={userContestData} courseData={userProfile} />
             </div>
-          }
-          <div className="py-2 px-2 lg:px-10">
-            <div>
+          } */}
+          <div className="p-2 ">
+            <div className="py-5">
               {
                 userProfile != null &&
                 <ProfileCourses userData={userProfile} loggedInUserData={loggedInUserData} />
               }
             </div>
           </div>
-          {
-            userProfile?.projects &&
-            <div className="py-2 px-2 lg:px-10">
-              <ProfileProjects projects={userProfile?.projects ?? []} />
-            </div>
-          }
+
         </div>
       </div>
     </div>

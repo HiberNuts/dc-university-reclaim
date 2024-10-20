@@ -1,9 +1,8 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
   box-sizing: border-box;
 }
 
@@ -36,11 +35,13 @@
   src: url("./assets/Gilroy-SemiBold.ttf");
   font-display: swap;
 }
+
 @font-face {
   font-family: "gilroy-bold";
   src: url("./assets/Gilroy-Bold.ttf");
   font-display: swap;
 }
+
 @font-face {
   font-family: "orbitron-medium";
   src: url("./assets/Orbitron-Medium.ttf");
@@ -58,6 +59,7 @@
   0% {
     transform: scale(1);
   }
+
   100% {
     transform: scale(1.2);
   }
@@ -99,42 +101,61 @@ body {
 
 /* Hide horizontal scrollbar */
 ::-webkit-scrollbar {
-  width: 0; /* Hide vertical scrollbar */
-  height: 8px; /* Set a height for horizontal scrollbar */
+  width: 0;
+  /* Hide vertical scrollbar */
+  height: 8px;
+  /* Set a height for horizontal scrollbar */
 }
 
 ::-webkit-scrollbar-thumb {
-  display: none; /* Hide the horizontal scrollbar thumb */
+  display: none;
+  /* Hide the horizontal scrollbar thumb */
 }
 
 /* Show vertical scrollbar */
 body {
-  overflow-x: hidden; /* Disable horizontal scrolling */
-  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden;
+  /* Disable horizontal scrolling */
+  overflow-y: auto;
+  /* Enable vertical scrolling */
 }
 
 /* Optionally style the vertical scrollbar if needed */
 body::-webkit-scrollbar-thumb {
-  background: #888; /* Customize scrollbar thumb color */
-  border-radius: 4px; /* Customize scrollbar thumb shape */
+  background: #888;
+  /* Customize scrollbar thumb color */
+  border-radius: 4px;
+  /* Customize scrollbar thumb shape */
 }
 
 body::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Customize scrollbar thumb color on hover */
+  background: #555;
+  /* Customize scrollbar thumb color on hover */
 }
 
-.leaderboard_title,.profile_header{
+.leaderboard_title,
+.profile_header {
   background-image: url('https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/Sharderum-Frontend-Assets/backdrop_heading.png');
 }
-.background_dots{
+
+.background_dots {
   background-image: url('https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/Sharderum-Frontend-Assets/submission_bg.svg');
 }
-.table_head{
+
+.table_head {
   background-image: url("https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/Sharderum-Frontend-Assets/table_head.png");
 }
-.top_3{
+
+.top_3 {
   background-image: url('https://shardeum-university-storage.blr1.cdn.digitaloceanspaces.com/Sharderum-Frontend-Assets/confetti.png');
-  background-repeat: no-repeat; 
+  background-repeat: no-repeat;
   background-size: cover;
   background-position: calc(2.5rem)
+}
+
+
+.noice_bg {
+  background-image: url('./assets/noice_img.png');
+  background-repeat: repeat;
+  background-size: cover;
 }

@@ -7,7 +7,7 @@ import { motion, useScroll } from "framer-motion";
 import { Link } from "react-router-dom";
 import { getUserCourseProgressPercentage } from "../../utils/api/CourseAPI";
 import { generateSlug } from "../../utils/generateSlug";
-
+import { CourseCard } from "../Home/CohortsAndLearning";
 const ProfileCourseCard = ({ props, loggedInUserData, userData }) => {
   const scrollRef = useRef(null);
 
@@ -34,6 +34,32 @@ const ProfileCourseCard = ({ props, loggedInUserData, userData }) => {
 
   const { scrollYProgress } = useScroll({ target: scrollRef, offset: ["0 3", "1 1"] });
 
+  return (
+    <Link to={`/workplace/${generateSlug(props?.title)}`}>
+      <CourseCard
+        title={props?.title}
+        image={props?.banner}
+        description={props?.description}
+        resumeCourse={userData._id == loggedInUserData._id && (
+          <div className="w-full mb-4">
+            <div className="w-full h-4 rounded-full border-[0.1px] border-[#5D89FF] bg-transparent">
+              <div
+                style={{
+                  width: `${parseInt(currentCourseProgress?.overallCompletionPercentage)}%`,
+                }}
+                className="bg-blue-500 h-full rounded-full transition-all duration-300"
+              />
+            </div>
+            <p className="relative self-stretch font-gilroy text-[#b1b0b9] text-[15px] tracking-[0] leading-7 mt-2">
+              Course {parseInt(currentCourseProgress?.overallCompletionPercentage)
+                ? parseInt(currentCourseProgress?.overallCompletionPercentage)
+                : 0}% completed
+            </p>
+          </div>
+        )}
+      />
+    </Link>
+  )
   return (
     <Link to={`/workplace/${generateSlug(props?.title)}`}>
       <motion.div
@@ -84,23 +110,7 @@ const ProfileCourseCard = ({ props, loggedInUserData, userData }) => {
               <span className="font-helvetica-neue">{props?.level}</span>
             </div>
           </div>
-          {userData._id == loggedInUserData._id && <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
-            <div className="bg-gray-200 relative h-6 w-full rounded-2xl">
-              <div
-                style={{
-                  width: `${parseInt(currentCourseProgress?.overallCompletionPercentage)}%`,
-                }}
-                className="bg-shardeumOrange h-full absolute top-0 left-0 flex items-center justify-center rounded-2xl text-sm font-semibold text-shardeumBlue"
-              >
-                <span className="ml-10">
-                  {parseInt(currentCourseProgress?.overallCompletionPercentage)
-                    ? parseInt(currentCourseProgress?.overallCompletionPercentage)
-                    : 0}
-                </span>
-                %
-              </div>
-            </div>
-          </div>}
+          { }
 
 
         </div>

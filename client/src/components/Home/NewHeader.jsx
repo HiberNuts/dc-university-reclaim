@@ -52,6 +52,11 @@ export default function NewHeader() {
           }
           const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, { walletAddress: address, signature: data });
           setloggedInUserData(res?.data);
+          localStorage.setItem('userSession', JSON.stringify({
+            address,
+            userData: res?.data,
+            timestamp: Date.now()
+          }));
           if (!res?.data?.shardId || res?.data?.shardId == "" || res.data?.shardId.length < 5) {
             navigate("/profile/edit")
           }
@@ -76,12 +81,27 @@ export default function NewHeader() {
   };
 
   useEffect(() => {
-    if (isConnected) {
-      signinUser();
-    }
-    if (!isConnected) {
-      setloggedInUserData({});
-    }
+    // Check connection status and stored session
+    const checkConnection = async () => {
+      if (isConnected && address) {
+        const storedSession = localStorage.getItem('userSession');
+        if (storedSession) {
+          const sessionData = JSON.parse(storedSession);
+          // Check if session is valid (you can add expiration check here)
+          if (sessionData.address === address &&
+            Date.now() - sessionData.timestamp < 24 * 60 * 60 * 1000) { // 24 hours
+            setloggedInUserData(sessionData.userData);
+            return;
+          }
+        }
+        await signinUser();
+      } else if (!isConnected) {
+        setloggedInUserData({});
+        localStorage.removeItem('userSession');
+      }
+    };
+
+    checkConnection();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, isConnected]);
 
