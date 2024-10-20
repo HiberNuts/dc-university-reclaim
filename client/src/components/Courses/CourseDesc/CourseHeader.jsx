@@ -150,10 +150,10 @@ const CourseHeader = ({ props }) => {
               <div className="grid grid-cols-3 gap-8 items-center w-full rounded-xl">
                 <div className="flex flex-row">
                   <div className="flex-1 inline-flex flex-col  gap-2">
-                    <div className="font-gilroy text-[#efedf5] text-md text-center tracking-[1.44px] leading-3 whitespace-nowrap">
+                    <div className="font-gilroy text-[#efedf5] text-sm text-center tracking-[1.44px] leading-3 whitespace-nowrap">
                       {props?.duration} Hrs.
                     </div>
-                    <div className="font-gilroysemibold text-neutral-50 text-md text-center leading-[30px] whitespace-nowrap">
+                    <div className="font-gilroysemibold text-neutral-50 text-sm text-center leading-[30px] whitespace-nowrap">
                       ( DURATION )
                     </div>
                   </div>
@@ -163,10 +163,10 @@ const CourseHeader = ({ props }) => {
                 </div>
                 <div className="flex flex-row">
                   <div className="flex-1 inline-flex flex-col  gap-2">
-                    <div className="font-gilroysemibold text-[#efedf5] text-md text-center tracking-[1.44px] leading-3 whitespace-nowrap">
+                    <div className="font-gilroysemibold text-[#efedf5] text-sm text-center tracking-[1.44px] leading-3 whitespace-nowrap">
                       10
                     </div>
-                    <div className="font-orbitron font-semibold text-neutral-50 text-md text-center leading-[30px] whitespace-nowrap">
+                    <div className="font-gilroysemibold font-semibold text-neutral-50 text-sm text-center leading-[30px] whitespace-nowrap">
                       ( CHAPTER )
                     </div>
                   </div>
@@ -176,10 +176,10 @@ const CourseHeader = ({ props }) => {
                 </div>
                 <div className="flex flex-row">
                   <div className="flex-1 inline-flex flex-col  gap-2">
-                    <div className="font-gilroysemibold text-[#efedf5] text-md text-center tracking-[1.44px] leading-3 whitespace-nowrap">
+                    <div className="font-gilroysemibold text-[#efedf5] text-sm text-center tracking-[1.44px] leading-3 whitespace-nowrap">
                       {props?.level}
                     </div>
-                    <div className="font-orbitron font-semibold text-neutral-50 text-md text-center leading-[30px] whitespace-nowrap">
+                    <div className="font-gilroysemibold font-semibold text-neutral-50 text-sm text-center leading-[30px] whitespace-nowrap">
                       ( LEVEL )
                     </div>
                   </div>
