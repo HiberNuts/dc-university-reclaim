@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getAllCourseWithPagination } from "../../utils/api/CourseAPI";
 import Pagination from "../Pagination/Pagination";
 import vector from "../../assets/vector.svg"
+import coursesBG from "../../assets/COURSES.svg"
 import { CourseCard } from "../Home/CohortsAndLearning";
 import PastContestCardLoader from "../Contest/ContestLoaders/PastContestCardLoader";
 export default function AllCourses() {
@@ -80,8 +81,11 @@ export default function AllCourses() {
           bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[22px] md:text-[32px] tracking-[0] leading-[50px] whitespace-nowrap">
           Courses Curated for you
         </div>
+        <div className="absolute top-[23%]">
+          <img src={coursesBG} alt="courses bg"/>
+        </div>
         <div className="overflow-hidden">
-          <div className="hidden md:block size-[400px] rounded-full bg-[#3A59FE] overflow-hidden absolute pointer-events-none top-0 left-[40%] z-0 blur-[200px] opacity-40"></div>
+          <div className="hidden md:block size-[400px] rounded-full bg-[#3A59FE] overflow-hidden absolute pointer-events-none top-0 left-[40%] z-0 blur-[200px] opacity-60"></div>
         </div>
         <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 md:gap-5">
           {["DeFi", "Solidity", "NFTs", "DAOs", "Zk Proofs", "Security", "Rust"].map((item, index) => (
