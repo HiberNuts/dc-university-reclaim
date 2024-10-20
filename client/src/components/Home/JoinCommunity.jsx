@@ -113,7 +113,7 @@ const JoinCommunity = () => {
         {/* text for join our community */}
         <div className="inline-flex flex-col items-center justify-center gap-5 p-2.5 ">
           <div className="relative w-fit mt-[-1.00px] 
-        bg-gradient-to-b from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[48px] text-center tracking-[0] leading-[60px] whitespace-nowrap">
+        bg-gradient-to-b from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[20px] md:text-[30px] lg:text-[4px] text-center tracking-[0] leading-[60px] whitespace-nowrap">
             Join Our Community
           </div>
           <p className="pt-5 px-4 md:px-20 relative text-center font-gilroy text-[#b1b0b9] text-lg  tracking-[0] leading-[31.5px]">
@@ -124,23 +124,23 @@ const JoinCommunity = () => {
 
         {/* join our community buttons */}
         <div className='flex items-center justify-center w-full pt-10'>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 ">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:gap-5 gap-3 ">
             {/* discord */}
-            <button className="all-[unset] box-border flex w-[260px] justify-center gap-7 pl-7 pr-4 py-4 bg-[#070707] rounded-lg border border-solid border-[#5d89ff80] items-center relative">
+            <button className="all-[unset] box-border flex lg:w-[260px] w-[230px] justify-center lg:gap-7 gap-4 pl-7 pr-4 py-4 bg-[#070707] rounded-lg border border-solid border-[#5d89ff80] items-center relative">
               <img className="relative w-6 h-6" alt="Discord icon svgrepo" src={discordIconSvgrepoCom1} />
               <div className="relative w-fit font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
                 Join our Discord
               </div>
             </button>
             {/* twitter */}
-            <button className="all-[unset] w-[260px] box-border inline-flex items-center justify-center gap-7 pl-7 pr-4 py-4 relative flex-[0_0_auto] bg-[#070707] rounded-lg border border-solid border-[#5d89ff80]">
+            <button className="all-[unset] lg:w-[260px] w-[230px] box-border inline-flex items-center justify-center lg:gap-7 gap-4 pl-7 pr-4 py-4 relative flex-[0_0_auto] bg-[#070707] rounded-lg border border-solid border-[#5d89ff80]">
               <img className="relative w-6 h-6" alt="Twitter icon svgrepo" src={twitterIconSvgrepoCom2} />
               <div className="relative w-fit font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
                 Follow us on Twitter
               </div>
             </button>
             {/* github */}
-            <button className="all-[unset] w-[260px] box-border inline-flex items-center justify-center gap-7 pl-7 pr-4 py-4 relative flex-[0_0_auto] bg-[#070707] rounded-lg border border-solid border-[#5d89ff80]">
+            <button className="all-[unset] lg:w-[260px] w-[230px] box-border inline-flex items-center justify-center lg:gap-7 gap-4 pl-7 pr-4 py-4 relative flex-[0_0_auto] bg-[#070707] rounded-lg border border-solid border-[#5d89ff80]">
               <img className="relative w-6 h-6" alt="Github icon svgrepo" src={githubIconSvgrepoCom2} />
               <div className="relative w-fit font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
                 Follow us on Github

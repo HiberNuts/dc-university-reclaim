@@ -80,7 +80,7 @@ const CohortsAndLearning = () => {
       <img className="absolute w-[1440px] h-[1089px] top-[-5px] left-0 pointer-events-none" alt="Line" src={line} />
       <div className="absolute w-[400px] h-[400px] top-[254px] right-10 bg-[#4064cd] rounded-[200px] blur-[300px] opacity-45" />
       <div className="relative w-fit mt-[-1.00px]
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[28px] md:text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
+    bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[20px] md:text-[30px] lg:text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
         Interactive Learning and Cohorts
       </div>
       <div className='px-2'>

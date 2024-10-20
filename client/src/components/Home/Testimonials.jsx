@@ -8,7 +8,7 @@ const Testimonials = () => {
     <div className="flex flex-col items-center justify-center gap-10 p-2 md:p-20 relative self-stretch w-full flex-[0_0_auto]">
       <div className="absolute w-[400px] h-[400px] top-[-47px] left-[520px] bg-[#4064cd] rounded-[200px] blur-[300px] opacity-45" />
       <div className="relative w-fit mt-[-1.00px] 
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent  text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent  text-[20px] md:text-[30px] lg:text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
         Testimonials
       </div>
       {/* testimonials cards */}
