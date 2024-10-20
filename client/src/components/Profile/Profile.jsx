@@ -361,7 +361,7 @@ const Profile = ({ isOpen, closeModal }) => {
 
         </div>
         <div className="col-span-8 lg:col-span-6">
-          <div className="grid grid-cols-5 gap-2 mb-5">
+          <div className="grid grid-cols-3 md:grid-cols-5 gap-2 mb-5">
             <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
               <div className="py-3">
                 <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">XP POINTS</p>
@@ -420,7 +420,7 @@ const Profile = ({ isOpen, closeModal }) => {
               <p>Email not yet  verified. Please <span className="text-blue-500 cursor-pointer" onClick={handleResendVerificationEmail}> click </span>to verify it.</p>
             </div>
           }
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 bg-[#121212] rounded-lg">
               <div className="p-6">
                 {userContestData != null && userProfile != null &&
@@ -430,7 +430,6 @@ const Profile = ({ isOpen, closeModal }) => {
             </div>
             <div className="flex-1 bg-[#121212] rounded-lg">
               {
-                userProfile?.projects &&
                 <div className="p-6">
                   <ProfileProjects projects={userProfile?.projects ?? []} />
                 </div>
