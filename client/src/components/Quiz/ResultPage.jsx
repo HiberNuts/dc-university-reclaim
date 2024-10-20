@@ -6,12 +6,13 @@ const ResultPage = ({ score, quizzes, onClickTry, answerArray }) => (
     {score === quizzes.length ? (
       ""
     ) : (
-      <Button
-        customStyle=" bg-shardeumRed px-[52px] py-[18px] hover:bg-shardeumGreen hover:text-black active:bg-[#e5701e] active:scale-95 active:shadow-inner rounded-[10px] transition ease-in-out text-white px-[30px] py-[10px] hover:bg-[#fc7d34] rounded-[10px] transition ease-in-out flex "
-        onClickButton={onClickTry}
+      <button
+        className={`bg-gradient-to-b from-[#3A59FE] to-[#5d89ff] rounded-[10px] h-[48px] flex justify-center  px-[32px] py-[22px]   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
+
+        onClick={onClickTry}
       >
         Let's do it again
-      </Button>
+      </button>
     )}
   </div>
 );

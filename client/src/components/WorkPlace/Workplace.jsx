@@ -139,7 +139,7 @@ export default function WorkPlace() {
 
 
   return (
-    <div className="w-full  mt-[10vh] h-full flex justify-between align-middle">
+    <div className="w-full  mt-2 px-1 md:px-10 h-full flex flex-row">
       <Toaster />
       <ScrollToTop />
       <NftModal
@@ -155,10 +155,10 @@ export default function WorkPlace() {
         setIsOpen={setnftModalIsOpen}
       />
 
-      <div className={`bg-shardeumBlue z-20 px-[15px] py-[48px] lg:w-[25%] md:w-[30%] sm:w-[100%] fixed h-[90vh] left-0 flex flex-col align-middle items-center scroll-m-0 overflow-y-scroll $ ${isMobile ? `${sidebarOpen ? 'block' : 'hidden'} ` : 'h-[90vh]'}`}>
+      <div className={`bg-[#121212] border-[0.1px] border-[#5D89FF] pb-20 rounded-lg z-20 p-1 md:p-6 lg:w-[20%] md:w-[30%] sm:w-[100%] fixed min-h-[90vh]  flex flex-col  scroll-m-0 overflow-y-scroll $ ${isMobile ? `${sidebarOpen ? 'block' : 'hidden'} ` : 'h-[90vh]'}`}>
         <div className="">
           <div>
-            <img
+            {/* <img
               className="rounded-lg "
               src={
                 courseContent?.banner
@@ -166,12 +166,39 @@ export default function WorkPlace() {
                   : "https://coinviet.net/wp-content/uploads/2022/11/2-16.png"
               }
               alt=""
-            />
+            /> */}
           </div>
-          <p className="text-white text-[24px] font-helvetica-neue-bold text-center mt-2">{courseContent?.title}</p>
+          <div className="overflow-hidden">
+            <div className="hidden md:block size-[400px] rounded-full bg-[#3A59FE] overflow-hidden absolute pointer-events-none -top-40 left-0 z-0 blur-[100px] opacity-40"></div>
+          </div>
+          <div className="relative text-left w-fit mt-[-1.00px] 
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-bold text-transparent text-md tracking-[0] leading-5 whitespace-nowrap">
+            {courseContent?.title}
+          </div>
+          <div className="progress-bar py-5">
+            {currentCourseProgress && (
+              <div className="w-full  rounded-full h-4 mb-2">
+                <div className="relative  border-2 border-[#3A59FE] h-3 w-full rounded-2xl">
+                  <div
+                    style={{
+                      width: `${parseInt(currentCourseProgress?.overallCompletionPercentage)}%`,
+                    }}
+                    className={`bg-[#3A59FE] h-full absolute z-0 top-0 left-0 flex items-center justify-center rounded-2xl text-sm font-semibold text-white`}
+                  ></div>
+                </div>
+
+                <div className="mt-2">
+                  <p className="relative self-stretch font-gilroy text-white text-sm tracking-[0] leading-7">
+                    Course {parseInt(currentCourseProgress?.overallCompletionPercentage)}% Completed{" "}
+                  </p>
+                </div>
+                <div style={{ height: '2px', backgroundColor: 'black', width: '100%', marginTop: "8px" }}></div>
+              </div>
+            )}
+          </div>
           <div className="mt-10">
             {moduleContent && moduleContent.map((module, index) => (
-              <div key={index}>
+              <div key={index} className="">
                 <CourseAcordian
                   moduleIndex={index}
                   setSidebarOpen={setSidebarOpen}
@@ -204,51 +231,30 @@ export default function WorkPlace() {
           <button
             disabled={true}
             onClick={() => setnftModalIsOpen(true)}
-            className="text-white border-2 border-shardeumGreen rounded-[10px] font-semibold h-[50px] flex justify-center  px-[32px] py-[22px]  transition ease-in-out items-center  align-middle   text-[18px] w-full text-center mt-2"
+            className="text-white  border-2 border-[#3A59FE] rounded-[10px] font-semibold h-[50px] flex justify-center  px-[32px] py-[22px]  transition ease-in-out items-center  align-middle   text-[18px] w-full text-center mt-5"
           >
             Claim your reward 🔥
           </button>
+          <div className="md:h-20 relative">
+            <div className="absulte overflow-hidden">
+              <div className="hidden md:block size-[400px] rounded-full bg-[#3A59FE] overflow-hidden absolute pointer-events-none -top-20 left-[45%] z-0 blur-[200px] opacity-40"></div>
+            </div>
+          </div>
         </div>
       </div>
-      <div className={`${isMobile ? 'px-8   mt-4' : `${isProgramSelected ? "ml-[25%]  px-0" : ' ml-[25%] px-20 '}`}  overflow-x-hidden w-full flex flex-col justify-center items-center`}>
+      <div className={` ${isMobile ? 'px-8   mt-4' : `${isProgramSelected ? "ml-[25%]  px-1" : ' ml-[25%] '}`}   overflow-x-hidden w-full flex flex-col justify-center items-center`}>
         {isMobile && (
           <div className="toggle-sidebar-container w-full my-5 h-10">
             <button
-              className="toggle-sidebar-button h-full w-full text-lg rounded-lg bg-shardeumGreen"
+              className="toggle-sidebar-button h-full w-full text-lg rounded-lg bg-[#3A59FE]"
               onClick={() => setSidebarOpen(!sidebarOpen)}
             >
               {sidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
             </button>
           </div>
         )}
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-          }}
-        >
-          <p className="text-black px-10 text-[24px] text-center mt-2">{courseContent?.title}</p>
-          {currentCourseProgress && (
-            <div className="w-full px-10 rounded-full h-4 mb-6">
-              <div className="relative  border-2 border-black h-4 w-full rounded-2xl">
-                <div
-                  style={{
-                    width: `${parseInt(currentCourseProgress?.overallCompletionPercentage)}%`,
-                  }}
-                  className={`bg-shardeumRed h-full absolute z-0 top-0 left-0 flex items-center justify-center rounded-2xl text-sm font-semibold text-white`}
-                ></div>
-              </div>
 
-              <div className="mt-2 font-helvetica-neue-roman">
-                Course {parseInt(currentCourseProgress?.overallCompletionPercentage)}% Completed{" "}
-              </div>
-              <div style={{ height: '2px', backgroundColor: 'black', width: '100%', marginTop: "8px" }}></div>
-            </div>
-          )}
-        </div>
-        <div className="flex w-full my-10 m-0 justify-center items-center align-middle">
+        <div className="flex-1 flex w-full  m-0 justify-center items-center align-middle">
           {
             isProgramSelected ?
               <WorkPlaceProgram setuserCourseProgress={setuserCourseProgress}

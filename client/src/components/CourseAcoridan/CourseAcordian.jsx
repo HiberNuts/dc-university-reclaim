@@ -5,6 +5,8 @@ import "./Acordian.scss";
 import whiteExpand from "../../assets/whiteArrow.svg";
 import { LockIcon, TickIcon } from "./Icons";
 import { useEffect } from "react";
+import { IoMdCheckmark } from "react-icons/io";
+import { IoIosLock } from "react-icons/io";
 
 const AccordionContext = React.createContext({});
 const useAccordion = () => React.useContext(AccordionContext);
@@ -42,17 +44,23 @@ function AccordionHeader({ text }) {
 
   return (
     <motion.div
-      className={`py-2 px-0 border-b-2 border-white bg-shardeumBlue ${isActive ? "active" : ""} w-full`}
+      className={`py-2 px-1 md:px-5  bg-gradient-to-b from-[#3A59FE] to-[#5d89ff] ${isActive ? "active" : ""} w-full`}
       onClick={() => onChangeIndex(index)}
     >
       <div className="flex w-full justify-between align-middle h-full">
-        <span className="font-helvetica-neue-roman text-[18px]">{text}</span>
-        <img
-          className={` sm:w-[25px] h-[25px]  mt-3  sm:mt-0 transition-transform duration-300 ${isActive ? "rotate-0" : "rotate-180"
-            }`}
-          src={whiteExpand}
-          alt="Expand"
-        />
+        <div className="flex-1">
+          <span className="relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroybold text-white">
+            {text}
+          </span>
+        </div>
+        <div className="flex justify-center items-center">
+          <img
+            className={`cursor-pointer sm:w-[25px] h-[18px]  mt-3  sm:mt-0 transition-transform duration-300 ${isActive ? "rotate-180" : "rotate-0"
+              }`}
+            src={whiteExpand}
+            alt="Expand"
+          />
+        </div>
       </div>
     </motion.div>
   );
@@ -70,7 +78,7 @@ function AccordionPanel({ children }) {
           exit={{ height: 0 }}
           transition={{ type: "spring", duration: 0.4, bounce: 0 }}
         >
-          <div className="AccordionPanel mt-2 bg-shardeumBlue text-white font-helvetica-neue-roman text-[16px]">
+          <div className="AccordionPanel rounded-b-lg z-10 border-[1px] border-[#3A59FE] bg-[#121212]  text-white font-helvetica-neue-roman text-[16px]">
             {children}
           </div>
         </motion.div>
@@ -125,8 +133,8 @@ const CourseAcordian = ({
       <div className="courseAcc">
         <Accordion>
           <AccordionItem key={"i"}>
-            <AccordionHeader text={module?.moduleTitle} />
-            <AccordionPanel className="bg-shardeumBlue">
+            <AccordionHeader text={"Module " + (moduleIndex + 1)} />
+            <AccordionPanel>
               {module?.chapter.map((chapter, i) => {
                 let disabled = false;
                 if (userCourseProgress?.modules) {
@@ -152,7 +160,7 @@ const CourseAcordian = ({
                 }
 
                 return (
-                  <div>
+                  <div className="my-2">
                     <button
                       disabled={disabled}
                       key={i}
@@ -169,35 +177,39 @@ const CourseAcordian = ({
                     >
                       <div className="flex items-center pt-2  mr-4">
                         {userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status === "full" ? (
-                          <div className="rounded-full items-center w-[30px] h-[30px]">
-                            <TickIcon />
+                          // <div className="rounded-full items-center w-[30px] h-[30px]">
+                          <div className="h-6 w-6 bg-[#3A59FE] rounded-[4px] flex justify-center items-center">
+                            {/* <TickIcon /> */}
+                            <IoMdCheckmark />
+
+                            {/* </div> */}
                           </div>
                         ) : userCourseProgress?.modules[moduleIndex]?.chapters[i]?.status === "partial" ? (
                           <div
-                            className={`rounded-full ${isQuizSelected
+                            className={`h-6 w-6 rounded-[4px] ${isQuizSelected
                               ? "text-white border-2 border-white"
                               : chapter._id == currentChapter._id
                                 ? "border-2 bg-white border-black"
                                 : "border-2 bg-white border-black"
-                              } bg-shardeumBlue  w-[30px] h-[30px]`}
+                              } bg-[#3A59FE]  w-[30px] h-[30px]`}
                           ></div>
                         ) : userCourseProgress?.modules[moduleIndex]?.chapters[i - 1]?.status !== "full" ? (
-                          <div className="rounded-full items-center w-[30px] h-[30px]">
-                            <LockIcon />
+                          <div className="h-6 w-6 bg-[#3A59FE] rounded-[4px] flex justify-center items-center">
+                            <IoIosLock />
                           </div>
                         ) : (
                           <div
-                            className={`rounded-full ${isQuizSelected
+                            className={` h-6 w-6 rounded-[4px] ${isQuizSelected
                               ? "text-white border-2 border-white"
                               : chapter._id == currentChapter._id
                                 ? "border-2 bg-white border-black"
                                 : "border-2 bg-white border-black"
-                              }   w-[30px] h-[30px]`}
+                              }   `}
                           ></div>
                         )}
                         <label
                           htmlFor="red-checkbox"
-                          className={`ml-2 font-helvetica-neue-md text-[16px] items-start text-start ${isQuizSelected || isProgramSelected
+                          className={`ml-2 relative self-stretch  text-[16px] tracking-[0] leading-7 font-gilroy text-white items-start text-start ${isQuizSelected || isProgramSelected
                             ? "text-white"
                             : chapter._id == currentChapter._id
                               ? "border-b-2 border-shardeumGreen"
@@ -302,12 +314,12 @@ const RenderProgram = ({
       >
         <div className="flex items-center pt-2  mr-4">
           {currentQuizStatus === "none" ? (
-            <div className="rounded-full items-center w-[30px] h-[30px]">
-              <LockIcon />
+            <div className="h-6 w-6 bg-[#3A59FE] rounded-[4px] flex justify-center items-center">
+              <IoIosLock />
             </div>
           ) : programStatus === "full" ? (
-            <div className="rounded-full  w-[30px] h-[30px]">
-              <TickIcon />
+            <div className="h-6 w-6 bg-[#3A59FE] rounded-[4px] flex justify-center items-center">
+              <IoMdCheckmark />
             </div>
           ) : (
             <div
@@ -375,12 +387,12 @@ const RenderQuiz = ({
       >
         <div className="flex items-center pt-2  mr-4">
           {currentChaptersStatus == "none" ? (
-            <div className="rounded-full items-center w-[30px] h-[30px]">
-              <LockIcon />
+            <div className="h-6 w-6 bg-[#3A59FE] rounded-[4px] flex justify-center items-center">
+              <IoIosLock />
             </div>
           ) : quizStatus == "full" ? (
-            <div className="rounded-full  w-[30px] h-[30px]">
-              <TickIcon />
+            <div className="h-6 w-6 bg-[#3A59FE] rounded-[4px] flex justify-center items-center">
+              <IoMdCheckmark />
             </div>
           ) : (
             <div
@@ -389,7 +401,7 @@ const RenderQuiz = ({
                 module._id == currentModule._id
                 ? "border-2 border-black bg-white"
                 : "border-2 border-black bg-white "
-                } bg-shardeumBlue  w-[30px] h-[30px]`}
+                } bg-[#3A59FE]  w-[30px] h-[30px]`}
             ></div>
           )}
 

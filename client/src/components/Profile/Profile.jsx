@@ -280,7 +280,7 @@ const Profile = ({ isOpen, closeModal }) => {
           </div>
           {
             loggedInUserData?.shardId == userProfile?.shardId && loggedInUserData?.email != "default" && loggedInUserData?.isVerified == false &&
-            <div className="py-2 px-2 lg:px-10 pt-5">
+            <div className="py-2 px-2 lg:px-10 pt-5 text-white">
               <p>Email not yet  verified. Please <span className="text-blue-500 cursor-pointer" onClick={handleResendVerificationEmail}> click </span>to verify it.</p>
             </div>
           }

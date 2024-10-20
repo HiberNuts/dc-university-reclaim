@@ -105,7 +105,7 @@ export default function NewHeader() {
 
   return (
     <header
-      className={`bg-black/60 my-5 md:mx-20  backdrop-blur text-white mx-1  sticky top-4 z-[999] rounded-xl ${location.pathname.includes("/workplace") || location.pathname.includes("/previewworkplace") ? "fixed w-full" : ""
+      className={`bg-black/60 my-5 md:mx-20  backdrop-blur text-white mx-1  sticky top-4 z-[999] rounded-xl ${location.pathname.includes("/workplace") || location.pathname.includes("/previewworkplace") ? "" : ""
         }`}
     >
 
