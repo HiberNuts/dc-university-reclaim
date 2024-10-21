@@ -26,7 +26,7 @@ const CourseCertificate = ({ props, title }) => {
           <div className="relative w-full h-72 flex items-center justify-center ">
             <div className="absolute w-[200px] h-[200px]  bg-[#3a59fe] rounded-[60px] rotate-180 blur-[100px] opacity-30" />
 
-            <div className="relative w-[270px] h-[330px] z-10 top-5 ">
+            <div className="relative w-[270px] h-[320px] z-10 top-5 ">
               <img className="absolute  w-full h-full rounded-t-xl " alt="Logo" src={props} />
               {/* <img className="absolute w-[262px] h-[210px] top-[70px] left-[89px] opacity-15 mix-blend-overlay" alt="Logo" src={image41} /> */}
               {/* <div className="absolute  h-14 top-[138px] left-0">
@@ -126,7 +126,7 @@ const CourseCertificate = ({ props, title }) => {
         bg-gradient-to-b from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[20px]  lg:text-[40px] text-center tracking-[0] leading-[60px] whitespace-nowrap">
             Earn Your Certificate
           </div>
-          <p className="pt-5 px-4 md:px-[276px] relative text-center font-gilroy text-[#b1b0b9] text-lg  tracking-[0] leading-[31.5px]">
+          <p className="pt-5 px-8 lg:px-[276px] relative text-center font-gilroy text-[#b1b0b9] text-lg  tracking-[0] leading-[31.5px]">
           Complete the Ethereum Developer Bootcamp to ear an NFT Certificate. Complete the Ethereum Developer Bootcamp to ear an NFT Certificate.  Complete the Ethereum Developer Bootcamp to ear an 
           </p>
         </div>

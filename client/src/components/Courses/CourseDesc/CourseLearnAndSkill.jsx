@@ -110,7 +110,7 @@ const CourseLearnAndSkill = () => {
         </div>
       </div>
       {/* lower side */}
-      <div className="flex lg:flow-row flex-col gap-14 lg:gap-0 justify-between w-full py-20 relative overflow-hidden  ">
+      <div className="flex lg:flex-row flex-col gap-14 lg:gap-0 justify-between w-full py-20 relative overflow-hidden  ">
         <div className="absolute -top-[500px] ">
           <img src={Line} alt="line" className="h-[1400px]  " />
         </div>

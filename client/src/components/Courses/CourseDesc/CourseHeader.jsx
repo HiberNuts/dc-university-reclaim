@@ -91,6 +91,7 @@ const CourseHeader = ({ props }) => {
     <div className="flex flex-wrap w-full  py-5  px-2 md:px-20 justify-between gap-8 mt-10">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="w-full border-t-2 border-l-2 border-r-2 border-[#5D89FF] rounded-t-xl">
+      
         <div className="w-full grid grid-cols-3 md:grid-cols-5">
           <div className="hidden md:block col-span-1 "></div>
           <div className="col-span-3 ">
@@ -115,11 +116,11 @@ const CourseHeader = ({ props }) => {
           <div className="flex flex-col pt-10 pb-5">
             <div className="flex flex-row gap-3">
               <div>
-                <img src={AVATAR} className="w-12 h-12 rounded-md" />
+                <img src={AVATAR} className="w-12 h-12 rounded-md object-cover" />
               </div>
               <div className="flex flex-col">
-                <p>Rick Astley</p>
-                <p>Block chain engineer at Decentraclass/com</p>
+                <p className="text-[16px] font-gilroybold">Rick Astley</p>
+                <p className="text-[14px] font-gilroysemibold text-[#B7C2FD]">Block chain engineer at Decentraclass/com</p>
               </div>
             </div>
           </div>
@@ -147,10 +148,10 @@ const CourseHeader = ({ props }) => {
               )}
             </div>
             <div className="flex-1items-end">
-              <div className="grid grid-cols-3 gap-8 items-center w-full rounded-xl">
-                <div className="flex flex-row">
+              <div className="grid grid-cols-3  items-center w-full rounded-xl">
+                <div className="flex flex-row items-center">
                   <div className="flex-1 inline-flex flex-col  gap-2">
-                    <div className="font-gilroy text-[#efedf5] text-sm text-center tracking-[1.44px] leading-3 whitespace-nowrap">
+                    <div className="font-gilroy text-[#efedf5] text-[24px] text-center tracking-[1.44px] leading-3 whitespace-nowrap">
                       {props?.duration} Hrs.
                     </div>
                     <div className="font-gilroysemibold text-neutral-50 text-sm text-center leading-[30px] whitespace-nowrap">
@@ -161,9 +162,9 @@ const CourseHeader = ({ props }) => {
                     <img className="relative flex-1 grow h-12" alt="Seperator" src={seperator} />
                   </div>
                 </div>
-                <div className="flex flex-row">
+                <div className="flex flex-row items-center">
                   <div className="flex-1 inline-flex flex-col  gap-2">
-                    <div className="font-gilroysemibold text-[#efedf5] text-sm text-center tracking-[1.44px] leading-3 whitespace-nowrap">
+                    <div className="font-gilroysemibold text-[#efedf5] text-[24px] text-center tracking-[1.44px] leading-3 whitespace-nowrap">
                       10
                     </div>
                     <div className="font-gilroysemibold font-semibold text-neutral-50 text-sm text-center leading-[30px] whitespace-nowrap">
@@ -174,17 +175,14 @@ const CourseHeader = ({ props }) => {
                     <img className="relative flex-1 grow h-12" alt="Seperator" src={seperator} />
                   </div>
                 </div>
-                <div className="flex flex-row">
+                <div className="flex flex-row items-center px-4">
                   <div className="flex-1 inline-flex flex-col  gap-2">
-                    <div className="font-gilroysemibold text-[#efedf5] text-sm text-center tracking-[1.44px] leading-3 whitespace-nowrap">
+                    <div className="font-gilroysemibold text-[#efedf5] text-[24px] text-center tracking-[1.44px] leading-3 whitespace-nowrap">
                       {props?.level}
                     </div>
                     <div className="font-gilroysemibold font-semibold text-neutral-50 text-sm text-center leading-[30px] whitespace-nowrap">
                       ( LEVEL )
                     </div>
-                  </div>
-                  <div>
-                    <img className="relative flex-1 grow h-12" alt="Seperator" src={seperator} />
                   </div>
                 </div>
               </div>
