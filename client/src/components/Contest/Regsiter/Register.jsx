@@ -190,8 +190,8 @@ export default function ContestRegsiter() {
             <p className="my-2 text-[64px]  leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Leaderboard</p>
           </div>
 
-          {/* <Leaderboard data={leaderboard} /> */}
-          <NewLeaderBoard />
+          <Leaderboard data={leaderboard} />
+          {/* <NewLeaderBoard  /> */}
 
         </div>
       }
