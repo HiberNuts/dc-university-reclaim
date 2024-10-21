@@ -13,7 +13,7 @@ import { renderContent } from "../../../utils/mapRichText";
 import DCButton from "../../button/DCButton";
 import cube from "../../../assets/cube.png";
 import line from "../../../assets/line.svg";
-
+import NewLeaderBoard from "../Leaderboard/NewLeaderBoard";
 
 export default function ContestRegsiter() {
   const { title } = useParams("title");
@@ -190,7 +190,8 @@ export default function ContestRegsiter() {
             <p className="my-2 text-[64px]  leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Leaderboard</p>
           </div>
 
-          <Leaderboard data={leaderboard} />
+          {/* <Leaderboard data={leaderboard} /> */}
+          <NewLeaderBoard />
 
         </div>
       }
@@ -214,6 +215,7 @@ export default function ContestRegsiter() {
           />
         </div>
         <div className='col-span-2 md:pr-8 '>
+
 
           <div className='contest-details-title mb-5'>
             <div className="relative text-left w-fit mt-[-1.00px] 
