@@ -20,6 +20,9 @@ import BATCH_PARTICIPATION from '../../assets/new_badge_2.png'
 import BATCH_CONTESTS_WON from '../../assets/new_badge_3.png'
 import BATCH_PRIZE_EARNED from '../../assets/new_badge_4.png'
 import BATCH_BADGES from '../../assets/new_badge_5.png'
+import profile_bg from '../../assets/profile-bg.svg'
+import profile_bg_2 from '../../assets/profile-bg-2.svg'
+import noise from "../../assets/image-41.png"
 import { RxDividerVertical } from "react-icons/rx";
 import { BsSendFill } from "react-icons/bs";
 
@@ -154,7 +157,44 @@ const Profile = ({ isOpen, closeModal }) => {
         {/* <img alt="trail" src={TRIANGLE_IMG} className="absolute right-10" /> */}
 
       </div>
-      <div className="grid grid-cols-8 min-h-screen px-2 md:px-10 gap-4">
+      <div className="grid grid-cols-8 min-h-screen px-2 md:px-10 gap-4 overflow-x-hidden">
+        {/* noise overlay */}
+        {/* <div className="absolute inset-0 grid grid-cols-[repeat(auto-fill,320px)] grid-rows-[repeat(auto-fill,360px)]  overflow-hidden">
+          {[...Array(100)].map((_, index) => (
+            <img 
+              key={index}
+              src={noise} 
+              alt="Noise overlay" 
+              className="w-[320px] h-[360px] object-cover opacity-30 mix-blend-overlay "
+            />
+          ))}
+        </div> */}
+        {/* vertical blur */}
+
+        <div className="absolute -top-[24%] -left-[2%] w-[850px] h-[850px] overflow-x-hidden  blur-[40px] opacity-70">
+          <img src={profile_bg} className="w-full h-full border border-white" />
+          
+        </div>
+        {/* noise overlay */}
+        {/* <div className="absolute top-0 left-0 w-full h-full flex flex-wrap border border-white">
+          <img src={noise} className="w-[320px] h-[360px] opacity-90 mix-blend-overlay border border-white" />
+          <img src={noise} className="w-[320px] h-[360px] opacity-30 mix-blend-overlay border border-white" />
+          <img src={noise} className="w-[320px] h-[360px] opacity-90 mix-blend-overlay border border-white" />
+          <img src={noise} className="w-[320px] h-[360px] opacity-90 mix-blend-overlay border border-white" />
+          <img src={noise} className="w-[320px] h-[360px] opacity-90 mix-blend-overlay border border-white" />
+        </div> */}
+        {/* horizontal blur */}
+        <div className="absolute top-0 left-0 w-full h-full flex overflow-x-hidden">
+
+          <img src={noise} className="w-[320px] h-[360px] opacity-30 mix-blend-overlay " />
+          <img src={noise} className="w-[320px] h-[360px] opacity-30 mix-blend-overlay " />
+          <img src={noise} className="w-[320px] h-[360px] opacity-30 mix-blend-overlay " />
+          <img src={noise} className="w-[320px] h-[360px] opacity-30 mix-blend-overlay " />
+          <img src={noise} className="w-[320px] h-[360px] opacity-30 mix-blend-overlay " />
+        <div className="absolute -top-[50%] -right-[20%] w-[850px] h-[850px] border border-white rotate-45 blur-[40px] opacity-70">
+          <img src={profile_bg_2} className="w-full h-full " />
+        </div>
+        </div>
         <div className="col-span-8 w-full  lg:col-span-2 bg-[#121212] relative border-[0.1px] border-[#5D89FF] rounded-lg">
           {/* <div className="absolute top-0 left-0 right-0 flex justify-center">
             <div className="relative top-[-100px]">
@@ -164,7 +204,11 @@ const Profile = ({ isOpen, closeModal }) => {
               />
             </div>
           </div> */}
-          <div className="avatar-bg-background relative">
+          {/* avatar blur */}
+          <div className="absolute size-[226px] bg-[#3A59FE80] rounded-full top-[10%] left-1/2 -translate-x-1/2 blur-[100px] z-0">
+
+          </div>
+          <div className="avatar-bg-background relative z-10">
             <img src={AVATAR_BG} className="w-full rounded-lg" />
             <div className="absolute -bottom-10 left-[35%]">
               <LazyLoadImage
@@ -173,7 +217,7 @@ const Profile = ({ isOpen, closeModal }) => {
               />
             </div>
           </div>
-          <div className="px-4">
+          <div className="px-4 z-20">
             <div className="mt-10 flex justify-center ">
               <p className="relative  w-fit mt-[-1.00px] 
           bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-bold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">{userProfile?.username}</p>
@@ -421,14 +465,30 @@ const Profile = ({ isOpen, closeModal }) => {
             </div>
           }
           <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1 bg-[#121212] rounded-lg">
+            <div className="flex-1 bg-[#121212] rounded-lg relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-full flex opacity-40 mix-blend-overlay">
+                <img src={noise} className="w-1/2 h-full " />
+                <img src={noise} className="w-1/2 h-full " />
+              </div>
+              <div className="absolute size-[226px] bg-[#3A59FE80] rounded-full -top-[50%] -right-[25%] blur-[100px] z-0 ">
+              </div>
+              <div>
+
+              </div>
               <div className="p-6">
                 {userContestData != null && userProfile != null &&
                   <ProfileBadge data={userContestData} courseData={userProfile} />
                 }
               </div>
             </div>
-            <div className="flex-1 bg-[#121212] rounded-lg">
+            <div className="flex-1 bg-[#121212] rounded-lg  relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-full flex opacity-40 mix-blend-overlay">
+                <img src={noise} className="w-1/2 h-full " />
+                <img src={noise} className="w-1/2 h-full " />
+              </div>
+              <div className="absolute size-[226px] bg-[#3A59FE80] rounded-full -top-[50%] -right-[25%] blur-[100px] z-0 ">
+
+              </div>
               {
                 <div className="p-6">
                   <ProfileProjects projects={userProfile?.projects ?? []} />
