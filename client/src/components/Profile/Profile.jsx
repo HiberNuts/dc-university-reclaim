@@ -153,7 +153,7 @@ const Profile = ({ isOpen, closeModal }) => {
   return (
     <div className="">
       <Toaster />
-      <div className="bg-dark min-h-[180px] overflow-hidden relative profile_header">
+      <div className="bg-dark min-h-[50px] md:min-h-[120px] overflow-hidden relative profile_header">
         {/* <img alt="trail" src={TRIANGLE_IMG} className="absolute right-10" /> */}
 
       </div>
@@ -171,9 +171,9 @@ const Profile = ({ isOpen, closeModal }) => {
         </div> */}
         {/* vertical blur */}
 
-        <div className="absolute -top-[24%] -left-[2%] w-[850px] h-[850px] overflow-x-hidden  blur-[40px] opacity-70">
+        <div className="absolute -top-[24%] -left-[2%] w-full h-[850px] overflow-x-hidden  blur-[40px] opacity-70">
           <img src={profile_bg} className="w-full h-full border border-white" />
-          
+
         </div>
         {/* noise overlay */}
         {/* <div className="absolute top-0 left-0 w-full h-full flex flex-wrap border border-white">
@@ -184,16 +184,16 @@ const Profile = ({ isOpen, closeModal }) => {
           <img src={noise} className="w-[320px] h-[360px] opacity-90 mix-blend-overlay border border-white" />
         </div> */}
         {/* horizontal blur */}
-        <div className="absolute top-0 left-0 w-full h-full flex overflow-x-hidden">
+        <div className="absolute top-8 left-0 w-full h-full flex overflow-x-hidden">
 
           <img src={noise} className="w-[320px] h-[360px] opacity-30 mix-blend-overlay " />
           <img src={noise} className="w-[320px] h-[360px] opacity-30 mix-blend-overlay " />
           <img src={noise} className="w-[320px] h-[360px] opacity-30 mix-blend-overlay " />
           <img src={noise} className="w-[320px] h-[360px] opacity-30 mix-blend-overlay " />
           <img src={noise} className="w-[320px] h-[360px] opacity-30 mix-blend-overlay " />
-        <div className="absolute -top-[50%] -right-[20%] w-[850px] h-[850px] border border-white rotate-45 blur-[40px] opacity-70">
-          <img src={profile_bg_2} className="w-full h-full " />
-        </div>
+          <div className="absolute -top-[50%] -right-[20%] w-full h-[850px] border border-white rotate-45 blur-[40px] opacity-70">
+            <img src={profile_bg_2} className="w-full h-full " />
+          </div>
         </div>
         <div className="col-span-8 w-full  lg:col-span-2 bg-[#121212] relative border-[0.1px] border-[#5D89FF] rounded-lg">
           {/* <div className="absolute top-0 left-0 right-0 flex justify-center">
@@ -482,7 +482,7 @@ const Profile = ({ isOpen, closeModal }) => {
               </div>
             </div>
             <div className="flex-1 bg-[#121212] rounded-lg  relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-full flex opacity-40 mix-blend-overlay">
+              <div className="absolute top-0 left-0 w-full h-full flex opacity-40 mix-blend-overlay">
                 <img src={noise} className="w-1/2 h-full " />
                 <img src={noise} className="w-1/2 h-full " />
               </div>

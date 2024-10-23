@@ -89,12 +89,12 @@ const JoinCommunity = () => {
               src={image41}
             />
             <img
-              className="w-[367px] h-[336px] top-0 left-[734px] absolute object-cover opacity-15"
+              className="w-[367px] h-[336px] top-0 left-0 md:left-[734px] absolute object-cover opacity-15"
               alt="Image"
               src={image41}
             />
             <img
-              className="w-[367px] h-[336px] top-[336px] left-[734px] absolute object-cover opacity-15 "
+              className="w-[367px] h-[336px] top-[336px] left-0 md:left-[734px] absolute object-cover opacity-15 "
               alt="Image"
               src={image41}
             />
