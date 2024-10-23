@@ -42,10 +42,11 @@ const KeyFeatures = () => {
         Key Features
       </div>
       <div className="relative self-stretch w-full h-[460px]">
-        <div className="relative w-[1600px] h-[460px] -left-40">
-          <div className="absolute w-[1600px] h-[460px] top-0 left-0">
-            <div className="inline-flex items-center gap-9 absolute top-[34px] left-[496px]">
-              <div className="relative w-32 h-7 overflow-hidden">
+        <div className="relative w-screen h-[460px] -left-40">
+          <div className="absolute w-full h-[460px] top-0 left-0 ">
+            <div className="lg:inline-flex  items-center lg:gap-9 gap-5 absolute lg:top-[34px] top-0 left-[496px] ">
+              <div className="relative w-32 h-7 overflow-hidden b">
+                
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentIndex}
@@ -53,7 +54,7 @@ const KeyFeatures = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.5 }}
-                    className="relative w-fit font-gilroybold text-[#5d89ff] text-[28px] tracking-[3.36px] leading-7 whitespace-nowrap"
+                    className=" w-fit font-gilroybold text-[#5d89ff] text-[28px] tracking-[3.36px] leading-7 whitespace-nowrap"
                   >
                     {features[currentIndex].text}
                   </motion.div>
@@ -61,7 +62,7 @@ const KeyFeatures = () => {
               </div>
 
               {/* Feature cards */}
-              <div className="flex gap-9">
+              <div className="flex lg:flex-row flex-col lg:gap-9 gap-5 ">
                 {[currentIndex, nextIndex].map((index, i) => (
                   <div key={i} className="bg-gradient-to-bl from-[#0E3CC8]/50 to-[#1F1F1F]/50 rounded-lg px-8 pt-8 border border-blue-500/30 w-[400px]">
                     <AnimatePresence mode="wait">
