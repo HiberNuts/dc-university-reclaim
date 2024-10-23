@@ -10,6 +10,7 @@ import image515 from '../../assets/image-51-5.png';
 import arrowLeft from '../../assets/arrow-left.svg';
 import cube from '../../assets/cube.png';
 import { motion } from 'framer-motion';
+import DCButton from '../button/DCButton';
 
 const NewHero = () => {
     return (
@@ -97,12 +98,7 @@ const NewHero = () => {
                       certification.Empower your education. Learn, earn,
                     </p>
                   </div>
-                  <button className="all-[unset] box-border inline-flex items-center justify-center lg:gap-7 gap-4 lg:pl-7 pl-4 lg:pr-4 pr-2 lg:py-4 py-2 relative flex-[0_0_auto] bg-[#070707] rounded-lg -top-10 left-2">
-                    <div className="relative w-fit font-gilroybold text-white lg:text-lg text-sm tracking-[0] leading-[18px] whitespace-nowrap">
-                      Explore
-                    </div>
-                    <img className="relative w-6 h-[26px]" alt="Arrow left" src={arrowLeft} />
-                  </button>
+                  <DCButton btnContent="Explore" variant="dark" />
                 </div>
                 <img className="absolute lg:w-[103px] w-[60px] lg:h-28 h-[60px]  lg:top-[9px] lg:left-[566px] left-[50%]" alt="Cube" src={cube} />
               </div>
