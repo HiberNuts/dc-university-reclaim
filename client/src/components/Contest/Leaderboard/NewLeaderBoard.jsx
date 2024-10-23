@@ -20,7 +20,9 @@ import image18 from "../../../assets/image-18.png"
 import image from "../../../assets/line-70-6.svg"
 
 
-const NewLeaderBoard = () => {
+const NewLeaderBoard = ({ data }) => {
+
+  console.log("data", data);
   return (
     <div className="flex flex-col gap-10 pt-[60px] pb-20  self-stretch w-full items-start relative flex-[0_0_auto]">
       {/* <div className="relative w-fit mt-[-1.00px] [background:linear-gradient(180deg,rgb(255,255,255)_0%,rgb(121.2,121,123)_100%)] [-webkit-background-clip:text] bg-clip-text [-webkit-text-fill-color:transparent] [text-fill-color:transparent] [font-family:'Orbitron-Bold',Helvetica] font-bold text-transparent text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
@@ -224,7 +226,7 @@ const NewLeaderBoard = () => {
               </div>
 
               <div className="absolute w-[184px] h-[184px] top-0 left-[711px]">
-                <div className="relative w-[244px] h-[72px] top-px left-[-30px] bg-[url(assets/trophy.png)] bg-cover bg-[20%_20%]">
+                <div className="relative w-[244px] h-[72px] top-px left-[-30px] bg-[url(assets/trophy-1.png)] bg-cover bg-[20%_20%]">
                   <img
                     className="absolute w-[244px] -top-[35px] left-0 mix-blend-color"
                     alt="Mask group"

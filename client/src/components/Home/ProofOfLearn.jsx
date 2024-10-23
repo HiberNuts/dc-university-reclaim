@@ -7,7 +7,7 @@ import listicon from '../../assets/image-1.svg'
 
 const ProofOfLearn = () => {
   return (
-    <div className="flex flex-col items-center px-4 py-16 relative w-full bg-gray-900">
+    <div className="flex flex-col items-center px-4 py-16 relative w-full mt-[200px] lg:mt-0">
       {/* Background blur effect */}
       {/* polygon */}
       <div className="absolute w-[122px] h-[130px] top-[50%]  md:left-32 hidden lg:block">
