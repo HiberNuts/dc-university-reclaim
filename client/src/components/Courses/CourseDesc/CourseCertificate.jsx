@@ -40,7 +40,7 @@ const CourseCertificate = ({ props, title }) => {
                 <div className="top-0 left-0 absolute w-1 h-1 bg-[#9eaeff] rounded-sm" />
               </div> */}
             </div>
-            <div className="absolute top-24 w-[600px] h-[228px] rounded-[30px] border-t border-l border-r border-[#4064cd] z-0">
+            <div className="absolute top-24 sm:w-[600px] w-[300px] xxs:w-[400px] h-[228px] rounded-[30px] border-t border-l border-r border-[#4064cd] z-0">
 
                 <img src={nftbg} alt="nft bg" className="h-full w-full object-cover rounded-[30px]"/>
             </div>
@@ -77,8 +77,8 @@ const CourseCertificate = ({ props, title }) => {
         <img className="absolute w-[122px] h-[463px] top-[122px] left-0" alt="Line" src={line70} />
         {/* image */}
         {/* granny background */}
-        <div className="absolute w-[1440px] h-[649px] top-[37px] left-0 mix-blend-overlay">
-          <div className="relative w-[1468px] h-[673px] -top-6">
+        <div className="absolute w-screen h-[649px] top-[37px] left-0 mix-blend-overlay border border-white">
+          <div className="relative w-screen h-[673px] -top-6">
             <img className="w-[367px] h-[336px] top-0 left-0 absolute object-cover opacity-15 "
               alt="Image"
               src={image41}
@@ -89,32 +89,32 @@ const CourseCertificate = ({ props, title }) => {
               src={image41}
             />
             <img
-              className="w-[367px] h-[336px] top-0 left-[367px] absolute object-cover opacity-15"
+              className="w-[367px] h-[336px] top-0 left-[367px] absolute object-cover opacity-15 hidden xxs:block "
               alt="Image"
               src={image41}
             />
             <img
-              className="w-[367px] h-[336px] top-[336px] left-[367px] absolute object-cover opacity-15 "
+              className="w-[367px] h-[336px] top-[336px] left-[367px] absolute object-cover opacity-15 hidden xxs:block "
               alt="Image"
               src={image41}
             />
             <img
-              className="w-[367px] h-[336px] top-0 left-[734px] absolute object-cover opacity-15"
+              className="w-[367px] h-[336px] top-0 left-[734px] absolute object-cover opacity-15 hidden lg:block "
               alt="Image"
               src={image41}
             />
             <img
-              className="w-[367px] h-[336px] top-[336px] left-[734px] absolute object-cover opacity-15 "
+              className="w-[367px] h-[336px] top-[336px] left-[734px] absolute object-cover opacity-15 hidden lg:block "
               alt="Image"
               src={image41}
             />
             <img
-              className="w-[339px] h-[336px] top-0 left-[1101px] absolute object-cover opacity-15"
+              className="w-[339px] h-[336px] top-0 left-[1101px] absolute object-cover opacity-15 hidden lg:block "
               alt="Image"
               src={image41}
             />
             <img
-              className="w-[339px] h-[336px] top-[336px] left-[1101px] absolute object-cover opacity-15 "
+              className="w-[339px] h-[336px] top-[336px] left-[1101px] absolute object-cover opacity-15 hidden lg:block "
               alt="Image"
               src={image41}
             />
