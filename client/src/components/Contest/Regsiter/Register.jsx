@@ -72,6 +72,7 @@ export default function ContestRegsiter() {
     await getLeaderboard(contest?._id).then((resp) => {
       if (resp.error == false)
         setLeaderboard(resp.data);
+      console.log("leaderboard", resp.data);
     });
   }
   useEffect(() => {
@@ -190,8 +191,8 @@ export default function ContestRegsiter() {
             <p className="my-2 text-[64px]  leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Leaderboard</p>
           </div>
 
-          <Leaderboard data={leaderboard} />
-          {/* <NewLeaderBoard  /> */}
+          {/* <Leaderboard data={leaderboard} /> */}
+          <NewLeaderBoard data={leaderboard} />
 
         </div>
       }
