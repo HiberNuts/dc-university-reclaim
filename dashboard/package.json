@@ -21,7 +21,6 @@
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
-    "shardeumdash": "file:",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {

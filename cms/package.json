@@ -15,7 +15,6 @@
     "@strapi/plugin-users-permissions": "4.15.0",
     "@strapi/strapi": "4.15.0",
     "better-sqlite3": "8.6.0",
-    "cms": "file:",
     "sharp": "^0.32.6",
     "strapi-plugin-import-export-entries": "^1.22.2",
     "strapi-plugin-multi-select": "^1.2.2",
