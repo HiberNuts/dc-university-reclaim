@@ -13,7 +13,6 @@ import { renderContent } from "../../../utils/mapRichText";
 import DCButton from "../../button/DCButton";
 import cube from "../../../assets/cube.png";
 import line from "../../../assets/line.svg";
-import NewLeaderBoard from "../Leaderboard/NewLeaderBoard";
 
 export default function ContestRegsiter() {
   const { title } = useParams("title");
@@ -187,12 +186,14 @@ export default function ContestRegsiter() {
       {
         leaderboard.length > 0 &&
         <div className="px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[30px]">
-          <div className="py-5">
-            <p className="my-2 text-[64px]  leading-tight text-overflow-ellipsis font-helvetica-neue-bold">Leaderboard</p>
+          <div className="pt-5">
+            <div className="relative text-left w-fit mt-[-1.00px] 
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-bold text-transparent text-[30px] tracking-[0] leading-[50px] whitespace-nowrap">
+              Leaderboard
+            </div>
           </div>
 
-          {/* <Leaderboard data={leaderboard} /> */}
-          <NewLeaderBoard data={leaderboard} />
+          <Leaderboard data={leaderboard} />
 
         </div>
       }
