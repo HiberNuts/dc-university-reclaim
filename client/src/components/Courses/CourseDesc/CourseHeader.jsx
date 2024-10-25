@@ -91,7 +91,7 @@ const CourseHeader = ({ props }) => {
     <div className="flex flex-wrap w-full  py-5  px-2 md:px-20 justify-between gap-8 mt-10">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="w-full border-t-2 border-l-2 border-r-2 border-[#5D89FF] rounded-t-xl">
-      
+
         <div className="w-full grid grid-cols-3 md:grid-cols-5">
           <div className="hidden md:block col-span-1 "></div>
           <div className="col-span-3 ">
@@ -116,11 +116,11 @@ const CourseHeader = ({ props }) => {
           <div className="flex flex-col pt-10 pb-5">
             <div className="flex flex-row gap-3">
               <div>
-                <img src={AVATAR} className="w-12 h-12 rounded-md object-cover" />
+                <img src={props?.partner?.avatar ?? ''} alt="avatar" className="w-12 h-12 rounded-md object-cover" />
               </div>
               <div className="flex flex-col">
-                <p className="text-[16px] font-gilroybold">Rick Astley</p>
-                <p className="text-[14px] font-gilroysemibold text-[#B7C2FD]">Block chain engineer at Decentraclass/com</p>
+                <p className="text-[16px] font-gilroybold">{props?.partner?.name ?? 'Anonymous'}</p>
+                <p className="text-[14px] font-gilroysemibold text-[#B7C2FD]">{props?.partner?.description ?? '-'}</p>
               </div>
             </div>
           </div>
