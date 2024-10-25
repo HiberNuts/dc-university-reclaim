@@ -90,6 +90,11 @@
     },
     "contractAddress": {
       "type": "string"
+    },
+    "partner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::partner.partner"
     }
   }
 }

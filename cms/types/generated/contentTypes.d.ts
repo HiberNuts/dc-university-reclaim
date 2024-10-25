@@ -792,6 +792,11 @@ export interface ApiCourseCourse extends Schema.CollectionType {
     module: Attribute.Component<'course-metadata.module', true>;
     nftImage: Attribute.Media;
     contractAddress: Attribute.String;
+    partner: Attribute.Relation<
+      'api::course.course',
+      'oneToOne',
+      'api::partner.partner'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -803,6 +808,38 @@ export interface ApiCourseCourse extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::course.course',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPartnerPartner extends Schema.CollectionType {
+  collectionName: 'partners';
+  info: {
+    singularName: 'partner';
+    pluralName: 'partners';
+    displayName: 'partner';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    description: Attribute.Text;
+    avatar: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::partner.partner',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::partner.partner',
       'oneToOne',
       'admin::user'
     > &
@@ -864,6 +901,7 @@ declare module '@strapi/types' {
       'api::authentication.authentication': ApiAuthenticationAuthentication;
       'api::contest.contest': ApiContestContest;
       'api::course.course': ApiCourseCourse;
+      'api::partner.partner': ApiPartnerPartner;
       'api::program.program': ApiProgramProgram;
     }
   }
