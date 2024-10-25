@@ -43,6 +43,7 @@ const courseSchema = new mongoose.Schema({
   strapiId: Number,
   title: String,
   description: String,
+  category: String,
   aboutCourse: String,
   duration: Number,
   level: String,

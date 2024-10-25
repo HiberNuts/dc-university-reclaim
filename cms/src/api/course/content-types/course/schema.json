@@ -95,6 +95,18 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::partner.partner"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "DeFi",
+        "Solidity",
+        "NFTs",
+        "DAOs",
+        "Zk Proofs",
+        "Security",
+        "Rust"
+      ]
     }
   }
 }

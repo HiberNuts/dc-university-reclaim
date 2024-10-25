@@ -797,6 +797,9 @@ export interface ApiCourseCourse extends Schema.CollectionType {
       'oneToOne',
       'api::partner.partner'
     >;
+    category: Attribute.Enumeration<
+      ['DeFi', 'Solidity', 'NFTs', 'DAOs', 'Zk Proofs', 'Security', 'Rust']
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

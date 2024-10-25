@@ -27,6 +27,7 @@ function extractCourseDetails(courseData) {
         strapiId: courseData.id,
         title: courseData.title,
         description: courseData.description,
+        category: courseData.category,
         aboutCourse: courseData.aboutCourse,
         duration: courseData.duration,
         level: courseData.level,
@@ -56,6 +57,7 @@ async function updateExistingCourse(existingCourse, courseDetails, partnerData) 
     const updateObject = {
         title: courseDetails.title,
         description: courseDetails.description,
+        category: courseDetails.category,
         aboutCourse: courseDetails.aboutCourse,
         duration: courseDetails.duration,
         level: courseDetails.level,
