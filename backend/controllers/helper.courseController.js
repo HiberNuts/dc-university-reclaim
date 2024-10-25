@@ -11,14 +11,14 @@ async function fetchCoursesFromCMS() {
     return response.data.data;
 }
 
-async function processCourse(courseData) {
+async function processCourse(courseData, partnerData) {
     const courseDetails = extractCourseDetails(courseData);
     const existingCourse = await Course.findOne({ strapiId: courseData.id });
 
     if (existingCourse) {
-        await updateExistingCourse(existingCourse, courseDetails);
+        await updateExistingCourse(existingCourse, courseDetails, partnerData);
     } else {
-        await createNewCourse(courseDetails);
+        await createNewCourse(courseDetails, partnerData);
     }
 }
 
@@ -43,8 +43,15 @@ function extractCourseDetails(courseData) {
     };
 }
 
-async function updateExistingCourse(existingCourse, courseDetails) {
+async function updateExistingCourse(existingCourse, courseDetails, partnerData) {
     const updatedModules = processModules(courseDetails.module, existingCourse.module);
+
+    //upading partner info
+    const updatedPartnerObject = {
+        name: partnerData.name,
+        description: partnerData.description,
+        avatar: partnerData.avatar.data.attributes.formats.thumbnail.url
+    }
 
     const updateObject = {
         title: courseDetails.title,
@@ -58,6 +65,7 @@ async function updateExistingCourse(existingCourse, courseDetails) {
         whatYouLearn: courseDetails.whatYouLearn,
         contractAddress: courseDetails.contractAddress,
         faq: courseDetails.faq,
+        partner: updatedPartnerObject,
     };
 
     // Add module updates using dot notation
@@ -198,8 +206,15 @@ function createNewModule(moduleItem) {
     };
 }
 
-async function createNewCourse(courseDetails) {
+async function createNewCourse(courseDetails, partnerData) {
     courseDetails.module = courseDetails.module.map(createNewModule);
+    //Adding partner info
+    const partnerObject = {
+        name: partnerData.name,
+        description: partnerData.description,
+        avatar: partnerData.avatar.data.attributes.formats.thumbnail.url
+    }
+    courseDetails.partner = partnerObject;
     const course = new Course(courseDetails);
     const savedCourse = await course.save();
     console.log("New course created:", savedCourse?.title);

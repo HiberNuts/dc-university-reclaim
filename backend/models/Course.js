@@ -33,6 +33,12 @@ const moduleSchema = new mongoose.Schema({
   strapiId: Number,
 });
 
+const partnerSchema = new mongoose.Schema({
+  name: String,
+  description: String,
+  avatar: String
+})
+
 const courseSchema = new mongoose.Schema({
   strapiId: Number,
   title: String,
@@ -62,6 +68,7 @@ const courseSchema = new mongoose.Schema({
     default: false,
   },
   contractAddress: String,
+  partner: partnerSchema
 });
 
 const Course = mongoose.model("Course", courseSchema);

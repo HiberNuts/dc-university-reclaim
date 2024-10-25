@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+const axios = require('axios');
 const db = require("../models");
 const User = require("../models/User");
 const { fetchCoursesFromCMS, processCourse, createNewEnrollment } = require("./helper.courseController");
@@ -117,13 +117,45 @@ exports.deleteCourseById = async (req, res) => {
     res.status(500).send({ message: error.message || "Internal Server Error", error });
   }
 };
+// Function to fetch populated course data from Strapi
+async function fetchPartnerData(courseId) {
+  try {
+    const response = await axios.get(
+      `${process.env.CMS_URL}/api/courses`,
+      {
+        params: {
+          populate: {
+            partner: {
+              populate: 'avatar'  // Populate the 'avatar' field within the 'partner' relation
+            }
+          },         // Only populate the 'partner' relation
+          filters: { id: { $eq: courseId } } // Filter by the specific course ID
+        },
+      }
+    );
+    if (response.data && response.data.data[0] && response.data.data[0].attributes.partner.data.attributes)
+      return response.data.data[0].attributes.partner.data.attributes;
+    else
+      return null;
+  } catch (error) {
+    console.error('Error fetching populated course data:', error);
+    return null;
+  }
+}
 
 exports.createModel = async (req, res) => {
-  if (!(req.body.model == "course")) return
-  const courseData = req.body.entry;
-  await processCourse(courseData)
-  console.log("Course updated successfully", courseData?.title);
-  res.status(200).send({ message: "Course data synchronized successfully" });
+  try {
+    if (!(req.body.model == "course")) return
+    const courseData = req.body.entry;
+    // Fetch full populated course data
+    const partnerData = await fetchPartnerData(courseData.id);
+    await processCourse(courseData, partnerData)
+    console.log("Course updated successfully", courseData?.title);
+    res.status(200).send({ message: "Course data synchronized successfully" });
+  } catch (error) {
+    console.log("Error in creating model from webhook")
+    res.status(500).send({ message: error?.message })
+  }
 
 }
 
