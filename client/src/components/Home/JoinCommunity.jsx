@@ -113,7 +113,7 @@ const JoinCommunity = () => {
         {/* text for join our community */}
         <div className="inline-flex flex-col items-center justify-center gap-5 p-2.5 ">
           <div className="relative w-fit mt-[-1.00px] 
-        bg-gradient-to-b from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[20px] md:text-[30px] lg:text-[4px] text-center tracking-[0] leading-[60px] whitespace-nowrap">
+        bg-gradient-to-b from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[20px] md:text-[30px] lg:text-[40px] text-center tracking-[0] leading-[60px] whitespace-nowrap">
             Join Our Community
           </div>
           <p className="pt-5 px-4 md:px-20 relative text-center font-gilroy text-[#b1b0b9] text-lg  tracking-[0] leading-[31.5px]">
