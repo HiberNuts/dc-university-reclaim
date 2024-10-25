@@ -7,8 +7,11 @@ import vector from "../../assets/vector.svg"
 import coursesBG from "../../assets/COURSES.svg"
 import { CourseCard } from "../Home/CohortsAndLearning";
 import PastContestCardLoader from "../Contest/ContestLoaders/PastContestCardLoader";
+
 export default function AllCourses() {
   const navigate = useNavigate();
+
+  const categories = ["DeFi", "Solidity", "NFTs", "DAOs", "Zk Proofs", "Security", "Rust"];
 
   const [allCourseInfo, setallCourseInfo] = useState([]);
   const [loading, setloading] = useState(false);
@@ -16,12 +19,21 @@ export default function AllCourses() {
   const [totalItems, setTotalItems] = useState(0);
   const coursesPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
+  const [Query, setQuery] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState(categories);
+
+  
 
   const getAllCourseInfo = async () => {
     setloading(true);
     await getAllCourseWithPagination(currentPage, coursesPerPage).then((resp) => {
       setTotalItems(resp.totalItems);
-      setallCourseInfo(resp.courses);
+      // Ensure all courses have a category property
+      const coursesWithCategory = resp.courses.map(course => ({
+        ...course,
+        category: course.category || "Uncategorized"
+      }));
+      setallCourseInfo(coursesWithCategory);
       setloading(false);
     })
   };
@@ -34,7 +46,17 @@ export default function AllCourses() {
     navigate(`/course/${props?.title.split(" ").join("-")}`)
   }
 
-  const [Query, setQuery] = useState("");
+  const handleCategoryClick = (category) => {
+    setSelectedCategories(prev => {
+      if (prev.includes(category)) {
+        // Always remove the clicked category
+        return prev.filter(cat => cat !== category);
+      } else {
+        // If all categories were previously selected, only select the clicked one
+        return prev.length === categories.length ? [category] : [...prev, category];
+      }
+    });
+  }
 
   const LogoSvg = () => {
     return (
@@ -88,8 +110,14 @@ export default function AllCourses() {
           <div className="hidden md:block size-[400px] rounded-full bg-[#3A59FE] overflow-hidden absolute pointer-events-none top-0 left-[40%] z-0 blur-[200px] opacity-60"></div>
         </div>
         <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 md:gap-5">
-          {["DeFi", "Solidity", "NFTs", "DAOs", "Zk Proofs", "Security", "Rust"].map((item, index) => (
-            <div key={index} className="flex flex-col w-[150px] items-center justify-center gap-8 p-5 relative rounded-[60px] overflow-hidden border border-solid border-[#5d89ff80] shadow-[0px_0px_10px_#3a59fe] [background:linear-gradient(180deg,rgba(14,60,200,0.5)_0%,rgb(17.85,17.85,17.85)_100%)]">
+          {categories.map((item, index) => (
+            <div 
+              key={index} 
+              onClick={() => handleCategoryClick(item)}
+              className={`flex flex-col w-[150px] items-center justify-center gap-8 p-5 relative rounded-[60px] overflow-hidden border border-solid border-[#5d89ff80] cursor-pointer ${
+                selectedCategories.includes(item) ? 'shadow-[0px_0px_10px_#3a59fe] [background:linear-gradient(180deg,rgba(14,60,200,0.5)_0%,rgb(17.85,17.85,17.85)_100%)] ' : ' [background:linear-gradient(180deg,rgb(7,7,7)_0%,rgb(18,18,18)_100%)]'
+              } `}
+            >
               <div className="relative w-fit mt-[-1.00px] font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
                 {item}
               </div>
@@ -105,32 +133,39 @@ export default function AllCourses() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 w-full">
             {
               Array.from({ length: 3 }).map((_, index) => (
-                <PastContestCardLoader className="my-10 col-span-1 w-full" />
-              )
-              )
+                <PastContestCardLoader key={index} className="my-10 col-span-1 w-full" />
+              ))
             }
           </div>
         ) : (
           <div className="w-full">
             <div className="grid col-span-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {allCourseInfo &&
-                allCourseInfo?.reverse()
-                  ?.filter((course) => {
-                    if (Query == "") {
-                      return course;
-                    } else if (course.title.toLowerCase().includes(Query.toLowerCase())) {
-                      return course;
-                    }
+                allCourseInfo
+                  .filter((course) => {
+                    const matchesQuery = Query === "" || course.title.toLowerCase().includes(Query.toLowerCase());
+                    const matchesCategory = selectedCategories.length === categories.length || 
+                      (course.category && selectedCategories.includes(course.category));
+                    return matchesQuery && matchesCategory && course.softDelete !== true;
                   })
-                  ?.map((course, index) => {
-                    return course.softDelete != true ? <div className="col-span-1"> <CourseCard title={course?.title} description={course?.description} image={course?.banner} onClick={() => handleClickCourse(course)} /></div> : "";
+                  .map((course, index) => {
+                    return <div key={index} className="col-span-1">
+                      <CourseCard 
+                        title={course?.title} 
+                        description={course?.description} 
+                        image={course?.banner} 
+                        onClick={() => handleClickCourse(course)} 
+                      />
+                    </div>
                   })}
             </div>
-            <div className="flex justify-center items-center  mt-10">
-              <Pagination totalItems={totalItems} itemsPerPage={coursesPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} />
-              <br />
-              <br />
-              <br />
+            <div className="flex justify-center items-center mt-10">
+              <Pagination 
+                totalItems={totalItems} 
+                itemsPerPage={coursesPerPage} 
+                currentPage={currentPage} 
+                setCurrentPage={setCurrentPage} 
+              />
             </div>
           </div>
         )}
