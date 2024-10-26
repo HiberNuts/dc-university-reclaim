@@ -26,6 +26,7 @@ import PreviewContest from "./components/Contest/Preview/PreviewContest";
 import EditorPreview from "./components/Contest/Preview/EditorPreview";
 import Editor from "./components/editor/IDE/Editor";
 import Solution from "./components/Contest/Solution/Solution";
+import TestComp from "./components/testComp/testComp";
 
 function App() {
   const RedirectAs404 = ({ location }) => <Navigate to={Object.assign({}, location, { state: { is404: true } })} />;
@@ -62,6 +63,7 @@ function App() {
         <Route path="/contests" element={<AllContests />} />
         <Route path="/contest/:title/solution" element={<Solution />} />
         <Route path="/editor/:title/:id" element={<Editor />} />
+        <Route path="/test" element={<TestComp />} />
         {/* hello */}
         {/*Main Routes*/}
         {/*Private route section*/}

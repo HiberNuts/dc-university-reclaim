@@ -174,6 +174,11 @@ const Profile = ({ isOpen, closeModal }) => {
         <div className="absolute -top-[24%] -left-[2%] w-full h-[850px] overflow-x-hidden  blur-[40px] opacity-70">
           <img src={profile_bg} className="w-full h-full border border-white" />
 
+          <div>
+
+
+
+          </div>
         </div>
         {/* noise overlay */}
         {/* <div className="absolute top-0 left-0 w-full h-full flex flex-wrap border border-white">
