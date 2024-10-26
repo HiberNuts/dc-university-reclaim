@@ -40,6 +40,7 @@ require("./routes/courseRoutes")(app);
 require("./routes/adminRoutes")(app);
 require("./routes/contestRoutes")(app);
 require("./routes/solcRoutes")(app);
+require("./routes/cohertRoutes")(app);
 
 // simple route
 app.get("/", (req, res) => {

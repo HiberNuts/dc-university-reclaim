@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "coherts",
+  "info": {
+    "singularName": "cohert",
+    "pluralName": "coherts",
+    "displayName": "cohert",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "starteDate": {
+      "type": "datetime"
+    },
+    "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "Ethereum",
+        "Blockchain",
+        "NFTS",
+        "Solana"
+      ]
+    },
+    "video_url": {
+      "type": "string"
+    }
+  }
+}

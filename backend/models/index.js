@@ -11,8 +11,9 @@ db.role = require("./Role");
 db.course = require("./Course");
 db.admin = require("./Admin");
 db.ROLES = ["user", "admin", "moderator"];
-db.Contests=require("./Contest");
-db.Programs=require("./Program");
-db.Submissions=require("./Submission");
+db.Contests = require("./Contest");
+db.Programs = require("./Program");
+db.Submissions = require("./Submission");
+db.Coherts = require("./Cohert")
 
 module.exports = db;
