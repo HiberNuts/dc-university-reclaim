@@ -5,8 +5,8 @@ import { ParentContext } from "./contexts/ParentContext";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import Home from "./components/Home/Home";
-import Footer from "./components/Footer";
-import Header from "./components/Home/Header";
+// import Footer from "./components/Footer";
+// import Header from "./components/Home/Header";
 import NewFooter from "./components/NewFooter";
 import NewHeader from "./components/Home/NewHeader";
 import PrivateRoute from "./routes/PrivateRoute";
@@ -26,7 +26,7 @@ import PreviewContest from "./components/Contest/Preview/PreviewContest";
 import EditorPreview from "./components/Contest/Preview/EditorPreview";
 import Editor from "./components/editor/IDE/Editor";
 import Solution from "./components/Contest/Solution/Solution";
-import TestComp from "./components/testComp/testComp";
+import ReclaimDemo from "./components/Reclaim/Reclaim";
 
 function App() {
   const RedirectAs404 = ({ location }) => <Navigate to={Object.assign({}, location, { state: { is404: true } })} />;
@@ -63,7 +63,7 @@ function App() {
         <Route path="/contests" element={<AllContests />} />
         <Route path="/contest/:title/solution" element={<Solution />} />
         <Route path="/editor/:title/:id" element={<Editor />} />
-        <Route path="/test" element={<TestComp />} />
+        <Route path="/test" element={<ReclaimDemo />} />
         {/* hello */}
         {/*Main Routes*/}
         {/*Private route section*/}
