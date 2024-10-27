@@ -18,6 +18,24 @@ jobs:
           SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
         run: |
           sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no root@$SERVER_IP '
+            # Load environment variables and PATH
+            source ~/.bashrc
+            source ~/.profile
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            
+            # Check if yarn is installed, if not install it
+            if ! command -v yarn &> /dev/null; then
+              echo "Installing yarn..."
+              npm install -g yarn
+            fi
+            
+            # Check if pm2 is installed, if not install it
+            if ! command -v pm2 &> /dev/null; then
+              echo "Installing pm2..."
+              npm install -g pm2
+            fi
+            
             # Deploy backend
             cd ~/dc-university/backend/ &&
             echo "Updating backend..." &&
