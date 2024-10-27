@@ -12,6 +12,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
       - name: Deploy to Server
         env:
           SERVER_IP: ${{ secrets.SERVER_IP }}
@@ -53,6 +61,6 @@ jobs:
 
             # Run install with increased memory limit and production flag
             
-            NODE_OPTIONS="--max-old-space-size=8080" yarn install --production &&
+            NODE_OPTIONS="--max-old-space-size=8080" npm install --legacy-peer-deps --production &&
             pm2 restart cms
           '
