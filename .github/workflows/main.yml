@@ -21,16 +21,16 @@ jobs:
           username: root
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            cd /dc-university
+            cd dc-university/
             git pull origin master
 
             # Backend deployment
-            cd backend
+            cd backend/
             yarn install
             pm2 restart backend
 
             # Frontend deployment
-            cd cms
+            cd cms/
             yarn install
             pm2 restart cms
 
