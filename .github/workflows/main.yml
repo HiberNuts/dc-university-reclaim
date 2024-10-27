@@ -41,13 +41,13 @@ jobs:
 
             # Backend deployment
             echo "Deploying backend..."
-            cd backend
+            cd backend/
             yarn install
             pm2 restart backend
 
             # CMS deployment
             echo "Deploying CMS..."
-            cd cms
+            cd cms/
             yarn install
             pm2 restart cms
 
