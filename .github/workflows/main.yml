@@ -40,6 +40,15 @@ jobs:
               echo "Installing pm2..."
               npm install -g pm2
             fi
+
+            # Clear npm cache and tmp directories
+            echo "Clearing npm cache..."
+            npm cache clean --force
+            rm -rf ~/.npm
+            rm -rf /tmp/*
+            
+            # Free up memory
+            sync; echo 3 > /proc/sys/vm/drop_caches
             
             # Deploy backend
             cd ~/dc-university/backend/ &&
@@ -58,6 +67,6 @@ jobs:
 
             # Run install with increased memory limit and production flag
             
-            NODE_OPTIONS="--max-old-space-size=8080" npm install --legacy-peer-deps --production &&
+            NODE_OPTIONS="--max-old-space-size=8080" npm install --legacy-peer-deps --no-audit &&
             pm2 restart cms
           '
