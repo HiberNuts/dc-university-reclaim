@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.AUTH_GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy and restart services
         uses: appleboy/ssh-action@v1.0.0
@@ -23,33 +23,56 @@ jobs:
           username: root
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            # Install required dependencies
-            npm install -g yarn
-            npm install -g pm2
+            # Install Node.js and npm if not present
+            if ! command -v node &> /dev/null; then
+              echo "Installing Node.js..."
+              curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+              apt-get install -y nodejs
+            fi
+
+            # Install global dependencies
+            echo "Installing global dependencies..."
+            npm install -g yarn pm2
 
             # Navigate to project directory and update repository
             echo "Updating repository..."
             cd dc-university/
-            ls -la
             git config --global --add safe.directory /dc-university
             git stash
-            git pull https://${{ secrets.AUTH_GITHUB_TOKEN }}@github.com/DecentraSchool/dc-university.git master
+            git pull https://${{ secrets.GITHUB_TOKEN }}@github.com/DecentraSchool/dc-university.git master
 
             # Backend deployment
             echo "Deploying backend..."
             cd backend/
             yarn install
-            pm2 restart backend
+            # Start/restart backend
+            if pm2 list | grep -q "backend"; then
+              pm2 restart backend
+            else
+              pm2 start npm --name backend -- start
+            fi
 
             # CMS deployment
             echo "Deploying CMS..."
-            cd cms/
+            cd ../cms
             yarn install
-            pm2 restart cms
+            # Start/restart cms
+            if pm2 list | grep -q "cms"; then
+              pm2 restart cms
+            else
+              pm2 start npm --name cms -- run develop
+            fi
+
+            # Save PM2 process list
+            pm2 save
 
             # Restart Nginx
             echo "Restarting Nginx..."
             systemctl restart nginx
+
+            # Print deployment status
+            echo "Deployment completed"
+            pm2 list
 
       - name: Deployment status
         if: always()
