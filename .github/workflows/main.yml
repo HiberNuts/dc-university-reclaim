@@ -19,15 +19,15 @@ jobs:
         run: |
           sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no root@$SERVER_IP '
             # Deploy backend
-            cd
-            cd dc-university/backend/ &&
+            cd ~/dc-university/backend/ &&
+            echo "Updating backend..." &&
             git pull origin master &&
             yarn install &&
             pm2 restart backend &&
 
             # Deploy CMS
-            cd
-            cd dc-university/cms/ &&
+            cd ~/dc-university/cms/ &&
+            echo "Updating CMS..." &&
             git pull origin master &&
             yarn install &&
             pm2 restart cms
