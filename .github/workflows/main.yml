@@ -40,13 +40,19 @@ jobs:
             cd ~/dc-university/backend/ &&
             echo "Updating backend..." &&
             git pull origin master &&
-            yarn install &&
+
+            # Run install with increased memory limit and production flag
+            
+            NODE_OPTIONS="--max-old-space-size=2048" yarn install --production --network-timeout 1000000 &&
             pm2 restart backend &&
 
             # Deploy CMS
             cd ~/dc-university/cms/ &&
             echo "Updating CMS..." &&
             git pull origin master &&
-            yarn install &&
+
+            # Run install with increased memory limit and production flag
+            
+            NODE_OPTIONS="--max-old-space-size=2048" yarn install --production --network-timeout 1000000 &&
             pm2 restart cms
           '
