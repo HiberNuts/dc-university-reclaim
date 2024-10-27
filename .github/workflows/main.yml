@@ -26,7 +26,7 @@ jobs:
           SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
         run: |
           sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no root@145.223.19.196 << 'EOF'
-          cd /dc-university
+          cd dc-university
           git pull origin master
 
           # Deploy backend
@@ -34,7 +34,7 @@ jobs:
           yarn install
           pm2 restart backend
           # Deploy CMS
-          cd ../cms
+          cd cms
           yarn install
           pm2 restart cms
 
