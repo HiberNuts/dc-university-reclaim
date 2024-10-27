@@ -1,43 +1,47 @@
-name: Deploy to Server
+name: Auto Deploy to Server
 
 on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Deploy and restart services
+        uses: appleboy/ssh-action@v1.0.0
         with:
-          node-version: "20" # Adjust as needed
+          host: ${{ secrets.SERVER_IP }}
+          username: root
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            cd /dc-university
+            git pull origin master
 
-      - name: Install sshpass
-        run: sudo apt-get update && sudo apt-get install -y sshpass
+            # Backend deployment
+            cd backend
+            yarn install
+            pm2 restart backend
 
-      - name: Pull Latest Code from Git on Server and Restart Services
-        env:
-          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+            # Frontend deployment
+            cd cms
+            yarn install
+            pm2 restart cms
+
+            # Restart Nginx
+            systemctl restart nginx
+
+      - name: Deployment status
+        if: always()
         run: |
-          sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no root@145.223.19.196 << 'EOF'
-          cd dc-university/
-          git pull origin master
-
-          # Deploy backend
-          cd backend/
-          yarn install
-          pm2 restart backend
-          # Deploy CMS
-          cd cms/
-          yarn install
-          pm2 restart cms
-
-          # Restart Nginx
-          sudo systemctl restart nginx
-          EOF
+          if [ ${{ job.status }} == 'success' ]; then
+            echo "✅ Deployment completed successfully"
+          else
+            echo "❌ Deployment failed"
+          fi
