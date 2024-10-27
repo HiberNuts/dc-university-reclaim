@@ -1,0 +1,43 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20" # Adjust as needed
+
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Pull Latest Code from Git on Server and Restart Services
+        env:
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+        run: |
+          sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no root@145.223.19.196 << 'EOF'
+          cd /dc-university
+          git pull origin master
+
+          # Deploy backend
+          cd backend
+          yarn install
+          pm2 restart backend
+          # Deploy CMS
+          cd ../cms
+          yarn install
+          pm2 restart cms
+
+          # Restart Nginx
+          sudo systemctl restart nginx
+          EOF
