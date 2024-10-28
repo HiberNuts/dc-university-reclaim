@@ -57,7 +57,7 @@ jobs:
 
             # Run install with increased memory limit and production flag
             
-            NODE_OPTIONS="--max-old-space-size=8080" npm install --legacy-peer-deps &&
+            yarn install &&
             pm2 restart backend &&
 
             # Deploy CMS
@@ -67,6 +67,6 @@ jobs:
 
             # Run install with increased memory limit and production flag
             
-            NODE_OPTIONS="--max-old-space-size=8080" npm install --legacy-peer-deps &&
+            NODE_OPTIONS="--max-old-space-size=8080" yarn install &&
             pm2 restart cms
           '
