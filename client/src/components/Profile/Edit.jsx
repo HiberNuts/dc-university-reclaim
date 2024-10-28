@@ -16,6 +16,7 @@ import { useContext, useState } from "react";
 import { ParentContext } from "../../contexts/ParentContext";
 import axios from "axios";
 import { useEffect, useRef } from "react";
+import DCButton from "../button/DCButton";
 const EditProfile = () => {
   const [img, setImg] = useState(null);
   const { loggedInUserData, setloggedInUserData } = useContext(ParentContext);
@@ -251,38 +252,38 @@ const EditProfile = () => {
     }
   }, [loggedInUserData]);
   return (
-    <div className="py-[60px] px-5 md:px-[100px] bg-shardeumPink ">
+    <div className="py-[60px] px-5 md:px-[100px] bg-black ">
       <Toaster />
-      <div className="heading pb-10 border-b-2 flex ">
+      <div className="heading pb-10 border-b-[1px] border-[#797979] flex ">
         <div className="flex-1 text-left">
-          <p className="my-2 text-[48px] md:text-[64px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold">
+          <p className="text-[48px] md:text-[60px] leading-tight text-overflow-ellipsis bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent">
             Edit Profile
           </p>
         </div>
-        <div className="flex-1 float-right flex justify-end items-center">
+        {/* <div className="flex-1 float-right flex justify-end items-center">
           <GreenButton
             onClick={saveHandler}
             text={"Save Changes"}
             isHoveredReq={true}
           />
-        </div>
+        </div> */}
       </div>
-      <div className="edit_section grid grid-cols-1 space-y-5 md:space-y-0  md:grid-cols-5 py-10  md:py-20">
+      <div className="edit_section grid grid-cols-1 space-y-5 md:space-y-0  md:grid-cols-5 py-8  md:py-14">
         <div className="col-span-1">
           <div className="flex flex-col space-y-7 justify-center items-center">
             <LazyLoadImage
               src={preview}
-              className="rounded-[50%] object-cover object-center w-[180px] h-[180px] border-[2px]"
+              className="rounded-[20px] object-cover object-center w-[200px] h-[200px] border-[1px] border-[#797979]"
             />
             <label
               for="files"
-              className="text-shardeumBlue bg-white cursor-pointer border-[2px] border-shardeumBlue rounded-[10px] py-[8px] px-[16px] flex space-x-1"
+              className="text-shardeumBlue bg-black cursor-pointer border-[1px] border-shardeumBlue rounded-[10px] py-[8px] px-[20px] flex space-x-3 max-w-full "
             >
+              <div className="mt-[2px]">
+                <span className="font-gilroybold text-white">Change Avatar</span>
+              </div>
               <div className="py-1">
                 <img src={IMG_UPLOAD} />
-              </div>
-              <div className="mt-[2px]">
-                <span>Change Avatar</span>
               </div>
             </label>
             <input
@@ -291,12 +292,16 @@ const EditProfile = () => {
               type="file"
               onChange={profileImageChangeHandler}
             />
+            {/* save button */}
+            <div className="w-full flex justify-center">
+              <DCButton onClick={saveHandler} btnContent={"Save Changes"} />
+            </div>
           </div>
         </div>
         <div className="col-span-4">
-          <div className="box-1  bg-black rounded-3xl border-[1px] p-2 md:p-10">
+          <div className="box-1  bg-black rounded-3xl border-[1px] border-[#5D89FF80] p-2 md:p-10">
             <div>
-              <p className="my-2 text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-5">
+              <p className="my-2 text-[32px] leading-tight text-overflow-ellipsis bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent border-b-[1px] pb-5">
                 Basic Information
               </p>
               <div className="py-5 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
@@ -307,7 +312,7 @@ const EditProfile = () => {
                   <input
                     id="shardId"
                     defaultValue={loggedInUserData?.shardId ?? ""}
-                    className={`p-[16px] rounded-[12px] border-[0.5px] text-black ${loggedInUserData?.shardId && "cursor-not-allowed"
+                    className={`p-[16px] rounded-[12px] border-[0.5px] text-[#797979] bg-[#141414] border-[#797979] placeholder:text-[#797979] ${loggedInUserData?.shardId && "cursor-not-allowed"
                       }`}
                     placeholder="Enter your username"
                     onChange={changehandler}
@@ -327,7 +332,7 @@ const EditProfile = () => {
                     Your Name
                   </label>
                   <input
-                    className="p-[16px] rounded-[12px] border-[0.5px] text-black"
+                    className="p-[16px] rounded-[12px] border-[0.5px] text-[#797979] bg-[#141414] border-[#797979]"
                     placeholder="Enter your Name"
                     id="username"
                     defaultValue={loggedInUserData?.username ?? ""}
@@ -344,7 +349,7 @@ const EditProfile = () => {
                     Description
                   </label>
                   <input
-                    className="p-[16px] rounded-[12px] border-[0.5px] h-[100px]"
+                    className="p-[16px] rounded-[12px] border-[0.5px] h-[100px] text-[#797979] bg-[#141414] border-[#797979] placeholder:text-[#797979]"
                     placeholder="Enter your Introduction"
                     id="description"
                     defaultValue={loggedInUserData?.description ?? ""}
@@ -361,7 +366,7 @@ const EditProfile = () => {
                     Occupation
                   </label>
                   <select
-                    className="p-[16px] rounded-[12px] border-[0.5px] text-black"
+                    className="p-[16px] rounded-[12px] border-[0.5px] text-[#797979] bg-[#141414] border-[#797979] placeholder:text-[#797979]"
                     id="occupation"
                     value={loggedInUserData?.occupation ?? ""}
                     onChange={changehandler}
@@ -379,7 +384,7 @@ const EditProfile = () => {
                     Work Experience
                   </label>
                   <select
-                    className="p-[16px] rounded-[12px] border-[0.5px] text-black"
+                    className="p-[16px] rounded-[12px] border-[0.5px] text-[#797979] bg-[#141414] border-[#797979] placeholder:text-[#797979]"
                     id="experience"
                     value={loggedInUserData?.experience ?? ""}
                     onChange={changehandler}
@@ -398,7 +403,7 @@ const EditProfile = () => {
                       Email Address
                     </label>
                     <input
-                      className="p-[16px] rounded-[12px] border-[0.5px] text-black"
+                      className="p-[16px] rounded-[12px] border-[0.5px] text-[#797979] bg-[#141414] border-[#797979] placeholder:text-[#797979]"
                       placeholder="Enter your email ID"
                       id="email"
                       type="email"
@@ -417,7 +422,7 @@ const EditProfile = () => {
                       Email Address
                     </label>
                     <input
-                      className="p-[16px] rounded-[12px] border-[0.5px] text-black cursor-not-allowed"
+                      className="p-[16px] rounded-[12px] border-[0.5px] text-[#797979] bg-[#141414] border-[#797979] placeholder:text-[#797979] cursor-not-allowed"
                       disabled
                       placeholder="Enter your email ID"
                       id="email"
@@ -436,7 +441,7 @@ const EditProfile = () => {
                     Website URL
                   </label>
                   <input
-                    className="p-[16px] rounded-[12px] border-[0.5px]"
+                    className="p-[16px] rounded-[12px] border-[0.5px] text-[#797979] bg-[#141414] border-[#797979] placeholder:text-[#797979]"
                     placeholder="Enter your Website URL"
                     id="portfolio"
                     defaultValue={loggedInUserData?.portfolio ?? ""}
@@ -451,19 +456,19 @@ const EditProfile = () => {
               </div>
             </div>
           </div>
-          <div className="mt-10 box-1 bg-white rounded-3xl border-[1px] p-2 md:p-10">
-            <p className="my-2 text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-5">
+          <div className="mt-10 box-1 bg-black rounded-3xl border-[1px] border-[#5D89FF80] p-2 md:p-10">
+            <p className="my-2 text-[32px] leading-tight text-overflow-ellipsis bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent border-b-[1px] pb-5">
               On the web
             </p>
 
             <div className="py-5 grid col-span-1 md:grid-cols-2 gap-10">
               <div className="col-span-1">
-                <div className="grid grid-cols-10 p-[16px] rounded-[12px] border-[0.5px] bg-shardeumWhite">
+                <div className="grid grid-cols-10 p-[16px] rounded-[12px] border-[0.5px] bg-black border-[#797979]">
                   <div className="col-span-1">
                     <img src={TWITTER} />
                   </div>
                   <input
-                    className="col-span-9 outline-none bg-shardeumWhite"
+                    className="col-span-9 outline-none bg-black text-[#797979] border-[#797979] placeholder:text-[#797979]"
                     defaultValue={loggedInUserData?.twitter ?? ""}
                     placeholder="Enter Username"
                     id="twitter"
@@ -472,12 +477,12 @@ const EditProfile = () => {
                 </div>
               </div>
               <div className="col-span-1">
-                <div className="grid grid-cols-10 p-[16px] rounded-[12px] border-[0.5px] bg-shardeumWhite">
+                <div className="grid grid-cols-10 p-[16px] rounded-[12px] border-[0.5px] bg-black border-[#797979]">
                   <div className="col-span-1">
                     <img src={LINKEDIN} />
                   </div>
                   <input
-                    className="col-span-9 outline-none bg-shardeumWhite"
+                    className="col-span-9 outline-none bg-black text-[#797979] border-[#797979] placeholder:text-[#797979]"
                     defaultValue={loggedInUserData?.linkedIn ?? ""}
                     placeholder="Enter Username"
                     id="linkedIn"
@@ -486,12 +491,12 @@ const EditProfile = () => {
                 </div>
               </div>
               <div className="col-span-1">
-                <div className="grid grid-cols-10 p-[16px] rounded-[12px] border-[0.5px] bg-shardeumWhite">
+                <div className="grid grid-cols-10 p-[16px] rounded-[12px] border-[0.5px] bg-black border-[#797979]">
                   <div className="col-span-1">
                     <img src={YOUTUBE} />
                   </div>
                   <input
-                    className="col-span-9 outline-none bg-shardeumWhite"
+                    className="col-span-9 outline-none bg-black text-[#797979] border-[#797979] placeholder:text-[#797979]"
                     defaultValue={loggedInUserData?.youtube ?? ""}
                     placeholder="Enter Username"
                     id="youtube"
@@ -500,12 +505,12 @@ const EditProfile = () => {
                 </div>
               </div>
               <div className="col-span-1">
-                <div className="grid grid-cols-10 p-[16px] rounded-[12px] border-[0.5px] bg-shardeumWhite">
+                  <div className="grid grid-cols-10 p-[16px] rounded-[12px] border-[0.5px] bg-black border-[#797979]">
                   <div className="col-span-1">
                     <img src={GITHUB} />
                   </div>
                   <input
-                    className="col-span-9 outline-none bg-shardeumWhite"
+                    className="col-span-9 outline-none bg-black text-[#797979] border-[#797979] placeholder:text-[#797979]"
                     defaultValue={loggedInUserData?.github ?? ""}
                     placeholder="Enter Username"
                     id="github"
@@ -514,12 +519,12 @@ const EditProfile = () => {
                 </div>
               </div>
               <div className="col-span-1">
-                <div className="grid grid-cols-10 p-[16px] rounded-[12px] border-[0.5px] bg-shardeumWhite">
+                <div className="grid grid-cols-10 p-[16px] rounded-[12px] border-[0.5px] bg-black border-[#797979]">
                   <div className="col-span-1">
                     <img src={DISCORD} />
                   </div>
                   <input
-                    className="col-span-9 outline-none bg-shardeumWhite"
+                    className="col-span-9 outline-none bg-black text-[#797979] border-[#797979] placeholder:text-[#797979]"
                     defaultValue={loggedInUserData?.discord ?? ""}
                     placeholder="Enter Username"
                     id="discord"
@@ -529,8 +534,8 @@ const EditProfile = () => {
               </div>
             </div>
           </div>
-          <div className="mt-10 box-1 bg-white rounded-3xl border-[1px] p-2 md:p-10">
-            <p className="my-2 text-[32px] leading-tight text-overflow-ellipsis font-helvetica-neue-bold border-b-[1px] pb-5">
+          <div className="mt-10 box-1 bg-black rounded-3xl border-[1px] border-[#5D89FF80] p-2 md:p-10">
+            <p className="my-2 text-[32px] leading-tight text-overflow-ellipsis bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent border-b-[1px] pb-5">
               Project Links
             </p>
 
@@ -541,7 +546,7 @@ const EditProfile = () => {
                 </label>
                 <input
                   id="title"
-                  className="p-[16px] rounded-[12px] border-[0.5px]"
+                  className="p-[16px] rounded-[12px] border-[0.5px] text-[#797979] bg-[#141414] border-[#797979] placeholder:text-[#797979]"
                   placeholder="Enter the title"
                   onChange={projectChangeHandler}
                   value={projectValues.title}
@@ -553,7 +558,7 @@ const EditProfile = () => {
                 </label>
                 <input
                   id="URL"
-                  className="p-[16px] rounded-[12px] border-[0.5px]"
+                  className="p-[16px] rounded-[12px] border-[0.5px] text-[#797979] bg-[#141414] border-[#797979] placeholder:text-[#797979]"
                   placeholder="Enter link"
                   onChange={projectChangeHandler}
                   value={projectValues.URL}
@@ -565,17 +570,22 @@ const EditProfile = () => {
                 </label>
                 <input
                   id="description"
-                  className="p-[16px] rounded-[12px] border-[0.5px]"
+                  className="p-[16px] rounded-[12px] border-[0.5px] text-[#797979] bg-[#141414] border-[#797979] placeholder:text-[#797979]"
                   placeholder="Type here..."
                   onChange={projectChangeHandler}
                   value={projectValues.description}
                 />
               </div>
-              <div className="col-span-1 text-center flex items-end space-y-4">
-                <GreenButton
+              <div className="col-span-1 text-center flex items-center justify-center space-y-4">
+                {/* <GreenButton
                   onClick={addProjectHandler}
                   text={"Add"}
                   isHoveredReq={true}
+                /> */}
+                <DCButton
+                  onClick={addProjectHandler}
+                  btnContent={"Add"}
+                  variant="dark"
                 />
               </div>
             </div>
@@ -583,7 +593,7 @@ const EditProfile = () => {
             {projects.map((project) => (
               <div
                 key={project.id}
-                className="w-full mt-5 bg-white overflow-hidden   p-[16px] rounded-[12px] border"
+                className="w-full mt-5 bg-black overflow-hidden   p-[16px] rounded-[12px] border border-[#5D89FF80]"
               >
                 <div className="flex justify-between">
                   <div className="flex items-center">
