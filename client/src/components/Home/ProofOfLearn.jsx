@@ -32,7 +32,7 @@ const ProofOfLearn = () => {
           </div>
         </div>
 
-      <h2 className="lg:text-[40px] text-[20px] font-bold font-orbitron text-white mb-32 text-center">Introducing <span className='text-[#5d89ff]'>Proof Of Learn</span></h2>
+      <h2 className="lg:text-[40px] text-[20px]  font-montserrat-bold text-white mb-32 text-center">Introducing <span className='text-[#5d89ff]'>Proof Of Learn</span></h2>
 
     <div className='flex-col sm:flex-row flex mx-auto w-full items-center justify-center gap-[60px]'>
         {/* card 1 */}

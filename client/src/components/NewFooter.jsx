@@ -90,7 +90,7 @@ export default function NewFooter() {
 
           </div>
           <div className="flex flex-col items-center">
-            <h3 className="font-orbitron font-bold text-[24px] mb-8">Stay in the know with our newsletter</h3>
+            <h3 className="font-montserrat-bold text-[24px] mb-8">Stay in the know with our newsletter</h3>
             <div className="flex flex-col md:flex-row gap-5">
               <input
                 type="email"

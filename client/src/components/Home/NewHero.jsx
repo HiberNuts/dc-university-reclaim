@@ -62,7 +62,7 @@ const NewHero = () => {
                     </div>
                   </div>
                   <div className="inline-flex flex-col items-center gap-3 relative flex-[0_0_auto] mr-4 lg:mr-0">
-                  <div className="relative w-fit lg:text-[32px] text-lg  font-orbitron text-neutral-50 text-center tracking-[0] leading-8 whitespace-nowrap">
+                  <div className="relative w-fit lg:text-[32px] text-lg  font-montserrat-semibold text-neutral-50 text-center tracking-[0] leading-8 whitespace-nowrap">
                       40,000+
                     </div>
                     <div className="relative w-fit font-gilroysemibold text-[#b1b0b9] lg:text-sm text-[10px]  text-center tracking-[1.68px] leading-[14px] whitespace-nowrap">
@@ -70,7 +70,7 @@ const NewHero = () => {
                     </div>
                   </div>
                 <div className="inline-flex flex-col items-center gap-3 relative flex-[0_0_auto] mr-4 lg:mr-0">
-                    <div className="relative w-fit mt-[-1.00px] font-orbitron text-neutral-50 lg:text-[32px] text-lg  text-center tracking-[0] leading-8 whitespace-nowrap">
+                    <div className="relative w-fit mt-[-1.00px] font-montserrat-semibold text-neutral-50 lg:text-[32px] text-lg  text-center tracking-[0] leading-8 whitespace-nowrap">
                       2,000+
                     </div>
                     <div className="relative w-fit font-gilroysemibold text-[#b1b0b9] lg:text-sm text-[10px]  text-center tracking-[1.68px] leading-[14px] whitespace-nowrap">
@@ -78,7 +78,7 @@ const NewHero = () => {
                     </div>
                   </div>
                   <div className="inline-flex flex-col items-center gap-3 relative flex-[0_0_auto] mr-4 lg:mr-0">
-                    <div className="relative w-fit mt-[-1.00px] font-orbitron text-neutral-50 lg:text-[32px] text-lg  text-center tracking-[0] leading-8 whitespace-nowrap">
+                    <div className="relative w-fit mt-[-1.00px] font-montserrat-semibold text-neutral-50 lg:text-[32px] text-lg  text-center tracking-[0] leading-8 whitespace-nowrap">
                       100+
                     </div>
             <div className="relative w-fit font-gilroysemibold text-[#b1b0b9] lg:text-sm text-[10px] text-center tracking-[1.68px] leading-[14px] whitespace-nowrap">
@@ -88,7 +88,7 @@ const NewHero = () => {
                 </div>
                 <div className="flex flex-col lg:w-[1200px] w-[700px] h-[332px]  items-start justify-between absolute lg:top-10 lg:left-10 top-0 left-0">
                   <div className="flex flex-col items-start gap-3 relative self-stretch w-full flex-[0_0_auto] pl-4 lg:pl-0">
-                    <div className="relative w-fit  font-orbitron font-bold text-white lg:text-[50px]  sm:text-[24px] tracking-[5.00px] leading-[62.5px] ">
+                    <div className="relative w-fit  font-montserrat-bold text-white lg:text-[50px]  sm:text-[24px] tracking-[5.00px] leading-[62.5px] ">
                       LEARN TO EARN
                       <br />
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRANSFORM KNOWLEDGE

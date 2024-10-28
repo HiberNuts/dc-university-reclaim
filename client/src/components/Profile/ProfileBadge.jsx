@@ -18,7 +18,7 @@ const ProfileBadge = ({ data, courseData }) => {
     return (
       <div>
         <p className="relative text-left  mt-[-1.00px]
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-montserrat-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
           Badges
         </p>
         <div className="mt-5 flex flex-row gap-4">

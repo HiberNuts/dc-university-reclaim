@@ -48,6 +48,23 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "montserrat-medium";
+  src: url("./assets/Montserrat-Medium.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "montserrat-semibold";
+  src: url("./assets/Montserrat-SemiBold.ttf");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "montserrat-bold";
+  src: url("./assets/Montserrat-Bold.ttf");
+  font-display: swap;
+}
 
 
 .animate-scale {
