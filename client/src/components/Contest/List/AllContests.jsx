@@ -71,7 +71,7 @@ export default function AllContests() {
     <div className="bg-black">
       <div className="flex justify-center items-center">
         <div className="relative text-center w-fit mt-[-1.00px] 
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[24px] md:text-[30px] tracking-[0] leading-[50px] whitespace-nowrap">
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-montserrat-bold text-transparent text-[24px] md:text-[30px] tracking-[0] leading-[50px] whitespace-nowrap">
           Hop into our Contests
         </div>
       </div>
@@ -96,7 +96,7 @@ export default function AllContests() {
         <div className="flex flex-col items-center">
           <div className="flex justify-center items-center">
             <div className="relative text-center w-fit mt-[-1.00px] 
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[24px] md:text-[30px] tracking-[0] leading-[50px] whitespace-nowrap mb-10">
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-montserrat-bold text-transparent text-[24px] md:text-[30px] tracking-[0] leading-[50px] whitespace-nowrap mb-10">
               Past Contest
             </div>
           </div>

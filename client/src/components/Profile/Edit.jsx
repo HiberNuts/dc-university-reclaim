@@ -276,7 +276,7 @@ const EditProfile = () => {
       </div>
       <div className="heading pb-10 border-b-[1px] border-[#797979] flex ">
         <div className="flex-1 text-left">
-          <p className="text-[48px] md:text-[60px] leading-tight text-overflow-ellipsis bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent">
+          <p className="text-[48px] md:text-[60px] leading-tight text-overflow-ellipsis bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-montserrat-bold text-transparent">
             Edit Profile
           </p>
         </div>
@@ -328,12 +328,12 @@ const EditProfile = () => {
               <img src={Noise} alt="bg" className="w-1/2 h-1/2 object-cover" />
             </div>
             <div >
-              <p className="my-2 text-[32px] leading-tight text-overflow-ellipsis bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent border-b-[1px] pb-5">
+              <p className="my-2 text-[32px] leading-tight text-overflow-ellipsis bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-montserrat-bold text-transparent border-b-[1px] pb-5">
                 Basic Information
               </p>
               <div className="py-5 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10 ">
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
-                  <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">
+                  <label className="text-[16px] leading-[16px] text-overflow-ellipsis font-gilroysemibold">
                     Shard ID
                   </label>
                   <input
@@ -355,7 +355,7 @@ const EditProfile = () => {
                   ref={errorRef}
                   className="col-span-1 md:col-span-1 flex flex-col space-y-4"
                 >
-                  <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">
+                  <label className="text-[16px] leading-[16px] text-overflow-ellipsis font-gilroysemibold">
                     Your Name
                   </label>
                   <input
@@ -372,7 +372,7 @@ const EditProfile = () => {
                   )}
                 </div>
                 <div className="col-span-1 md:col-span-2 flex flex-col space-y-4">
-                  <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">
+                  <label className="text-[16px] leading-[16px] text-overflow-ellipsis font-gilroysemibold">
                     Description
                   </label>
                   <input
@@ -389,7 +389,7 @@ const EditProfile = () => {
                   )}
                 </div>
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
-                  <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">
+                  <label className="text-[16px] leading-[16px] text-overflow-ellipsis font-gilroysemibold">
                     Occupation
                   </label>
                   <select
@@ -407,7 +407,7 @@ const EditProfile = () => {
                   </select>
                 </div>
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
-                  <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">
+                  <label className="text-[16px] leading-[16px] text-overflow-ellipsis font-gilroysemibold">
                     Work Experience
                   </label>
                   <select
@@ -426,7 +426,7 @@ const EditProfile = () => {
                 </div>
                 {loggedInUserData?.email == "default" ? (
                   <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
-                    <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">
+                    <label className="text-[16px] leading-[16px] text-overflow-ellipsis font-gilroysemibold">
                       Email Address
                     </label>
                     <input
@@ -445,7 +445,7 @@ const EditProfile = () => {
                   </div>
                 ) : (
                   <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
-                    <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">
+                    <label className="text-[16px] leading-[16px] text-overflow-ellipsis font-gilroysemibold">
                       Email Address
                     </label>
                     <input
@@ -464,7 +464,7 @@ const EditProfile = () => {
                   </div>
                 )}
                 <div className="col-span-1 md:col-span-1 flex flex-col space-y-4">
-                  <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">
+                  <label className="text-[16px] leading-[16px] text-overflow-ellipsis font-gilroysemibold">
                     Website URL
                   </label>
                   <input
@@ -493,7 +493,7 @@ const EditProfile = () => {
               <img src={Noise} alt="bg" className="w-1/3 h-1/2 object-cover" />
               <img src={Noise} alt="bg" className="w-1/3 h-1/2 object-cover" />
             </div>
-            <p className="my-2 text-[32px] leading-tight text-overflow-ellipsis bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent border-b-[1px] pb-5">
+            <p className="my-2 text-[32px] leading-tight text-overflow-ellipsis bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-montserrat-bold text-transparent border-b-[1px] pb-5">
               On the web
             </p>
 
@@ -576,13 +576,13 @@ const EditProfile = () => {
               <img src={Noise} alt="bg" className="w-1/2 h-full object-cover" />
               <img src={Noise} alt="bg" className="w-1/2 h-full object-cover" />
             </div>
-            <p className="my-2 text-[32px] leading-tight text-overflow-ellipsis bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent border-b-[1px] pb-5">
+            <p className="my-2 text-[32px] leading-tight text-overflow-ellipsis bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-montserrat-bold text-transparent border-b-[1px] pb-5">
               Project Links
             </p>
 
             <div className="py-5 grid grid-cols-4 gap-2 md:gap-10">
               <div className="md:col-span-2 col-span-4 flex flex-col space-y-4">
-                <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">
+                <label className="text-[16px] leading-[16px] text-overflow-ellipsis font-gilroysemibold">
                   Link Title
                 </label>
                 <input
@@ -594,7 +594,7 @@ const EditProfile = () => {
                 />
               </div>
               <div className="md:col-span-2 col-span-4 flex flex-col space-y-4">
-                <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">
+                <label className="text-[16px] leading-[16px] text-overflow-ellipsis font-gilroysemibold">
                   URL
                 </label>
                 <input
@@ -606,7 +606,7 @@ const EditProfile = () => {
                 />
               </div>
               <div className="col-span-3 flex flex-col space-y-4">
-                <label className="text-[14px] leading-[14px] text-overflow-ellipsis font-helvetica-neue-bold">
+                <label className="text-[16px] leading-[16px] text-overflow-ellipsis font-gilroysemibold">
                   description
                 </label>
                 <input

@@ -73,7 +73,7 @@ const CourseFAQ = ({ data }) => {
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-16 relative">
       <div className="sm:size-[596px] size-[300px] rounded-full absolute top-8 left-1/2 -translate-x-1/2 bg-[#3A59FE] blur-[300px] opacity-50 z-0"></div>
-      <h2 className="bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent  lg:text-[40px] text-[20px] sm:text-[30px] tracking-[0] lg:leading-[50px] sm:leading-[40px] leading-[30px] whitespace-nowrap mb-10 text-center z-[999]">
+      <h2 className="bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-montserrat-bold text-transparent  lg:text-[40px] text-[20px] sm:text-[30px] tracking-[0] lg:leading-[50px] sm:leading-[40px] leading-[30px] whitespace-nowrap mb-10 text-center z-[999]">
         Frequently Asked Questions
       </h2>
       {faqData.map((item, index) => (

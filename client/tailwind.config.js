@@ -55,6 +55,9 @@ module.exports = {
         gilroysemibold: ['gilroy-semibold', 'sans-serif'],
         gilroybold: ['gilroy-bold', 'sans-serif'],
         orbitron: ['orbitron-medium', 'sans-serif'],
+        "montserrat-medium": ['montserrat-medium', 'sans-serif'],
+        "montserrat-semibold": ['montserrat-semibold', 'sans-serif'],
+        "montserrat-bold": ['montserrat-bold', 'sans-serif'],
       },
       borderRadius: {
         xl: "20px",

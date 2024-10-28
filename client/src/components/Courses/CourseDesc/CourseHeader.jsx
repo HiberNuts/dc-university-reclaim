@@ -110,7 +110,7 @@ const CourseHeader = ({ props }) => {
       <div className="description-div lg:flex-1 flex-wrap flex flex-col gap-[32px]  justify-between">
         <div className="header-div">
           <div className="relative text-wrap text-center mt-[-1.00px] 
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-semibold text-transparent text-[24px] md:text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-montserrat-semibold text-transparent text-[24px] md:text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
             {props?.title}
           </div>
           <div className="flex flex-col pt-10 pb-5">

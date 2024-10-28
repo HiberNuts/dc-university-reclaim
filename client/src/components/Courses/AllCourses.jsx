@@ -100,7 +100,7 @@ export default function AllCourses() {
       </div>
       <div className="corse_header z-10 gap-[32px] md:mb-[72px] mb-[42px] w-full items-center flex flex-col justify-center align-middle">
         <div className="relative w-fit mt-[-1.00px]
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[22px] md:text-[32px] tracking-[0] leading-[50px] whitespace-nowrap">
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-montserrat-bold text-transparent text-[22px] md:text-[32px] tracking-[0] leading-[50px] whitespace-nowrap">
           Courses Curated for you
         </div>
         <div className="absolute top-[23%]">

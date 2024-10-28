@@ -27,7 +27,7 @@ const CourseLearnAndSkill = () => {
                 <img src={grainyBG} alt="grainy bg" />
               </div>
             </div>
-            <h2 className="text-white text-[32px] text-center font-orbitron font-semibold mb-4">
+            <h2 className="text-white text-[32px] text-center font-montserrat-semibold  mb-4">
               What you'll Learn
             </h2>
             <ul className="space-y-7">
@@ -60,7 +60,7 @@ const CourseLearnAndSkill = () => {
                 <img src={grainyBG} alt="grainy bg" />
               </div>
             </div>
-            <h2 className="text-white text-center text-[32px] font-orbitron font-semibold  mb-4">
+            <h2 className="text-white text-center text-[32px] font-montserrat-semibold  mb-4">
               Skills You'll Gain
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -102,7 +102,7 @@ const CourseLearnAndSkill = () => {
               <img src={grainyBG} alt="grainy bg" />
             </div>
           </div>
-          <h2 className="text-white text-[32px] text-center font-orbitron font-semibold mb-4">
+          <h2 className="text-white text-[32px] text-center font-montserrat-semibold mb-4">
             What you'll Learn
           </h2>
           <ul className="space-y-7">
@@ -135,7 +135,7 @@ const CourseLearnAndSkill = () => {
               <img src={grainyBG} alt="grainy bg" />
             </div>
           </div>
-          <h2 className="text-white text-center text-[32px] font-orbitron font-semibold  mb-4">
+          <h2 className="text-white text-center text-[32px] font-montserrat-semibold  mb-4">
             Skills You'll Gain
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
