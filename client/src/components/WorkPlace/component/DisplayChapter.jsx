@@ -127,7 +127,7 @@ const DisplayChapter = ({
                 <button
                   disabled={currentChapterStatus === "full" ? true : false}
                   onClick={() => handleCompleteChapter({ chapter })}
-                  className={`bg-gradient-to-b from-[#3A59FE] to-[#5d89ff] rounded-[10px] h-[48px] flex justify-center  px-[32px] py-[22px]   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
+                  className={`bg-gradient-to-b from-[#3A59FE] to-decentraBlue rounded-[10px] h-[48px] flex justify-center  px-[32px] py-[22px]   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
                 >
                   <span className="items-center text-center ">
                     {currentChapterStatus === "full" ? "Completed" : "Mark as complete"}
@@ -146,7 +146,7 @@ const DisplayChapter = ({
                     onClick={() => {
                       handlePrevChapterClick({ chapter });
                     }}
-                    className={`bg-gradient-to-b from-[#3A59FE] to-[#5d89ff] h-[58px] w-[58px] flex justify-center align-middle  hover:bg-black rounded-[10px]  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
+                    className={`bg-gradient-to-b from-[#3A59FE] to-decentraBlue h-[58px] w-[58px] flex justify-center align-middle  hover:bg-black rounded-[10px]  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
                   >
                     <IoMdArrowBack className="text-xl" />
                   </button>
@@ -165,7 +165,7 @@ const DisplayChapter = ({
                     onClick={() => {
                       handleNextChapterClick({ chapter });
                     }}
-                    className={`bg-gradient-to-b from-[#3A59FE] to-[#5d89ff] h-[58px] w-[58px] flex justify-center align-middle  hover:bg-black rounded-[10px]  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
+                    className={`bg-gradient-to-b from-[#3A59FE] to-decentraBlue h-[58px] w-[58px] flex justify-center align-middle  hover:bg-black rounded-[10px]  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
                   >
                     <IoMdArrowForward className="text-xl" />
                   </button>

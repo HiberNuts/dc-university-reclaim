@@ -54,7 +54,7 @@ const CourseHeader = ({ props }) => {
             </div>
             <div className="flex border-l border-gray-200">
               <button
-                onClick={() => navigate("/profile")}
+                onClick={() => navigate(`/${loggedInUserData.shardId}`)}
                 className=" w-full border border-transparent rounded-none rounded-r-lg ml-2  flex items-center justify-center text-sm font-medium text-shardeumBlue hover:text-shardeumOrange focus:outline-none"
               >
                 Click here
@@ -90,7 +90,7 @@ const CourseHeader = ({ props }) => {
   return (
     <div className="flex flex-wrap w-full  py-5  px-2 md:px-20 justify-between gap-8 mt-10">
       <Toaster position="top-center" reverseOrder={false} />
-      <div className="w-full border-t-2 border-l-2 border-r-2 border-[#5D89FF] rounded-t-xl">
+      <div className="w-full border-t-2 border-l-2 border-r-2 border-decentraBlue rounded-t-xl">
 
         <div className="w-full grid grid-cols-3 md:grid-cols-5">
           <div className="hidden md:block col-span-1 "></div>

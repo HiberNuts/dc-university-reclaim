@@ -5,7 +5,8 @@ import Line from "../../../assets/Line-course.svg";
 import LineBG from "../../../assets/Line-course-bg.png";
 import { FaCheck } from "react-icons/fa6";
 
-const CourseLearnAndSkill = () => {
+const CourseLearnAndSkill = ({ learn = [], skills = [], about }) => {
+  console.log("LEANR: ", learn, " SKILLS:", skills, "ABOUT:", about)
   return (
     <div className="flex flex-col px-4 sm:px-10 md:px-20 pt-20">
       {/* upper side  */}
@@ -16,7 +17,7 @@ const CourseLearnAndSkill = () => {
         {/* lef side */}
         <div className="flex flex-col gap-14 lg:w-1/2 w-full ">
           {/* What You'll Learn Section */}
-          <div className="w-full bg-[#121212] rounded-lg px-10  py-9 border border-[#5D89FF]/50 relative">
+          <div className="w-full bg-[#121212] rounded-lg px-10  py-9 border border-decentraBlue/50 relative">
             <div className="absolute inset-0 flex mix-blend-overlay opacity-30 ">
               <div>
                 <img src={grainyBG} alt="grainy bg" />
@@ -31,16 +32,14 @@ const CourseLearnAndSkill = () => {
               What you'll Learn
             </h2>
             <ul className="space-y-7">
-              {Array(5)
-                .fill("")
-                .map((_, index) => (
-                  <li key={index} className="flex  items-start justify-between">
+              {learn && learn
+                .map((single, index) => (
+                  <li key={index} className="flex  items-start ">
                     <div className="w-6 h-6 bg-[#3A59FE] rounded-[4px] flex items-center justify-center flex-shrink-0 mr-4">
-                    <FaCheck className="text-white" size={12} />
-                  </div>
+                      <FaCheck className="text-white" size={12} />
+                    </div>
                     <p className="text-[#b1b0b9] text-sm text-wrap ">
-                      Web3 is a vast and complex ecosystem. Choose from hundreds of mate rials to
-                      find the path that's right for you.
+                      {single}
                     </p>
                   </li>
                 ))}
@@ -48,7 +47,7 @@ const CourseLearnAndSkill = () => {
           </div>
 
           {/* Skills You'll Gain Section */}
-          <div className="w-full bg-[#121212]  py-9 px-10 rounded-lg border border-[#5D89FF]/50 relative ">
+          <div className="w-full bg-[#121212]  py-9 px-10 rounded-lg border border-decentraBlue/50 relative ">
             {/* grainy bg */}
             <div className="absolute inset-0 flex mix-blend-overlay opacity-30 ">
               <div>
@@ -64,17 +63,16 @@ const CourseLearnAndSkill = () => {
               Skills You'll Gain
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {Array(8)
-                .fill("")
-                .map((_, index) => (
+              {skills && skills
+                .map((single, index) => (
                   <div
                     key={index}
                     className="flex items-center gap-x-5 bg-[#1b2232] rounded-md p-3 border border-[#5d89ff80]"
                   >
                     <div className="w-5 h-5 bg-[#3A59FE] rounded-md flex items-center justify-center">
-                    <FaCheck className="text-white" size={12} />
-                  </div>
-                    <p className="text-[#b1b0b9]">Cryptography</p>
+                      <FaCheck className="text-white" size={12} />
+                    </div>
+                    <p className="text-[#b1b0b9]">{single}</p>
                   </div>
                 ))}
             </div>
@@ -91,7 +89,7 @@ const CourseLearnAndSkill = () => {
           <img src={Line} alt="line" className="h-[1400px]  " />
         </div>
         {/* What You'll Learn Section */}
-        <div className="lg:w-1/2 w-full bg-[#121212] mr-10 rounded-lg px-10  py-9 border border-[#5D89FF]/50 relative">
+        <div className="lg:w-1/2 w-full bg-[#121212] mr-10 rounded-lg px-10  py-9 border border-decentraBlue/50 relative">
           <div className="absolute inset-0 flex mix-blend-overlay opacity-30 ">
             <div>
               <img src={grainyBG} alt="grainy bg" />
@@ -106,16 +104,14 @@ const CourseLearnAndSkill = () => {
             What you'll Learn
           </h2>
           <ul className="space-y-7">
-            {Array(5)
-              .fill("")
-              .map((_, index) => (
-                <li key={index} className="flex  items-start justify-between">
+            {learn && learn
+              .map((single, index) => (
+                <li key={index} className="flex  items-start">
                   <div className="w-6 h-6 bg-[#3A59FE] rounded-[4px] flex items-center justify-center flex-shrink-0 mr-4">
                     <FaCheck className="text-white" size={12} />
                   </div>
                   <p className="text-[#b1b0b9] text-sm text-wrap ml-4">
-                    Web3 is a vast and complex ecosystem. Choose from hundreds of mate rials to find
-                    the path that's right for you.
+                    {single}
                   </p>
                 </li>
               ))}
@@ -123,7 +119,7 @@ const CourseLearnAndSkill = () => {
         </div>
 
         {/* Skills You'll Gain Section */}
-        <div className="lg:w-1/2 w-full bg-[#121212]  py-9 px-10 rounded-lg border border-[#5D89FF]/50 relative ">
+        <div className="lg:w-1/2 w-full bg-[#121212]  py-9 px-10 rounded-lg border border-decentraBlue/50 relative ">
           {/* grainy bg */}
           <div className="absolute inset-0 flex mix-blend-overlay opacity-30 ">
             <div>
@@ -139,9 +135,8 @@ const CourseLearnAndSkill = () => {
             Skills You'll Gain
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {Array(8)
-              .fill("")
-              .map((_, index) => (
+            {skills && skills
+              .map((single, index) => (
                 <div
                   key={index}
                   className="flex items-center gap-x-5 bg-[#1b2232] rounded-md p-3 border border-[#5d89ff80]"
@@ -149,7 +144,7 @@ const CourseLearnAndSkill = () => {
                   <div className="w-5 h-5 bg-[#3A59FE] rounded-md flex items-center justify-center">
                     <FaCheck className="text-white" size={12} />
                   </div>
-                  <p className="text-[#b1b0b9]">Cryptography</p>
+                  <p className="text-[#b1b0b9]">{single}</p>
                 </div>
               ))}
           </div>

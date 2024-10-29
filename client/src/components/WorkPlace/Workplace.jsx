@@ -29,7 +29,7 @@ export default function WorkPlace() {
   const [currentChapterStatus, setcurrentChapterStatus] = useState("none");
   const [currentModuleAllChapterStatus, setcurrentModuleAllChapterStatus] = useState("none");
   const [currentQuiz, setcurrentQuiz] = useState([]);
-  const [nftModalIsOpen, setnftModalIsOpen] = useState(false);
+  const [nftModalIsOpen, setnftModalIsOpen] = useState(true);
   const [currentCourseProgress, setcurrentCourseProgress] = useState({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -155,7 +155,7 @@ export default function WorkPlace() {
         setIsOpen={setnftModalIsOpen}
       />
 
-      <div className={`bg-[#121212] border-[0.1px] border-[#5D89FF] pb-20 rounded-lg z-20 p-1 md:p-6 lg:w-[20%] md:w-[30%] sm:w-[100%] fixed min-h-[90vh]  flex flex-col  scroll-m-0 overflow-y-scroll $ ${isMobile ? `${sidebarOpen ? 'block' : 'hidden'} ` : 'h-[90vh]'}`}>
+      <div className={`bg-[#121212] border-[0.1px] border-decentraBlue pb-20 rounded-lg z-20 p-1 md:p-6 lg:w-[20%] md:w-[30%] sm:w-[100%] fixed min-h-[90vh]  flex flex-col  scroll-m-0 overflow-y-scroll $ ${isMobile ? `${sidebarOpen ? 'block' : 'hidden'} ` : 'h-[90vh]'}`}>
         <div className="">
           <div>
             {/* <img

@@ -37,14 +37,14 @@ const ProfileProjects = ({ projects = [] }) => {
                     <button
                         onClick={handlePrev}
                         disabled={currentIndex <= 0 || isAnimating}
-                        className="transform -translate-y-1/2 bg-gray-800 text-white border-2 border-[#5D89FF] p-2 rounded-full opacity-50 hover:opacity-75 disabled:opacity-25 disabled:cursor-not-allowed"
+                        className="transform -translate-y-1/2 bg-gray-800 text-white border-2 border-decentraBlue p-2 rounded-full opacity-50 hover:opacity-75 disabled:opacity-25 disabled:cursor-not-allowed"
                     >
                         <IoIosArrowBack />
                     </button>
                     <button
                         onClick={handleNext}
                         disabled={currentIndex >= projects.length - 2 || isAnimating}
-                        className="transform -translate-y-1/2 bg-gray-800 text-white border-2 border-[#5D89FF] p-2 rounded-full opacity-50 hover:opacity-75 disabled:opacity-25 disabled:cursor-not-allowed"
+                        className="transform -translate-y-1/2 bg-gray-800 text-white border-2 border-decentraBlue p-2 rounded-full opacity-50 hover:opacity-75 disabled:opacity-25 disabled:cursor-not-allowed"
                     >
                         <IoIosArrowForward />
                     </button>

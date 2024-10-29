@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import line from '../../assets/line.svg'
-import image41 from '../../assets/image-41.png'
-import image52 from '../../assets/image-52.png'
-import arrowLeft from '../../assets/arrow-left.svg'
 import { getAllCourse } from '../../utils/api/CourseAPI'
 import { truncate } from '../../utils/truncate'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
@@ -105,12 +102,11 @@ const CohortsAndLearning = () => {
       <div className='px-2'>
         <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 md:gap-5">
           {categories.map((item, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               onClick={() => handleCategoryClick(item)}
-              className={`flex flex-col w-[150px] items-center justify-center gap-8 p-5 relative rounded-[60px] overflow-hidden border border-solid border-[#5d89ff80] cursor-pointer ${
-                selectedCategories.includes(item) ? 'shadow-[0px_0px_10px_#3a59fe] [background:linear-gradient(180deg,rgba(14,60,200,0.5)_0%,rgb(17.85,17.85,17.85)_100%)] ' : ' [background:linear-gradient(180deg,rgb(7,7,7)_0%,rgb(18,18,18)_100%)]'
-              } `}
+              className={`flex flex-col w-[150px] items-center justify-center gap-8 p-5 relative rounded-[60px] overflow-hidden border border-solid border-[#5d89ff80] cursor-pointer ${selectedCategories.includes(item) ? 'shadow-[0px_0px_10px_#3a59fe] [background:linear-gradient(180deg,rgba(14,60,200,0.5)_0%,rgb(17.85,17.85,17.85)_100%)] ' : ' [background:linear-gradient(180deg,rgb(7,7,7)_0%,rgb(18,18,18)_100%)]'
+                } `}
             >
               <div className="relative w-fit mt-[-1.00px] font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
                 {item}
@@ -124,7 +120,7 @@ const CohortsAndLearning = () => {
       <div className="gap-7 grid col-span-1 md:grid-cols-3">
         {allCourseInfo && allCourseInfo
           .filter(course => {
-            const matchesCategory = selectedCategories.length === categories.length || 
+            const matchesCategory = selectedCategories.length === categories.length ||
               (course.category && selectedCategories.includes(course.category));
             return matchesCategory && course.softDelete !== true;
           })

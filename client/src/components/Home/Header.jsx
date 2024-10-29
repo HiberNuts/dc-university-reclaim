@@ -1,27 +1,27 @@
 import React, { useEffect, useState, useContext, lazy, Suspense } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import navLogoBlack from "../../assets/navlogoBlack.svg";
-import navLogoWhite from "../../assets/navlogoWhite.svg";
-import "./Home.css";
-import ProfileDropDown from "./ProfileDropdown";
+import logo from "../../assets/LogoName.svg";
+import image41 from "../../assets/image-41.png";
+import "./Home.css"; // Ensure your CSS is correctly imported
+import ProfileDropDown from "./ProfileDropdown"; // Ensure this component exists and is correctly implemented
 import axios from "axios";
 import { useAccount, useSignMessage } from "wagmi";
-import { ParentContext } from "../../contexts/ParentContext";
-import GreenButton from "../button/GreenButton";
+import { ParentContext } from "../../contexts/ParentContext"; // Ensure this context is correctly set up
+import GreenButton from "../button/GreenButton"; // Ensure this button component exists
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { getUserContestDetails } from "../../utils/api/UserAPI";
+import { getUserContestDetails } from "../../utils/api/UserAPI"; // Ensure this utility exists
 import toast, { Toaster } from "react-hot-toast";
 import { disconnect } from "@wagmi/core";
 
-const Burger = lazy(() => import("./Burger"));
+const Burger = lazy(() => import("./Burger")); // Lazy load the Burger component for mobile
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [homeRoute, sethomeRoute] = useState(true);
+  const [isHomeRoute, setIsHomeRoute] = useState(location.pathname === "/");
   const { address, isConnected } = useAccount();
-  const { isLoading, signMessageAsync } = useSignMessage()
+  const { isLoading, signMessageAsync } = useSignMessage();
 
   const { loggedInUserData, setloggedInUserData } = useContext(ParentContext);
 
@@ -31,268 +31,209 @@ export default function Header() {
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
-  const Location = useLocation();
-  const targetLinks = [Location.pathname, Location.hash, Location.pathname.split("/")[1]];
+
+  const targetLinks = [
+    location.pathname,
+    location.hash,
+    location.pathname.split("/")[1],
+  ];
 
   useEffect(() => {
-    if (location.pathname == "/") {
-      sethomeRoute(true);
-    } else {
-      sethomeRoute(false);
-    }
+    setIsHomeRoute(location.pathname === "/");
   }, [location]);
 
   const signinUser = async () => {
-    try {
-      signMessageAsync({ message: "Sign in to Shardeum university" }).then(async (data) => {
-        if (!data) {
-          toast.error("Please sign the message to continue")
-        }
-        const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, { walletAddress: address, signature: data });
-        setloggedInUserData(res?.data);
-        if (!res?.data?.shardId || res?.data?.shardId == "" || res.data?.shardId.length < 5) {
-          navigate("/profile/edit")
-        }
-        if (res?.data?.email === "default") {
-          navigate("/profile/edit")
-        }
-      }).catch((error) => {
+    if (!loggedInUserData?.shardId) {
+      console.log("signinUser->", loggedInUserData)
+      try {
+        signMessageAsync({ message: "Sign in to Shardeum university" }).then(async (data) => {
+          if (!data) {
+            toast.error("Please sign the message to continue")
+          }
+          const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, { walletAddress: address, signature: data });
+          setloggedInUserData(res?.data);
+          localStorage.setItem('userSession', JSON.stringify({
+            address,
+            userData: res?.data,
+            timestamp: Date.now()
+          }));
+          if (!res?.data?.shardId || res?.data?.shardId == "" || res.data?.shardId.length < 5) {
+            navigate("/profile/edit")
+          }
+          if (res?.data?.email === "default") {
+            navigate("/profile/edit")
+          }
+        }).catch((error) => {
+          console.log("Error in signing in user->", error.message)
+          navigate("/")
+          setloggedInUserData({});
+          disconnect()
+        })
+
+
+      } catch (error) {
         console.log("Error in signing in user->", error.message)
         navigate("/")
         setloggedInUserData({});
         disconnect()
-      })
-
-    } catch (error) {
-      console.log("Error in signing in user->", error.message)
-      navigate("/")
-      setloggedInUserData({});
-      disconnect()
+      }
     }
   };
 
   useEffect(() => {
-    if (isConnected) {
-      signinUser();
-    }
-    if (isConnected == false) {
-      setloggedInUserData({});
-    }
-  }, [address]);
+    // Check connection status and stored session
+    const checkConnection = async () => {
+      if (isConnected && address) {
+        const storedSession = localStorage.getItem('userSession');
+        if (storedSession) {
+          const sessionData = JSON.parse(storedSession);
+          // Check if session is valid (you can add expiration check here)
+          if (sessionData.address === address &&
+            Date.now() - sessionData.timestamp < 24 * 60 * 60 * 1000) { // 24 hours
+            setloggedInUserData(sessionData.userData);
+            return;
+          }
+        }
+        await signinUser();
+      } else if (!isConnected) {
+        setloggedInUserData({});
+        localStorage.removeItem('userSession');
+      }
+    };
+
+    checkConnection();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address, isConnected]);
 
   useEffect(() => {
     const getUserContestData = async () => {
       try {
-        if (loggedInUserData?.shardId)
-          getUserContestDetails(loggedInUserData?.shardId).then((resp) => {
-            if (resp?.error == false) {
-              if (resp.data?.XPEarned)
-                setXP(resp.data?.XPEarned);
-            }
-          })
+        if (loggedInUserData?.shardId) {
+          const resp = await getUserContestDetails(loggedInUserData?.shardId);
+          if (!resp?.error && resp.data?.XPEarned) {
+            setXP(resp.data?.XPEarned);
+          }
+        }
       } catch (error) {
-        console.log("Error in fetching profile user data & contest->", error.message)
+        console.log("Error in fetching profile user data & contest->", error.message);
       }
-    }
-    if (loggedInUserData?.shardId)
+    };
+    if (loggedInUserData?.shardId) {
       getUserContestData();
-  }, [loggedInUserData])
-  const styleNavEl = `text-[18px] font-helvetica-neue-md before:bg-white before:left-0 ${homeRoute
-    ? "hover:text-white text-white font-helvetica-neue-md"
-    : "hover:text-black text-black hover:before:bg-black "
-    }  before:transition-transform hover:before:scale-x-100 before:scale-x-0  before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full `;
-  const activeNavEl = `text-[18px] font-helvetica-neue-md before:left-0 ${homeRoute ? "text-white before:bg-white " : ". before:bg-black text-black"
-    }   before:transition-transform  before:scale-x-100 before:duration-300 before:flex before:w-full before:h-[2px] relative before:absolute before:bottom-[-4px] before:rounded-full`;
-
-  const styleMobileNavBox =
-    "opacity-0 z-[60] font-helvetica-neue-md relative lg:hidden mt-2 pb-4 flex flex-col items-center transition-all duration-1000 flex shadow-sm flex-col gap-0 items-center -top-[26rem] bg-white -z-20";
-  const activeMobileNavBox =
-    "z-[60] relative  font-helvetica-neue-md lg:hidden mt-2 pb-4 flex flex-col items-center transition-all duration-500 flex flex-col gap-2 items-center  absolute top-0 bg-gray-100 pb-5 sm:shadow-none shadow-md shadow-gray-700";
+    }
+  }, [loggedInUserData]);
 
   return (
     <header
-      className={`header  font-helvetica-neue-md flex justify-center align-middle flex-col z-50  w-full  ${homeRoute ? "bg-shardeumBlue sticky" : "bg-shardeumWhite border-b-[1px] border-b-black"
-        } ${location.pathname.includes("/workplace") ? "fixed" : ""} ${location.pathname.includes("/previewworkplace") ? "fixed" : ""} `}
+      className={`bg-black/60 my-5 md:mx-20  backdrop-blur text-white mx-1  sticky top-4 z-[999] rounded-xl ${location.pathname.includes("/workplace") || location.pathname.includes("/previewworkplace") ? "" : ""
+        }`}
     >
+
       <Toaster />
-      <Suspense fallback={<div className="header  z-50 border-gray w-full bg-shardeumBlue"></div>}>
-        <nav className="sm:px-[100px] px-[8px] items-center text-center h-full ">
-          <div className="flex items-center h-full justify-between">
-            <Link to="/">
-              <div className="flex items-center flex-row w-full h-full gap-2">
-                <LazyLoadImage
-                  style={{ width: "280px", height: "28px" }}
-                  alt=""
-                  height="28px"
-                  src={`${homeRoute ? navLogoWhite : navLogoBlack} `}
-                  width="280px"
-                />
-              </div>
+      <Suspense fallback={<div className="bg-black  text-white my-5 mx-2 md:mx-20 rounded-xl"></div>}>
+        <nav className="container mx-auto flex justify-between items-center px-2 md:px-10 w-full border-[0.1px] border-decentraBlue rounded-xl h-[92px]">
+          {/* Logo Section */}
+          <Link to="/" className="flex items-center">
+            <img src={logo} alt="DecentraClasses Logo" className="h-9 lg:w-[262px] w-[170px]" />
+          </Link>
+
+          {/* Decorative Image */}
+          {/* <div className="h-[92px] flex-shrink-0 overflow-hidden">
+            <div className="size-[226px] rounded-full">
+              <img
+                src={image41}
+                alt="Decorative"
+                className="w-[262px] opacity-30 mix-blend-overlay rounded-full"
+              />
+            </div>
+          </div> */}
+
+          {/* Navigation Links and Login/Profile */}
+          <div className="flex items-center space-x-6">
+            <Link to="/courses" className={`hover:text-blue-500 font-semibold text-mini ${location.pathname.includes("/courses") ? 'text-blue-500' : 'text-white'}`}>
+              Courses
             </Link>
-            <ul className="hidden font-helvetica-neue-md lg:flex items-center xl:gap-9 lg:gap-6 ">
-              <li className={targetLinks[0] === "/" && targetLinks[1] === "" ? activeNavEl : styleNavEl}>
-                <Link to="/">Home</Link>
-              </li>
-              <li className={targetLinks[2] === "courses" ? activeNavEl : styleNavEl}>
-                <Link to="/courses">Courses</Link>
-              </li>
-              {/* <li className={targetLinks[2] === "contests" ? activeNavEl : styleNavEl}>
-                <Link to="/contests">Contests</Link>
-              </li> */}
-              <li>
-                {<ConnectButton.Custom>
-                  {({
-                    account,
-                    chain,
-                    openAccountModal,
-                    openChainModal,
-                    openConnectModal,
-                    authenticationStatus,
-                    mounted,
-                  }) => {
-                    // Note: If your app doesn't use authentication, you
-                    // can remove all 'authenticationStatus' checks
-                    const ready = mounted && authenticationStatus !== "loading";
-                    const connected =
-                      ready && account && chain && (!authenticationStatus || authenticationStatus === "authenticated");
+            <Link to="/contests" className={`hover:text-blue-500 font-semibold text-mini ${location.pathname.includes("/contests") ? 'text-blue-500' : 'text-white'}`}>
+              Contests
+            </Link>
 
-                    return (
-                      <div
-                        className="md:mr-6 -mt-2"
-                        {...(!ready && {
-                          "aria-hidden": true,
-                          style: {
-                            opacity: 0,
-                            pointerEvents: "none",
-                            userSelect: "none",
-                          },
-                        })}
-                      >
-                        {(() => {
-                          if (!ready || isLoading) {
-                            return <GreenButton isHoveredReq={true} text={"Connecting"} />; // Show loader when not ready
-                          }
-                          if (!connected) {
-                            return <GreenButton disabled={isLoading} isHoveredReq={true} onClick={openConnectModal} text={"Login"} />;
-                          }
-                          return (
-                            <div style={{ display: "flex", gap: 12 }}>
-                              <ProfileDropDown
-                                loggedInUserData={loggedInUserData}
-                                account={account.displayName}
-                                chain={chain}
-                                openChainModal={openChainModal}
-                                openAccountModal={openAccountModal}
-                                xp={xp}
-                                homeRoute={homeRoute}
-                              />
-                            </div>
-                          );
-                        })()}
-                      </div>
-                    );
-                  }}
-                </ConnectButton.Custom>}
-              </li>
-              {/* <ConnectButton chainStatus={"none"} label="Login" showBalance={"false"} /> */}
-            </ul>
+            {/* Connect Button or Profile Dropdown */}
+            <ConnectButton.Custom>
+              {({
+                account,
+                chain,
+                openAccountModal,
+                openChainModal,
+                openConnectModal,
+                authenticationStatus,
+                mounted,
+              }) => {
+                const ready = mounted && authenticationStatus !== "loading";
+                const connected =
+                  ready &&
+                  account &&
+                  chain &&
+                  (!authenticationStatus || authenticationStatus === "authenticated");
 
-            <div className="lg:hidden flex items-center z-60">
-              <div className="focus:outline-none" onClick={toggleNavbar}>
-                <Burger isOpen={isOpen} setIsOpen={setIsOpen} />
-              </div>
-            </div>
-          </div>
-
-          <div
-            className={`bg-white  z-50 w-full p-2 flex items-center justify-center align-middle  border-4 border-shardeumGreen rounded-lg ${isOpen ? activeMobileNavBox : styleMobileNavBox
-              }`}
-          >
-            <div
-              className={
-                "hover:bg-shardeumBlue  z-50 hover:text-white text-[20px] font-semibold w-full flex-row justify-center align-middle  text-black    rounded-md px-2 py-2 "
-              }
-            >
-              <Link onClick={toggleNavbar} to="/" className="items-center flex    justify-center align-middle">
-                <span className="items-center text-center"> Home</span>
-              </Link>
-            </div>
-            <div
-              className={
-                "hover:bg-shardeumBlue hover:text-white text-[20px] font-semibold w-full flex-row justify-center align-middle  text-black    rounded-md px-2 py-2 "
-              }
-            >
-              {/* <Link onClick={toggleNavbar} to="contests" className="items-center flex    justify-center align-middle">
-                <span className="items-center text-center"> Contests</span>
-              </Link> */}
-            </div>
-            <div
-              className={
-                "hover:bg-shardeumBlue hover:text-white text-[20px] font-semibold w-full flex-row justify-center align-middle  text-black    rounded-md px-2 py-2 "
-              }
-            >
-              <Link onClick={toggleNavbar} to="courses" className="items-center flex    justify-center align-middle">
-                <span className="items-center text-center"> Courses</span>
-              </Link>
-            </div>
-            <div>
-              <ConnectButton.Custom>
-                {({
-                  account,
-                  chain,
-                  openAccountModal,
-                  openChainModal,
-                  openConnectModal,
-                  authenticationStatus,
-                  mounted,
-                }) => {
-                  // Note: If your app doesn't use authentication, you
-                  // can remove all 'authenticationStatus' checks
-                  const ready = mounted && authenticationStatus !== "loading";
-                  const connected =
-                    ready && account && chain && (!authenticationStatus || authenticationStatus === "authenticated");
-
-                  return (
-                    <div
-                      {...(!ready && {
-                        "aria-hidden": true,
-                        style: {
-                          opacity: 0,
-                          pointerEvents: "none",
-                          userSelect: "none",
-                        },
-                      })}
-                    >
-                      {(() => {
-                        if (!connected) {
-                          return (
-                            <button
-                              disabled={isLoading}
-                              onClick={openConnectModal}
-                              className={`bg-shardeumBlue flex justify-center align-middle hover:bg-shardeumGreen rounded-[10px] transition ease-in-out items-center font-semibold text-center text-white text-[18px] w-[150px] h-[40px]`}
-                            >
-                              Login
-                            </button>
-                          );
-                        }
+                return (
+                  <div
+                    {...(!ready && {
+                      "aria-hidden": true,
+                      style: {
+                        opacity: 0,
+                        pointerEvents: "none",
+                        userSelect: "none",
+                      },
+                    })}
+                  >
+                    {(() => {
+                      if (!ready || isLoading) {
                         return (
-                          <div style={{ display: "flex", gap: 12 }}>
-                            <ProfileDropDown
-                              loggedInUserData={loggedInUserData}
-                              account={account.displayName}
-                              chain={chain}
-                              openChainModal={openChainModal}
-                              openAccountModal={openAccountModal}
-                            />
-                          </div>
+                          <button
+                            className="bg-gradient-to-b from-decentraBlue to-[#3A59FE] px-6 py-2 rounded-lg font-semibold text-mini"
+                            disabled
+                          >
+                            Connecting
+                          </button>
                         );
-                      })()}
-                    </div>
-                  );
-                }}
-              </ConnectButton.Custom>
+                      }
+                      if (!connected) {
+                        return (
+                          <button
+                            onClick={openConnectModal}
+                            className="bg-gradient-to-b from-decentraBlue to-[#3A59FE] px-6 py-2 rounded-lg font-semibold text-mini"
+                          >
+                            Login
+                          </button>
+                        );
+                      }
+                      return (
+                        <ProfileDropDown
+                          loggedInUserData={loggedInUserData}
+                          account={account.displayName}
+                          chain={chain}
+                          openChainModal={openChainModal}
+                          openAccountModal={openAccountModal}
+                          xp={xp}
+                          homeRoute={isHomeRoute}
+                        />
+                      );
+                    })()}
+                  </div>
+                );
+              }}
+            </ConnectButton.Custom>
+          </div>
+
+          {/* Mobile Burger Menu (Optional) */}
+          {/* If you have a burger menu for mobile, integrate it here without altering existing HTML/CSS */}
+          {/* Example:
+          <div className="lg:hidden flex items-center z-60">
+            <div className="focus:outline-none" onClick={toggleNavbar}>
+              <Burger isOpen={isOpen} setIsOpen={setIsOpen} />
             </div>
           </div>
+          */}
         </nav>
       </Suspense>
     </header>

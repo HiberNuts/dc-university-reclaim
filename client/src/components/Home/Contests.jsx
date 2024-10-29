@@ -1,8 +1,4 @@
 import React from 'react'
-import line3 from '../../assets/line-3.svg'
-import line2 from '../../assets/line-2.svg'
-import seperator from '../../assets/seperator.svg'
-import image41 from '../../assets/image-41.png'
 import chevron from '../../assets/chevron.svg'
 import chevron2 from '../../assets/chevron-2.svg'
 import arrowLeft from '../../assets/arrow-left.svg'
@@ -11,6 +7,7 @@ import { getLatestContest } from '../../utils/api/ContestAPI'
 import SkeletonLoader from '../Courses/SkeletonLoader'
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import ContestCard from '../Contest/Card'
+import DCButton from '../button/DCButton'
 
 
 const Contests = () => {
@@ -33,12 +30,7 @@ const Contests = () => {
         <div className="inline-flex gap-4 flex-[0_0_auto] items-center relative">
           <img className="relative w-8 h-8 cursor-pointer" alt="Chevron" src={chevron2} />
           <img className="relative w-8 h-8 cursor-pointer" alt="Chevron" src={chevron} />
-          <button className="all-[unset] box-border inline-flex justify-center gap-7 pl-7 pr-4 py-3 flex-[0_0_auto] bg-[#070707] rounded-lg border border-solid border-[#5d89ff80] items-center relative">
-            <div className="relative w-fit font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
-              View All
-            </div>
-            <img className="relative w-6 h-[26px]" alt="Arrow left" src={arrowLeft} />
-          </button>
+          <DCButton variant='primary' btnContent='View All' onClick={() => window.location.href = "/contests"} />
         </div>
       </div>
       {latestContest ? <ContestCard id={latestContest._id} {...latestContest} /> : <SkeletonLoader></SkeletonLoader>}

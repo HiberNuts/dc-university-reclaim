@@ -7,8 +7,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Home from "./components/Home/Home";
 import Footer from "./components/Footer";
 import Header from "./components/Home/Header";
-import NewFooter from "./components/NewFooter";
-import NewHeader from "./components/Home/NewHeader";
 import PrivateRoute from "./routes/PrivateRoute";
 import AllCourses from "./components/Courses/AllCourses";
 import CourseDescription from "./components/Courses/CourseDesc/CourseDescription";
@@ -46,7 +44,7 @@ function App() {
   return (
     <div className="bg-black">
       {/* <Header /> */}
-      <NewHeader />
+      <Header />
       <Routes>
         {/* Auth Pages */}
         <Route exact path="/" element={<Home />} />
@@ -77,7 +75,7 @@ function App() {
       </Routes>
 
       {/* <Footer /> */}
-      <NewFooter />
+      <Footer />
     </div>
   );
 }

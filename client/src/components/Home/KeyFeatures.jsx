@@ -46,7 +46,7 @@ const KeyFeatures = () => {
           <div className="absolute w-full h-[460px] top-0 left-0 ">
             <div className="lg:inline-flex  items-center lg:gap-9 gap-5 absolute lg:top-[34px] top-0 left-[496px] ">
               <div className="relative w-32 h-7 overflow-hidden b">
-                
+
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentIndex}
@@ -54,7 +54,7 @@ const KeyFeatures = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.5 }}
-                    className=" w-fit font-gilroybold text-[#5d89ff] text-[28px] tracking-[3.36px] leading-7 whitespace-nowrap"
+                    className=" w-fit font-gilroybold text-decentraBlue text-[28px] tracking-[3.36px] leading-7 whitespace-nowrap"
                   >
                     {features[currentIndex].text}
                   </motion.div>
@@ -89,10 +89,10 @@ const KeyFeatures = () => {
                 ))}
               </div>
             </div>
-            
+
             <div className="absolute w-[460px] h-[460px] top-0 left-0">
               <div className="absolute w-[460px] h-[460px] top-0 left-0 rounded-[500px] overflow-hidden">
-                <div className="relative w-[250px] h-[250px] top-[105px] left-[105px] bg-[#5d89ff] rounded-[125.11px] blur-[337.13px]" />
+                <div className="relative w-[250px] h-[250px] top-[105px] left-[105px] bg-decentraBlue rounded-[125.11px] blur-[337.13px]" />
               </div>
               <img
                 className="absolute w-[460px] h-[460px] top-0 left-0"
@@ -116,7 +116,7 @@ const KeyFeatures = () => {
                   />
                 </div>
               </div>
-              
+
               {features.map((feature, index) => (
                 <motion.img
                   key={index}
