@@ -94,7 +94,7 @@ export default function ContestCard(props) {
                   <div className="font-gilroysemibold text-[#efedf5] text-xs text-center tracking-[1.44px] leading-3 whitespace-nowrap">
                     {"{"} PARTICIPANTS {"}"}
                   </div>
-                  <div className="font-orbitron font-semibold text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">
+                  <div className="font-montserrat-semibold text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">
                     {props.participants}
                   </div>
                 </div>
@@ -107,7 +107,7 @@ export default function ContestCard(props) {
                   <div className="font-gilroysemibold text-[#efedf5] text-xs text-center tracking-[1.44px] leading-3 whitespace-nowrap">
                     {"{"} PRICE {"}"}
                   </div>
-                  <div className="font-orbitron font-semibold text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">
+                  <div className="font-montserrat-semibold text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">
                     $ {props?.prize}
                   </div>
                 </div>
@@ -120,7 +120,7 @@ export default function ContestCard(props) {
                   <div className="font-gilroysemibold text-[#efedf5] text-xs text-center tracking-[1.44px] leading-3 whitespace-nowrap">
                     {"{"} ENDING IN {"}"}
                   </div>
-                  <p className="max-w-[160px]   font-orbitron font-semibold text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">
+                  <p className="max-w-[160px]   font-montserrat-semibold text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">
                     {timeLeft?.timeleft}
                   </p>
                 </div>

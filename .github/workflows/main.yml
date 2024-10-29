@@ -1,0 +1,72 @@
+name: Auto Deploy to Production
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
+      - name: Deploy to Server
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+        run: |
+          sshpass -p "$SERVER_PASSWORD" ssh -o StrictHostKeyChecking=no root@$SERVER_IP '
+            # Load environment variables and PATH
+            source ~/.bashrc
+            source ~/.profile
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            
+            # Check if yarn is installed, if not install it
+            if ! command -v yarn &> /dev/null; then
+              echo "Installing yarn..."
+              npm install -g yarn
+            fi
+            
+            # Check if pm2 is installed, if not install it
+            if ! command -v pm2 &> /dev/null; then
+              echo "Installing pm2..."
+              npm install -g pm2
+            fi
+
+            # Clear npm cache and tmp directories
+            echo "Clearing npm cache..."
+            npm cache clean --force
+            rm -rf ~/.npm
+            rm -rf /tmp/*
+            
+            # Free up memory
+            sync; echo 3 > /proc/sys/vm/drop_caches
+            
+            # Deploy backend
+            cd ~/dc-university/backend/ &&
+            echo "Updating backend..." &&
+            git pull origin master &&
+
+            # Run install with increased memory limit and production flag
+            
+            yarn install &&
+            pm2 restart backend || pm2 start npm --name "backend" -- start && 
+
+            # Deploy CMS
+            cd ~/dc-university/cms/ &&
+            echo "Updating CMS..." &&
+            git pull origin master &&
+
+            # Run install with increased memory limit and production flag
+            
+            NODE_OPTIONS="--max-old-space-size=8080" yarn install &&
+            pm2 restart cms || pm2 start npm --name "cms" -- run develop
+          '

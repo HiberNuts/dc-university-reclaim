@@ -123,7 +123,7 @@ const CourseCertificate = ({ props, title }) => {
         {/* text for join our community */}
         <div className="inline-flex flex-col items-center justify-center gap-5 px-2.5 mt-7 ">
           <div className="relative w-fit mt-[-1.00px] 
-        bg-gradient-to-b from-[#ffffff] to-[#79797b] bg-clip-text font-orbitron font-bold text-transparent text-[20px]  lg:text-[40px] text-center tracking-[0] leading-[60px] whitespace-nowrap">
+        bg-gradient-to-b from-[#ffffff] to-[#79797b] bg-clip-text font-montserrat-bold text-transparent text-[20px]  lg:text-[40px] text-center tracking-[0] leading-[60px] whitespace-nowrap">
             Earn Your Certificate
           </div>
           <p className="pt-5 px-8 lg:px-[276px] relative text-center font-gilroy text-[#b1b0b9] text-lg  tracking-[0] leading-[31.5px]">

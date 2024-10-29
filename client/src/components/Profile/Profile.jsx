@@ -225,7 +225,7 @@ const Profile = ({ isOpen, closeModal }) => {
           <div className="px-4 z-20">
             <div className="mt-10 flex justify-center ">
               <p className="relative  w-fit mt-[-1.00px] 
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-bold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">{userProfile?.username}</p>
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-montserrat-bold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">{userProfile?.username}</p>
             </div>
             <div className="flex flex-row items-center justify-center gap-0">
               {userProfile?.experience && (
@@ -418,27 +418,27 @@ const Profile = ({ isOpen, closeModal }) => {
               <img src={BATCH_LINE} />
               <div className="flex flex-row justify-center py-4">
                 <img src={BATCH_XP} />
-                <p className="font-orbitron  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.XPEarned ?? '-'}</p>
+                <p className="font-montserrat-semibold  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.XPEarned ?? '-'}</p>
               </div>
             </div>
             <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
               <div className="py-3">
-                <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">PARTICIPATED</p>
+                  <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">PARTICIPATED</p>
               </div>
               <img src={BATCH_LINE} />
               <div className="flex flex-row justify-center py-4">
                 <img src={BATCH_PARTICIPATION} />
-                <p className="font-orbitron  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.contestParticipated ?? '-'}</p>
+                <p className="font-montserrat-semibold  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.contestParticipated ?? '-'}</p>
               </div>
             </div>
             <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
               <div className="py-3">
-                <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">CONTESTS WON</p>
+                    <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">CONTESTS WON</p>
               </div>
               <img src={BATCH_LINE} />
               <div className="flex flex-row justify-center py-4">
                 <img src={BATCH_CONTESTS_WON} />
-                <p className="font-orbitron  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.contestWon ?? '-'}</p>
+                <p className="font-montserrat-semibold  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.contestWon ?? '-'}</p>
               </div>
             </div>
             <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
@@ -448,7 +448,7 @@ const Profile = ({ isOpen, closeModal }) => {
               <img src={BATCH_LINE} />
               <div className="flex flex-row justify-center py-4">
                 <img src={BATCH_PRIZE_EARNED} />
-                <p className="font-orbitron  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.AmountEarned ?? '-'}</p>
+                <p className="font-montserrat-semibold  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.AmountEarned ?? '-'}</p>
               </div>
             </div>
             <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
@@ -458,7 +458,7 @@ const Profile = ({ isOpen, closeModal }) => {
               <img src={BATCH_LINE} />
               <div className="flex flex-row justify-center py-4">
                 <img src={BATCH_BADGES} />
-                <p className="font-orbitron  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{(userContestData?.contestWon > 0 && userContestData?.contestParticipated > 10) ? '2' : userContestData?.contestWon > 0 ? '1' : '-'}</p>
+                <p className="font-montserrat-semibold  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{(userContestData?.contestWon > 0 && userContestData?.contestParticipated > 10) ? '2' : userContestData?.contestWon > 0 ? '1' : '-'}</p>
               </div>
             </div>
           </div>

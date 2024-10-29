@@ -106,7 +106,7 @@ export default function ContestRegsiter() {
             <div className="hidden md:block size-[400px] rounded-full bg-[#3A59FE] overflow-hidden absolute pointer-events-none top-0 left-[70%] z-0 blur-[100px] opacity-40"></div>
           </div>
           <div className="relative text-left w-fit mt-[-1.00px] 
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-bold text-transparent text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-montserrat-bold   text-transparent text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
             {contest?.title}
           </div>
           <p className="relative self-stretch font-gilroy text-[#b1b0b9] text-[18px] tracking-[0] leading-7 mt-5">
@@ -188,7 +188,7 @@ export default function ContestRegsiter() {
         <div className="px-5 sm:px-10 md:px-[50px] lg:px-[100px] py-[30px]">
           <div className="pt-5">
             <div className="relative text-left w-fit mt-[-1.00px] 
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-bold text-transparent text-[30px] tracking-[0] leading-[50px] whitespace-nowrap">
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-montserrat-bold text-transparent text-[30px] tracking-[0] leading-[50px] whitespace-nowrap">
               Leaderboard
             </div>
           </div>
@@ -221,7 +221,7 @@ export default function ContestRegsiter() {
 
           <div className='contest-details-title mb-5'>
             <div className="relative text-left w-fit mt-[-1.00px] 
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-bold text-transparent text-[30px] tracking-[0] leading-[50px] whitespace-nowrap">
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-montserrat-bold text-transparent text-[30px] tracking-[0] leading-[50px] whitespace-nowrap">
               Contest Details
             </div>
           </div>

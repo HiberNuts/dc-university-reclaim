@@ -29,7 +29,7 @@ const ProfileProjects = ({ projects = [] }) => {
         <div className="w-full">
             <div className="flex flex-row">
                 <div className="flex-1 justify-center">
-                    <p className="relative text-left bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
+                    <p className="relative text-left bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-montserrat-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
                         Projects
                     </p>
                 </div>

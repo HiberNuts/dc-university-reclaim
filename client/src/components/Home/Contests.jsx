@@ -27,7 +27,7 @@ const Contests = () => {
       <div className="absolute w-[400px] h-[400px] top-[123px] right-10 pointer-events-none bg-[#3a59fe] rounded-[200px] blur-[300px] opacity-45" />
       <div className="flex items-center justify-between relative self-stretch w-full flex-[0_0_auto]">
         <div className="relative w-fit mt-[-1.00px] 
-            bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-bold font-orbitron text-transparent text-[20px] md:text-[30px] lg:text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
+            bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-montserrat-bold text-transparent text-[20px] md:text-[30px] lg:text-[40px] tracking-[0] leading-[50px] whitespace-nowrap">
           Contests
         </div>
         <div className="inline-flex gap-4 flex-[0_0_auto] items-center relative">

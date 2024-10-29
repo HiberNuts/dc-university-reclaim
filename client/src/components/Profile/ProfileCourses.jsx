@@ -39,7 +39,7 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
       ) : nfts.length == 0 ? (
         <div>
           <p className="relative text-left  mt-[-1.00px]
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-montserrat-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
             NFTs
           </p>
           <div className="text-center p-10 flex justify-center items-center">
@@ -50,7 +50,7 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
       ) : (
         <div>
           <p className="relative text-left  mt-[-1.00px]
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-montserrat-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
             NFTs
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 my-5 ">
@@ -75,7 +75,7 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
         userData._id == loggedInUserData._id ? (
           <div className="">
             <p className="relative text-left  mt-[-1.00px]
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-montserrat-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
               Resume course
             </p>
             <div className="grid grid-cols-[400px] md:grid-cols-[repeat(2,400px)] lg:grid-cols-[repeat(3,400px)] gap-5 my-10 w-full mb-10">
@@ -96,7 +96,7 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
         ) : (
           <div className="">
             <p className="relative text-left  mt-[-1.00px]
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-montserrat-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
               Completed Courses
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-5 my-10 ">

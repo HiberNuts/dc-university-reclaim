@@ -172,7 +172,7 @@ export default function WorkPlace() {
             <div className="hidden md:block size-[400px] rounded-full bg-[#3A59FE] overflow-hidden absolute pointer-events-none -top-40 left-0 z-0 blur-[100px] opacity-40"></div>
           </div>
           <div className="relative text-left w-fit mt-[-1.00px] 
-          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-orbitron font-bold text-transparent text-md tracking-[0] leading-5 whitespace-nowrap">
+          bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-montserrat-semibold font-bold text-transparent text-md tracking-[0] leading-5 whitespace-nowrap">
             {courseContent?.title}
           </div>
           <div className="progress-bar py-5">

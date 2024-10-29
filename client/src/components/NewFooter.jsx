@@ -24,13 +24,13 @@ export default function NewFooter() {
   const joinNewsletter = async () => {
     try {
       if (email.length > 2) {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/user/newsletter/${email}`
-        );
-        if (response.data.message) {
-          toast(response.data.message, { icon: "👏" });
-          setEmail("");
-        }
+        // const response = await axios.get(
+        //   `${import.meta.env.VITE_BACKEND_URL}/user/newsletter/${email}`
+        // );
+        // if (response.data.message) {
+        //   toast(response.data.message, { icon: "👏" });
+        //   setEmail("");
+        // }
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");
@@ -90,7 +90,7 @@ export default function NewFooter() {
 
           </div>
           <div className="flex flex-col items-center">
-            <h3 className="font-orbitron font-bold text-[24px] mb-8">Stay in the know with our newsletter</h3>
+            <h3 className="font-montserrat-bold text-[24px] mb-8">Stay in the know with our newsletter</h3>
             <div className="flex flex-col md:flex-row gap-5">
               <input
                 type="email"

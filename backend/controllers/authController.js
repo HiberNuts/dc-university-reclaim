@@ -7,19 +7,11 @@ const Token = db.userToken;
 var jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
-const brevo = require("@getbrevo/brevo");
 const { recoverMessageAddress } = require('viem')
 
-let defaultClient = brevo.ApiClient.instance;
 
-let apiKey = defaultClient.authentications["api-key"];
-apiKey.apiKey = config.BREVO_API_KEY;
 
-let apiContactsInstance = new brevo.ContactsApi();
-let createContact = new brevo.CreateContact();
 
-let apiInstance = new brevo.TransactionalEmailsApi();
-let sendSmtpEmail = new brevo.SendSmtpEmail();
 
 // create reusable transporter object using the default SMTP transport
 // let transporter = nodemailer.createTransport({
@@ -172,8 +164,7 @@ exports.update = async (req, res) => {
 
     //JOIN NEWSLETTER CONFIG 
     const email = req.body.email;
-    createContact.email = email;
-    createContact.listIds = [346];
+
 
     // const userIdQuery = req.query.userid;
     const userIdQuery = req.userId;
@@ -194,14 +185,6 @@ exports.update = async (req, res) => {
       }
     }
 
-    apiContactsInstance.createContact(createContact).then(function (data) {
-    }, function (error) {
-      if (JSON.parse(error?.response?.text).code === "duplicate_parameter") {
-      } else {
-        console.log('Error in sedning mail');
-
-      }
-    });
 
     await user.save();
 
@@ -321,7 +304,7 @@ exports.resend = async (req, res) => {
   try {
     const userIdQuery = req.userId;
     const user = await User.findOne({ _id: userIdQuery });
-    let token = await Token.findOne({ __userId: user._id });
+    let token = await Token.findOne({ _userId: user._id });
     if (!token) {
       token = new Token({
         _userId: user._id,
@@ -330,38 +313,43 @@ exports.resend = async (req, res) => {
       await token.save();
     }
 
-    // sendSmtpEmail.subject = "{{params.subject}}";
-    sendSmtpEmail.sender = {
-      name: "Shardeum University",
-      email: "university@shardeum.org",
-    };
-    sendSmtpEmail.to = [{ email: user.email, name: user.username }];
-    sendSmtpEmail.replyTo = { email: "university@shardeum.org", name: "Shardeum University" };
-    sendSmtpEmail.templateId = 284;
-    sendSmtpEmail.params = {
-      emailverification: `http://${req.headers.host}/api/auth/confirmation?token=${token.token}`,
-      username: user.username,
-    };
-
-    apiInstance.sendTransacEmail(sendSmtpEmail).then(
-      function (data) {
-        res.status(200).send({ message: "Sent verification mail again" });
+    // Configure nodemailer for Zoho Mail
+    const transporter = nodemailer.createTransport({
+      host: "smtp.zoho.com",
+      port: 465, // Use 465 for SSL
+      secure: true, // Use true for port 465, false for 587
+      auth: {
+        user: config.ZOHO_EMAIL,
+        pass: config.ZOHO_PASSWORD, // Use App-Specific Password if 2FA is enabled
       },
-      function (error) {
-        console.log("Error while sending verification email", userIdQuery)
-        res.status(500).send({ message: "Error while sending verification email" });
+    });
+
+    const mailOptions = {
+      from: `"Decentraclasses" <${config.ZOHO_EMAIL}>`,
+      to: user.email,
+      subject: "Confirm Your Email",
+      html: `
+        <h1>Welcome to Decentraclasses, ${user.username}!</h1>
+        <p>Please verify your email by clicking the link below:</p>
+        <a href="http://${req.headers.host}/api/auth/confirmation?token=${token.token}">
+          Confirm your email
+        </a>
+      `,
+    };
+
+    // Send email using Zoho
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("Error while sending verification email:", error);
+        return res.status(500).send({ message: "Error while sending verification email" });
       }
-    );
-
-
+      res.status(200).send({ message: "Sent verification mail again" });
+    });
   } catch (error) {
-    console.error(error)
-    res
-      .status(500)
-      .send({ message: error.message || "Internal Server Error", error });
+    console.error(error);
+    res.status(500).send({ message: error.message || "Internal Server Error", error });
   }
 };
-
 exports.getUser = async (req, res) => {
   try {
     const userIdQuery = req.query.userId;
