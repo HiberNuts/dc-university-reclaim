@@ -6,7 +6,6 @@ const User = db.user;
 const Role = db.role;
 const Token = db.userToken;
 const _ = require("lodash");
-const brevo = require("@getbrevo/brevo");
 const { MintPOLNft } = require("../dNFT/link");
 const AWS = require("aws-sdk");
 const { updateExistingEnrollment, createNewEnrollment, calculateOverallPercentage, calculateCompletionPercentages } = require("./helper.courseController");
@@ -16,15 +15,6 @@ const s3 = new AWS.S3({
   accessKeyId: process.env.DO_SPACE_ACCESS_KEY,
   secretAccessKey: process.env.DO_SPACE_SECRET_KEY,
 });
-let defaultClient = brevo.ApiClient.instance;
-
-let apiKey = defaultClient.authentications["api-key"];
-apiKey.apiKey = config.BREVO_API_KEY;
-
-let apiInstance = new brevo.TransactionalEmailsApi();
-let apiContactsInstance = new brevo.ContactsApi();
-let createContact = new brevo.CreateContact();
-let sendSmtpEmail = new brevo.SendSmtpEmail();
 
 exports.allAccess = (req, res) => {
   res.status(200).send("Public Content.");
@@ -67,29 +57,6 @@ exports.getUserData = async (req, res) => {
 
 }
 
-exports.joinNewsLetter = (req, res) => {
-  try {
-    if (!req.params.email) {
-      res.status(400).json({ message: "Email is required" });
-    }
-    const email = req.params.email;
-    createContact.email = email;
-    createContact.listIds = [183];
-
-    apiContactsInstance.createContact(createContact).then(function (data) {
-      res.status(200).send({ message: "Your email has been successfully added to our newsletter subscription list – welcome to the Shardeum community!" })
-    }, function (error) {
-      if (JSON.parse(error?.response?.text).code === "duplicate_parameter") {
-        res.status(400).json({ message: "Looks like you're already subscribed – thanks for staying connected with Shardeum!" })
-      } else {
-        res.status(400).json(JSON.parse(error.response.text))
-      }
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ message: "Something went wrong" })
-  }
-}
 
 exports.courseEnrolled = async (req, res) => {
   const { courseId } = req.body;
@@ -291,27 +258,8 @@ exports.mintNft = async (req, res) => {
           user.enrolledCourses[enrolledCourseIndex].nftTxHash = result.receipt.transactionHash;
           await user.save();
 
-          sendSmtpEmail.sender = {
-            name: "Shardeum University",
-            email: "university@shardeum.org",
-          };
-          sendSmtpEmail.to = [{ email: user.email, name: user.username }];
-          sendSmtpEmail.replyTo = { email: "university@shardeum.org", name: "Shardeum University" };
-          sendSmtpEmail.templateId = 282;
-          sendSmtpEmail.params = {
-            username: user.username,
-            coursename: title
+        
 
-          };
-
-          await apiInstance.sendTransacEmail(sendSmtpEmail).then(
-            function (data) {
-              console.log("successfully sent email");
-            },
-            function (error) {
-              console.error("Error completing course email", error);
-            }
-          );
           res
             .status(200)
             .send({ message: "Nft successfully Minted", minted: true, TxHash: result.receipt.transactionHash });

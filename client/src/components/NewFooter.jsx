@@ -24,13 +24,13 @@ export default function NewFooter() {
   const joinNewsletter = async () => {
     try {
       if (email.length > 2) {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/user/newsletter/${email}`
-        );
-        if (response.data.message) {
-          toast(response.data.message, { icon: "👏" });
-          setEmail("");
-        }
+        // const response = await axios.get(
+        //   `${import.meta.env.VITE_BACKEND_URL}/user/newsletter/${email}`
+        // );
+        // if (response.data.message) {
+        //   toast(response.data.message, { icon: "👏" });
+        //   setEmail("");
+        // }
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");
