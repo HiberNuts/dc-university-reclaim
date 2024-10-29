@@ -19,6 +19,8 @@ import { useEffect, useRef } from "react";
 import DCButton from "../button/DCButton";
 import Noise from "../../assets/image-41.png"
 import profile_bg from '../../assets/profile-bg.svg'
+import { FaXmark } from "react-icons/fa6";
+
 import profile_bg_2 from '../../assets/profile-bg-2.svg'
 
 const EditProfile = () => {
@@ -634,7 +636,7 @@ const EditProfile = () => {
             {projects.map((project) => (
               <div
                 key={project.id}
-                className="w-full mt-5 bg-black overflow-hidden   p-[16px] rounded-[12px] border border-[#5D89FF80]"
+                className="w-full mt-5 bg-black overflow-hidden z-50 p-[16px] rounded-[12px] border border-[#5D89FF80]"
               >
                 <div className="flex justify-between">
                   <div className="flex items-center">
@@ -642,17 +644,22 @@ const EditProfile = () => {
                       src={HAMBURGER}
                       className="w-[24px] h-[24px] mr-[12px]"
                     />
-                    <p className="text-[16px]">{project.title}</p>
+                    <p className="text-[16px] text-[#797979]">{project.title}</p>
                   </div>
 
-                  <div className="flex items-center">
-                    <a className="mr-[12px] text-blue-800 underline cursor-pointer">
+                  <div className="flex items-center z-[100]">
+                    <a className="mr-[12px] text-[#797979] underline cursor-pointer">
                       {project.URL}
                     </a>
-                    <img
-                      src={REMOVE}
-                      className="w-[24px] h-[24px] cursor-pointer"
-                      onClick={() => projectRemoveHandler(project.id)}
+                    
+                    <FaXmark
+                      className=" cursor-pointer "
+                      onClick={() => {
+                        console.log("clicked");
+                        projectRemoveHandler(project.id);
+                      }}
+                      size={24}
+                      color="white"
                     />
                   </div>
                 </div>
