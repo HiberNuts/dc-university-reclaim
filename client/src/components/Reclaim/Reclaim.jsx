@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { ReclaimProofRequest } from '@reclaimprotocol/js-sdk'
 
-const APP_ID = "0xDc2dB8373fCA8888E858e037F33D535F6103c34F";
+const APP_ID = "0xafD757AD5041E6DabA4b2b7928BE14941B6b7F1C";
 const PROVIDER_ID = "3ef2059d-ec1e-4107-8187-e35157e527ad";
-const APP_SECRET = "0x291678a009e0f2b235f1684ee40331401768b7117083606be9f74e3fba34ed64";
+const APP_SECRET = "0x5e06492bb77570dc8ecc5de3909c07025e2ff1f7ed0d59d28c187303dbbf3b27";
 
 
 async function initializeReclaim() {
