@@ -29,7 +29,7 @@ export default function WorkPlace() {
   const [currentChapterStatus, setcurrentChapterStatus] = useState("none");
   const [currentModuleAllChapterStatus, setcurrentModuleAllChapterStatus] = useState("none");
   const [currentQuiz, setcurrentQuiz] = useState([]);
-  const [nftModalIsOpen, setnftModalIsOpen] = useState(true);
+  const [nftModalIsOpen, setnftModalIsOpen] = useState(false);
   const [currentCourseProgress, setcurrentCourseProgress] = useState({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
