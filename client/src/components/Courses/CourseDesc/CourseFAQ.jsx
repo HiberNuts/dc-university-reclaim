@@ -5,7 +5,7 @@ const FAQItem = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="pb-4 mb-6 border border-solid border-[#5d89ff80] bg-gradient-to-b from-[#070707]/50 to-[#5D89FF]/30 rounded-lg">
+    <div className="pb-4 mb-6 border border-solid border-[#5d89ff80] bg-gradient-to-b from-[#070707]/50 to-decentraBlue/30 rounded-lg">
       <motion.div
         onClick={() => setIsOpen(!isOpen)}
         className="flex justify-between items-center pt-4 px-10 cursor-pointer"

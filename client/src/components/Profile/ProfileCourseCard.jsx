@@ -42,7 +42,7 @@ const ProfileCourseCard = ({ props, loggedInUserData, userData }) => {
         description={props?.description}
         resumeCourse={userData._id == loggedInUserData._id && (
           <div className="w-full mb-4">
-            <div className="w-full h-4 rounded-full border-[0.1px] border-[#5D89FF] bg-transparent">
+            <div className="w-full h-4 rounded-full border-[0.1px] border-decentraBlue bg-transparent">
               <div
                 style={{
                   width: `${parseInt(currentCourseProgress?.overallCompletionPercentage)}%`,

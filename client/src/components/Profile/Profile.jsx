@@ -200,7 +200,7 @@ const Profile = ({ isOpen, closeModal }) => {
             <img src={profile_bg_2} className="w-full h-full " />
           </div>
         </div>
-        <div className="col-span-8 w-full  lg:col-span-2 bg-[#121212] relative border-[0.1px] border-[#5D89FF] rounded-lg">
+        <div className="col-span-8 w-full  lg:col-span-2 bg-[#121212] relative border-[0.1px] border-decentraBlue rounded-lg">
           {/* <div className="absolute top-0 left-0 right-0 flex justify-center">
             <div className="relative top-[-100px]">
               <LazyLoadImage
@@ -218,7 +218,7 @@ const Profile = ({ isOpen, closeModal }) => {
             <div className="absolute -bottom-10 left-[35%]">
               <LazyLoadImage
                 src={userProfile?.image ?? 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg'}
-                className="rounded-md object-cover object-center w-[100px] h-[100px] border-[0.1px] border-[#5D89FF]"
+                className="rounded-md object-cover object-center w-[100px] h-[100px] border-[0.1px] border-decentraBlue"
               />
             </div>
           </div>
@@ -254,14 +254,14 @@ const Profile = ({ isOpen, closeModal }) => {
               userProfile != null && (loggedInUserData?._id == userProfile?._id) &&
               <div className="flex flex-col justify-center md:flex-row gap-4 my-10">
                 <button
-                  className={`flex-1 bg-gradient-to-b from-[#3A59FE] to-[#5d89ff] rounded-md  flex justify-center  px-6 py-1   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
+                  className={`flex-1 bg-gradient-to-b from-[#3A59FE] to-decentraBlue rounded-md  flex justify-center  px-6 py-1   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
                 >
                   <Link to={'/profile/edit'}>
                     Edit Profile
                   </Link>
                 </button>
                 <button
-                  className={`flex-1 bg-black border-[0.1px] border-[#5D89FF]  rounded-md  flex justify-center  px-8 py-1   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
+                  className={`flex-1 bg-black border-[0.1px] border-decentraBlue  rounded-md  flex justify-center  px-8 py-1   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
                 >
                   Share Profile
                 </button>
@@ -276,7 +276,7 @@ const Profile = ({ isOpen, closeModal }) => {
               userProfile != null && (loggedInUserData?._id != userProfile?._id) &&
               <div className="py-4">
                 <button
-                  className={`w-full bg-gradient-to-b from-[#3A59FE] to-[#5d89ff] rounded-md  flex flex-row justify-center  px-6 py-2   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
+                  className={`w-full bg-gradient-to-b from-[#3A59FE] to-decentraBlue rounded-md  flex flex-row justify-center  px-6 py-2   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
                 >
                   <div className="flex-1 text-left">
                     <p className="text-[17px]">Share Profile</p>
@@ -411,7 +411,7 @@ const Profile = ({ isOpen, closeModal }) => {
         </div>
         <div className="col-span-8 lg:col-span-6">
           <div className="grid grid-cols-3 md:grid-cols-5 gap-2 mb-5">
-            <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
+            <div className="border-[0.1px] border-decentraBlue flex flex-col rounded-md">
               <div className="py-3">
                 <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">XP POINTS</p>
               </div>
@@ -421,9 +421,9 @@ const Profile = ({ isOpen, closeModal }) => {
                 <p className="font-montserrat-semibold  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.XPEarned ?? '-'}</p>
               </div>
             </div>
-            <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
+            <div className="border-[0.1px] border-decentraBlue flex flex-col rounded-md">
               <div className="py-3">
-                  <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">PARTICIPATED</p>
+                <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">PARTICIPATED</p>
               </div>
               <img src={BATCH_LINE} />
               <div className="flex flex-row justify-center py-4">
@@ -431,9 +431,9 @@ const Profile = ({ isOpen, closeModal }) => {
                 <p className="font-montserrat-semibold  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.contestParticipated ?? '-'}</p>
               </div>
             </div>
-            <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
+            <div className="border-[0.1px] border-decentraBlue flex flex-col rounded-md">
               <div className="py-3">
-                    <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">CONTESTS WON</p>
+                <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">CONTESTS WON</p>
               </div>
               <img src={BATCH_LINE} />
               <div className="flex flex-row justify-center py-4">
@@ -441,7 +441,7 @@ const Profile = ({ isOpen, closeModal }) => {
                 <p className="font-montserrat-semibold  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.contestWon ?? '-'}</p>
               </div>
             </div>
-            <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
+            <div className="border-[0.1px] border-decentraBlue flex flex-col rounded-md">
               <div className="py-3">
                 <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">Prize Earned</p>
               </div>
@@ -451,7 +451,7 @@ const Profile = ({ isOpen, closeModal }) => {
                 <p className="font-montserrat-semibold  text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">{userContestData?.AmountEarned ?? '-'}</p>
               </div>
             </div>
-            <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
+            <div className="border-[0.1px] border-decentraBlue flex flex-col rounded-md">
               <div className="py-3">
                 <p className="text-center relative self-stretch  text-[14px] tracking-[0] leading-7 font-gilroy text-white uppercase">Badges</p>
               </div>
@@ -465,7 +465,7 @@ const Profile = ({ isOpen, closeModal }) => {
 
           {
             loggedInUserData?.shardId == userProfile?.shardId && loggedInUserData?.email != "default" && loggedInUserData?.isVerified == false &&
-            <div className="py-2 px-2 pt-5 text-white">
+            <div className="py-2 px-2 pt-5 text-white z-50">
               <p>Email not yet  verified. Please <span className="text-blue-500 cursor-pointer" onClick={handleResendVerificationEmail}> click </span>to verify it.</p>
             </div>
           }

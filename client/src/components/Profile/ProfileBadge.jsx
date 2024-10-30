@@ -23,7 +23,7 @@ const ProfileBadge = ({ data, courseData }) => {
         </p>
         <div className="mt-5 flex flex-row gap-4">
           {data?.contestWon >= 0 && (
-            <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
+            <div className="border-[0.1px] border-decentraBlue flex flex-col rounded-md">
               <img src={NEW_CONTESTWON_BADGE} className="h-32 w-36  rounded-md" />
               <p className="bg-black text-[12px] p-1 rounded-b-md w-full bottom-0">Contest Won ({data?.contestWon})</p>
             </div>
@@ -31,7 +31,7 @@ const ProfileBadge = ({ data, courseData }) => {
           )}
           {(data?.contestParticipated >= 1 ||
             courseData.enrolledCourses.length >= 1) && (
-              <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
+              <div className="border-[0.1px] border-decentraBlue flex flex-col rounded-md">
                 <img src={NEW_PARTICIPATION_BADGE} className="h-32 w-36  rounded-md" />
                 <p className="bg-black text-[12px] p-1 rounded-b-md w-full bottom-0">Badge Participation</p>
               </div>
@@ -45,7 +45,7 @@ const ProfileBadge = ({ data, courseData }) => {
             </div>
           )}
           {data?.XPEarned >= 500 && (
-            <div className="border-[0.1px] border-[#5D89FF] flex flex-col rounded-md">
+            <div className="border-[0.1px] border-decentraBlue flex flex-col rounded-md">
               <img src={NEW_XP_BADGE} className="h-32 w-36  rounded-md" />
               <p className="bg-black text-[12px] p-1 rounded-b-md w-full bottom-0">High XP</p>
 

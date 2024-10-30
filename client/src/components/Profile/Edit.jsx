@@ -243,6 +243,7 @@ const EditProfile = () => {
             accessToken: loggedInUserData.accessToken,
           });
           setShowError(false);
+          alert(1)
           toast.success("profile updated");
           // window.location.reload();
         }
@@ -651,7 +652,7 @@ const EditProfile = () => {
                     <a className="mr-[12px] text-[#797979] underline cursor-pointer">
                       {project.URL}
                     </a>
-                    
+
                     <FaXmark
                       className=" cursor-pointer "
                       onClick={() => {

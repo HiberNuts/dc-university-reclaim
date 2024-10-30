@@ -44,7 +44,7 @@ function AccordionHeader({ text }) {
 
   return (
     <motion.div
-      className={`py-2 px-1 md:px-5  bg-gradient-to-b from-[#3A59FE] to-[#5d89ff] ${isActive ? "active" : ""} w-full`}
+      className={`py-2 px-1 md:px-5  bg-gradient-to-b from-[#3A59FE] to-decentraBlue ${isActive ? "active" : ""} w-full`}
       onClick={() => onChangeIndex(index)}
     >
       <div className="flex w-full justify-between align-middle h-full">

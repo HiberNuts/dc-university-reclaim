@@ -130,7 +130,7 @@ export default function Leaderboard({ data }) {
     console.log("L DATA:", data)
     return (
         <div className="flex flex-col gap-10 pt-[60px] pb-20 self-stretch w-full items-start relative flex-[0_0_auto]">
-            <div className="flex-col items-start justify-center rounded-[20px] overflow-hidden border-2 border-solid border-[#5d89ff] shadow-[0px_0px_200px_#3a59fe80] flex relative self-stretch w-full flex-[0_0_auto]">
+            <div className="flex-col items-start justify-center rounded-[20px] overflow-hidden border-2 border-solid border-decentraBlue shadow-[0px_0px_200px_#3a59fe80] flex relative self-stretch w-full flex-[0_0_auto]">
                 {/* Scrollable container for small screens */}
                 <div className="w-full overflow-x-auto overflow-y-hidden">
                     {/* Header */}
@@ -140,7 +140,7 @@ export default function Leaderboard({ data }) {
                                 <div className="opacity-[0.13] absolute w-full h-[500px] top-[170px] left-0">
                                     <img className="w-full h-full absolute top-0 left-0" alt="Mask group" src={image1} />
                                 </div>
-                                <div className="absolute w-[500px] h-[500px] top-0 left-[390px] bg-[#5d89ff] rounded-[250px] blur-[300px] opacity-20" />
+                                <div className="absolute w-[500px] h-[500px] top-0 left-[390px] bg-decentraBlue rounded-[250px] blur-[300px] opacity-20" />
                             </div>
                         </div>
                         {/* Header columns */}

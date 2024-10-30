@@ -20,7 +20,7 @@ export default function Problem(props) {
     }
   }, [props?.contest])
   return (
-    <div className={`px-[40px] relative ${props.className}  border-r-[0.1px] border-r-[#5D89FF] min-h-screen`}>
+    <div className={`px-[40px] relative ${props.className}  border-r-[0.1px] border-r-decentraBlue min-h-screen`}>
       <div className="size-[400px] rounded-full bg-[#3A59FE] overflow-hidden absolute pointer-events-none top-20 -right-80 z-0 blur-[100px] opacity-40"></div>
       <div className="flex justify-between items-center">
         <p className="relative self-stretch mt-[-1.00px] font-gilroy font-semibold text-white text-[24px] tracking-[0] leading-[30px]">

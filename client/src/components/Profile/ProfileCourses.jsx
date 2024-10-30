@@ -57,7 +57,7 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
             {nfts.map(
               (single, index) =>
                 single != "" && (
-                  <div key={index} className="col-span-1 border-[0.1px] border-[#5D89FF] flex justify-center items-center  rounded-[16px] min-h-[350px] hover:px-5 transition-width duration-1000">
+                  <div key={index} className="col-span-1 border-[0.1px] border-decentraBlue flex justify-center items-center  rounded-[16px] min-h-[350px] hover:px-5 transition-width duration-1000">
                     <img
                       alt=""
                       src={single}

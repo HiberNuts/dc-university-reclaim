@@ -4,20 +4,15 @@ import { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Carousel from "../../Carousel/Carousel";
 import ContestCard from "../Card";
-import GreenButton from "../../button/GreenButton";
-import { CALENDAR_MONTH as CALENDER } from "../../../Constants/Assets";
 import {
   upcomingContests,
   getPastContests,
 } from "../../../utils/api/ContestAPI";
-import { formatTimestamp } from "../../../utils/time";
-import { generateSlug } from "../../../utils/generateSlug";
 import Pagination from "../../Pagination/Pagination";
 import PastContestCardLoader from "../ContestLoaders/PastContestCardLoader";
 import AllContestLoader from "../ContestLoaders/AllContestLoader";
 import vector from "../../../assets/vector.svg"
 import { CourseCard } from "../../Home/CohortsAndLearning";
-import DCButton from "../../button/DCButton";
 import line from "../../../assets/line.svg"
 
 export default function AllContests() {

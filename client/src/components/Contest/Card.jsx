@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from "react"
 import { motion, useScroll } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
-import GreenButton from "../button/GreenButton";
 
 import { formatTimestamp, checkTimeLeft } from "../../utils/time";
 import { generateSlug } from "../../utils/generateSlug";
@@ -10,8 +9,6 @@ import line3 from '../../assets/line-3.svg'
 import line2 from '../../assets/line-2.svg'
 import seperator from '../../assets/seperator.svg'
 import image41 from '../../assets/image-41.png'
-
-import arrowLeft from '../../assets/arrow-left.svg'
 import DCButton from "../button/DCButton";
 export default function ContestCard(props) {
   const navigate = useNavigate();
@@ -36,7 +33,7 @@ export default function ContestCard(props) {
     }
   }, [props])
   return (
-    <div className={`relative border-[0.1px] border-[#5D89FF] [border-radius:12px_12px_20px_20px] overflow-hidden bg-[linear-gradient(180deg,rgb(7,7,7,0.5)_20%,rgb(92.65,136.59,255))] ${props?.className ?? 'w-full'}`}>
+    <div className={`relative border-[0.1px] border-decentraBlue [border-radius:12px_12px_20px_20px] overflow-hidden bg-[linear-gradient(180deg,rgb(7,7,7,0.5)_20%,rgb(92.65,136.59,255))] ${props?.className ?? 'w-full'}`}>
 
 
       <div className="absolute  w-full h-[390px] pointer-events-none">
@@ -81,7 +78,7 @@ export default function ContestCard(props) {
                   <div className="font-gilroy text-[#efedf5] text-xs text-center tracking-[1.44px] leading-3 whitespace-nowrap">
                     {"{"} DIFFICULTY LEVEL {"}"}
                   </div>
-                  <div className="font-gilroysemibold text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">
+                  <div className="font-orbitron font-semibold text-neutral-50 text-[16px] md:text-xl text-center leading-[30px] whitespace-nowrap">
                     {props.level}
                   </div>
                 </div>
@@ -94,7 +91,7 @@ export default function ContestCard(props) {
                   <div className="font-gilroysemibold text-[#efedf5] text-xs text-center tracking-[1.44px] leading-3 whitespace-nowrap">
                     {"{"} PARTICIPANTS {"}"}
                   </div>
-                  <div className="font-montserrat-semibold text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">
+                  <div className="font-orbitron font-semibold text-neutral-50 text-[16px] md:text-xl text-center leading-[30px] whitespace-nowrap">
                     {props.participants}
                   </div>
                 </div>
@@ -107,7 +104,7 @@ export default function ContestCard(props) {
                   <div className="font-gilroysemibold text-[#efedf5] text-xs text-center tracking-[1.44px] leading-3 whitespace-nowrap">
                     {"{"} PRICE {"}"}
                   </div>
-                  <div className="font-montserrat-semibold text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">
+                  <div className="font-orbitron font-semibold text-neutral-50 text-[16px] md:text-xl text-center leading-[30px] whitespace-nowrap">
                     $ {props?.prize}
                   </div>
                 </div>
@@ -120,7 +117,7 @@ export default function ContestCard(props) {
                   <div className="font-gilroysemibold text-[#efedf5] text-xs text-center tracking-[1.44px] leading-3 whitespace-nowrap">
                     {"{"} ENDING IN {"}"}
                   </div>
-                  <p className="max-w-[160px]   font-montserrat-semibold text-neutral-50 text-xl text-center leading-[30px] whitespace-nowrap">
+                  <p className="max-w-[160px]   font-orbitron font-semibold text-neutral-50 text-[16px] md:text-xl text-center leading-[30px] whitespace-nowrap">
                     {timeLeft?.timeleft}
                   </p>
                 </div>

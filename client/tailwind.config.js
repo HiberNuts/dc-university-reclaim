@@ -37,6 +37,7 @@ module.exports = {
         royalblue: "#3d5ee1",
         gainsboro: "#d9d9d9",
         deepskyblue: "#03a9f4",
+        decentraBlue: '#5D89FF'
       },
       fontFamily: {
         body: "helvetica-neue-roman",

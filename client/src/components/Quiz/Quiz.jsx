@@ -242,7 +242,7 @@ const Quiz = ({
           {!currentQuizCompleted && (
             <div className="flex w-full px-2 mt-10 justify-end">
               <button onClick={handleSubmit}
-                className={`bg-gradient-to-b from-[#3A59FE] to-[#5d89ff] rounded-[10px] h-[48px] flex justify-center  px-[32px] py-[22px]   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
+                className={`bg-gradient-to-b from-[#3A59FE] to-decentraBlue rounded-[10px] h-[48px] flex justify-center  px-[32px] py-[22px]   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
               >
                 {score === moduleQuiz.length ? "Completed" : "Submit"}
               </button>
@@ -268,7 +268,7 @@ const Quiz = ({
               setCurrentChapter(currentModule.chapter[currentModule.chapter.length - 1])
               setisModuleChanged(!isModuleChanged);
             }}
-            className={`bg-gradient-to-b from-[#3A59FE] to-[#5d89ff] h-[58px] w-[58px] flex justify-center align-middle  hover:bg-black rounded-[10px]  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
+            className={`bg-gradient-to-b from-[#3A59FE] to-decentraBlue h-[58px] w-[58px] flex justify-center align-middle  hover:bg-black rounded-[10px]  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
 
           >
             <IoMdArrowBack className="text-xl" />
@@ -291,7 +291,7 @@ const Quiz = ({
                 setIsProgramSelected(true)
 
               }}
-              className={`bg-gradient-to-b from-[#3A59FE] to-[#5d89ff] h-[58px] w-[58px] flex justify-center align-middle  hover:bg-black rounded-[10px]  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
+              className={`bg-gradient-to-b from-[#3A59FE] to-decentraBlue h-[58px] w-[58px] flex justify-center align-middle  hover:bg-black rounded-[10px]  transition ease-in-out items-center font-semibold  text-center text-white text-[16px] `}
             >
               <IoMdArrowForward className="text-xl" />
             </button>

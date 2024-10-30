@@ -40,7 +40,7 @@ function Carousel({ slides }) {
       </div>
 
       <button
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white border-2 border-[#5D89FF] p-2 rounded-full opacity-50 hover:opacity-75"
+        className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white border-2 border-decentraBlue p-2 rounded-full opacity-50 hover:opacity-75"
         onClick={prevSlide}
       >
         {/* <img src={LEFT_ARROW} alt="Previous" /> */}
@@ -48,7 +48,7 @@ function Carousel({ slides }) {
       </button>
 
       <button
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white border-2 border-[#5D89FF] p-2 rounded-full opacity-50 hover:opacity-75"
+        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white border-2 border-decentraBlue p-2 rounded-full opacity-50 hover:opacity-75"
         onClick={nextSlide}
       >
         {/* <img src={RIGHT_ARROW} alt="Next" /> */}

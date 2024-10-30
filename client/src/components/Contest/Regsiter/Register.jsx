@@ -1,5 +1,4 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import GreenButton from "../../button/GreenButton";
 import toast, { Toaster } from "react-hot-toast";
 import Leaderboard from "../Leaderboard/Leaderboard";
 import { useParams, useNavigate } from "react-router-dom";
@@ -177,7 +176,7 @@ export default function ContestRegsiter() {
             className="h-[375px] py-2 rounded-[20px] z-10"
             src={contest?.image}
           />
-          <div className="hidden lg:block absolute z-50 bottom-16 right-0 border-[0.1px] bg-black border-[#5D89FF] p-3 rounded-md">
+          <div className="hidden lg:block absolute z-50 bottom-16 right-0 border-[0.1px] bg-black border-decentraBlue p-3 rounded-md">
             <div className="text-[16px] text-right leading-[18px]  text-overflow-ellipsis relative self-stretch font-gilroy text-white" >Prize Money</div>
             <div className="text-[42px] text-right leading-[42px]  text-overflow-ellipsis font-helvetica-neue-bold text-shardeumRed">$ {contest.prize}</div>
           </div>

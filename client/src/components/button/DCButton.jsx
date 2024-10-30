@@ -9,21 +9,21 @@ const DCButton = ({ btnContent = "", onClick, variant = "default" }) => {
 
     const ArrowAnimation = () => (
         <motion.div
-          className='w-[26px] h-[26px] flex items-center justify-center bg-[#3A59FE] rounded-[4px] overflow-hidden'
-          whileHover="hover"
-          initial="initial"
+            className='w-[26px] h-[26px] flex items-center justify-center bg-[#3A59FE] rounded-[4px] overflow-hidden'
+            whileHover="hover"
+            initial="initial"
         >
-          <motion.div
-            className="flex flex-row space-x-2"
-            variants={{
-              initial: { x: -10 },
-              hover: { x: 10 }
-            }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          >
-            <FaArrowRight className='text-white' size={16} />
-            <FaArrowRight className='text-white' size={16} />
-          </motion.div>
+            <motion.div
+                className="flex flex-row space-x-2"
+                variants={{
+                    initial: { x: -10 },
+                    hover: { x: 10 }
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+                <FaArrowRight className='text-white' size={16} />
+                <FaArrowRight className='text-white' size={16} />
+            </motion.div>
         </motion.div>
     );
     if (variant == "primary")
@@ -43,12 +43,12 @@ const DCButton = ({ btnContent = "", onClick, variant = "default" }) => {
                     {btnContent}
                 </div>
                 {/* <img className="relative w-6 h-[26px]" alt="Arrow left" src={arrowLeft} /> */}
-                
+
                 <ArrowAnimation />
             </button>
         )
     return (
-        <button onClick={onClick} className={`all-[unset] cursor-pointer box-border flex justify-between pl-6 pr-3 py-3 self-stretch max-w-48 flex-[0_0_auto] bg-gradient-to-b  rounded-lg items-center relative from-[#3A59FE] to-[#5d89ff]`}>
+        <button onClick={onClick} className={`all-[unset] cursor-pointer box-border flex justify-between pl-6 pr-3 py-3 self-stretch max-w-48 flex-[0_0_auto] bg-gradient-to-b  rounded-lg items-center relative from-[#3A59FE] to-decentraBlue`}>
             <div className="relative w-fit font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
                 {btnContent}
             </div>
