@@ -32,14 +32,11 @@ export default function Header() {
     setIsOpen(!isOpen);
   };
 
-  const targetLinks = [
-    location.pathname,
-    location.hash,
-    location.pathname.split("/")[1],
-  ];
+
 
   useEffect(() => {
     setIsHomeRoute(location.pathname === "/");
+    setIsOpen(false)
   }, [location]);
 
   const signinUser = async () => {
@@ -124,40 +121,26 @@ export default function Header() {
   }, [loggedInUserData]);
 
   return (
-    <header
-      className={`bg-black/60 my-5 md:mx-20  backdrop-blur text-white mx-1  sticky top-4 z-[999] rounded-xl ${location.pathname.includes("/workplace") || location.pathname.includes("/previewworkplace") ? "" : ""
-        }`}
-    >
-
+    <header className="bg-black/60 md:mx-20 backdrop-blur text-white mx-1 sticky top-4 z-50 rounded-xl">
       <Toaster />
-      <Suspense fallback={<div className="bg-black  text-white my-5 mx-2 md:mx-20 rounded-xl"></div>}>
-        <nav className="container mx-auto flex justify-between items-center px-2 md:px-10 w-full border-[0.1px] border-decentraBlue rounded-xl h-[92px]">
+      <Suspense fallback={<div className="bg-black text-white my-5 mx-2 md:mx-20 rounded-xl"></div>}>
+        <nav className="container mx-auto flex justify-between items-center px-2 md:px-10 w-full border border-decentraBlue rounded-xl h-[92px]">
           {/* Logo Section */}
           <Link to="/" className="flex items-center">
-            <img src={logo} alt="DecentraClasses Logo" className="h-9 lg:w-[262px] w-[170px]" />
+            <img src={logo} alt="Logo" className="h-9 lg:w-[262px] w-[170px]" />
           </Link>
 
-          {/* Decorative Image */}
-          {/* <div className="h-[92px] flex-shrink-0 overflow-hidden">
-            <div className="size-[226px] rounded-full">
-              <img
-                src={image41}
-                alt="Decorative"
-                className="w-[262px] opacity-30 mix-blend-overlay rounded-full"
-              />
-            </div>
-          </div> */}
-
-          {/* Navigation Links and Login/Profile */}
-          <div className="flex items-center space-x-6">
+          {/* Navigation Links for Medium Screens and Up */}
+          <div className="hidden md:flex items-center space-x-6">
+            <Link to="/" className={`hover:text-blue-500 font-semibold text-mini ${location.pathname == "/" ? 'text-blue-500' : 'text-white'}`}>
+              Home
+            </Link>
             <Link to="/courses" className={`hover:text-blue-500 font-semibold text-mini ${location.pathname.includes("/courses") ? 'text-blue-500' : 'text-white'}`}>
               Courses
             </Link>
             <Link to="/contests" className={`hover:text-blue-500 font-semibold text-mini ${location.pathname.includes("/contests") ? 'text-blue-500' : 'text-white'}`}>
               Contests
             </Link>
-
-            {/* Connect Button or Profile Dropdown */}
             <ConnectButton.Custom>
               {({
                 account,
@@ -169,40 +152,24 @@ export default function Header() {
                 mounted,
               }) => {
                 const ready = mounted && authenticationStatus !== "loading";
-                const connected =
-                  ready &&
-                  account &&
-                  chain &&
-                  (!authenticationStatus || authenticationStatus === "authenticated");
+                const connected = ready && account && chain && (!authenticationStatus || authenticationStatus === "authenticated");
 
                 return (
-                  <div
-                    {...(!ready && {
-                      "aria-hidden": true,
-                      style: {
-                        opacity: 0,
-                        pointerEvents: "none",
-                        userSelect: "none",
-                      },
-                    })}
-                  >
+                  <div {...(!ready && {
+                    "aria-hidden": true,
+                    style: { opacity: 0, pointerEvents: "none", userSelect: "none" },
+                  })}>
                     {(() => {
                       if (!ready || isLoading) {
                         return (
-                          <button
-                            className="bg-gradient-to-b from-decentraBlue to-[#3A59FE] px-6 py-2 rounded-lg font-semibold text-mini"
-                            disabled
-                          >
+                          <button className="bg-gradient-to-b from-decentraBlue to-[#3A59FE] px-6 py-2 rounded-lg font-semibold text-mini" disabled>
                             Connecting
                           </button>
                         );
                       }
                       if (!connected) {
                         return (
-                          <button
-                            onClick={openConnectModal}
-                            className="bg-gradient-to-b from-decentraBlue to-[#3A59FE] px-6 py-2 rounded-lg font-semibold text-mini"
-                          >
+                          <button onClick={openConnectModal} className="bg-gradient-to-b from-decentraBlue to-[#3A59FE] px-6 py-2 rounded-lg font-semibold text-mini">
                             Login
                           </button>
                         );
@@ -214,8 +181,6 @@ export default function Header() {
                           chain={chain}
                           openChainModal={openChainModal}
                           openAccountModal={openAccountModal}
-                          xp={xp}
-                          homeRoute={isHomeRoute}
                         />
                       );
                     })()}
@@ -225,15 +190,79 @@ export default function Header() {
             </ConnectButton.Custom>
           </div>
 
-          {/* Mobile Burger Menu (Optional) */}
-          {/* If you have a burger menu for mobile, integrate it here without altering existing HTML/CSS */}
-          {/* Example:
-          <div className="lg:hidden flex items-center z-60">
-            <div className="focus:outline-none" onClick={toggleNavbar}>
-              <Burger isOpen={isOpen} setIsOpen={setIsOpen} />
-            </div>
+          {/* Hamburger Menu for Small Screens */}
+          <div className="md:hidden flex items-center z-60">
+            <button onClick={toggleNavbar} className="focus:outline-none">
+              <Burger isOpen={isOpen} />
+            </button>
           </div>
-          */}
+
+          {/* Side Panel for Mobile */}
+          {isOpen && (
+            // <div className="fixed inset-0 bg-black border-4 bg-opacity-50 z-50">
+            <div className="md:hidden absolute left-0 top-[120%]  w-full bg-black p-5 z-50 flex flex-col space-y-4 border-2 border-decentraBlue rounded-xl">
+              <div className="flex flex-col justify-center items-center gap-6 py-5">
+                <Link to="/" className={`hover:text-blue-500 font-semibold text-5xl ${location.pathname == "/" ? 'text-blue-500' : 'text-white'}`}>
+                  Home
+                </Link>
+                <Link to="/courses" className={`hover:text-blue-500 font-semibold text-5xl ${location.pathname.includes("/courses") ? 'text-blue-500' : 'text-white'}`}>
+                  Courses
+                </Link>
+                <Link to="/contests" className={`hover:text-blue-500 font-semibold text-5xl ${location.pathname.includes("/contests") ? 'text-blue-500' : 'text-white'}`}>
+                  Contests
+                </Link>
+                <ConnectButton.Custom>
+                  {({
+                    account,
+                    chain,
+                    openAccountModal,
+                    openChainModal,
+                    openConnectModal,
+                    authenticationStatus,
+                    mounted,
+                  }) => {
+                    const ready = mounted && authenticationStatus !== "loading";
+                    const connected = ready && account && chain && (!authenticationStatus || authenticationStatus === "authenticated");
+
+                    return (
+                      <div {...(!ready && {
+                        "aria-hidden": true,
+                        style: { opacity: 0, pointerEvents: "none", userSelect: "none" },
+                      })}>
+                        {(() => {
+                          if (!ready || isLoading) {
+                            return (
+                              <button className="bg-gradient-to-b from-decentraBlue to-[#3A59FE] px-6 py-2 rounded-lg font-semibold text-mini" disabled>
+                                Connecting
+                              </button>
+                            );
+                          }
+                          if (!connected) {
+                            return (
+                              <button onClick={openConnectModal} className="bg-gradient-to-b from-decentraBlue to-[#3A59FE] px-6 py-2 rounded-lg font-semibold text-mini">
+                                Login
+                              </button>
+                            );
+                          }
+                          return (
+                            <ProfileDropDown
+                              loggedInUserData={loggedInUserData}
+                              account={account.displayName}
+                              chain={chain}
+                              openChainModal={openChainModal}
+                              openAccountModal={openAccountModal}
+                            />
+                          );
+                        })()}
+                      </div>
+                    );
+                  }}
+                </ConnectButton.Custom>
+              </div>
+              {/* </div> */}
+            </div>
+          )}
+
         </nav>
       </Suspense>
     </header>
