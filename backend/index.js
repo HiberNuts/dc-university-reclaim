@@ -41,6 +41,7 @@ require("./routes/adminRoutes")(app);
 require("./routes/contestRoutes")(app);
 require("./routes/solcRoutes")(app);
 require("./routes/cohertRoutes")(app);
+require("./routes/externalCourseRoute")(app);
 
 // simple route
 app.get("/", (req, res) => {

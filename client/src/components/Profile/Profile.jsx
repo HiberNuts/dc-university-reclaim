@@ -25,6 +25,7 @@ import profile_bg_2 from '../../assets/profile-bg-2.svg'
 import noise from "../../assets/image-41.png"
 import { RxDividerVertical } from "react-icons/rx";
 import { BsSendFill } from "react-icons/bs";
+import ReclaimDemo from "../Reclaim/Reclaim";
 
 const Profile = ({ isOpen, closeModal }) => {
   const { shardId } = useParams();
@@ -36,6 +37,28 @@ const Profile = ({ isOpen, closeModal }) => {
     designation: "Web3 Beginner",
   });
   const { loggedInUserData } = useContext(ParentContext);
+
+  const [externalCourses, setExternalCourses] = useState();
+  const [isExternalCourseUpdated, setisExternalCourseUpdated] = useState(false)
+
+  const getExternalCourses = async () => {
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/external-courses/${loggedInUserData?.walletAddress}`
+      );
+      console.log("data", data)
+      setExternalCourses(data);
+    } catch (error) {
+      console.error('Failed to fetch external courses:', error);
+    }
+  };
+  console.log("externalCourses", externalCourses)
+
+  useEffect(() => {
+    if (loggedInUserData?.walletAddress) {
+      getExternalCourses();
+    }
+  }, [loggedInUserData?.walletAddress, isExternalCourseUpdated]);
 
   const copyToClipboard = () => {
 
@@ -154,22 +177,10 @@ const Profile = ({ isOpen, closeModal }) => {
     <div className="">
       <Toaster />
       <div className="bg-dark min-h-[50px] md:min-h-[120px] overflow-hidden relative profile_header">
-        {/* <img alt="trail" src={TRIANGLE_IMG} className="absolute right-10" /> */}
+
 
       </div>
       <div className="grid grid-cols-8 min-h-screen px-2 md:px-10 gap-4 overflow-x-hidden">
-        {/* noise overlay */}
-        {/* <div className="absolute inset-0 grid grid-cols-[repeat(auto-fill,320px)] grid-rows-[repeat(auto-fill,360px)]  overflow-hidden">
-          {[...Array(100)].map((_, index) => (
-            <img 
-              key={index}
-              src={noise} 
-              alt="Noise overlay" 
-              className="w-[320px] h-[360px] object-cover opacity-30 mix-blend-overlay "
-            />
-          ))}
-        </div> */}
-        {/* vertical blur */}
 
         <div className="absolute -top-[24%] -left-[2%] w-full h-[850px] overflow-x-hidden  blur-[40px] opacity-70">
           <img src={profile_bg} className="w-full h-full border border-white" />
@@ -180,15 +191,7 @@ const Profile = ({ isOpen, closeModal }) => {
 
           </div>
         </div>
-        {/* noise overlay */}
-        {/* <div className="absolute top-0 left-0 w-full h-full flex flex-wrap border border-white">
-          <img src={noise} className="w-[320px] h-[360px] opacity-90 mix-blend-overlay border border-white" />
-          <img src={noise} className="w-[320px] h-[360px] opacity-30 mix-blend-overlay border border-white" />
-          <img src={noise} className="w-[320px] h-[360px] opacity-90 mix-blend-overlay border border-white" />
-          <img src={noise} className="w-[320px] h-[360px] opacity-90 mix-blend-overlay border border-white" />
-          <img src={noise} className="w-[320px] h-[360px] opacity-90 mix-blend-overlay border border-white" />
-        </div> */}
-        {/* horizontal blur */}
+
         <div className="absolute top-8 left-0 w-full h-full flex overflow-x-hidden">
 
           <img src={noise} className="w-[320px] h-[360px] opacity-30 mix-blend-overlay " />
@@ -201,15 +204,6 @@ const Profile = ({ isOpen, closeModal }) => {
           </div>
         </div>
         <div className="col-span-8 w-full  lg:col-span-2 bg-[#121212] relative border-[0.1px] border-decentraBlue rounded-lg">
-          {/* <div className="absolute top-0 left-0 right-0 flex justify-center">
-            <div className="relative top-[-100px]">
-              <LazyLoadImage
-                src={userProfile?.image ?? 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg'}
-                className="rounded-[50%] object-cover object-center w-[200px] h-[200px] border-4 border-shardeumPurple"
-              />
-            </div>
-          </div> */}
-          {/* avatar blur */}
           <div className="absolute size-[226px] bg-[#3A59FE80] rounded-full top-[10%] left-1/2 -translate-x-1/2 blur-[100px] z-0">
 
           </div>
@@ -321,92 +315,9 @@ const Profile = ({ isOpen, closeModal }) => {
                 }
               </div>
             </div>
+            <ReclaimDemo isExternalCourseUpdated={isExternalCourseUpdated} walletAddress={loggedInUserData?.walletAddress} setisExternalCourseUpdated={setisExternalCourseUpdated} />
           </div>
-          {/* <div className="name mt-[150px] px-16">
-            <p className='my-2 text-[24px] text-left leading-tight text-white text-overflow-ellipsis font-helvetica-neue-bold'>{userProfile?.username}</p>
 
-            <div className="flex flex-col">
-              {
-                userProfile?.designation &&
-                <div className="flex gap-2">
-                  <img src={JOB} />
-                  <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{userProfile?.designation}</p>
-                </div>
-              }
-              {
-                userProfile?.email &&
-                <div className="flex gap-2">
-                  <img src={MAIL} />
-                  <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{userProfile?.email}</p>
-                </div>
-              }
-              {
-                userProfile?.portfolio &&
-                <div className="flex gap-2">
-                  <img src={PORTFOLIO} />
-                  <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{userProfile?.portfolio}</p>
-                </div>
-              }
-              {
-                userProfile?.experience &&
-                <div className="flex gap-2">
-                  <img src={LEVEL} />
-                  <p className="my-2 text-[16px] text-left leading-[28px] text-white text-overflow-ellipsis font-[500]">{userProfile?.experience}</p>
-                </div>
-              }
-              <div className="flex gap-5  mt-2">
-                {
-                  userProfile?.twitter &&
-                  <a target="_blank" href={'https://x.com/' + userProfile?.twitter ?? '#'} rel="noreferrer">
-                    <img src={TWITTER} />
-                  </a>
-                }
-                {
-                  userProfile?.github &&
-                  <a target="_blank" href={'https://github.com/' + userProfile?.github ?? '#'} rel="noreferrer">
-                    <img src={GITHUB} />
-                  </a>
-                }
-                {
-                  userProfile?.linkedIn &&
-                  <a target="_blank" href={'https://linkedin.com/in/' + userProfile?.linkedIn ?? '#'} rel="noreferrer">
-                    <img src={LINKEDIN} />
-                  </a>
-                }
-                {
-                  userProfile?.youtube &&
-                  <a target="_blank" href={'https://youtube.com/' + userProfile?.youtube ?? '#'} rel="noreferrer">
-                    <img src={YOUTUBE} />
-                  </a>
-                }
-                {
-                  userProfile?.discord &&
-                  <a target="_blank" href={'https://discord.com/' + userProfile?.discord ?? '#'} rel="noreferrer">
-                    <img src={DISCORD} />
-                  </a>
-                }
-              </div>
-              {
-                // userProfile != null && (loggedInUserData?._id == userProfile?._id) &&
-                // <div className="mt-10 absolute top-[-1.5rem] right-[1rem]">
-                //   <Link to={'/profile/edit'}>
-
-                //     <LazyLoadImage src={editImg} />
-                //   </Link>
-                // </div>
-              }
-              <div className="mt-10">
-                <ShareButton text={"Share Profile"} isHoveredReq={true} onClick={copyToClipboard} />
-              </div>
-              <div className="mt-10">
-                <p className="font-[500] text-[12px] text-white tracking-[2px]">ABOUT ME</p>
-                <p className=' text-[16px] font-[400] text-left leading-[28px] text-white text-overflow-ellipsis'>
-                  {userProfile?.description}
-                </p>
-              </div>
-
-            </div>
-          </div> */}
 
         </div>
         <div className="col-span-8 lg:col-span-6">
@@ -486,6 +397,7 @@ const Profile = ({ isOpen, closeModal }) => {
                 }
               </div>
             </div>
+
             <div className="flex-1 bg-[#121212] rounded-lg  relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-full flex opacity-40 mix-blend-overlay">
                 <img src={noise} className="w-1/2 h-full " />
@@ -501,11 +413,22 @@ const Profile = ({ isOpen, closeModal }) => {
               }
             </div>
           </div>
-          {/* {userContestData != null && userProfile != null &&
-            <div className="py-2 px-2 lg:px-10">
-              <ProfileBadge data={userContestData} courseData={userProfile} />
+          {
+            externalCourses != null && externalCourses.length > 0 && <div className="rounded-lg p-6 relative overflow-hidden">
+
+              <h2 className="text-white text-xl font-bold mb-4 relative z-10">External Courses</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 relative z-10">
+                {externalCourses?.map((course, index) => (
+                  <div key={index} className="border-[0.1px] border-decentraBlue rounded-md p-4">
+                    <img src={course.image_480x270} alt={course.title} className="w-full min-h-40 object-cover rounded-md mb-2" />
+                    <h3 className="text-white text-lg font-semibold mb-2">{course.title}</h3>
+                    <p className="text-[#B7C2FD] text-lg">Completion: {course.completion_ratio} %</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          } */}
+          }
+
           <div className="p-2 ">
             <div className="py-5">
               {
@@ -524,7 +447,7 @@ const Profile = ({ isOpen, closeModal }) => {
 
 export default Profile;
 
-// return (
+
 //   <div className="w-full  bg-shardeumWhite font-helvetica-neue  h-full flex justify-between align-middle">
 //     <Toaster />
 //     <Suspense
