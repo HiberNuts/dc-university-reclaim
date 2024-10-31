@@ -139,7 +139,7 @@ export default function WorkPlace() {
 
 
   return (
-    <div className="w-full  mt-2 px-1 md:px-10 h-full flex flex-row">
+    <div className="w-full  mt-8 px-1 md:px-10 h-full flex flex-row">
       <Toaster />
       <ScrollToTop />
       <NftModal

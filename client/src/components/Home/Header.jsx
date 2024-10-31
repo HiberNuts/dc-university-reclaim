@@ -127,7 +127,7 @@ export default function Header() {
         <nav className="container mx-auto flex justify-between items-center px-2 md:px-10 w-full border border-decentraBlue rounded-xl h-[92px]">
           {/* Logo Section */}
           <Link to="/" className="flex items-center">
-            <img src={logo} alt="Logo" className="h-9 lg:w-[262px] w-[170px]" />
+            <img src={logo} alt="Logo" className="h-9 lg:w-[262px] w-[250px]" />
           </Link>
 
           {/* Navigation Links for Medium Screens and Up */}
