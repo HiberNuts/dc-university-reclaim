@@ -30,7 +30,7 @@ const KeyFeatures = () => {
     const timer = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % features.length)
       setNextIndex((prevIndex) => (prevIndex + 1) % features.length)
-    }, 3000) // Change every 3 seconds
+    }, 3000)
 
     return () => clearInterval(timer)
   }, [])
@@ -41,56 +41,13 @@ const KeyFeatures = () => {
       <div className="relative w-fit mt-[-1.00px] bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-montserrat-bold text-transparent lg:text-[40px] text-[30px] tracking-[0] leading-[50px] whitespace-nowrap">
         Key Features
       </div>
-      <div className="relative self-stretch w-full h-[460px]">
-        <div className="relative w-screen h-[460px] -left-40">
-          <div className="absolute w-full h-[460px] top-0 left-0 ">
-            <div className="lg:inline-flex  items-center lg:gap-9 gap-5 absolute lg:top-[34px] top-0 left-[496px] ">
-              <div className="relative w-32 h-7 overflow-hidden b">
 
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentIndex}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.5 }}
-                    className=" w-fit font-gilroybold text-decentraBlue text-[28px] tracking-[3.36px] leading-7 whitespace-nowrap"
-                  >
-                    {features[currentIndex].text}
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-
-              {/* Feature cards */}
-              <div className="flex lg:flex-row flex-col lg:gap-9 gap-5 ">
-                {[currentIndex, nextIndex].map((index, i) => (
-                  <div key={i} className="bg-gradient-to-bl from-[#0E3CC8]/50 to-[#1F1F1F]/50 rounded-lg px-8 pt-8 border border-blue-500/30 w-[400px]">
-                    <AnimatePresence mode="wait">
-                      <motion.h3
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.5 }}
-                        className="text-xl font-bold mb-3"
-                      >
-                        {features[index].title}
-                      </motion.h3>
-                    </AnimatePresence>
-                    <p className="text-gray-400 mb-8">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                      incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                      exercitation ullamco
-                    </p>
-                    <div className="bg-[#434343] h-28 rounded-t-[20px] flex items-center justify-center text-gray-500">
-                      ILLUSTRATION
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="absolute w-[460px] h-[460px] top-0 left-0">
+      {/* Main content container */}
+      <div className="relative w-full flex flex-col lg:h-[460px]">
+        <div className="relative w-full lg:w-screen lg:-left-40">
+          <div className="flex flex-col lg:flex-row lg:relative">
+            {/* Left side - Now with consistent dimensions */}
+            <div className="left_side mx-auto lg:mx-0 w-[460px] h-[460px] relative right-[50%] lg:absolute lg:top-0 lg:left-0 mb-8 lg:mb-0">
               <div className="absolute w-[460px] h-[460px] top-0 left-0 rounded-[500px] overflow-hidden">
                 <div className="relative w-[250px] h-[250px] top-[105px] left-[105px] bg-decentraBlue rounded-[125.11px] blur-[337.13px]" />
               </div>
@@ -130,6 +87,53 @@ const KeyFeatures = () => {
                   transition={{ duration: 0.5, ease: "easeInOut" }}
                 />
               ))}
+            </div>
+
+            {/* Right side - Below on mobile */}
+            <div className="right_side w-full px-4 lg:px-0 lg:absolute lg:top-[34px] lg:left-[496px]">
+              <div className="flex flex-col items-center lg:items-start gap-5 lg:gap-9">
+                <div className="relative w-32 h-7 overflow-hidden">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentIndex}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.5 }}
+                      className="w-fit font-gilroybold text-decentraBlue text-[28px] tracking-[3.36px] leading-7 whitespace-nowrap"
+                    >
+                      {features[currentIndex].text}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+
+                <div className="flex flex-col lg:flex-row gap-5 lg:gap-9 w-full">
+                  {[currentIndex, nextIndex].map((index, i) => (
+                    <div key={i} className="bg-gradient-to-bl from-[#0E3CC8]/50 to-[#1F1F1F]/50 rounded-lg px-8 pt-8 border border-blue-500/30 w-full lg:w-[400px]">
+                      <AnimatePresence mode="wait">
+                        <motion.h3
+                          key={index}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.5 }}
+                          className="text-xl font-bold mb-3"
+                        >
+                          {features[index].title}
+                        </motion.h3>
+                      </AnimatePresence>
+                      <p className="text-gray-400 mb-8">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco
+                      </p>
+                      <div className="bg-[#434343] h-28 rounded-t-[20px] flex items-center justify-center text-gray-500">
+                        ILLUSTRATION
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>

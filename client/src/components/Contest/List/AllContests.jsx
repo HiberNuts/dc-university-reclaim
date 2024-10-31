@@ -64,7 +64,7 @@ export default function AllContests() {
 
   return (
     <div className="bg-black">
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center mt-10">
         <div className="relative text-center w-fit mt-[-1.00px] 
           bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text font-montserrat-bold text-transparent text-[24px] md:text-[30px] tracking-[0] leading-[50px] whitespace-nowrap">
           Hop into our Contests

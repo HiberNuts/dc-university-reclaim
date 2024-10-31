@@ -92,7 +92,7 @@ const CohortsAndLearning = () => {
   };
 
   return (
-    <div className="flex flex-col gap-10 pt-40 pb-[100px] px-2 md:px-20 relative self-stretch w-full flex-[0_0_auto]">
+    <div className="flex flex-col gap-10 pt-4 md:pt-40 pb-[100px] px-2 md:px-20 relative self-stretch w-full flex-[0_0_auto]">
       <img className="absolute w-[1440px] h-[1089px] top-[-5px] left-0 pointer-events-none" alt="Line" src={line} />
       <div className="absolute w-[400px] h-[400px] top-[254px] right-10 bg-[#4064cd] rounded-[200px] blur-[300px] opacity-45" />
       <div className="relative w-fit mt-[-1.00px]
@@ -105,10 +105,10 @@ const CohortsAndLearning = () => {
             <div
               key={index}
               onClick={() => handleCategoryClick(item)}
-              className={`flex flex-col w-[150px] items-center justify-center gap-8 p-5 relative rounded-[60px] overflow-hidden border border-solid border-[#5d89ff80] cursor-pointer ${selectedCategories.includes(item) ? 'shadow-[0px_0px_10px_#3a59fe] [background:linear-gradient(180deg,rgba(14,60,200,0.5)_0%,rgb(17.85,17.85,17.85)_100%)] ' : ' [background:linear-gradient(180deg,rgb(7,7,7)_0%,rgb(18,18,18)_100%)]'
+              className={`flex flex-col w-[100px] sm:w-[150px] items-center justify-center gap-8 p-2 sm:p-5 relative rounded-[60px] overflow-hidden border border-solid border-[#5d89ff80] cursor-pointer ${selectedCategories.includes(item) ? 'shadow-[0px_0px_10px_#3a59fe] [background:linear-gradient(180deg,rgba(14,60,200,0.5)_0%,rgb(17.85,17.85,17.85)_100%)] ' : ' [background:linear-gradient(180deg,rgb(7,7,7)_0%,rgb(18,18,18)_100%)]'
                 } `}
             >
-              <div className="relative w-fit mt-[-1.00px] font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
+              <div className="relative w-fit mt-[-1.00px] font-gilroybold text-white text-xs sm:text-lg tracking-[0] leading-[18px] whitespace-nowrap">
                 {item}
               </div>
             </div>
