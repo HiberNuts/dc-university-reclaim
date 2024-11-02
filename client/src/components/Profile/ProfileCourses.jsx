@@ -78,7 +78,7 @@ const ProfileCourses = ({ loggedInUserData, userData }) => {
           bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-montserrat-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
               Resume course
             </p>
-            <div className="grid grid-cols-[400px] md:grid-cols-[repeat(2,400px)] lg:grid-cols-[repeat(3,400px)] gap-5 my-10 w-full mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-5 my-10">
               {profileCoursesData?.map((course, index) => {
                 return course?.softDelete == true ? (
                   ""

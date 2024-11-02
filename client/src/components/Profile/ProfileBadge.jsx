@@ -7,13 +7,14 @@ import notFoundImage from "../../assets/notFound.png";
 import NEW_CONTESTWON_BADGE from "../../assets/new_contest_badge.png";
 import NEW_PARTICIPATION_BADGE from "../../assets/new_participation_badge.png"
 import NEW_XP_BADGE from "../../assets/new_xp_badge.png";
+import { LuSearchX } from "react-icons/lu";
 const ProfileBadge = ({ data, courseData }) => {
   if (
     data?.contestWon > 0 ||
-    data?.contestParticipated >= 1 ||
+    data?.contestParticipated >= 5 ||
     courseData.enrolledCourses.length >= 5 ||
-    data?.contestWon > 5 ||
-    data?.XPEarned > 5000
+    data?.contestWon >= 5 ||
+    data?.XPEarned > 500
   )
     return (
       <div>
@@ -29,14 +30,14 @@ const ProfileBadge = ({ data, courseData }) => {
             </div>
 
           )}
-          {(data?.contestParticipated >= 1 ||
-            courseData.enrolledCourses.length >= 1) && (
+          {(data?.contestParticipated >= 5 ||
+            courseData.enrolledCourses.length >= 5) && (
               <div className="border-[0.1px] border-decentraBlue flex flex-col rounded-md">
                 <img src={NEW_PARTICIPATION_BADGE} className="h-32 w-36  rounded-md" />
                 <p className="bg-black text-[12px] p-1 rounded-b-md w-full bottom-0">Badge Participation</p>
               </div>
             )}
-          {data?.contestWon > 5 && (
+          {data?.contestWon >= 5 && (
             <div className="bg-black px-6 py-3 rounded-lg flex flex-col hover:px-8 transition-width duration-500 cursor-pointer">
               <img src={ACCURACY} className="h-16 w-20" />
               <p className="text-[#77b801] leading-tight text-overflow-ellipsis font-semibold text-center text-[10px] pt-3">
@@ -57,12 +58,12 @@ const ProfileBadge = ({ data, courseData }) => {
   else
     return (
       <div>
-        <p className="my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis border-b-[1px] font-helvetica-neue-bold pb-3">
+        <p className="bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-montserrat-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
           Badges
         </p>
         <div className="text-center p-10 flex justify-center items-center">
-          <LazyLoadImage className="w-[50px] mr-5" alt="" src={notFoundImage} />
-          <p>No badges Yet</p>
+          <LuSearchX className="text-white text-[50px]" />
+          <p className="text-white text-[24px]">No badges Yet</p>
         </div>
       </div>
     );
