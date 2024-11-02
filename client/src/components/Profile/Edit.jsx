@@ -243,9 +243,15 @@ const EditProfile = () => {
             accessToken: loggedInUserData.accessToken,
           });
           setShowError(false);
-          alert(1)
           toast.success("profile updated");
-          // window.location.reload();
+          localStorage.setItem('userSession', JSON.stringify({
+            address: loggedInUserData.walletAddress,
+            userData: {
+              ...res.data.user,
+              accessToken: loggedInUserData.accessToken
+            },
+            timestamp: Date.now()
+          }));
         }
       });
   };
