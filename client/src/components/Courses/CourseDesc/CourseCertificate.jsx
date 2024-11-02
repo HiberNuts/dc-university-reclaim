@@ -77,7 +77,7 @@ const CourseCertificate = ({ props, title }) => {
         <img className="absolute w-[122px] h-[463px] top-[122px] left-0" alt="Line" src={line70} />
         {/* image */}
         {/* granny background */}
-        <div className="absolute w-screen h-[649px] top-[37px] left-0 mix-blend-overlay border border-white">
+        <div className="absolute w-screen h-[649px] top-[37px] left-0 mix-blend-overlay ">
           <div className="relative w-screen h-[673px] -top-6">
             <img className="w-[367px] h-[336px] top-0 left-0 absolute object-cover opacity-15 "
               alt="Image"

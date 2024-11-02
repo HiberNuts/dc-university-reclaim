@@ -7,6 +7,7 @@ import notFoundImage from "../../assets/notFound.png";
 import NEW_CONTESTWON_BADGE from "../../assets/new_contest_badge.png";
 import NEW_PARTICIPATION_BADGE from "../../assets/new_participation_badge.png"
 import NEW_XP_BADGE from "../../assets/new_xp_badge.png";
+import { LuSearchX } from "react-icons/lu";
 const ProfileBadge = ({ data, courseData }) => {
   if (
     data?.contestWon > 0 ||
@@ -57,12 +58,12 @@ const ProfileBadge = ({ data, courseData }) => {
   else
     return (
       <div>
-        <p className="my-2 text-[24px] text-left leading-tight text-black text-overflow-ellipsis border-b-[1px] font-helvetica-neue-bold pb-3">
+        <p className="bg-gradient-to-r from-[#ffffff] to-[#79797b] bg-clip-text text-wrap font-montserrat-semibold text-transparent text-[24px] tracking-[0] leading-[50px] whitespace-nowrap">
           Badges
         </p>
         <div className="text-center p-10 flex justify-center items-center">
-          <LazyLoadImage className="w-[50px] mr-5" alt="" src={notFoundImage} />
-          <p>No badges Yet</p>
+          <LuSearchX className="text-white text-[50px]" />
+          <p className="text-white text-[24px]">No badges Yet</p>
         </div>
       </div>
     );
