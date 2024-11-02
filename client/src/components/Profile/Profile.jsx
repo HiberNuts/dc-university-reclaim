@@ -458,15 +458,15 @@ const Profile = ({ isOpen, closeModal }) => {
               </div>
             </div>
           </div>
-        
+
 
           {
             loggedInUserData?.shardId == userProfile?.shardId && loggedInUserData?.email != "default" && loggedInUserData?.isVerified == false &&
             <div className="py-2 px-2 pt-5 text-white relative z-[100] ">
               <p>
                 Email not yet verified. Please{" "}
-                <span 
-                  className="text-blue-500 cursor-pointer hover:text-blue-400" 
+                <span
+                  className="text-blue-500 cursor-pointer hover:text-blue-400"
                   onClick={handleResendVerificationEmail}
                 >
                   click
@@ -475,7 +475,7 @@ const Profile = ({ isOpen, closeModal }) => {
               </p>
             </div>
           }
-        
+
 
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 bg-[#121212] rounded-lg relative overflow-hidden">
@@ -509,11 +509,7 @@ const Profile = ({ isOpen, closeModal }) => {
               }
             </div>
           </div>
-          {/* {userContestData != null && userProfile != null &&
-            <div className="py-2 px-2 lg:px-10">
-              <ProfileBadge data={userContestData} courseData={userProfile} />
-            </div>
-          } */}
+
           <div className="p-2 ">
             <div className="py-5">
               {
@@ -532,7 +528,7 @@ const Profile = ({ isOpen, closeModal }) => {
 
 export default Profile;
 
-// return (
+
 //   <div className="w-full  bg-shardeumWhite font-helvetica-neue  h-full flex justify-between align-middle">
 //     <Toaster />
 //     <Suspense

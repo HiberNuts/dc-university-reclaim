@@ -56,7 +56,7 @@ const ProfileProjects = ({ projects = [] }) => {
                         className="flex transition-transform duration-500 ease-in-out"
                         style={{
                             transform: `translateX(-${currentIndex * 30}%)`,
-                            width: `${projects.length * 50}%`, // Each project takes 50% width
+                            width: `${(projects.length == 1 ? projects.length + 1 : projects.length) * 50}%`, // Each project takes 50% width
                         }}
                     >
                         {projects.map((project, i) => (

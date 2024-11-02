@@ -76,7 +76,6 @@ export default function Header() {
       }
     }
   };
-
   useEffect(() => {
     // Check connection status and stored session
     const checkConnection = async () => {
@@ -86,9 +85,13 @@ export default function Header() {
           const sessionData = JSON.parse(storedSession);
           // Check if session is valid (you can add expiration check here)
           if (sessionData.address === address &&
-            Date.now() - sessionData.timestamp < 24 * 60 * 60 * 1000) { // 24 hours
+            Date.now() - sessionData.timestamp < 30 * 24 * 60 * 60 * 1000) { // 30 days
             setloggedInUserData(sessionData.userData);
             return;
+          } else {
+            localStorage.removeItem('userSession');
+            disconnect()
+            setloggedInUserData({});
           }
         }
         await signinUser();
@@ -101,6 +104,7 @@ export default function Header() {
     checkConnection();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, isConnected]);
+
 
   useEffect(() => {
     const getUserContestData = async () => {
