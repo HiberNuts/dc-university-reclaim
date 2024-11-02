@@ -23,6 +23,7 @@ import BATCH_BADGES from '../../assets/new_badge_5.png'
 import profile_bg from '../../assets/profile-bg.svg'
 import profile_bg_2 from '../../assets/profile-bg-2.svg'
 import noise from "../../assets/image-41.png"
+import DefaultProfile from '../../assets/Profile.png'
 import { RxDividerVertical } from "react-icons/rx";
 import { BsSendFill } from "react-icons/bs";
 
@@ -171,7 +172,7 @@ const Profile = ({ isOpen, closeModal }) => {
         </div> */}
         {/* vertical blur */}
 
-        <div className="absolute -top-[24%] -left-[2%] w-full h-[850px] overflow-x-hidden  blur-[40px] opacity-70">
+        <div className="absolute -top-[24%] -left-[2%] w-full h-[850px] overflow-x-hidden  blur-[40px] opacity-70 z-0">
           <img src={profile_bg} className="w-full h-full border border-white" />
 
         </div>
@@ -184,7 +185,7 @@ const Profile = ({ isOpen, closeModal }) => {
           <img src={noise} className="w-[320px] h-[360px] opacity-90 mix-blend-overlay border border-white" />
         </div> */}
         {/* horizontal blur */}
-        <div className="absolute top-8 left-0 w-full h-full flex overflow-x-hidden">
+        <div className="absolute top-8 left-0 w-full h-full flex overflow-x-hidden pointer-events-none">
 
           <img src={noise} className="w-[320px] h-[360px] opacity-30 mix-blend-overlay " />
           <img src={noise} className="w-[320px] h-[360px] opacity-30 mix-blend-overlay " />
@@ -212,7 +213,7 @@ const Profile = ({ isOpen, closeModal }) => {
             <img src={AVATAR_BG} className="w-full rounded-lg" />
             <div className="absolute -bottom-10 left-[35%]">
               <LazyLoadImage
-                src={userProfile?.image ?? 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg'}
+                src={userProfile?.image ?? DefaultProfile}
                 className="rounded-md object-cover object-center w-[100px] h-[100px] border-[0.1px] border-decentraBlue"
               />
             </div>
@@ -457,13 +458,25 @@ const Profile = ({ isOpen, closeModal }) => {
               </div>
             </div>
           </div>
+        
 
           {
             loggedInUserData?.shardId == userProfile?.shardId && loggedInUserData?.email != "default" && loggedInUserData?.isVerified == false &&
-            <div className="py-2 px-2 pt-5 text-white z-50">
-              <p>Email not yet  verified. Please <span className="text-blue-500 cursor-pointer" onClick={handleResendVerificationEmail}> click </span>to verify it.</p>
+            <div className="py-2 px-2 pt-5 text-white relative z-[100] ">
+              <p>
+                Email not yet verified. Please{" "}
+                <span 
+                  className="text-blue-500 cursor-pointer hover:text-blue-400" 
+                  onClick={handleResendVerificationEmail}
+                >
+                  click
+                </span>{" "}
+                to verify it.
+              </p>
             </div>
           }
+        
+
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 bg-[#121212] rounded-lg relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-full flex opacity-40 mix-blend-overlay">
