@@ -121,10 +121,10 @@ export default function Header() {
   }, [loggedInUserData]);
 
   return (
-    <header className="bg-black/60 md:mx-20 backdrop-blur text-white mx-1 sticky top-4 z-50 rounded-xl">
+    <header className="text-white sticky top-4 z-50">
       <Toaster />
       <Suspense fallback={<div className="bg-black text-white my-5 mx-2 md:mx-20 rounded-xl"></div>}>
-        <nav className="container mx-auto flex justify-between items-center px-2 md:px-10 w-full border border-decentraBlue rounded-xl h-[92px]">
+        <nav className="container bg-black/60 backdrop-blur mx-auto flex justify-between items-center px-2 md:px-10 w-full border border-decentraBlue rounded-xl h-[92px]">
           {/* Logo Section */}
           <Link to="/" className="flex items-center">
             <img src={logo} alt="Logo" className="h-9 lg:w-[262px] w-[170px]" />
