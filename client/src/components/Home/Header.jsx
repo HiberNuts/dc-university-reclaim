@@ -121,7 +121,7 @@ export default function Header() {
   }, [loggedInUserData]);
 
   return (
-    <header className="text-white sticky top-4 z-50">
+    <header className="text-white sticky top-4 z-[999]">
       <Toaster />
       <Suspense fallback={<div className="bg-black text-white my-5 mx-2 md:mx-20 rounded-xl"></div>}>
         <nav className="container bg-black/60 backdrop-blur mx-auto flex justify-between items-center px-2 md:px-10 w-full border border-decentraBlue rounded-xl h-[92px]">
