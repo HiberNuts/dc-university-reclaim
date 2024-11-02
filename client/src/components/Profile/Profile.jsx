@@ -23,6 +23,7 @@ import BATCH_BADGES from '../../assets/new_badge_5.png'
 import profile_bg from '../../assets/profile-bg.svg'
 import profile_bg_2 from '../../assets/profile-bg-2.svg'
 import noise from "../../assets/image-41.png"
+import DefaultProfile from '../../assets/Profile.png'
 import { RxDividerVertical } from "react-icons/rx";
 import { BsSendFill } from "react-icons/bs";
 
@@ -212,7 +213,7 @@ const Profile = ({ isOpen, closeModal }) => {
             <img src={AVATAR_BG} className="w-full rounded-lg" />
             <div className="absolute -bottom-10 left-[35%]">
               <LazyLoadImage
-                src={userProfile?.image ?? 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg'}
+                src={userProfile?.image ?? DefaultProfile}
                 className="rounded-md object-cover object-center w-[100px] h-[100px] border-[0.1px] border-decentraBlue"
               />
             </div>
