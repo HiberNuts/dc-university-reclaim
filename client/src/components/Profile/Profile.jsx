@@ -206,7 +206,7 @@ const Profile = ({ isOpen, closeModal }) => {
             </div>
           </div> */}
           {/* avatar blur */}
-          <div className="absolute size-[226px] bg-[#3A59FE80] rounded-full top-[10%] left-1/2 -translate-x-1/2 blur-[100px] z-0">
+          <div className="absolute size-[226px] bg-[#3A59FE80] rounded-full top-[5%] left-1/2 blur-[100px] -translate-x-1/2 z-0">
 
           </div>
           <div className="avatar-bg-background relative z-10">
@@ -248,16 +248,16 @@ const Profile = ({ isOpen, closeModal }) => {
             }
             {
               userProfile != null && (loggedInUserData?._id == userProfile?._id) &&
-              <div className="flex flex-col justify-center md:flex-row gap-4 my-10">
+              <div className="flex flex-col justify-center md:flex-row gap-4 my-10 z-[300]">
                 <button
-                  className={`flex-1 bg-gradient-to-b from-[#3A59FE] to-decentraBlue rounded-md  flex justify-center  px-6 py-1   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
+                  className={`flex-1 bg-gradient-to-b from-[#3A59FE] to-decentraBlue rounded-md  flex justify-center  px-6 py-1   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm z-[300]`}
                 >
                   <Link to={'/profile/edit'}>
                     Edit Profile
                   </Link>
                 </button>
                 <button
-                  className={`flex-1 bg-black border-[0.1px] border-decentraBlue  rounded-md  flex justify-center  px-8 py-1   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
+                  className={`flex-1 bg-black border-[0.1px] border-decentraBlue  rounded-md  flex justify-center  px-8 py-1   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm z-[300]`}
                 >
                   Share Profile
                 </button>
