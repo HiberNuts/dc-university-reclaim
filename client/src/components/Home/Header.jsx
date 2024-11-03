@@ -86,9 +86,13 @@ export default function Header() {
           const sessionData = JSON.parse(storedSession);
           // Check if session is valid (you can add expiration check here)
           if (sessionData.address === address &&
-            Date.now() - sessionData.timestamp < 24 * 60 * 60 * 1000) { // 24 hours
+            Date.now() - sessionData.timestamp < 30 * 24 * 60 * 60 * 1000) { // 30 days
             setloggedInUserData(sessionData.userData);
             return;
+          } else {
+            localStorage.removeItem('userSession');
+            disconnect()
+            setloggedInUserData({});
           }
         }
         await signinUser();

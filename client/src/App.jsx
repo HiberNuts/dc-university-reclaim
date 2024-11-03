@@ -25,6 +25,7 @@ import EditorPreview from "./components/Contest/Preview/EditorPreview";
 import Editor from "./components/editor/IDE/Editor";
 import Solution from "./components/Contest/Solution/Solution";
 import ReclaimDemo from "./components/Reclaim/Reclaim";
+// import { disconnect } from "@wagmi/core";
 
 function App() {
   const RedirectAs404 = ({ location }) => <Navigate to={Object.assign({}, location, { state: { is404: true } })} />;
@@ -33,10 +34,13 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const { loggedInUserData } = useContext(ParentContext);
+  console.log("loggedInUserData in app.jsx", loggedInUserData)
   useEffect(() => {
     if (loggedInUserData != null) {
+     
       if (loggedInUserData?.shardId === "") {
         navigate("/profile/edit");
+        return;
       }
     }
   }, [loggedInUserData, location.pathname])
