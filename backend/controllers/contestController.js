@@ -5,7 +5,7 @@ const Programs = db.Programs;
 const Submissions = db.Submissions;
 const { getLeaderboard, generateLeaderboardFunction } = require('../utils/leaderboardCalculator')
 const { formatResponse } = require('../utils/formatResponse');
-//LATEST CONTEST
+
 exports.getLatestContest = async (req, res) => {
   try {
     const today = new Date();
@@ -233,9 +233,6 @@ exports.deleteAContest = async (req, res) => {
   }
 }
 
-
-
-
 //LEADERT BOARD
 exports.generateLeaderboard = async (req, res) => {
   try {
@@ -256,6 +253,7 @@ exports.generateLeaderboard = async (req, res) => {
     res.status(500).send(formatResponse(true, error?.message));
   }
 }
+
 exports.leaderboard = async (req, res) => {
   try {
     const contestID = req.query.id;
@@ -273,6 +271,7 @@ exports.leaderboard = async (req, res) => {
     res.status(500).send(formatResponse(true, error?.message));
   }
 }
+
 exports.getUserContestDetails = async (req, res) => {
   try {
     const user = await Users.findOne({ shardId: req.params.shardId });

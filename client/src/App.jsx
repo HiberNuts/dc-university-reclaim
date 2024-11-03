@@ -43,13 +43,10 @@ function App() {
 
   return (
     <div className="bg-black">
-      {/* <Header /> */}
       <Header />
       <Routes>
-        {/* Auth Pages */}
         <Route exact path="/" element={<Home />} />
         <Route exact path="/:shardId" element={<Profile />} />
-        {/*Error Pages*/}
         <Route path="/courses" element={<AllCourses />} />
         <Route path="/previewcourses" element={<PreviewAllCourses />} />
         <Route path="/previewcourse/:id" element={<PreviewCourseDesc />} />
@@ -60,12 +57,10 @@ function App() {
         <Route path="/contests" element={<AllContests />} />
         <Route path="/contest/:title/solution" element={<Solution />} />
         <Route path="/editor/:title/:id" element={<Editor />} />
-        {/* hello */}
-        {/*Main Routes*/}
+        
         {/*Private route section*/}
         <Route exact path="/" element={<PrivateRoute />}>
           <Route path="/workplace/:id" element={<WorkPlace />} />
-          {/* <Route path="/profile" element={<Profile />} /> */}
           <Route path="/profile/edit" element={<EditProfile />} />
           <Route path="/allpreviewcontests" element={<AllPreviewContests />} />
           <Route path="/previewcontests/:id" element={<PreviewContest />} />
@@ -73,8 +68,6 @@ function App() {
         </Route>
         <Route component={RedirectAs404}></Route>
       </Routes>
-
-      {/* <Footer /> */}
       <Footer />
     </div>
   );

@@ -127,7 +127,6 @@ export const courseProgressAPI = async ({ courseId, userId, accessToken }) => {
     );
     return data;
   } catch (error) {
-    // toast.error("Something went wrong while enrolling Course, Please try again");
     return error;
   }
 };
@@ -149,7 +148,6 @@ export const updateCourseProgressAPI = async ({ updatesUserPorgress, courseId, u
     );
     return data;
   } catch (error) {
-    // toast.error("Something went wrong!");
     return error;
   }
 };
@@ -170,7 +168,6 @@ export const getUserCourseProgressPercentage = async ({ courseId, userId, access
     );
     return data;
   } catch (error) {
-    // toast.error("Something went wrong!");
     return error;
   }
 };
@@ -195,7 +192,6 @@ export const MintUserNftAPI = async ({ courseId, accessToken, walletAddress }) =
 
     return data;
   } catch (error) {
-    // toast.error("Something went wrong!");
     return error;
   }
 };
