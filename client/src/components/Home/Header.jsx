@@ -76,7 +76,6 @@ export default function Header() {
       }
     }
   };
-
   useEffect(() => {
     // Check connection status and stored session
     const checkConnection = async () => {
@@ -106,6 +105,7 @@ export default function Header() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, isConnected]);
 
+
   useEffect(() => {
     const getUserContestData = async () => {
       try {
@@ -131,7 +131,7 @@ export default function Header() {
         <nav className="container bg-black/60 backdrop-blur mx-auto flex justify-between items-center px-2 md:px-10 w-full border border-decentraBlue rounded-xl h-[92px]">
           {/* Logo Section */}
           <Link to="/" className="flex items-center">
-            <img src={logo} alt="Logo" className="h-9 lg:w-[262px] w-[170px]" />
+            <img src={logo} alt="Logo" className="h-9 lg:w-[262px] w-[250px]" />
           </Link>
 
           {/* Navigation Links for Medium Screens and Up */}

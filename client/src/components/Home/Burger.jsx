@@ -8,7 +8,7 @@ const Burger = ({ isOpen, setIsOpen }) => {
   return (
     <div className="btnContainer">
       <button
-        className="flex flex-col h-[50px] w-[50px] justify-center items-center"
+        className="flex flex-col h-[30px] w-[30px] justify-center items-center"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div

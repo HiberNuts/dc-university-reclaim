@@ -245,14 +245,15 @@ const EditProfile = () => {
           });
           setShowError(false);
           toast.success("profile updated");
-          localStorage.setItem('userSession', JSON.stringify({
+          localStorage.setItem("userSession", JSON.stringify({
             address: loggedInUserData.walletAddress,
             userData: {
               ...res.data.user,
-              accessToken: loggedInUserData.accessToken
+              accessToken: loggedInUserData.accessToken,
             },
             timestamp: Date.now()
-          }));
+          }))
+          // window.location.reload();
         }
       });
   };

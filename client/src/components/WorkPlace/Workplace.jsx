@@ -11,7 +11,7 @@ import NftModal from "./component/NftModal";
 import { getUserCourseProgressPercentage } from "../../utils/api/CourseAPI";
 import DisplayChapter from "./component/DisplayChapter";
 import WorkPlaceProgram from "./Program/Program.jsx";
-
+import { IoMdClose } from "react-icons/io";
 export default function WorkPlace() {
   const params = useParams();
   const { loggedInUserData } = useContext(ParentContext);
@@ -33,7 +33,7 @@ export default function WorkPlace() {
   const [currentCourseProgress, setcurrentCourseProgress] = useState({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const isMobile = screenWidth < 768;
+  const isMobile = screenWidth < 1024;
 
   const getUserProgress = async () => {
     if (courseContent?._id && loggedInUserData?._id && loggedInUserData?.accessToken) {
@@ -139,7 +139,7 @@ export default function WorkPlace() {
 
 
   return (
-    <div className="w-full  mt-2 px-1 md:px-10 h-full flex flex-row">
+    <div className="w-full  mt-8 px-1 md:px-10 h-full flex flex-row">
       <Toaster />
       <ScrollToTop />
       <NftModal
@@ -155,7 +155,7 @@ export default function WorkPlace() {
         setIsOpen={setnftModalIsOpen}
       />
 
-      <div className={`bg-[#121212] border-[0.1px] border-decentraBlue pb-20 rounded-lg z-20 p-1 md:p-6 lg:w-[20%] md:w-[30%] sm:w-[100%] fixed min-h-[90vh]  flex flex-col  scroll-m-0 overflow-y-scroll $ ${isMobile ? `${sidebarOpen ? 'block' : 'hidden'} ` : 'h-[90vh]'}`}>
+      <div className={`bg-[#121212] border-[0.1px] border-decentraBlue pb-20 rounded-lg z-20 p-3 md:p-6 lg:w-[20%] w-[100%]   min-h-[90vh]   flex flex-col  scroll-m-0 overflow-y-scroll $ ${isMobile ? `${sidebarOpen ? 'absolute block left-0' : 'hidden '} ` : 'fixed h-[90vh]'}`}>
         <div className="">
           <div>
             {/* <img
@@ -168,6 +168,12 @@ export default function WorkPlace() {
               alt=""
             /> */}
           </div>
+          {
+            sidebarOpen &&
+            <div className="absolute right-5">
+              <IoMdClose className="text-white text-lg" onClick={() => setSidebarOpen(!sidebarOpen)} />
+            </div>
+          }
           <div className="overflow-hidden">
             <div className="hidden md:block size-[400px] rounded-full bg-[#3A59FE] overflow-hidden absolute pointer-events-none -top-40 left-0 z-0 blur-[100px] opacity-40"></div>
           </div>
@@ -242,14 +248,14 @@ export default function WorkPlace() {
           </div>
         </div>
       </div>
-      <div className={` ${isMobile ? 'px-8   mt-4' : `${isProgramSelected ? "ml-[25%]  px-1" : ' ml-[25%] '}`}   overflow-x-hidden w-full flex flex-col justify-center items-center`}>
+      <div className={` ${isMobile ? 'px-2   mt-4' : `${isProgramSelected ? "ml-[25%]  px-1" : ' ml-[25%] '}`}   overflow-x-hidden w-full flex flex-col justify-center items-center`}>
         {isMobile && (
           <div className="toggle-sidebar-container w-full my-5 h-10">
             <button
               className="toggle-sidebar-button h-full w-full text-lg rounded-lg bg-[#3A59FE]"
               onClick={() => setSidebarOpen(!sidebarOpen)}
             >
-              {sidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
+              {sidebarOpen ? 'Close Menu' : 'Menu'}
             </button>
           </div>
         )}

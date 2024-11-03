@@ -213,7 +213,16 @@ const Profile = ({ isOpen, closeModal }) => {
           </div>
         </div>
         <div className="col-span-8 w-full  lg:col-span-2 bg-[#121212] relative border-[0.1px] border-decentraBlue rounded-lg">
-          <div className="absolute size-[226px] bg-[#3A59FE80] rounded-full top-[10%] left-1/2 -translate-x-1/2 blur-[100px] z-0">
+          {/* <div className="absolute top-0 left-0 right-0 flex justify-center">
+            <div className="relative top-[-100px]">
+              <LazyLoadImage
+                src={userProfile?.image ?? 'https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg'}
+                className="rounded-[50%] object-cover object-center w-[200px] h-[200px] border-4 border-shardeumPurple"
+              />
+            </div>
+          </div> */}
+          {/* avatar blur */}
+          <div className="absolute size-[226px] bg-[#3A59FE80] rounded-full top-[5%] left-1/2 blur-[100px] -translate-x-1/2 z-0">
 
           </div>
           <div className="avatar-bg-background relative z-10">
@@ -255,16 +264,16 @@ const Profile = ({ isOpen, closeModal }) => {
             }
             {
               userProfile != null && (loggedInUserData?._id == userProfile?._id) &&
-              <div className="flex flex-col justify-center md:flex-row gap-4 my-10">
+              <div className="flex flex-col justify-center md:flex-row gap-4 my-10 z-[300]">
                 <button
-                  className={`flex-1 bg-gradient-to-b from-[#3A59FE] to-decentraBlue rounded-md  flex justify-center  px-6 py-1   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
+                  className={`flex-1 bg-gradient-to-b from-[#3A59FE] to-decentraBlue rounded-md  flex justify-center  px-6 py-1   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm z-[300]`}
                 >
                   <Link to={'/profile/edit'}>
                     Edit Profile
                   </Link>
                 </button>
                 <button
-                  className={`flex-1 bg-black border-[0.1px] border-decentraBlue  rounded-md  flex justify-center  px-8 py-1   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm`}
+                  className={`flex-1 bg-black border-[0.1px] border-decentraBlue  rounded-md  flex justify-center  px-8 py-1   items-center align-middlerelative self-stretch tracking-[0] leading-7 font-gilroybold  text-white text-sm z-[300]`}
                 >
                   Share Profile
                 </button>
@@ -382,15 +391,15 @@ const Profile = ({ isOpen, closeModal }) => {
               </div>
             </div>
           </div>
-        
+
 
           {
             loggedInUserData?.shardId == userProfile?.shardId && loggedInUserData?.email != "default" && loggedInUserData?.isVerified == false &&
             <div className="py-2 px-2 pt-5 text-white relative z-[100] ">
               <p>
                 Email not yet verified. Please{" "}
-                <span 
-                  className="text-blue-500 cursor-pointer hover:text-blue-400" 
+                <span
+                  className="text-blue-500 cursor-pointer hover:text-blue-400"
                   onClick={handleResendVerificationEmail}
                 >
                   click
@@ -399,7 +408,7 @@ const Profile = ({ isOpen, closeModal }) => {
               </p>
             </div>
           }
-        
+
 
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 bg-[#121212] rounded-lg relative overflow-hidden">
@@ -434,21 +443,6 @@ const Profile = ({ isOpen, closeModal }) => {
               }
             </div>
           </div>
-          {
-            externalCourses != null && externalCourses.length > 0 && <div className="rounded-lg p-6 relative overflow-hidden">
-
-              <h2 className="text-white text-xl font-bold mb-4 relative z-10">External Courses</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 relative z-10">
-                {externalCourses?.map((course, index) => (
-                  <div key={index} className="border-[0.1px] border-decentraBlue rounded-md p-4">
-                    <img src={course.image_480x270} alt={course.title} className="w-full min-h-40 object-cover rounded-md mb-2" />
-                    <h3 className="text-white text-lg font-semibold mb-2">{course.title}</h3>
-                    <p className="text-[#B7C2FD] text-lg">Completion: {course.completion_ratio} %</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          }
 
           <div className="p-2 ">
             <div className="py-5">

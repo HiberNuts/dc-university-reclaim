@@ -36,7 +36,7 @@ export const CourseCard = ({ title, description, image, date = null, btnContent 
         {
           resumeCourse ?
             resumeCourse :
-            <div className='flex flex-col w-full'>
+            <div className='flex flex-col w-full space-y-4'>
               <p className="relative self-stretch font-gilroy text-[#b1b0b9] text-base tracking-[0] leading-7 h-28 overflow-hidden">
                 {truncate(description, 60)}
               </p>
@@ -55,7 +55,7 @@ export const CourseCard = ({ title, description, image, date = null, btnContent 
                   </p>
                 </div>
               }
-              <DCButton btnContent={btnContent} onClick={onClick} />
+              <DCButton variant='default' btnContent={btnContent} onClick={onClick} />
             </div>
 
         }

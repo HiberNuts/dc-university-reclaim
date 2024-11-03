@@ -16,6 +16,7 @@ import divider from "../assets/Divide-footer.svg";
 import footerBackground from "../assets/footer-bg.png";
 import footerBg from "../assets/dc-footer-bg.png";
 import footerPattern from "../assets/footer-pattern.png";
+import DCButton from "./button/DCButton";
 
 export default function Footer() {
   const location = useLocation();
@@ -99,12 +100,13 @@ export default function Footer() {
                 placeholder="Enter a valid email address"
                 className="flex-grow px-6 rounded-md text-shardeumBlue bg-transparent border-2 border-decentraBlue/50"
               />
-              <button className="all-[unset] box-border inline-flex items-center justify-center gap-7 pl-7 pr-4 py-4 relative flex-[0_0_auto] bg-gradient-to-b from-[#3A59FE] to-decentraBlue  rounded-lg max-h-[50px]">
+              {/* <button className="all-[unset] box-border inline-flex items-center justify-center gap-7 pl-7 pr-4 py-4 relative flex-[0_0_auto] bg-gradient-to-b from-[#3A59FE] to-decentraBlue  rounded-lg max-h-[50px]">
                 <div className="relative w-fit font-gilroybold text-white text-lg tracking-[0] leading-[18px] whitespace-nowrap">
                   Subscribe
                 </div>
                 <img className="relative w-6 h-[26px]" alt="Arrow left" src={arrowLeft} />
-              </button>
+              </button> */}
+              <DCButton btnContent="Subscribe"  />
             </div>
           </div>
         </div>
