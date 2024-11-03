@@ -19,6 +19,7 @@ import { useEffect, useRef } from "react";
 import DCButton from "../button/DCButton";
 import Noise from "../../assets/image-41.png"
 import profile_bg from '../../assets/profile-bg.svg'
+import DefaultProfile from '../../assets/Profile.png'
 import { FaXmark } from "react-icons/fa6";
 
 import profile_bg_2 from '../../assets/profile-bg-2.svg'
@@ -88,7 +89,7 @@ const EditProfile = () => {
     portfolio: "",
   });
   const errorRef = useRef();
-  const [preview, setPreview] = useState(PREVIEW);
+  const [preview, setPreview] = useState(DefaultProfile);
 
   useEffect(() => {
     if (loggedInUserData.image) setPreview(loggedInUserData.image);
@@ -292,27 +293,28 @@ const EditProfile = () => {
         </div> */}
       </div>
       <div className="edit_section grid grid-cols-1 space-y-5 md:space-y-0  md:grid-cols-5 py-8  md:py-14">
-        <div className="col-span-1">
+        <div className="col-span-1 z-[900]">
           <div className="flex flex-col space-y-7 justify-center items-center">
             <LazyLoadImage
               src={preview}
-              className="rounded-[20px] object-cover object-center w-[200px] h-[200px] border-[1px] border-[#797979]"
+              className="rounded-[20px] object-cover object-center w-[200px] h-[200px] border-[1px] border-[#797979] z-50"
             />
             <label
-              for="files"
-              className="text-shardeumBlue bg-black cursor-pointer border-[1px] border-shardeumBlue rounded-[10px] py-[8px] px-[20px] flex space-x-3 max-w-full "
+              htmlFor="files"
+              className="text-shardeumBlue bg-black cursor-pointer border-[1px] border-shardeumBlue rounded-[10px] py-[8px] px-[20px] flex space-x-3 max-w-full"
             >
               <div className="mt-[2px]">
                 <span className="font-gilroybold text-white">Change Avatar</span>
               </div>
               <div className="py-1">
-                <img src={IMG_UPLOAD} />
+                <img src={IMG_UPLOAD} alt="upload" />
               </div>
             </label>
             <input
               className="hidden"
               id="files"
               type="file"
+              accept="image/jpeg,image/png"
               onChange={profileImageChangeHandler}
             />
             {/* save button */}
@@ -362,10 +364,10 @@ const EditProfile = () => {
                     Your Name
                   </label>
                   <input
-                    className="p-[16px] z-50 rounded-[12px] border-[0.5px] text-[#797979] bg-[#141414] border-[#797979]"
+                    className="p-[16px] z-50 rounded-[12px] border-[0.5px] text-[#797979] bg-[#141414] border-[#797979] placeholder:text-[#797979]"
                     placeholder="Enter your Name"
                     id="username"
-                    defaultValue={loggedInUserData?.username ?? ""}
+                    // defaultValue={loggedInUserData?.username ?? ""}
                     onChange={changehandler}
                   />
                   {showError && errors.username != "" && (

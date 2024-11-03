@@ -157,6 +157,16 @@ export default function AllCourses() {
                       />
                     </div>
                   })}
+              {(!allCourseInfo || allCourseInfo.filter((course) => {
+                const matchesQuery = Query === "" || course.title.toLowerCase().includes(Query.toLowerCase());
+                const matchesCategory = selectedCategories.length === categories.length ||
+                  (course.category && selectedCategories.includes(course.category));
+                return matchesQuery && matchesCategory && course.softDelete !== true;
+              }).length === 0) && (
+                <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center text-white text-[26px] font-gilroybold py-10">
+                  We are bringing more courses just for you!
+                </div>
+              )}
             </div>
             <div className="flex justify-center items-center mt-10">
               <Pagination

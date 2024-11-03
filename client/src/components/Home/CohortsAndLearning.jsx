@@ -135,6 +135,15 @@ const CohortsAndLearning = () => {
               />
             </div>
           ))}
+        {(!allCourseInfo || allCourseInfo.filter(course => {
+          const matchesCategory = selectedCategories.length === categories.length ||
+            (course.category && selectedCategories.includes(course.category));
+          return matchesCategory && course.softDelete !== true;
+        }).length === 0) && (
+          <div className="col-span-1 md:col-span-3 text-center text-white text-[26px] font-gilroybold">
+            We are bringing more courses just for you!
+          </div>
+        )}
       </div>
     </div>
   );
