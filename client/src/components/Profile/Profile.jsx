@@ -443,6 +443,49 @@ const Profile = ({ isOpen, closeModal }) => {
               }
             </div>
           </div>
+          <div className="flex-1 bg-[#121212] rounded-lg relative overflow-hidden mt-4">
+            <div className="absolute top-0 left-0 w-full h-full flex opacity-40 mix-blend-overlay">
+              <img src={noise} className="w-1/2 h-full " />
+              <img src={noise} className="w-1/2 h-full " />
+            </div>
+            <div className="absolute size-[226px] bg-[#3A59FE80] rounded-full -top-[50%] -right-[25%] blur-[100px] z-0">
+            </div>
+            <div className="p-6">
+              <h2 className="text-white text-xl font-bold mb-4">External Courses</h2>
+              {externalCourses && externalCourses.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {externalCourses.map((course, index) => (
+                    <div key={index} className="bg-[#1A1A1A] p-4 rounded-lg">
+                      <div className="flex gap-4">
+                        <img
+                          src={course.image_480x270}
+                          alt={course.title}
+                          className="w-96 h-56 object-cover rounded"
+                        />
+                        <div>
+                          <h3 className="text-white font-semibold mb-2">{course.title}</h3>
+                          <div className="flex items-center gap-2">
+                            <div className="h-2 w-20 bg-gray-700 rounded">
+                              <div
+                                className="h-full bg-blue-500 rounded"
+                                style={{ width: `${course.completion_ratio}%` }}
+                              />
+                            </div>
+                            <span className="text-gray-400 text-sm">{course.completion_ratio}% Complete</span>
+                          </div>
+                          <p className="text-gray-400 text-sm mt-1">
+                            Started: {new Date(course.createdAt).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-400">No external courses found</p>
+              )}
+            </div>
+          </div>
 
           <div className="p-2 ">
             <div className="py-5">
