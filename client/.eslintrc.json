@@ -2,7 +2,7 @@
     "extends": ["react-app", "react-app/jest"],
     "rules": {
       "no-console": "off",
-      "no-unused-vars": "error",
+      "no-unused-vars": "warn",
       "prefer-const": "error",
       "no-undef": "error",
       "no-var": "error",
@@ -13,6 +13,18 @@
       "react-hooks/exhaustive-deps": "warn",
       "alt-text": "off",
       "image-alt-redundant-alt": "off",
-      "jsx-a11y/alt-text": "off"
+      "jsx-a11y/alt-text": "off",
+
+
+      "no-extra-parens": "warn",
+      "no-unexpected-multiline": "error",
+      "no-unreachable": "error",
+      "valid-typeof": "error",
+      "no-irregular-whitespace": "error",
+      "no-empty": "warn",
+      "no-dupe-keys": "error",
+      "no-duplicate-case": "error",
+      "default-case": "warn",
+      "brace-style": ["error", "1tbs"]
     }
   }

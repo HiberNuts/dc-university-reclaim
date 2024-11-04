@@ -11,7 +11,6 @@ import { getUserData } from "../../../utils/api/UserAPI";
 import { test } from "../../../utils/api/ContestAPI";
 import { solidityLanguageConfig, solidityTokensProvider } from "./EditorConfig";
 import { TRIANGLE_LOGO_EDITOR as TRI_IMG } from "../../../Constants/Assets";
-import GreenButton from "../../button/GreenButton";
 import toast, { Toaster } from "react-hot-toast";
 import DCButton from "../../button/DCButton";
 
@@ -94,8 +93,10 @@ const IDE = (props) => {
         setCompileError(true);
         setOutput(response?.message);
         setSubmitLoader(false);
-        if (response?.message === "Sorry. The Contest has ended!") toast.error(response?.message);
-        return;
+        if (response?.message === "Sorry. The Contest has ended!") {
+          toast.error(response?.message);
+          return;
+        }
       }
       setCompileError(false);
 
@@ -105,12 +106,16 @@ const IDE = (props) => {
       }
       //setting the test cases
       setTestCases(response?.results);
-      setOutput(isCompile ? "Compiled Successfully" : "Compiled Successfully & Test Cases Submitted Successfully");
-      if (!isPreviewComponent && !props.course && !isCompile) setSubmitted(true);
+      setOutput(isCompile ? "Compiled Successfully" : "Compile  d Successfully & Test Cases Submitted Successfully");
+      if (!isPreviewComponent && !props.course && !isCompile) {
+        setSubmitted(true)
+      }
       if (!isCompile && loggedInUserData?.shardId) {
         const getUserProfileData = async () => {
           const response = await getUserData(loggedInUserData?.shardId);
-          if (!response.error) setloggedInUserData({ ...response.data, accessToken: loggedInUserData.accessToken });
+          if (!response.error) {
+            setloggedInUserData({ ...response.data, accessToken: loggedInUserData.accessToken });
+          }
         };
         getUserProfileData();
       }

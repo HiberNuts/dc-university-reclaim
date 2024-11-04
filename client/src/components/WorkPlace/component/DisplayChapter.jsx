@@ -3,7 +3,6 @@ import HTMLRenderer from "react-html-renderer";
 import { CustomFigure } from "./customCourseElement";
 import { updateCourseProgressAPI } from "../../../utils/api/CourseAPI";
 import toast, { Toaster } from "react-hot-toast";
-import LongArrow from "../../../assets/LongArrow.svg";
 import { CopyBlock, dracula } from "react-code-blocks";
 import { IoMdArrowBack } from "react-icons/io";
 import { IoMdArrowForward } from "react-icons/io";

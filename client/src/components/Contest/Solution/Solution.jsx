@@ -23,8 +23,7 @@ export default function Solution() {
           return;
         }
         setLoader(false);
-      }
-      else {
+      } else {
         setError(resp.message);
       }
     })

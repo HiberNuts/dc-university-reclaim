@@ -1,9 +1,5 @@
-import WIN_BADGE from "../../assets/badge/wins.svg";
-import CONSISTENT from "../../assets/badge/consistent.svg";
-import SPEED from "../../assets/badge/speed.svg";
+
 import ACCURACY from "../../assets/badge/accuracy.svg";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import notFoundImage from "../../assets/notFound.png";
 import NEW_CONTESTWON_BADGE from "../../assets/new_contest_badge.png";
 import NEW_PARTICIPATION_BADGE from "../../assets/new_participation_badge.png"
 import NEW_XP_BADGE from "../../assets/new_xp_badge.png";
