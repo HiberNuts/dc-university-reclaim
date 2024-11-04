@@ -62,14 +62,17 @@ export default function Header() {
     const sessionIsValid = storedSession && storedSession.address === address && Date.now() - storedSession.timestamp < 30 * 24 * 60 * 60 * 1000;
 
     if (isConnected && address) {
+      console.log("isConnected && address");
       if (sessionIsValid) {
+        console.log("Session is valid");
         setloggedInUserData(storedSession.userData);
       } else {
-        handleSignOut();
+        console.log("Session is not valid");
         signinUser();
       }
     } else if (!isConnected) {
-      handleSignOut();
+      signinUser();
+
     }
   }, [address, isConnected]);
 
@@ -91,7 +94,13 @@ export default function Header() {
   const navLink = (path, label) => (
     <Link
       to={path}
-      className={`hover:text-blue-500 font-semibold text-mini ${location.pathname.includes(path) ? "text-blue-500" : "text-white"}`}
+      className={`hover:text-blue-500 font-semibold text-mini ${
+        path === "/" 
+          ? location.pathname === "/" 
+          : location.pathname.includes(path)
+            ? "text-blue-500" 
+            : "text-white"
+      }`}
     >
       {label}
     </Link>
