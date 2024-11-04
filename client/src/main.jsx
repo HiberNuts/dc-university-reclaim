@@ -14,7 +14,6 @@ import { RainbowKitProvider, connectorsForWallets, darkTheme } from "@rainbow-me
 import "@rainbow-me/rainbowkit/styles.css";
 import { ParentProvider } from "./contexts/ParentContext";
 import ScrollToTop from "./ScrollToTop";
-import { ArcanaConnector } from "@arcana/auth-wagmi"
 import { AuthProvider } from "@arcana/auth";
 import { publicProvider } from "wagmi/providers/public";
 
@@ -27,9 +26,6 @@ const { chains, publicClient } = configureChains(
   [publicProvider()]
 );
 
-let auth = new AuthProvider(
-  arcanaClientId
-);
 
 
 const getAuthProvider = () => {
@@ -42,25 +38,7 @@ const getAuthProvider = () => {
 };
 
 
-export const ArcanaRainbowConnector = ({ chains }) => {
-  return {
-    id: "Decentraclasses",
-    name: "Login with Email/Google",
-    iconUrl: "https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA",
-    iconBackground: "#101010",
-    createConnector: () => {
-      const connector = new ArcanaConnector({
-        chains,
-        options: {
-          auth: getAuthProvider()
-        }
-      });
-      return {
-        connector
-      };
-    }
-  };
-};
+
 
 
 const connectors = connectorsForWallets(
@@ -68,10 +46,6 @@ const connectors = connectorsForWallets(
     {
       groupName: 'Wallets',
       wallets: [metaMaskWallet({ chains, projectId }), walletConnectWallet({ chains, projectId }), phantomWallet({ chains })],
-    },
-    {
-      groupName: 'Scoial',
-      wallets: [ArcanaRainbowConnector({ chains })],
     }
   ]
 );
