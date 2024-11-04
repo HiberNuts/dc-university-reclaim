@@ -9,29 +9,6 @@ const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const { recoverMessageAddress } = require('viem')
 
-
-
-
-
-// create reusable transporter object using the default SMTP transport
-// let transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: config.EMAILID,
-//     pass: config.EMAILPASSWORD,
-//   },
-// });
-
-// let transporter = nodemailer.createTransport({
-//   host: "smtp-relay.brevo.com",
-//   port: 587,
-//   secure: false,
-//   auth: {
-//     user: "ramakrishnanrahul003@gmail.com",
-//     pass: config.BREVO_KEY,
-//   },
-// });
-
 exports.signup = async (req, res) => {
   try {
     const user = new User({
@@ -82,7 +59,7 @@ exports.signup = async (req, res) => {
 exports.signin = async (req, res) => {
   try {
     const recoveredAddress = await recoverMessageAddress({
-      message: "Sign in to Shardeum university",
+      message: "Sign in to Decentraclasses",
       signature: req.body.signature,
     })
 
@@ -146,55 +123,10 @@ exports.signin = async (req, res) => {
       expiresIn: 86400, // 24 hours
     });
 
-    // const authorities = user.roles.map((role) => "ROLE_" + role.name.toUpperCase());
     res.status(200).send({
       type: msg_type,
       ...user._doc,
       accessToken: jwtToken,
-    });
-  } catch (error) {
-    res
-      .status(500)
-      .send({ message: error.message || "Internal Server Error", error });
-  }
-};
-
-exports.update = async (req, res) => {
-  try {
-
-    //JOIN NEWSLETTER CONFIG 
-    const email = req.body.email;
-
-
-    // const userIdQuery = req.query.userid;
-    const userIdQuery = req.userId;
-    let user = await User.findOne({ _id: userIdQuery }).populate(
-      "roles",
-      "-__v"
-    );
-
-    for (let key in req.body) {
-      if (key in user) {
-        if (key === "roles") {
-          const roleNames = req.body.roles;
-          const roleIds = []; // Fetch and populate this array with role ObjectId values based on roleNames.
-          user.roles = roleIds;
-        } else {
-          user[key] = req.body[key];
-        }
-      }
-    }
-
-
-    await user.save();
-
-    const authorities = user.roles.map(
-      (role) => "ROLE_" + role.name.toUpperCase()
-    );
-
-    res.status(200).send({
-      type: "updated-user",
-      ...user._doc,
     });
   } catch (error) {
     res
@@ -254,19 +186,59 @@ exports.confirmation = async (req, res) => {
 
     if (user.isVerified) {
       // Redirect URL after successful verification
-      const redirectURL = config.FRONT_END_URL + "emailverification"; // Change this to your desired URL
+      const redirectURL = config.FRONT_END_URL + "emailverification";
 
       return res.status(200).send(`
     <html>
       <head>
         <meta http-equiv="refresh" content="5;url=${redirectURL}">
+        <style>
+          body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+          }
+          .message-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+          }
+          p {
+            color: #2c3e50;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+          }
+          .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+          }
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        </style>
       </head>
       <body>
-        <p>Your account has been verified successfully. You will be redirected to the login page in a few seconds.</p>
+        <div class="message-container">
+          <p>Your account has been verified successfully!</p>
+          <p>You will be redirected to the login page in a few seconds.</p>
+          <div class="loader"></div>
+        </div>
         <script>
           setTimeout(function() {
             window.location.href = "${redirectURL}";
-          }, 5000); // Redirect after 5 seconds
+          }, 2000);
         </script>
       </body>
     </html>

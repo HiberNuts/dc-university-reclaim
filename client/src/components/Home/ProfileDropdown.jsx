@@ -9,11 +9,11 @@ const ProfileDropDown = ({ account, openAccountModal, toggleNavbar, loggedInUser
         <div>
           <Menu.Button>
             <div className={`flex gap-4 border-2 rounded-[24px] px-5 py-2 cursor-pointer ${homeRoute ? 'text-white' : 'text-white'}`}>
-              <div className="hidden md:flex gap-2">
+              <div className="flex justify-center items-center gap-2">
                 <img src={HEADER_XP} />
                 <span className="pt-[2px]">{xp} XP</span>
               </div>
-              <div className="flex gap-2">
+              <div className="flex justify-center items-center gap-2">
                 {
                   loggedInUserData?.image ?
                     <img className="w-7 h-7 rounded-[50%]" src={loggedInUserData?.image ?? HEADER_USER} />
@@ -27,13 +27,6 @@ const ProfileDropDown = ({ account, openAccountModal, toggleNavbar, loggedInUser
               </div>
             </div>
           </Menu.Button>
-          {/* <Menu.Button className="flex w-[170px] h-11 align-middle text-center items-center justify-evenly rounded-md  "> */}
-          {/* <GreenButton
-              isHoveredReq={true}
-              text={loggedInUserData?.username == "default" ? "Anon" : loggedInUserData?.username}
-            /> */}
-
-          {/* </Menu.Button> */}
         </div>
         <Transition
           as={Fragment}

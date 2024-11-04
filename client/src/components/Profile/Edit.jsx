@@ -374,7 +374,7 @@ const EditProfile = () => {
                     className="p-[16px] z-50 rounded-[12px] border-[0.5px] text-[#797979] bg-[#141414] border-[#797979] placeholder:text-[#797979]"
                     placeholder="Enter your Name"
                     id="username"
-                    // defaultValue={loggedInUserData?.username ?? ""}
+                    defaultValue={loggedInUserData?.username === "default" ? "" : loggedInUserData?.username}
                     onChange={changehandler}
                   />
                   {showError && errors.username != "" && (

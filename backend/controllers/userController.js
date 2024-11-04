@@ -16,21 +16,6 @@ const s3 = new AWS.S3({
   secretAccessKey: process.env.DO_SPACE_SECRET_KEY,
 });
 
-exports.allAccess = (req, res) => {
-  res.status(200).send("Public Content.");
-};
-
-exports.userBoard = (req, res) => {
-  res.status(200).send("User Content.");
-};
-
-exports.adminBoard = (req, res) => {
-  res.status(200).send("Admin Content.");
-};
-
-exports.moderatorBoard = (req, res) => {
-  res.status(200).send("Moderator Content.");
-};
 
 exports.getAllUser = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
@@ -196,17 +181,6 @@ exports.userCourseProgressPercentage = async (req, res) => {
 
 const checkifUserCompletedCourse = async (updatedEnrolledCourse) => {
   try {
-    // const { userId, courseId } = params;
-
-    // const user = await User.findOne({ _id: userId });
-    // if (!user) {
-    //   return { message: "User not found" };
-    // }
-
-    // const enrolledCourse = user.enrolledCourses.find((course) => String(course.courseId) === courseId);
-    // if (!enrolledCourse) {
-    //   return { message: "Enrolled course not found" };
-    // }
 
     const courseProgress = updatedEnrolledCourse.modules;
     const {

@@ -62,40 +62,9 @@ const verifyToken = async (req, res, next) => {
   }
 };
 
-const isAdmin = async (req, res, next) => {
-  try {
-    const user = await User.findById(req.userId).exec();
-    const roles = await Role.find({ _id: { $in: user.roles } }).exec();
-
-    if (roles.some((role) => role.name === "admin")) {
-      next();
-    } else {
-      res.status(403).send({ message: "Require Admin Role!" });
-    }
-  } catch (err) {
-    res.status(500).send({ message: err.message || "Internal Server Error" });
-  }
-};
-
-const isModerator = async (req, res, next) => {
-  try {
-    const user = await User.findById(req.userId).exec();
-    const roles = await Role.find({ _id: { $in: user.roles } }).exec();
-
-    if (roles.some((role) => role.name === "moderator")) {
-      next();
-    } else {
-      res.status(403).send({ message: "Require Moderator Role!" });
-    }
-  } catch (err) {
-    res.status(500).send({ message: err.message || "Internal Server Error" });
-  }
-};
 
 const authJwt = {
   verifyToken,
-  isAdmin,
-  isModerator,
   verifyAdmin
 };
 
