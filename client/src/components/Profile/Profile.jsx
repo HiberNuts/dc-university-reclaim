@@ -45,7 +45,7 @@ const Profile = ({ isOpen, closeModal }) => {
   const getExternalCourses = async () => {
     try {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/external-courses/${loggedInUserData?.walletAddress}`
+        `${import.meta.env.VITE_BACKEND_URL}/external-courses/${userProfile?.walletAddress}`
       );
       console.log("data", data)
       setExternalCourses(data);
@@ -56,10 +56,10 @@ const Profile = ({ isOpen, closeModal }) => {
   console.log("externalCourses", externalCourses)
 
   useEffect(() => {
-    if (loggedInUserData?.walletAddress) {
+    if (userProfile) {
       getExternalCourses();
     }
-  }, [loggedInUserData?.walletAddress, isExternalCourseUpdated]);
+  }, [userProfile, isExternalCourseUpdated]);
 
   const copyToClipboard = () => {
 
@@ -444,11 +444,8 @@ const Profile = ({ isOpen, closeModal }) => {
             </div>
           </div>
           <div className="flex-1 bg-[#121212] rounded-lg relative overflow-hidden mt-4">
-            <div className="absolute top-0 left-0 w-full h-full flex opacity-40 mix-blend-overlay">
-              <img src={noise} className="w-1/2 h-full " />
-              <img src={noise} className="w-1/2 h-full " />
-            </div>
-            
+
+
             <div className="p-6">
               <h2 className="text-white text-xl font-bold mb-4">External Courses</h2>
               {externalCourses && externalCourses.length > 0 ? (
@@ -464,7 +461,7 @@ const Profile = ({ isOpen, closeModal }) => {
                         <div>
                           <h3 className="text-white font-semibold mb-2">{course.title}</h3>
                           <div className="flex items-center gap-2">
-                            <div className="h-2 w-20 bg-gray-700 rounded">
+                            <div className="h-4 border border-blue-700 w-32 bg-gray-700 rounded">
                               <div
                                 className="h-full bg-blue-500 rounded"
                                 style={{ width: `${course.completion_ratio}%` }}
@@ -472,9 +469,7 @@ const Profile = ({ isOpen, closeModal }) => {
                             </div>
                             <span className="text-gray-400 text-sm">{course.completion_ratio}% Complete</span>
                           </div>
-                          <p className="text-gray-400 text-sm mt-1">
-                            Started: {new Date(course.createdAt).toLocaleDateString()}
-                          </p>
+                         
                         </div>
                       </div>
                     </div>
