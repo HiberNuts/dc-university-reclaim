@@ -395,7 +395,7 @@ const Profile = ({ isOpen, closeModal }) => {
 
           {
             loggedInUserData?.shardId == userProfile?.shardId && loggedInUserData?.email != "default" && loggedInUserData?.isVerified == false &&
-            <div className="py-2 px-2 pt-5 text-white relative z-[100] ">
+            <div className="py-2 px-2 pt-5 text-white relative ">
               <p>
                 Email not yet verified. Please{" "}
                 <span
@@ -448,12 +448,11 @@ const Profile = ({ isOpen, closeModal }) => {
               <img src={noise} className="w-1/2 h-full " />
               <img src={noise} className="w-1/2 h-full " />
             </div>
-            <div className="absolute size-[226px] bg-[#3A59FE80] rounded-full -top-[50%] -right-[25%] blur-[100px] z-0">
-            </div>
+            
             <div className="p-6">
               <h2 className="text-white text-xl font-bold mb-4">External Courses</h2>
               {externalCourses && externalCourses.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1  gap-4">
                   {externalCourses.map((course, index) => (
                     <div key={index} className="bg-[#1A1A1A] p-4 rounded-lg">
                       <div className="flex gap-4">

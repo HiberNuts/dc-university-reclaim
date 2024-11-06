@@ -121,7 +121,7 @@ function ReclaimDemo({ walletAddress, isExternalCourseUpdated, setisExternalCour
       <Transition appear show={isModalOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="relative z-10 font-helvetica-neue-roman"
+          className="relative z-100 font-helvetica-neue-roman"
           onClose={() => setIsModalOpen(false)}
         >
           <Transition.Child
@@ -168,16 +168,10 @@ function ReclaimDemo({ walletAddress, isExternalCourseUpdated, setisExternalCour
 
                     {requestUrl && (
                       <div className="mt-4">
-                        <p className="text-gray-400 mb-2">Open Below link in you mobile </p>
+                        <p className="text-gray-400 mb-2">Scan the QR code below to start verification</p>
                         <p className="text-gray-400 text-sm mb-2">You might be prompted to sign into your udemy acccount then move to My learning section to start verification</p>
-                        <a
-                          href={requestUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-500 break-all"
-                        >
-                          {requestUrl}
-                        </a>
+                        <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${requestUrl}&amp;size=100x100`} alt="" title="" />
+
                       </div>
                     )}
 
